@@ -1,20 +1,20 @@
     <!-- Menu con Logo de Cruz Roja-->
-     <div class="container">
-         <form id="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-           <div class="form-left">
+     <div class="container-fluid">
+         <!-- <form id="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()"> -->
+           <!-- <div class="form-left">
 
-             <h2>Perfil</h2>
+             <h2>Perfil</h2> -->
 
-              <label class="hoverable" for="fileInput">
+              <!-- <label class="hoverable" for="fileInput">
               <img class="avatar" [src]="url ? url : 'https://www.w3schools.com/howto/img_avatar.png'">
               <input id="fileInput" type='file' (change)="onSelectFile($event)" formControlName="userAvatar"  [ngClass]="{ 'is-invalid': submitted && f.userAvatar.errors }" />
            <div *ngIf="submitted && f.userAvatar.errors" class="invalid-feedback">
               <div *ngIf="f.userAvatar.errors.required">*Campo requerido</div>
           </div>
               <div class="background"></div>
-            </label>
+            </label> -->
 
-              <div class="dni">
+              <!-- <div class="dni">
                <input class="dniInput" type="text"  placeholder="Documento"  formControlName="userDni" name="userDni" [ngClass]="{ 'is-invalid': submitted && f.userDni.errors }" />
                <div  *ngIf="submitted && f.userDni.errors" class="invalid-feedback">
                 <div *ngIf="f.userDni.errors.required">*Campo requerido</div>
@@ -33,11 +33,11 @@
                 </div>
                </div>
                </div>
-
+ -->
 
 
            <div class="form-center">
-             <h2>Datos del Usuario</h2>
+             <!-- <h2>Datos del Usuario</h2>
 
 
              <input class="nombreInput" type="text" formControlName="userFirstName" placeholder="Nombres" [ngClass]="{ 'is-invalid': submitted && f.userFirstName.errors }"/>
@@ -103,7 +103,6 @@
                <option value="2">Coordinador General</option>
                <option value="3">Coordinador de Emergencias y Desastres</option>
                <option value="4" >Logistica</option>
-               <!-- <option value="5">Voluntario</option> -->
              </select>
              <div *ngIf="submitted && f.roleID.errors" class="invalid-feedback">
               <div *ngIf="f.roleID.errors.required">*Campo requerido</div>
@@ -112,9 +111,96 @@
 
              <input class='enviar' type='submit' value='Register'>
 
-             <a routerLink="/home" >Cancelar</a>
-           </div>
+             <a routerLink="/home" >Cancelar</a> -->
+
+            <form [formGroup]="registerForm" id="form">
+             <mat-horizontal-stepper linear #stepper>
+              <mat-step [stepControl]="formUser" formGroupName="persons" errorMessage="Datos son requeridos.">
+                  <ng-template matStepLabel>Datos personales</ng-template>
+                  <mat-form-field>
+                  <div class=""> 
+                    <mat-label>Nombre</mat-label>
+                    <input matInput placeholder="Nombres completos" formControlName="firstName" required>
+                  </div></mat-form-field>
+                  <mat-form-field>
+                   <div class="">
+                    <mat-label>Apellido</mat-label>
+                    <input matInput placeholder="Apellidos completos" formControlName="lastName" required>
+                   </div>
+                    </mat-form-field>
+                    <mat-form-field>
+                    <div class="">
+                                         <mat-label>Dirección</mat-label>
+                    <input matInput placeholder="Ex. Calle, Numero, Dpto/Lote/Portero" formControlName="phone" required>
+
+                    </div></mat-form-field>
+                    <mat-form-field>
+                    <div class="">
+                                         <mat-label>Email de contacto</mat-label>
+                    <input matInput placeholder="Correo electronico" formControlName="email" required>
+
+                    </div></mat-form-field>
+                    <mat-form-field>
+                    <div class="">
+                                         <mat-label>Telefono de contacto</mat-label>
+                    <input matInput placeholder="(351)-5954878" formControlName="phone" required>
+
+                    </div></mat-form-field>
+                    <mat-form-field>
+                    <div class="">
+                                         <mat-label>Genero</mat-label>
+                    <input matInput placeholder="Nombre" formControlName="gender" required>
+
+                    </div></mat-form-field>
+                    <mat-form-field>
+                    <div class="">
+                                         <mat-label>Fecha de nacimiento</mat-label>
+                    <input matInput type="date" placeholder="Nombre" formControlName="birthdate" required>
+
+                    </div></mat-form-field>
+                    
+                  
+                  
+                  <div>
+                    <button mat-button matStepperNext type="button">Siguiente</button>
+                  </div>
+              </mat-step>
+              <mat-step [stepControl]="formPerson" formGroupName="users" errorMessage="Todos los datos son requeridos">
+                <!-- <form [formGroup]="secondFormGroup"> -->
+                  <ng-template matStepLabel>Datos laborales</ng-template>
+                  <mat-form-field>
+                    <mat-label>Documento</mat-label>
+                    <input matInput placeholder="Documento de identidad" formControlName="userDni"
+                           required>
+                           <mat-label>Cargo</mat-label>
+                    <input matInput placeholder="Cargo a desempeñar" formControlName="FK_RoleID"
+                           required>
+                           <mat-label>Direccion de trabajo</mat-label>
+                    <input matInput type="number" placeholder="Direccion" formControlName="FK_EstateID"
+                           required>
+
+                  </mat-form-field>
+                  <div>
+                    <button mat-button matStepperPrevious type="button">Atras</button>
+                    <button mat-button matStepperNext type="button">Siguiente</button>
+                  </div>
+                <!-- </form> -->
+              </mat-step>
+              <mat-step>
+                <ng-template matStepLabel>Finalizar</ng-template>
+                <p>¿Todo OK?</p>
+                <div>
+                  <button mat-button matStepperPrevious type="button">Atras</button>
+                  <button mat-button (click)="stepper.reset()">Resetear</button>
+                  <button mat-button type="submit" (click)="onSubmit()">Enviar</button>
+                </div>
+              </mat-step>
+            </mat-horizontal-stepper>
+            
+
          </form>
+
+           </div>
 
 
       </div>

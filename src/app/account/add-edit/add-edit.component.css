@@ -34,7 +34,7 @@
 }
 
 
-label{
+strong{
   display:flex;
   margin-bottom: 0;
 }
@@ -51,6 +51,10 @@ label{
   color: #000;
   font-size: 16px;
   padding: 20px;
+  text-align: center;
+  background-color: #F7F7F7;
+  font-weight: 300; 
+  
 }
 
 
@@ -63,10 +67,8 @@ label{
 .fechaInput,
 .correoInput,
 .passwordInput{
-  width:30%;
-  border: none;
- border-bottom: 1px solid black;
- outline: none;
+  width:60%;
+  padding: 4px 0 ;
  margin-bottom: 1rem;
 }
 
@@ -82,7 +84,9 @@ label{
   box-shadow: 0px 0px 30px -7px rgba(0, 0, 0, 0.75);
 
 }
-
+.ngContainer{
+transition: 1s linear;
+}
 .cancelar{
   color: #000;
   text-decoration: none;
@@ -95,8 +99,15 @@ label{
     color: #fff;
 }
 
+.personal{
+  padding: 25px 0 0 50px;
+}
 .general{
   padding: 25px 0 0 50px;
+
+}
+.work{
+  padding: 25px 0 0 0;
 }
 
 .form-group

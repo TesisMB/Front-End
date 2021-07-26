@@ -1,3 +1,4 @@
+import { AuthenticationService } from './services/_authentication/authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -10,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 //---- Importaciones internas ----
 //******************Modulos ********************** */
 import { SharedModule } from './shared/shared.module';
+import { MaterialDesignModule } from './material-design/material-design.module';
 //*****************Components************ */
 import { AppComponent } from './app.component';
 
@@ -21,7 +23,6 @@ import { ErrorInterceptor, JwtInterceptor} from './_helpers';
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -31,11 +32,14 @@ import { ErrorInterceptor, JwtInterceptor} from './_helpers';
     NgbModule,
     ReactiveFormsModule,
     SharedModule,
+    MaterialDesignModule
+
     
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    AuthenticationService
 
 
 ],

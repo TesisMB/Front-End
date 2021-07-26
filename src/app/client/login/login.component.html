@@ -1,4 +1,3 @@
-<alert></alert>
 <div class="Container">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
@@ -46,7 +45,7 @@
           <span *ngIf="loading" ></span> Ingresar
         </button>
 
-        <a class="btn" routerLink='/cliente'>Cancelar</a>
+        <a class="btn" id="cancelar" routerLink='/cliente'>Cancelar</a>
 
 </form>
 </div>

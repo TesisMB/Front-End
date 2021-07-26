@@ -1,33 +1,39 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders  } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-
 import { environment } from './../../../environments/environment';
-import { User } from '../../models/user';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from 'src/app/models';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService   {
-  private options = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
-  private patch = '/login';
+  private currentUserSubject: BehaviorSubject<any>;
+  public currentUser: Observable<any>;
 
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
-
-  constructor(private http: HttpClient, private router: Router) {
-    
+  public patch = '/login'
+  constructor(private http: HttpClient, private router: Router, private modalService: NgbModal) {
     this.currentUserSubject = new BehaviorSubject<User>
     (JSON.parse(localStorage.getItem('currentUser')));
+
     this.currentUser = this.currentUserSubject.asObservable();
+    }
+
+    public get currentUserValue(): User {
+      let user : User = (JSON.parse(localStorage.getItem('currentUser')));
+      if(user != this.currentUserSubject.value){
+            this.currentUserSubject.next(user);
+           }
+  
+      return this.currentUserSubject.value;
   }
 
-   public get currentUserValue(): User {
-
-        return this.currentUserSubject.value;
-   }
+  public set setCurrentUser(user) {
+      this.currentUserSubject.next(user);
+  }
 
    login(userDni:string, userPassword:string) {
        return this.http.post<any>(environment.URL+this.patch, { userDni, userPassword })
@@ -54,6 +60,7 @@ export class AuthenticationService   {
     // Elimina el usuario del local Storage y lo declara null.
       localStorage.removeItem('currentUser');
       this.currentUserSubject.next(null);
+      this.modalService.dismissAll();
       this.router.navigate(['/cliente/login']);
       
     }

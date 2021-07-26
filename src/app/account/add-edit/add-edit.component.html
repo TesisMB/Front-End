@@ -1,11 +1,8 @@
-<navbar></navbar>
-<alert></alert>
-
-<body>
-  <section class="container">
-    <div class="col" style="background-color: #fff; padding: 0;">
-      <h2 class="Name-Lastname">{{currentUser.persons.firstName}} {{currentUser.persons.lastName}}</h2>
-      <p class="Email">{{currentUser.persons.email}}</p>
+  <section class="container" >
+  <ng-container *ngIf="originalUser">
+    <div class="col-3" style="background-color: #fff; padding: 3;">
+      <h2 class="Name-Lastname">{{originalUser.users.persons.firstName  }} {{originalUser.users.persons.lastName}}</h2>
+      <p class="Email">{{originalUser.users.persons.email}}</p>
       <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
         <div class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
@@ -13,93 +10,127 @@
         <i class="far fa-user"></i><a>Información General</a>
         </div>
 
-          <div  class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
-          aria-controls="v-pills-profile" aria-selected="false">
-          <i class="far fa-edit"></i>
-          <a>Configuración</a>
-      </div>
       </div>
     </div>
 
-    <div class="col-9" style="background-color: #fff!Important; margin-left: 20px; padding: 0;">
+    <div  class="col-10" style="background-color: #fff!Important; margin-left: 20px;  padding: 0;">
       <div class="tab-content" id="v-pills-tabContent" style="background-color: #fff;">
-        <div class="tab-pane fade show active"  id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"
+
+        <!-- Informacion General -->
+
+  <div class="tab-pane fade show active"  id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"
         style="background-color: #fff!Important;">
-        <h2 class="title" style="background-color: #F7F7F7; font-weight: 300;">Información General</h2>
-        <div class="general">
-        <label class="first">Nombres y Apellido</label>
-          <p class="info">{{currentUser.persons.firstName}} {{currentUser.persons.lastName}}</p>
-          <label>Dni</label>
-          <p class="info">{{currentUser.userDni}}</p>
-          <label>Correo electrónico</label>
-          <p class="info">{{currentUser.persons.email}}</p>
-          <label>Telefono de contacto</label>
-          <p class="info">{{currentUser.persons.phone}}</p>
-          <!-- <label>Direccion</label>
-          <p class="info">{{currentUser.userAddress}}</p> -->
-          <label>Rol</label>
-          <p class="info">{{currentUser.roleName}}</p>
-        </div>
-      </div>
+      <div *ngIf="model" class="row">
+        <div class="personal col-6">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()"  style="background-color: #fff!Important;" style="display: flex; flex-direction: column; background: #fff;">
+        <h2 class="title">Información Personal</h2>
+        <p style="font-size: small;"><i class="fas fa-edit text-danger " style=" cursor: pointer;"(click)="onUpdate(model)"></i> Editar Informacion</p>
 
-
-        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-          <h2 class="title" style="background-color: #F7F7F7; font-weight: 300; margin: 0;">Configuración</h2>
-
-          <form class="general" [formGroup]="form" (ngSubmit)="onSubmit()" style="background-color: #fff!Important;" style="display: flex; flex-direction: column; background: #fff;">
-
+       <p class="info" > <strong class="first">Nombre y Apellido</strong>
+          {{model.users.persons.firstName | titlecase}} {{model.users.persons.lastName | titlecase}}</p>
+        
+          <ng-container class="ngContainer" *ngIf="form.enabled" >
+          
             <div class="form-row">
-              <div class="form-group col">
-                <label for="UserPhone">Contraseña</label>
-                <input class="passwordInput" type="password" formControlName="UserPhone"
-                  [ngClass]="{ 'is-invalid': submitted && f.UserPhone.errors }" />
-              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                <div *ngIf="f.UserPassword.errors.minlength">Debe tener minimo 8 caracteres</div>
-                <div *ngIf="f.UserPassword.errors.maxlength">Debe tener maximo 16 caracteres</div>
+            <div class="form-group col">
+              <strong class="info" for="password">Contraseña</strong>
+              <input formControlName="password" [required]="f.password.dirty" class="form-control passwordInput info" name ="password" type="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"  />
+                
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.minlength">Debe tener minimo 8 caracteres</div>
+              <div *ngIf="f.password.errors.maxlength">Debe tener maximo 16 caracteres</div>
+              <div *ngIf="f.password.errors.required">La contraseña es obligatoria</div>
 
+            </div>
+          </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col">
+              <strong class="info" for="newPassword">Nueva contraseña</strong>
+              <input  formControlName="newPassword" [required]="f.password.dirty" class="form-control passwordInput info" name ="newPassword" type="password" [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }"/>
+             <div *ngIf="submitted && f.newPassword.errors" class="invalid-feedback"> 
+              <div *ngIf="f.newPassword.errors.minlength">Debe tener minimo 8 caracteres</div>
+              <div *ngIf="f.newPassword.errors.maxlength">Debe tener maximo 16 caracteres</div>
+              <div *ngIf="f.newPassword.errors.required">Las contraseñas deben ser iguales</div>
+
+            </div>
+          </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col">
+              <strong class="info" for="passwordRepeat">Repetir nueva contraseña</strong>
+              <input  formControlName="passwordRepeat" [required]="f.newPassword.dirty" class="form-control passwordInput info" name ="passwordRepeat" type="password" [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }"/>
+             <div *ngIf="submitted && f.passwordRepeat.errors" class="invalid-feedback"> 
+              <div *ngIf="f.passwordRepeat.errors.minlength">Debe tener minimo 8 caracteres</div>
+              <div *ngIf="f.passwordRepeat.errors.maxlength">Debe tener maximo 16 caracteres</div>
+              <div *ngIf="f.passwordRepeat.errors.required">Las contraseñas deben ser iguales</div>
+
+
+            </div>
+          </div>
+          </div>
+        </ng-container>
+
+          <div class="form-row">
+            <div class="form-group col">
+              <strong class="info" for="email">Correo Electronico</strong>
+              <input formControlName="email" required class="form-control correoInput info" name="email" type="email" placeholder="Correo electronico" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.email">*Correo electrónico inválido</div>
               </div>
             </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <strong class="info" for="phone">Telefono de contacto</strong>
+              <input  formControlName="phone" required class="form-control telefonoInput info" name="phone" type="tel" placeholder="Telefono"[ngClass]="{ 'is-invalid': submitted && f.phone.errors }"/>
+                 
+              <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                <div *ngIf="f.phone.errors.pattern">Número de teléfono inválido</div>
+              </div>
             </div>
+          </div>
 
-              <div class="form-row">
-                <div class="form-group col">
-                  <label for="UserPhone">Telefono de contacto</label>
-                  <input class="telefonoInput" type="tel" placeholder="Telefono" formControlName="UserPhone"
-                    [ngClass]="{ 'is-invalid': submitted && f.UserPhone.errors }" />
-                  <div *ngIf="submitted && f.UserPhone.errors" class="invalid-feedback">
-                    <div *ngIf="f.UserPhone.errors.pattern">Número de teléfono inválido - Ingrese su número de teléfono
-                      completo.</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col">
-                  <label for="UserAddress">Direccion</label>
-                  <input class="direccionInput" type="text" placeholder="Domicilio" formControlName="UserAddress"
-                    [ngClass]="{ 'is-invalid': submitted && f.UserAddress.errors }"/>
-                </div>
-              </div>
-
-
-
-              <div class="form-row">
-                <div class="form-group col">
-                  <label for="UserEmail">Correo Electronico</label>
-                  <input class="correoInput" type="email" placeholder="Correo electronico" formControlName="UserEmail"
-                    [ngClass]="{ 'is-invalid': submitted && f.UserEmail.errors }" />
-                  <div *ngIf="submitted && f.UserEmail.errors" class="invalid-feedback">
-                    <div *ngIf="f.UserEmail.errors.email">*Correo electrónico inválido</div>
-                  </div>
-                </div>
-              </div>
-            <input class='enviar' type='submit' value='Guardar'>
-
-            <a  class="cancelar" routerLink="/home">Cancelar</a>
-          </form>
+          <div class="form-row">
+            <div class="form-group col">
+              <strong class="info" for="address">Domicilio</strong>
+              <input formControlName="address" required class="form-control direccionInput info" name="address" type="text" placeholder="Domicilio" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"/>
+                 
+            </div>
+          </div>
+              <!-- Botones  -->
+        <button *ngIf="form.enabled"  class='btn btn-info m-2 enviar' type="submit">Guardar</button>
+        </form>
         </div>
+
+        <!-- Informacion de Trabajo -->
+        <div class="work col-6">
+          <h2 class="title" style="margin-right: 50px;">Informacion de Trabajo</h2>
+          <strong class="info">Cargo</strong>
+          <p class="info">{{model.users.roleName | titlecase}}</p>
+          <strong class="first">Direccion de trabajo</strong>
+          <p class="info"> {{model.users.estates.locationAddress.address}} {{model.users.estates.locationAddress.numberAddress}}</p>
+          <strong>Horarios</strong>
+          <ul *ngFor="let times of model['users']['estates']['estatesTimes']; let i = index;">
+            <li style="list-style: none;" >
+              <p class="info">{{times['times']['schedules']['scheduleDate']}} {{times['times']['startTime']}} - {{times['times']['endTime']}}</p>
+          </li>
+        </ul>
+          <strong>Telefono de la Filial</strong>
+          <p class="info">{{model.users.estates.estatePhone}}</p>
+          <strong>Disponibilidad ante emergencias</strong>
+          <p class="info" *ngIf="model.users.persons.status"><i [class.text-success]="model.users.persons.status" class="fas fa-circle"></i>      Disponible</p>
+          <p class="info" *ngIf="!model.users.persons.status"><i [class.text-danger]="!model.users.persons.status"class="fas fa-circle"></i>      No disponible</p>
+        </div>
+        <div class="col align-self-end">
+        <button class='btn btn-danger m-5' routerLink="/" >Volver a Home</button>
+</div>
+    </div>
+  </div>
+                 
       </div>
     </div>
+    </ng-container>
   </section>
-
-</body>

@@ -1,14 +1,14 @@
-<nav >
-  <section class="contenedor nav" >
+<!-- <nav >
+  <section class="contenedor nav" > -->
       <!-- Enlaces -->
-      <div class="sidelogo">
+      <!-- <div class="sidelogo">
           <input type="checkbox" id="check" >
               <label for="check">
                   <i class="fas fa-bars" id="menu"></i>
-              </label>
+              </label> -->
 
           <!-- Sidebar -->
-          <div class="Enlaces"  >
+          <!-- <div class="Enlaces"  >
             <div class="navbar-nav mr-auto">   
                 <div  class="nav-item">
                     <a class="nav-link" routerLink="/" routerLinkActive="active"><i class="fas fa-home"></i>Inicio</a> 
@@ -32,19 +32,19 @@
                     <a class="nav-link" routerLink="/statistics" routerLinkActive="active"><i class="fas fa-chart-pie"></i>Estadisticas</a> 
                 </div>
              </div>
-          </div>
+          </div> -->
 
 
           <!-- Logo -->
-          <div class="logo">
+          <!-- <div class="logo">
               <img src="assets/img-home-users/Logo.png" alt="">
           </div>
-      </div>
+      </div> -->
 
 
 
         <!-- user -->
-
+<!-- 
             <a class="fas fa-user-circle fa-2x" id="user" data-toggle="dropdown"></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <div class="first-title ">
@@ -52,9 +52,68 @@
                     <p class="title dos">{{currentUser.roleName}} </p>
                 </div>
                     <ul >
-                      <li ><a routerLink="/edit/{{currentUser.id}}" ><i class="fas fa-id-card"></i>Perfil</a></li>
+                      <li ><a routerLink="/perfil" ><i class="fas fa-id-card"></i>Perfil</a></li>
                       <li><a (click)="logout()" type="button" class="btn navbar-btn ml-2"><i class="fas fa-sign-out-alt"></i>Cerrar Sesion</a></li>
                   </ul>
             </div>
 </section>
-</nav>
+</nav> -->
+
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="currentUser">
+    <mat-toolbar color="primary" class="example-toolbar">
+      <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+      <div class="logo">
+        <img src="assets/img-home-users/Logo.png" alt="">
+    </div>
+
+    <a class="fas fa-user-circle fa-2x" id="user" data-toggle="dropdown"></a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <div class="first-title ">
+      <p class="title">{{currentUser.persons.firstName}} {{currentUser.persons.lastName}}</p>
+        <p class="title dos">{{currentUser.roleName}} </p>
+    </div>
+        <ul >
+          <li ><a routerLink="/perfil" ><i class="fas fa-id-card"></i>Perfil</a></li>
+          <li><a (click)="logout()" type="button" class="btn navbar-btn ml-2"><i class="fas fa-sign-out-alt"></i>Cerrar Sesion</a></li>
+      </ul>
+</div>
+
+    </mat-toolbar>
+  
+    <mat-sidenav-container class="example-sidenav-container"
+                           [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+      <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'push'"
+                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+        <mat-nav-list>
+          <!-- <a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a> -->
+             <!-- <div class="Enlaces"  > -->
+          <div  class="nav-item">
+            <a class="nav-link" routerLink="/" routerLinkActive="active"><i class="fas fa-home"></i>Inicio</a> 
+        </div>
+        <div  class="nav-item" *ngIf="isAdmin">
+            <a class="nav-link" routerLink="/empleados" routerLinkActive="active"><i class="fas fa-users"></i>Empleados</a> 
+        </div>
+        <div  class="nav-item">
+            <a class="nav-link" routerLink="/recursos" routerLinkActive="active"><i class="fas fa-capsules"></i>Recursos</a> 
+        </div>
+        <div  class="nav-item">
+            <a class="nav-link" routerLink="/emergencias" routerLinkActive="active"><i class="fas fa-ambulance"></i>Emergencias</a> 
+        </div>
+        <div  class="nav-item">
+            <a class="nav-link" routerLink="/alertas" routerLinkActive="active"><i class="fas fa-exclamation-triangle"></i>Alertas</a> 
+        </div>
+        <div  class="nav-item">
+            <a class="nav-link" routerLink="/monitoreo" routerLinkActive="active"><i class="fas fa-tv"></i>Monitorio</a> 
+        </div>
+        <div  class="nav-item">
+            <a class="nav-link" routerLink="/statistics" routerLinkActive="active"><i class="fas fa-chart-pie"></i>Estadisticas</a> 
+        </div>
+    <!-- </div> -->
+        </mat-nav-list>
+      </mat-sidenav>
+      <mat-sidenav-content>
+
+        
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>

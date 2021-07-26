@@ -42,4 +42,14 @@ export class AlertService {
   clear(id = this.defaultId) {
       this.subject.next(new Alert({ id }));
   }
+  errorForEmployee(error: any){
+    if(error.type == 'C'){
+        ;
+        this.error(error.message, { autoClose: true });
+    }
+    else {
+    this.error(error[1].messages[0], { autoClose: true });
+    }  
+}
+
 }

@@ -140,3 +140,7 @@ button:hover {
 a:hover {
   color: #fff;
 }
+
+#cancelar {
+  margin-top: 10px;
+}

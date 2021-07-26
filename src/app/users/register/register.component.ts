@@ -12,6 +12,7 @@ styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
+    form: FormGroup;
     loading = false;
     submitted = false;
     url: any;
@@ -20,32 +21,55 @@ export class RegisterComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private route: ActivatedRoute,
-        private authenticationService: AuthenticationService,
         private userService: UserService,
         private alertService: AlertService,
     ) {}
 
     ngOnInit() {
+      this.registerForm = this.formBuilder.group({
+        persons: this.formBuilder.group({
+          firstName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,254}")]],
+          lastName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,254}")]],
+          phone:    ['', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+          gender:    ['', Validators.required],
+          email:    ['',[Validators.required,Validators.email]],
+          address: [''],
+          birthdate: ['', [Validators.required,Validators.pattern("[0-9]{4}-[0-9]{2}-[0-9]{2}")]],
+        }),
+        users: this.formBuilder.group({
+          userDni:      ['', [Validators.required,Validators.maxLength(8),Validators.pattern("[0-9]{7,15}")]],
+          FK_RoleID:    ['', Validators.required],
+          FK_EstateID:    [1, Validators.required],
+          userPassword: ['admin123'],
 
-        this.registerForm = this.formBuilder.group({
 
-            userFirstName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,254}")]],
-            userLastname: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,254}")]],
-            userDni:      ['', [Validators.required,Validators.maxLength(8),Validators.pattern("[0-9]{7,15}")]],
-            userPhone:    ['', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
-            userGender:    ['', Validators.required],
-            userEmail:    ['',[Validators.required,Validators.email]],
-         //   userEmail:    ['',[Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
-            userAddress: ['', Validators.required],
-            userPassword: ['', [Validators.required,Validators.minLength(8), Validators.maxLength(16)]],
-            userBirthdate: ['', [Validators.required,Validators.pattern("[0-9]{4}-[0-9]{2}-[0-9]{2}")]],
-            roleID:    ['', Validators.required],
-            userAvatar:    ['', Validators.required],
-        });
+        })
+      });
+        this.registerForm.valueChanges.subscribe(() => console.log(this.registerForm));
+
+    //     "users":{
+    //       "userDni": "47413770",  
+    //       "userPassword":"admin123",
+    //       "FK_RoleID": 4,
+    //       "FK_EstateID": 1,
+     
+    //  "persons": {
+    //      "firstName": "Diegillo",
+    //      "lastName": "de Rivas",
+    //      "phone": "4876601",
+    //      "email": "Juan-12@gmail.com",
+    //      "address": "27 de abril 123",
+    //      "gender": "M",
+    //      "birthdate": "1995-06-24"
+    //      }
+
     }
 
     // Es un getter conveniente para facilitar el acceso a los campos del formulario
     get f() { return this.registerForm.controls; }
+    get formUser () { return this.registerForm.get('users');}
+    get formPerson () { return this.registerForm.get('persons');}
+    
     onSelectFile(event) {
       if (event.target.files && event.target.files[0]) {
         let reader = new FileReader();

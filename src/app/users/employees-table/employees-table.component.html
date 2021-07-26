@@ -1,0 +1,69 @@
+<form>
+  <div  class="d-flex align-items-end bd-highlight form-group">
+  <div class="bd-highlight">
+    <a mat-fab matTooltip="Agregar un empleado nuevo" matTooltipPosition="above" color="warn" [routerLink]="['register']" aria-label="Agregar nuevo empleado">
+      <mat-icon>person_add</mat-icon>
+    </a>
+  </div>
+  <div class="bd-highlight ml-3">  
+    <mat-slide-toggle color="warn" (change)="onShow($event)">Mostrar empleados deshabilitados</mat-slide-toggle>
+</div>
+<div class="d-flex align-items-center ml-auto bd-highlight mr-3" id="search"> 
+      <span class="mr-3 text-center" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
+      <input class="form-control ml-3" type="text" name="searchTerm" [(ngModel)]="service.searchTerm" placeholder="Filtrado por letra" />
+</div>
+  </div>
+  <table class="table table-striped table-sm">
+    <thead>
+    <tr>
+      <th scope="col" sortable="userDni" (sort)="onSort($event)">DNI</th>
+      <th scope="col" sortable="firstName" (sort)="onSort($event)">Nombre</th>
+      <th scope="col" sortable="lastName" (sort)="onSort($event)">Apellido</th>
+      <th scope="col" sortable="roleName" (sort)="onSort($event)">Cargo</th>
+      <th scope="col" sortable="address" (sort)="onSort($event)">Dirección de trabajo</th>
+      <th scope="col" sortable="status" (sort)="onSort($event)">Disponibilidad</th>
+      <th scope="col"> </th>
+    </tr>
+    </thead>
+    <tbody>
+      <ng-container ></ng-container>
+    <tr *ngFor="let empleado of employees$ | async; let i = index;">
+      <th scope="row">  <ngb-highlight [result]="empleado.users.userDni" [term]="service.searchTerm"></ngb-highlight></th>
+      <td>
+        <ngb-highlight [result]="empleado.users.persons.firstName | titlecase" [term]="service.searchTerm"></ngb-highlight>
+      </td>
+      <td><ngb-highlight [result]="empleado.users.persons.lastName | titlecase" [term]="service.searchTerm"></ngb-highlight></td>
+      <td><ngb-highlight [result]="empleado.users.roleName | titlecase" [term]="service.searchTerm"></ngb-highlight></td>
+      <td><ngb-highlight [result]="empleado.users.estates.locationAddress.address + '&nbsp;' + empleado.users.estates.locationAddress.numberAddress" [term]="service.searchTerm"></ngb-highlight></td>
+      <td><span for="status" *ngIf="empleado.users.persons.status"><i [class.text-success]="empleado.users.persons.status" class="fas fa-circle"></i>      Disponible</span>
+        <span *ngIf="!empleado.users.persons.status"><i [class.text-danger]="!empleado.users.persons.status"class="fas fa-circle"></i>      No disponible</span></td>
+
+      
+<td>
+        <button mat-icon-button (click)="open(i)" aria-label="Icono del menu de empleados">
+          <mat-icon>info</mat-icon>
+        </button>
+        
+</td>
+    </tr>
+    <tr *ngIf="!(employees$ | async)">
+      <td colspan="7" class="text-center">
+        <span class="spinner-border spinner-border-lg align-center"></span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination
+      [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+    </ngb-pagination>
+
+    <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+      <option [ngValue]="4">4 personas por pagina</option>
+      <option [ngValue]="6">6 personas por pagina</option>
+      <option [ngValue]="10">10 personas por pagina</option>
+    </select>
+  </div>
+
+</form>

@@ -1,35 +1,31 @@
 import { AuthenticationService } from './_authentication/authentication.service';
 import { environment } from '../../environments/environment';
-import { Person } from '../models/person';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { Operation } from 'fast-json-patch';
+import * as _ from 'lodash';
 
 
 export class DataService {
   private options = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
-  private personSubject: BehaviorSubject<any>;
-  public person: Observable<any>;
+
+
+  constructor(protected http: HttpClient,
+      protected patch:string,
+     protected authenticateService: AuthenticationService ) {}
+
  
 
-  constructor(private http: HttpClient,private patch:string) {
 
-  }
-
-//   public get userValue(): Person
-//   {
-//     return this.personSubject.value;
-// }
-
+//getAll me traera errores si lo utilizo para otro tipo,
+// ya que this.object es utilizado para la tabla empleados.
   getAll(){
-    return this.http.get(environment.URL+this.patch);
+    return this.http.get<any>(environment.URL+this.patch);
+    
   }
-  get(url:string){
-    return this.http.get(environment.URL+this.patch);
-  }
-  getById(id: string) {
+  
+  getById(id: number) {
     return this.http.get<any>(environment.URL+this.patch+'/'+id);
 }
   register(resource){
@@ -39,30 +35,33 @@ export class DataService {
   update(resource){
     return  this.http.put(environment.URL+this.patch, JSON.stringify(resource), this.options);
   }
-//   userUpdate(id, params) {
-//     return this.http.patch(environment.URL+this.patch+'/'+id, params)
-//         .pipe(map(x => {
-//             // update stored user if the logged in user updated their own record
-//             if (id == this.currentUserValue.userID) {
-//                 // update local storage
-//                 const user = { ...this.currentUserValue, ...params };
-//                 localStorage.setItem('currentUser', JSON.stringify(user));
+  userUpdate(id, operations:Operation[], params?) {
+    return this.http.patch(environment.URL+this.patch+'/'+id, operations, this.options)
+        .pipe(map(x => {
+            // update stored user if the logged in user updated their own record
+            if (id == this.authenticateService.currentUserValue.userID) {
+                // update local storage
 
-//                 // publish updated user to subscribers
-//                 this.currentUserSubject.next(user);
-//             }
-//             return x;
-//         }));   
-// }
+                const user = _.pick(params, _.keys(this.authenticateService.currentUserValue));
+                console.log(user);
+                localStorage.setItem('currentUser', JSON.stringify(user));
 
-//   delete(id){
-//     return this.http.delete(environment.URL+this.patch+'/'+id)
-//     .pipe(map(x => {
-//       // auto logout if the logged in user deleted their own record
-//       if (id == this.currentUserValue.userID) {
-//           this.logout();
-//       }
-//       return x;
-//   }));
-//   }
+                // publish updated user to subscribers
+                this.authenticateService.setCurrentUser(user);
+            }
+            return x;
+        }));   
+}
+
+  delete(id) {
+    return this.http.delete(environment.URL+this.patch+'/'+id,this.options)
+      .pipe(map(x => {
+        if (id == this.authenticateService.currentUserValue.userID) {
+            this.authenticateService.logout();
+        }
+        return x;
+      }));
+}
+
+
 }

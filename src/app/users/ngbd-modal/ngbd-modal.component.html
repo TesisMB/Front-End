@@ -1,0 +1,269 @@
+
+<div class="modal-header">
+  
+      <div class="col"> <h4 class="title modal-title">Información Personal</h4></div>
+      <div class="col"><h4 class="title modal-title">Información de Contacto</h4></div>
+      <div class="col"><h4 class="title modal-title" >Informacion de Trabajo</h4></div>
+      <div class="col"> <h4 class="title modal-title">Información de Acceso</h4></div>
+
+      
+        <ng-template   #popMenu >
+          <button type="button" class="btn btn-option  btn-sm" (click)="onClick()"><mat-icon class="icon">mode_edit</mat-icon><span class="option-text">Actualizar datos</span> </button>
+          
+          <button type="button" class="btn btn-option  btn-sm" ><mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span></button>
+
+          <button *ngIf="user.users.userAvailability" type="button " class="btn btn-option-warning  btn-sm" (click)="changeStatus('Deshabilitar')">
+            <mat-icon class="icon">person_remove</mat-icon>
+            <span class="option-text">Deshabilitar usuario</span>
+          </button>
+          <button *ngIf="!user.users.userAvailability" type="button " class="btn btn-option-success  btn-sm" (click)="changeStatus('Habilitar')">
+            <mat-icon class="icon">person_add</mat-icon>
+            <span class="option-text">Habilitar usuario</span>
+          </button>
+          <button type="button " class="btn btn-option-warning  btn-sm" (click)="changeStatus('Eliminar')">
+            <mat-icon class="icon">delete</mat-icon>
+            <span class="option-text">Eliminar usuario</span>
+          </button>
+        </ng-template>
+    
+        <div >
+        <button  mat-icon-button type="button" class="btn btn-outline-secondary"
+        [ngbPopover]="popMenu" popoverClass="option" container="body">
+                <mat-icon>more_vert</mat-icon>
+        </button>
+      </div>
+      
+
+  </div>
+
+  <div class="modal-body" style="margin: 0 15px">
+    <alert ></alert>
+
+          <!-- Informacion General -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()"  >
+
+  <div class="row" formGroupName="users">
+  
+<div class="personal col-sm">
+  <ng-container formGroupName="persons">
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="firstName" class="first"><strong class="info" >Nombres</strong></label>
+      <input type="text" formControlName="firstName" required name="firstName" id="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.firstName').errors }">
+      <div *ngIf="submitted && f.get('users.persons.firstName').errors" class="invalid-feedback">
+        <div *ngIf="f.get('users.persons.firstName').errors.required"><small>*Campo requerido</small> </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="lastName" class="first"><strong class="info" >Apellidos</strong></label>
+      <input type="text"  formControlName="lastName" required name="lastName" id="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.lastName').errors }" >
+      <div *ngIf="submitted && f.get('users.persons.lastName').errors" class="invalid-feedback">
+        <div *ngIf="f.get('users.persons.lastName').errors.required"><small>*Campo requerido</small></div>
+    </div>
+  </div>
+  </div>
+</ng-container>
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="dni" class="first"><strong class="info" >Documento</strong></label>
+      <input type="text" formControlName="userDni" required name="dni" id="dni" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('users.userDni').errors }">
+      <div *ngIf="submitted && f.get('users.userDni').errors" class="invalid-feedback">
+        <div *ngIf="f.get('users.userDni').errors.required"><small>*Campo requerido</small></div>
+    </div>
+  </div>
+  </div>
+  <ng-container formGroupName="persons">
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="genre" class="first"><strong class="info" >Género</strong></label>
+      <select type="text" formControlName="gender" required name="gender" id="gender" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.gender').errors }">
+       <option [selected]="user.users.persons.gender === 'M'" value="M">Masculino</option>
+        <option [selected]="user.users.persons.gender === 'F'" value="F">Femenino</option>
+        <option [selected]="user.users.persons.gender === 'O'" value="O">Otrx</option>
+      </select>
+      <div *ngIf="submitted && f.get('users.persons.gender').errors" class="invalid-feedback">
+        <div *ngIf="f.get('users.persons.gender').errors.required"><small>*Campo requerido</small></div>
+    </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="date" class="first"><strong class="info" >Fecha de nacimiento</strong></label>
+      <input type="datetime" formControlName="birthdate" required name="date" id="date" class="form-control" [ngModel]="user.users.persons.birthdate" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.birthdate').errors }" >
+      <div *ngIf="submitted && f.get('users.persons.birthdate').errors" class="invalid-feedback">
+        <div *ngIf="f.get('users.persons.birthdate').errors.required"><small>*Campo requerido</small></div>
+    </div>
+    </div>
+  </div>    
+  </ng-container>
+
+</div>
+
+  <!-- Informacion de contacto -->
+
+  <div class="contact col-sm" formGroupName="persons">
+    <div class="form-row">
+      <div class="form-group col">
+        <label for="email" class="first"><strong class="info" for="email">Correo Electronico</strong></label>
+        <input formControlName="email" required class="form-control correoInput info" name="email" type="email" placeholder="Correo electronico" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.email').errors }"/>
+        <div *ngIf="submitted && f.get('users.persons.email').errors" class="invalid-feedback">
+          <div *ngIf="f.get('users.persons.email').errors.email">*Correo electrónico inválido</div>
+          <div *ngIf="f.get('users.persons.email').errors.required"><small>*Campo requerido</small> </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col">
+        <label for="phone" class="first"><strong class="info" for="phone">Telefono de contacto</strong></label>
+        <input  formControlName="phone" required class="form-control telefonoInput info" name="phone" type="tel" placeholder="Telefono"[ngClass]="{ 'is-invalid': submitted && f.get('users.persons.phone').errors }"/>
+           
+        <div *ngIf="submitted && f.get('users.persons.phone').errors" class="invalid-feedback">
+          <div *ngIf="f.get('users.persons.phone').errors.pattern">Número de teléfono inválido</div>
+          <div *ngIf="f.get('users.persons.phone').errors.required"><small>*Campo requerido</small></div>
+
+        </div>
+      </div>
+    </div>
+  
+    <div class="form-row">
+      <div class="form-group col">
+        <label for="address" class="first"><strong class="info" for="address">Domicilio</strong></label>
+        <input formControlName="address" required class="form-control direccionInput info" name="address" type="text" placeholder="Domicilio" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.phone').errors }"/>
+        <div *ngIf="submitted && f.get('users.persons.address').errors" class="invalid-feedback">
+          <div *ngIf="f.get('users.persons.address').errors.required"><small>*Campo requerido</small></div>
+      </div>     
+      </div>
+    </div>
+  
+  </div>
+  <!-- Informacion de Trabajo -->
+  <div class="work col-sm">
+
+    <div class="form-row">
+      <div class="form-group col">
+    <label for="role" class="first"><strong class="info">Cargo</strong></label>
+    <select required formControlName="roleName" class="form-control info" [ngClass]="{ 'is-invalid': submitted && f.get('users.roleName').errors }">
+      <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+    </select>
+    <div *ngIf="submitted && f.get('users.roleName').errors" class="invalid-feedback">
+      <div *ngIf="f.get('users.roleName').errors.required"><small>*Campo requerido</small></div>
+  </div>
+  </div>
+</div>
+
+
+
+    <div class="form-row" formGroupName="estates">  
+      <div class="form-group col" formGroupName="locationAddress">
+   <label for="workAddress" class="first"> <strong class="info">Direccion de trabajo</strong></label>
+   <div class="input-group">
+     <input type="text"  class="form-control info" id="address" required formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.locationAddress.numberAddress').errors || submitted && f.get('users.estates.locationAddress.address').errors }">
+      <input type="text"   class="form-control info" id="numberAddress"  required formControlName="numberAddress" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.locationAddress.numberAddress').errors || submitted && f.get('users.estates.locationAddress.address').errors }" >
+      <div *ngIf="submitted && (f.get('users.estates.locationAddress.address').errors || f.get('users.estates.locationAddress.numberAddress').errors)" class="invalid-feedback">
+        <div *ngIf="f.get('users.estates.locationAddress.address').errors.required || f.get('users.estates.locationAddress.numberAddress').errors.required"><small>*Campo requerido</small></div>
+      </div>
+  </div>
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col" formGroupName="estates">
+  <label for="workPhone" class="first"><strong>Telefono de la Filial</strong></label>
+  <input type="tel"
+  formControlName="estatePhone" class="form-control info" required name="" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.estatePhone').errors }">
+  <div *ngIf="submitted && f.get('users.estates.estatePhone').errors" class="invalid-feedback">
+    <div *ngIf="f.get('users.estates.estatePhone').errors.required"><small>*Campo requerido</small></div>
+</div>
+</div>
+</div>
+
+
+    <div class="form-row" >
+      <div class="form-group col" >
+    <label for="times" class="first"><strong class="info">Horarios</strong></label>
+    <ul *ngFor="let times of model['users']['estates']['estatesTimes']; let i = index;">
+      <li style="list-style: none;" >
+      {{times['times']['schedules']['scheduleDate']}} {{times['times']['startTime']}} - {{times['times']['endTime']}}
+<!-- ******************* Form Array ********************* -->
+        <!-- <div  *ngFor="let times of estates.controls; index as i" >
+          <div [formGroupName]="i">
+        <div class="input-group" formGroupName="times">
+          <div formGroupName="schedules">
+        <input type="datetime" formControlName="scheduleDate" class="form-control info">
+          </div>
+        <input type="time" formControlName="startTime" class="form-control info">
+        <input type="time" formControlName="endTime" class="form-control info">
+        
+      </div>
+      </div> 
+</div> -->
+
+      <!-- ************************ FIN - Form Array ***************** -->
+       </li>
+  </ul>  
+ </div>
+  </div>
+</div>
+<!-- Informacion de Acceso -->
+<div class="access col-sm" formGroupName="persons">
+  <div class="form-row" >
+    <div class="form-group col">
+      <label for="first"><strong>Disponibilidad ante emergencias</strong></label>
+  <select class="form-control info" required formControlName="status"  name="" id="" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.status').errors }">
+<option  [ngValue]="true">  <i [class.text-success]="user.users.persons.status" class="fas fa-circle"></i>Disponible</option>
+<option  [ngValue]="false"> <i [class.text-danger]="!user.users.persons.status"class="fas fa-circle"></i>No disponible</option>
+  </select>
+  <div *ngIf="submitted && f.get('users.persons.status').errors" class="invalid-feedback">
+    <div *ngIf="f.get('users.persons.status').errors.required"><small>*Campo requerido</small></div>
+</div>
+   
+</div>
+</div>
+    <div class="form-row">
+      <div class="form-group col">
+        <label class="first"><strong >Acceso al sistema</strong></label>
+        <p class="form-control availability" *ngIf="user.users.userAvailability"><i [class.text-success]="user.users.userAvailability" class="fas fa-circle mr-2"></i>Disponible</p>
+        <p class="form-control availability" *ngIf="!user.users.userAvailability"><i [class.text-danger]="!user.users.userAvailability"class="fas fa-circle mr-2"></i>No disponible</p>
+</div>
+</div>
+
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="" class="first"><strong class="info">Fecha de alta</strong></label>
+      <p class="form-control">{{user.users.persons.birthdate | date:'dd-MM-yyyy hh:mm'}}</p>
+    </div>
+  </div>
+<div class="form-row" style="margin-top: 15px;">
+    <div class="form-group col">
+      <div class="bd-highlight" >
+      <button mat-flat-button popoverClass="resetPassword" [disabled]="canReset" type="button" name="canReset" ngbPopover="Se le enviara un email con la nueva contraseña" triggers="mouseenter:mouseleave" placement="bottom-right" color="warn" aria-label="Resetear contraseña">
+        <mat-icon >lock_clock</mat-icon> Resetear Contraseña
+      </button>
+    </div>
+  </div>
+  </div>
+    
+    
+
+
+</div>
+
+</div>
+</form>
+</div>
+  <div class="modal-footer d-flex justify-content-between p-2">
+    <div><button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cerrar</button></div>
+    <div *ngIf="form.enabled">
+      <button type="button" [disabled]="loading" (click)="onSubmit() "class="btn btn-outline-dark">
+        <span class="text-center" *ngIf="loading" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
+        <span *ngIf="!loading"> Guardar cambios</span>
+    </button>
+  </div>
+
+  </div>
+     
+

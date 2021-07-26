@@ -1,120 +1,172 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from './../../services/_authentication/authentication.service';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { User } from './../../models';
-
+import {compare } from 'fast-json-patch';
+import * as _ from 'lodash';
 
 import { UserService } from './../../users/index';
 import {AlertService } from './../../services/index';
-import { AuthenticationService } from './../../services';
+import { Employee} from 'src/app/models';
 
 @Component({
   selector: 'add-edit',
   templateUrl: './add-edit.component.html',
   styleUrls: ['./add-edit.component.css']
 })
-export class AddEditComponent implements OnInit {
+export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
   form: FormGroup;
-  id: string;
-  isAddMode: boolean;
+  id: number;
+ 
+  updateHandler: any;
+  getHandler: any;
+  error: any ="";
+
   loading = false;
   submitted = false;
-  currentUser: User;
 
+  model: Employee;
+  originalUser: Employee;
 
   constructor(
       private formBuilder: FormBuilder,
-      private route: ActivatedRoute,
-      private router: Router,
-      private UserService: UserService,
+      public UserService: UserService,
       private alertService: AlertService,
-      private authenticationService: AuthenticationService,
-
+      private authenticationService: AuthenticationService
   ) {
-    this.currentUser = this.authenticationService.currentUserValue;
+   
+    this.id = this.authenticationService.currentUserValue.userID;
 
   }
-
   ngOnInit() {
-      this.id = this.route.snapshot.params['id'];
-      this.isAddMode = !this.id;
 
-      // La contraseña no es requerida en el modo Editar
-      const passwordValidators = [Validators.minLength(8), Validators.maxLength(16)];
-      if (this.isAddMode) {
-          passwordValidators.push(Validators.required);
-      }
+    this.getInfo();
+
 
       this.form = this.formBuilder.group({
-      UserPhone:    ['', [Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
-      UserEmail:    ['',[Validators.email]],
-      UserAddress: [''],
-      UserPassword: ['', passwordValidators],
-      RoleID:    ['', Validators.required],
-     // userAvatar:    ['', Validators.required],
-      });
+      phone:    [{value: '', disabled: true },[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      email:    [{value: '', disabled: true },[Validators.required,Validators.email]],
+      address: [{value: '', disabled: true },[Validators.required,Validators.pattern, Validators.maxLength(25)]],
+      password: [{value: '', disabled: true },[Validators.minLength(8), Validators.maxLength(16)]],
+      newPassword: [{value: '', disabled: true },[Validators.minLength(8), Validators.maxLength(16)]],
+      passwordRepeat: [{value: '', disabled: true },[Validators.minLength(8), Validators.maxLength(16)]]
 
-      if (!this.isAddMode) {
-          this.UserService.getById(this.id)
-              .pipe(first())
-              .subscribe(x => {
-                  this.f.UserPhone.setValue(x.persons.phone);
-                  this.f.UserEmail.setValue(x.persons.email);
-                  //this.f.UserAddress.setValue(x.person.personAddress);
-                  this.f.RoleID.setValue(x.roleName);
-                 // this.f.userAvatar.setValue(x.userAvatar);
-              });
-      }
+      });
+           
+     
+      
   }
 
-  // convenience getter for easy access to form fields
+  // getter para acortar el acceso a la variable
   get f() { return this.form.controls; }
 
-  onSubmit() {
-      this.submitted = true;
 
-      // reset alerts on submit
+  onUpdate(user:Employee) {
+      if (this.form.disabled){
+      this.form.enable();
+      this.model = _.cloneDeep(user);
+      this.originalUser = user;
+    }
+      else {
+          this.form.disable();
+      }
+    
+  }
+
+  onSubmit() {
+
+      this.submitted = true;
+      // resetea las alertas.
       this.alertService.clear();
 
-      // stop here if form is invalid
+      // checkea si el formulario es valido.
       if (this.form.invalid) {
           return;
       }
+    this.loading = true;
 
-      this.loading = true;
-      if (this.isAddMode) {
-          this.createUser();
-      } else {
-          this.updateUser();
+    const patch = compare(this.originalUser, this.model);  
+    console.log(patch.length);
+    if(this.passwordMatchValidator() && patch.length !== 0){
+           this.updateUser(patch);
+
+    }
+    else this.alertService.warn('No se han efectuado los cambios');
       }
+
+   private getInfo() {
+    this.getHandler = this.UserService.getById(this.id)
+    .pipe(first())
+    .subscribe((x: Employee) => { 
+                this.originalUser = x;
+                this.model = _.cloneDeep(this.originalUser);
+                this.f.phone.setValue(x.users.persons.phone);
+                this.f.email.setValue(x.users.persons.email);
+                this.f.address.setValue(x.users.persons.address);
+
+      },
+                error =>{this.error = error;
+                        this.alertService.error('Ha ocurrido un error, porfavor intente más tarde');});
   }
 
-  private createUser() {
-      this.UserService.register(this.form.value)
+  private updateUser(patch) {
+    this.updateHandler =  this.UserService.userUpdate(this.id, patch, this.model )
           .pipe(first())
           .subscribe(
               data => {
-                  this.alertService.success('Usuario agregado correctamente', { keepAfterRouteChange: true });
-                  this.router.navigate(['.', { relativeTo: this.route }]);
+                  this.alertService.success('Datos actualizado correctamente', { autoClose: true });
+                  this.resetForm();
+                  this.loading = false;
               },
               error => {
-                  this.alertService.error(error);
+
+                if(error.type == 'C'){
+                  this.error = error.message;
+                  this.alertService.error(this.error);
+                  console.log(error);
+                }
+                else {
+                this.error = error[1].messages[0];
+                this.alertService.error(this.error);
+                console.log(error);
+                }  
                   this.loading = false;
               });
   }
 
-  private updateUser() {
-    //   this.UserService.userUpdate(this.id, this.form.value)
-    //       .pipe(first())
-    //       .subscribe(
-    //           data => {
-    //               this.alertService.success('Datos actualizado correctamente', { keepAfterRouteChange: true });
-    //               this.router.navigate(['..', { relativeTo: this.route }]);
-    //           },
-    //           error => {
-    //               this.alertService.error(error);
-    //               this.loading = false;
-    //           });
+  ngAfterViewInit(): void {
+  this.form.get('phone').valueChanges.subscribe(data => this.model.users.persons.phone = data);
+  this.form.get('address').valueChanges.subscribe(data => this.model.users.persons.address = data);
+  this.form.get('password').valueChanges.subscribe(data => this.model.users.UserPassword = data);
+  this.form.get('newPassword').valueChanges.subscribe(data => this.model.users.UserNewPassword = data);
+  this.form.get('email').valueChanges.subscribe(data => this.model.users.persons.email = data);
+
+}
+
+resetForm (): void{
+  this.form.reset({
+    phone: {value: this.model.users.persons.phone, disabled: true},
+    email: {value: this.model.users.persons.email, disabled: true},
+    password: {value: '', disabled: true},
+    newPassword: {value: '', disabled: true},
+    passwordRepeat:{value: '', disabled: true},
+    address: {value: this.model.users.persons.address, disabled: true}
+  });
+  this.form.disable();
+}
+
+passwordMatchValidator(): boolean {
+  let result;
+      result = this.form.get('newPassword').value === this.form.get('passwordRepeat').value
+     ? this.f.newPassword.valid : this.f.newPassword.invalid;
+     console.log(result);
+     return result;
+}
+
+  ngOnDestroy(){
+      this.getHandler.unsubscribe();
+      if(this.updateHandler){
+      this.updateHandler.unsubscribe();
+      }
   }
 }

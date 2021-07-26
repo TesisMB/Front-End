@@ -41,20 +41,20 @@ nav {
 /* --------------------------------------Nav Logo-------------------------------------- */
 
 /* logo */
-.nav .logo {
+.logo {
   height: 64px;
   width: 200px;
   padding-bottom: 5px;
   padding-left: 16px;
 }
 
-.nav .logo img {
+.logo img {
   height: 100%;
   width: 90%;
 }
 
 /* --------------------------------------Nav Sidebar + User-------------------------------------- */
-
+/* 
 input {
   display: none;
 }
@@ -77,11 +77,13 @@ label #menu{
   transition: .5s;
 }
 
+#check:checked ~ body {
+  margin-left: 200px;
+}
 
 #check:checked ~ .Enlaces {
   left: 0px;
 }
-
 
 
 .Enlaces div, .dropdown-menu  div{
@@ -93,29 +95,29 @@ label #menu{
 
 
 
-.Enlaces div div{
+.Enlaces  div{
   list-style: none;
   border-bottom: 1px solid  rgb(188, 188, 188);
 }
 
-.Enlaces div div:hover, .dropdown-menu  li:hover{
+.Enlaces  div:hover, .dropdown-menu  li:hover{
   background: rgba(228, 70, 70, 0.337);
 }
 
 
-.Enlaces div div i, .dropdown-menu  ul li i{
+.Enlaces  div a i, .dropdown-menu  ul li i{
   padding-right: 20px;
   margin-left: 10px;
 
 }
 
-.Enlaces div div a, .dropdown-menu  ul li a{
+.Enlaces  div a, .dropdown-menu  ul li a{
   color: #000;
   margin-left: 20px;
   transition: all .3s ease;
   text-decoration: none;
 }
-
+ */
 
 
 /* --------------------------------------Nav user-------------------------------------- */
@@ -163,4 +165,36 @@ label #menu{
 
 .dos{
   font-size: 12px;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.example-is-mobile .example-toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+h1.example-app-name {
+  margin-left: 8px;
+}
+
+.example-sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1;
+}
+
+.example-is-mobile .example-sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
 }

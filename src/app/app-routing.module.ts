@@ -38,7 +38,7 @@ export const routes: Routes = [
     path: 'recursos',
     loadChildren: resourcesModule,
     canActivate: [AuthGuard],
-    data:{ roles: [RoleName.Admin, RoleName.CoordinadorGeneral, RoleName.Logistica]}
+    data:{ roles: [RoleName.Admin, RoleName.Logistica, RoleName.CEyD, RoleName.CoordinadorGeneral]}
    },
 
   {

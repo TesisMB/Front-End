@@ -1,0 +1,6 @@
+.alert {
+    width: fit-content;
+    min-width: 360px;
+    min-height: 50px;
+    text-align: center;
+}
