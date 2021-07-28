@@ -69,8 +69,16 @@ export class TableService {
   };
   constructor(private pipe: DecimalPipe, private service: UserService, private alertService: AlertService) { 
     
-    this.service.getAll().subscribe((result: Employee[]) => {this.EMPLEADOS = result;},
-    error => { console.log('Error: ' + error.message); this.alertService.error('No se ha podido cargar, intentelo nuevamente más tarde.');})
+
+ this.service.getAll()
+ .subscribe(
+   (result: Employee[]) => {
+     this.EMPLEADOS = result;
+  },
+    error => { 
+      console.log('Error: ' + error.message);
+      this.alertService.error('No se ha podido cargar, intentelo nuevamente más tarde.');
+  });
     
     this._search$.pipe(
     tap(() => this._loading$.next(true)),
@@ -79,9 +87,7 @@ export class TableService {
     delay(200),
     tap(() => this._loading$.next(false))
   ).subscribe(result => {
-    (this._showAvailability$.value) ?
-    this._employees$.next(result._employees.filter(x => x.users.userAvailability == false))
-    : this._employees$.next(result._employees.filter(x => x.users.userAvailability == true));
+    this._employees$.next(result._employees);
     this._total$.next(result.total);
   });
 
@@ -115,7 +121,7 @@ private _setAvailability(availability:boolean){
 public _setEmployee(patch:Employee){
   let index = this.EMPLEADOS.findIndex( x => patch.employeeID == x.employeeID);
   this.EMPLEADOS[index] = patch;
-  this._employees$.next(this.EMPLEADOS);
+  this._search$.next();
 }
 
 
@@ -123,12 +129,15 @@ public _setEmployee(patch:Employee){
 private _search(): Observable<SearchResult> {
   const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
-
+  // 1. filtrado por disponibilidad
+  const empleados = this.EMPLEADOS.filter(x => x.users.userAvailability !== this._showAvailability$.value);
+  
   // 1. sort
-  let _employees = sort(this.EMPLEADOS, sortColumn, sortDirection);
+  let _employees = sort(empleados, sortColumn, sortDirection);
 
   // 2. filter
   _employees = _employees.filter(employee => matches(employee, searchTerm, this.pipe));
+
   const total = _employees.length;
 
   // 3. paginate

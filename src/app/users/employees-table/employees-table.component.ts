@@ -1,17 +1,13 @@
-import { AuthenticationService } from './../../services/_authentication/authentication.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {DecimalPipe} from '@angular/common';
 import {QueryList, ViewChildren} from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable} from 'rxjs';
 
 import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
 
 import { Employee } from 'src/app/models';
-import { UserService } from '..';
 import { TableService } from 'src/app/services/_table.service/table.service';
 import {SorteableDirective, SortEvent} from '../../directives/sorteable.directive';
-import { AlertService } from 'src/app/services';
 
 @Component(
   {selector: 'ngbd-table-complete',
@@ -59,21 +55,8 @@ ngOnInit() {
   }
 
   
-//*********************** PROBANDO EL FILTRADO ********************* */
-  // getEmployees() {
-  // this.employees$.pipe().subscribe
-  //   (result =>{
-  //     this.modelo = result; 
-  //     this.error = this.modelo
-  //     .filter(x => x.users.estates.locationAddress == this.authenticationService.currentUserValue.estates.locationAddress);
-  //     console.log(this.modelo);
-  //   },
-  //   error => {
-  //     console.log("Ha ocurrido un error: "+ error.message);});
-  //  }
 
-  ngOnDestroy(){
-   // this.getHandler.unsubscribe();
-   
+
+  ngOnDestroy(){   
   }
 }

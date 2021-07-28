@@ -29,6 +29,7 @@ tr:nth-child(even) {
 .title {
   text-align: center;
   margin-bottom: 2%;
+  color: black;
 
 }
 

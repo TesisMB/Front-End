@@ -202,7 +202,7 @@ margin-right: 25px;  }
        causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
     flex: 1;
     background-color:unset;
-
+    color: unset;
   }
   
   .example-is-mobile .example-sidenav-container {
@@ -210,5 +210,6 @@ margin-right: 25px;  }
        `<body>` to be our scrolling element for mobile layouts. */
     flex: 1 0 auto;
     background-color:unset;
+    color: unset;
   }
   

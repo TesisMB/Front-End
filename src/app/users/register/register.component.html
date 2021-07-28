@@ -114,8 +114,8 @@
              <a routerLink="/home" >Cancelar</a> -->
 
             <form [formGroup]="registerForm" id="form">
-             <mat-horizontal-stepper linear #stepper>
-              <mat-step [stepControl]="formUser" formGroupName="persons" errorMessage="Datos son requeridos.">
+             <mat-horizontal-stepper linear #stepper formGroupName="users">
+              <mat-step [stepControl]="formPerson" formGroupName="persons" errorMessage="Datos son requeridos.">
                   <ng-template matStepLabel>Datos personales</ng-template>
                   <mat-form-field>
                   <div class=""> 
@@ -131,7 +131,7 @@
                     <mat-form-field>
                     <div class="">
                                          <mat-label>Dirección</mat-label>
-                    <input matInput placeholder="Ex. Calle, Numero, Dpto/Lote/Portero" formControlName="phone" required>
+                    <input matInput placeholder="Ex. Calle, Numero, Dpto/Lote/Portero" formControlName="address" required>
 
                     </div></mat-form-field>
                     <mat-form-field>
@@ -165,21 +165,22 @@
                     <button mat-button matStepperNext type="button">Siguiente</button>
                   </div>
               </mat-step>
-              <mat-step [stepControl]="formPerson" formGroupName="users" errorMessage="Todos los datos son requeridos">
+              <mat-step [stepControl]="formUser"  errorMessage="Todos los datos son requeridos">
                 <!-- <form [formGroup]="secondFormGroup"> -->
                   <ng-template matStepLabel>Datos laborales</ng-template>
                   <mat-form-field>
                     <mat-label>Documento</mat-label>
                     <input matInput placeholder="Documento de identidad" formControlName="userDni"
                            required>
-                           <mat-label>Cargo</mat-label>
+                    </mat-form-field>
+                    <mat-form-field>      <mat-label>Cargo</mat-label>
                     <input matInput placeholder="Cargo a desempeñar" formControlName="FK_RoleID"
-                           required>
-                           <mat-label>Direccion de trabajo</mat-label>
+                           required></mat-form-field>
+                           <mat-form-field>   <mat-label>Direccion de trabajo</mat-label>
                     <input matInput type="number" placeholder="Direccion" formControlName="FK_EstateID"
-                           required>
+                           required></mat-form-field>
 
-                  </mat-form-field>
+                  
                   <div>
                     <button mat-button matStepperPrevious type="button">Atras</button>
                     <button mat-button matStepperNext type="button">Siguiente</button>
