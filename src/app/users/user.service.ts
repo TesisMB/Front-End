@@ -28,11 +28,15 @@ return this._employeeForm.group({
         status: [{},[Validators.required]]
       }),
       estates: this._employeeForm.group({
+        estateID: [],
+        estateTypes: [],
+        estatePhone: [],
         locationAddress: this._employeeForm.group({
+          locationAddressID: [],
+          postalCode: [],
           numberAddress: [],
           address: [],
         }),
-         estatePhone: [],
          estatesTimes: this._employeeForm.array([
            this._employeeForm.group({
             
@@ -46,8 +50,6 @@ return this._employeeForm.group({
           })
         }),
             ]),
-        estateID: []
-        
       }),
       userDni: [{},[Validators.required]],
       roleName: [{},[Validators.required]],

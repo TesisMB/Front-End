@@ -146,7 +146,6 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
     (this.model.users.userAvailability) ? this.f.get('users.userAvailability').setValue(false) : this.f.get('users.userAvailability').setValue(true);
     const patch = compare(this.model, this.user);
-    console.log(patch);
     (patch.length !== 0) ? this.updateUser(patch) : this.loading = false;
     }
     

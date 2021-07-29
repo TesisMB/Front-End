@@ -1,4 +1,6 @@
 export interface Estates {
+    estateID: number,
+    estateTypes: string,
     estatePhone: string,
     locationAddress: LocationAddress;
     estatesTimes:[{
@@ -7,6 +9,8 @@ export interface Estates {
 }
 
 export interface LocationAddress {
+    locationAddressID: number,
+    postalCode: string,
     address: string;
     numberAddress: string;
 }

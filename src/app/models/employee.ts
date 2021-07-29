@@ -17,8 +17,12 @@ export interface Employee {
         status: boolean;
     };
     estates?: {
+        estateID: number,
+        estateTypes: string,
         estatePhone: string,
         locationAddress: {
+        locationAddressID: number,
+        postalCode: string,
         address: string;
         numberAddress: string;};
         estatesTimes:[{

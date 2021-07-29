@@ -42,7 +42,6 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.getInfo();
 
-
       this.form = this.formBuilder.group({
       phone:    [{value: '', disabled: true },[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       email:    [{value: '', disabled: true },[Validators.required,Validators.email]],
@@ -59,7 +58,6 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // getter para acortar el acceso a la variable
   get f() { return this.form.controls; }
-
 
   onUpdate(user:Employee) {
       if (this.form.disabled){
@@ -86,7 +84,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loading = true;
 
     const patch = compare(this.originalUser, this.model);  
-    console.log(patch.length);
+    console.log('Patch: '+patch.length);
     if(this.passwordMatchValidator() && patch.length !== 0){
            this.updateUser(patch);
 
@@ -110,7 +108,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private updateUser(patch) {
-    this.updateHandler =  this.UserService.userUpdate(this.id, patch, this.model )
+    this.updateHandler =  this.UserService.userUpdate(this.id, patch, this.model.users )
           .pipe(first())
           .subscribe(
               data => {
@@ -119,27 +117,17 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
                   this.loading = false;
               },
               error => {
-
-                if(error.type == 'C'){
-                  this.error = error.message;
-                  this.alertService.error(this.error);
-                  console.log(error);
-                }
-                else {
-                this.error = error[1].messages[0];
-                this.alertService.error(this.error);
-                console.log(error);
-                }  
-                  this.loading = false;
+                this.alertService.errorForEmployee(error);
+                this.loading = false;
               });
   }
 
   ngAfterViewInit(): void {
-  this.form.get('phone').valueChanges.subscribe(data => this.model.users.persons.phone = data);
-  this.form.get('address').valueChanges.subscribe(data => this.model.users.persons.address = data);
-  this.form.get('password').valueChanges.subscribe(data => this.model.users.UserPassword = data);
-  this.form.get('newPassword').valueChanges.subscribe(data => this.model.users.UserNewPassword = data);
-  this.form.get('email').valueChanges.subscribe(data => this.model.users.persons.email = data);
+ this.form.get('phone').valueChanges.subscribe(data => this.model.users.persons.phone = data);
+ this.form.get('address').valueChanges.subscribe(data => this.model.users.persons.address = data);
+ this.form.get('password').valueChanges.subscribe(data => this.model.users.UserPassword = data);
+ this.form.get('newPassword').valueChanges.subscribe(data => this.model.users.UserNewPassword = data);
+ this.form.get('email').valueChanges.subscribe(data => this.model.users.persons.email = data);
 
 }
 
@@ -158,8 +146,8 @@ resetForm (): void{
 passwordMatchValidator(): boolean {
   let result;
       result = this.form.get('newPassword').value === this.form.get('passwordRepeat').value
-     ? this.f.newPassword.valid : this.f.newPassword.invalid;
-     console.log(result);
+     ? (this.f.newPassword.valid, this.alertService.warn('Las contraseñas deben ser iguales')) : this.f.newPassword.invalid;
+     console.log('Password iguales?: '+result);
      return result;
 }
 

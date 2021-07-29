@@ -34,7 +34,7 @@
             <div class="form-row">
             <div class="form-group col">
               <strong class="info" for="password">Contraseña</strong>
-              <input formControlName="password" [required]="f.password.dirty" class="form-control passwordInput info" name ="password" type="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"  />
+              <input formControlName="password" [required]="f.password.value !=''" class="form-control passwordInput info" name ="password" type="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"  />
                 
             <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
               <div *ngIf="f.password.errors.minlength">Debe tener minimo 8 caracteres</div>
@@ -44,15 +44,15 @@
             </div>
           </div>
           </div>
-
+        <ng-container *ngIf="f.password.dirty">
           <div class="form-row">
             <div class="form-group col">
               <strong class="info" for="newPassword">Nueva contraseña</strong>
-              <input  formControlName="newPassword" [required]="f.password.dirty" class="form-control passwordInput info" name ="newPassword" type="password" [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }"/>
+              <input  formControlName="newPassword" [required]="f.password.value !=''" class="form-control passwordInput info" name ="newPassword" type="password" [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }"/>
              <div *ngIf="submitted && f.newPassword.errors" class="invalid-feedback"> 
               <div *ngIf="f.newPassword.errors.minlength">Debe tener minimo 8 caracteres</div>
               <div *ngIf="f.newPassword.errors.maxlength">Debe tener maximo 16 caracteres</div>
-              <div *ngIf="f.newPassword.errors.required">Las contraseñas deben ser iguales</div>
+              <div *ngIf="f.newPassword.errors.required">La nueva contraseña es necesaria</div>
 
             </div>
           </div>
@@ -61,16 +61,19 @@
           <div class="form-row">
             <div class="form-group col">
               <strong class="info" for="passwordRepeat">Repetir nueva contraseña</strong>
-              <input  formControlName="passwordRepeat" [required]="f.newPassword.dirty" class="form-control passwordInput info" name ="passwordRepeat" type="password" [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }"/>
+              <input  formControlName="passwordRepeat" [required]="f.newPassword.value !=''" class="form-control passwordInput info" name ="passwordRepeat" type="password" [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }"/>
              <div *ngIf="submitted && f.passwordRepeat.errors" class="invalid-feedback"> 
               <div *ngIf="f.passwordRepeat.errors.minlength">Debe tener minimo 8 caracteres</div>
               <div *ngIf="f.passwordRepeat.errors.maxlength">Debe tener maximo 16 caracteres</div>
+              <div *ngIf="f.passwordRepeat.errors.required">La contraseña es obligatoria</div>
               <div *ngIf="f.passwordRepeat.errors.required">Las contraseñas deben ser iguales</div>
+
 
 
             </div>
           </div>
           </div>
+        </ng-container>
         </ng-container>
 
           <div class="form-row">

@@ -23,15 +23,15 @@ export class AuthenticationService   {
     }
 
     public get currentUserValue(): User {
-      let user : User = (JSON.parse(localStorage.getItem('currentUser')));
-      if(user != this.currentUserSubject.value){
+      const user : User = (JSON.parse(localStorage.getItem('currentUser')));
+      if(user !== this.currentUserSubject.value){
             this.currentUserSubject.next(user);
            }
   
       return this.currentUserSubject.value;
   }
 
-  public set setCurrentUser(user) {
+  public setCurrentUser(user) {
       this.currentUserSubject.next(user);
   }
 
