@@ -1,3 +1,4 @@
+<router-outlet>
 <section class="Resources">
   <div class="title">
       <h1>Recursos</h1>
@@ -74,7 +75,7 @@
                   <h3>Vehiculos</h3>
                   <div class="arrow">
                     <img src="../../assets/icons - Resources - EmergDesas/arrow-point-to-right.png" alt="">
-                    <a  class="" routerLink="vehiculos"></a>
+                    <a  class="" [routerLink]="['vehiculos']"></a>
                 </div>
               </div>
 
@@ -82,3 +83,4 @@
       </div>
   </div>
 </section>
+</router-outlet>

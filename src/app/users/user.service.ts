@@ -3,6 +3,8 @@ import { DataService } from '../services/data.service';
 import { Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../services';
+import { Role, RoleName } from '../models';
+
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends DataService{
@@ -10,6 +12,13 @@ export class UserService extends DataService{
 
   constructor(http: HttpClient, public _employeeForm: FormBuilder, authenticateService: AuthenticationService) {
     super(http, '/employees', authenticateService);
+}
+
+public get listarRoles(): Role[] {
+const array = Object.values(RoleName);
+let roles: Role[];
+  roles = array.map((role,i) => {  return new Role(i+1, role);});
+  return roles;
 }
 
 
@@ -52,7 +61,8 @@ return this._employeeForm.group({
             ]),
       }),
       userDni: [{},[Validators.required]],
-      roleName: [{},[Validators.required]],
+      FK_RoleID:[{},[Validators.required]],
+      roleName: [],
       userAvailability: [{},[Validators.required]],
       userID: [{},[Validators.required]]
 

@@ -70,15 +70,7 @@ export class TableService {
   constructor(private pipe: DecimalPipe, private service: UserService, private alertService: AlertService) { 
     
 
- this.service.getAll()
- .subscribe(
-   (result: Employee[]) => {
-     this.EMPLEADOS = result;
-  },
-    error => { 
-      console.log('Error: ' + error.message);
-      this.alertService.error('No se ha podido cargar, intentelo nuevamente más tarde.');
-  });
+    this.uploadTable();
     
     this._search$.pipe(
     tap(() => this._loading$.next(true)),
@@ -124,7 +116,23 @@ public _setEmployee(patch:Employee){
   this._search$.next();
 }
 
+public uploadTable() {
 
+  this.service.getAll()
+ // .pipe(filter(empleados => empleados.users.userAvailability !== this._showAvailability$.value))
+  .subscribe(
+    (result: Employee[]) => {
+      this.EMPLEADOS = result;
+      console.log('GetAll AJAX ejecutado');
+   },
+     error => { 
+       console.log('Error: ' + error.message);
+       this.alertService.error('No se ha podido cargar, intentelo nuevamente más tarde.');
+      });
+    
+    this._search$.next();
+
+}
 
 private _search(): Observable<SearchResult> {
   const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;

@@ -5,7 +5,7 @@ import { Component, Input, OnInit, ViewEncapsulation, OnDestroy, AfterViewInit }
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray, FormGroup } from '@angular/forms';
 import { UserService } from '../user.service';
-import { RoleName } from 'src/app/models';
+import { RoleName, Role} from 'src/app/models';
 import {compare } from 'fast-json-patch';
 import * as _ from 'lodash';
 import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
@@ -22,14 +22,15 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   loading = false;
   canReset: boolean = true;
   form: FormGroup;
-  roles = Object.values(RoleName);
+  
   updateHandler: any;
   deleteHandler: any;
   error: any ="";
   formHandler: any;
-  test:any;
+
   model : Employee;
-  
+  roles: Role[];
+
   constructor(
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
@@ -42,16 +43,17 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     
   ngOnInit() {
+
     //elimino el valor Voluntario y Admin y deshabilito la opcion de resetear password.
     if(this.user.users.roleName=='Admin'){ 
-      this.roles.splice(0,1); 
+      this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !=='Voluntario');
       this.canReset = true;
     }  
     else {
-      this.roles.splice(0,2);
+      this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !=='Voluntario' && 'Admin');
       this.canReset = false
     }
-
+    //Se le asigna el modelo de formulario.
     this.form = this.userService.EmployeeForm;
 
     const staffs = this.estates;
@@ -65,32 +67,45 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.user.users.estates.estatesTimes.forEach(times => staffs.push(this.userService._employeeForm.group(times)));
     //clono al usuario original
     this.model = _.cloneDeep(this.user);
+    //Se obtiene el role y se le asigna al formulario el ID de dicho rol.
+    let id =(this.roles.find(name => name.RoleName === this.user.users.roleName));
+    this.roleID.patchValue(id.roleID)
+
+    // Se deshabilita el formulario
      this.f.disable();
   }
 
   // getter para acortar el acceso a la variable
   public get f() { return this.form }
  //getter para acortar acceso a horarios laborales
-  get estates(): FormArray {
-    return this.form.get('users.estates.estatesTimes') as FormArray;
+  get estates(): FormArray { return this.form.get('users.estates.estatesTimes') as FormArray; }
+
+  get roleID(){ return this.form.get('users.FK_RoleID') }
+
+  get roleName(){ return this.form.get('users.roleName') }
+
+
+  setRole(){
+  let role = (this.roles.find(name => name.RoleName === this.roleName.value));
+  this.roleID.patchValue(role.roleID);
+
   }
+
   onSubmit(){
 
     this.submitted = true;
       // resetea las alertas.
-      this.alertService.clear();
+    this.alertService.clear();
 
       // checkea si el formulario es valido.
       if (this.f.invalid) {
         console.log('form invalido');
-          return;
-      }
+          return;}
+    
     this.loading = true;
 
     //Compara los cambios realizados del modelo clonado al principio
-    const patch = compare(this.model, this.user);
-    (patch.length !== 0) ? this.updateUser(patch) : this.loading = false;
-    
+    this.patch();
   }
 
   ngAfterViewInit(): void {
@@ -99,7 +114,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.formHandler = this.f.valueChanges
     .subscribe((change: Employee) => 
       {
-      this.user = change;      
+      this.user = change;
     },
     error => {
       this.error = error;
@@ -145,16 +160,22 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
     else {
     (this.model.users.userAvailability) ? this.f.get('users.userAvailability').setValue(false) : this.f.get('users.userAvailability').setValue(true);
-    const patch = compare(this.model, this.user);
-    (patch.length !== 0) ? this.updateUser(patch) : this.loading = false;
-    }
-    
-      
-    },
+      this.patch();
+  }},
     cancel =>{ 
       this.loading = false;
       console.log('Acción cancelada con: ' + cancel);
     }); 
+  }
+
+  patch(){
+    let patch = compare(this.model, this.user);
+
+    patch = patch.filter( obj => obj.path !== "/users/roleName");
+    console.log(patch);
+
+    (patch.length !== 0) ? this.updateUser(patch) : this.loading = false;
+
   }
 
   deleteUser(id) {

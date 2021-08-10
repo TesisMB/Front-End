@@ -146,7 +146,7 @@ resetForm (): void{
 passwordMatchValidator(): boolean {
   let result;
       result = this.form.get('newPassword').value === this.form.get('passwordRepeat').value
-     ? (this.f.newPassword.valid, this.alertService.warn('Las contraseñas deben ser iguales')) : this.f.newPassword.invalid;
+     ? this.f.newPassword.valid : (this.f.newPassword.invalid, this.alertService.warn('Las contraseñas deben ser iguales'));
      console.log('Password iguales?: '+result);
      return result;
 }

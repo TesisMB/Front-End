@@ -1,20 +1,27 @@
+import { Role } from 'src/app/models';
+import { TableService } from 'src/app/services/_table.service/table.service';
 import { UserService } from './../index';
 import { AlertService} from '../../services';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+
+
 @Component({
 selector: 'register',
 templateUrl: './register.component.html',
 styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
     error: any = "";
     registerHandler: any;
+    genre = [{value: 'M', viewValue:'Masculino'},{value: 'F', viewValue:'Femenino'}, {value: 'O', viewValue:'Otrx'}];
+    estate = [{value: 1 , viewValue:'Filial Cordoba'},{value: 2 , viewValue:'Filial Rio Tercero'},{value: 3 , viewValue:'Filial Jesus Maria'},]
+    roles: Role[];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -22,34 +29,48 @@ export class RegisterComponent implements OnInit {
         private route: ActivatedRoute,
         private userService: UserService,
         private alertService: AlertService,
-    ) {}
+        private tableService: TableService
+    ) {
+    //   if(this.user.users.roleName=='Admin'){ 
+    //   this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !=='Voluntario');
+    //   this.canReset = true;
+    // }  
+    // else {
+    //   this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !=='Voluntario' && 'Admin');
+    //   this.canReset = false
+    // }
+
+        this.roles = this.userService.listarRoles;
+    }
 
     ngOnInit() {
       this.registerForm = this.formBuilder.group({
         users: this.formBuilder.group({
-          userDni:      ['', [Validators.required,Validators.maxLength(8),Validators.pattern("[0-9]{7,15}")]],
-          FK_RoleID:    [1, Validators.required],
-          FK_EstateID:    [1, Validators.required],
-          userPassword: ['admin123'],
-          persons: this.formBuilder.group({
+          userDni:      ['', [Validators.required,Validators.pattern("[0-9]{7,8}")]],
+          FK_RoleID:    ['', Validators.required],
+          FK_EstateID:    ['', Validators.required],
+        persons: this.formBuilder.group({
             firstName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,254}")]],
             lastName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,254}")]],
             phone:    ['', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
             gender:    ['', Validators.required],
             email:    ['',[Validators.required,Validators.email]],
-            address: [''],
+            address: ['',[Validators.required]],
             birthdate: ['', [Validators.required,Validators.pattern("[0-9]{4}-[0-9]{2}-[0-9]{2}")]],
           })
         })
       });
-    //    this.registerForm.valueChanges.subscribe(() => console.log(this.formPerson.valid));
+      //  this.registerForm.valueChanges.subscribe(() => console.log(this.gender));
     }
 
     // Es un getter conveniente para facilitar el acceso a los campos del formulario
     get f() { return this.registerForm.controls; }
     get formUser () { return this.registerForm.get('users');}
     get formPerson () { return this.registerForm.get('users.persons');}
-    
+    get gender() {return this.registerForm.get('users.persons.gender');}
+    get formRoles () { return this.registerForm.get('users.FK_RoleID');}
+    get formEstate () { return this.registerForm.get('users.FK_EstateID');}
+
     
 
     onSubmit() {
@@ -58,24 +79,25 @@ export class RegisterComponent implements OnInit {
         //Resetea las alertas
         this.alertService.clear();
         // STOP si el formulario es invalido.
-        //*Falta Mensaje de alerta avisando que no se registro exitosamente. */
         if (this.registerForm.invalid) {
           console.log("No registró");
             return;
         }
-        this.register();
         this.loading = true;
+        this.register();
         
     }
 
-    register(){
+  private register(){
       this.registerHandler = this.userService.register(this.registerForm.value)
       .pipe(first())
       .subscribe(
           data => {
-              this.alertService.success('Registro exitoso :)', { keepAfterRouteChange: true, autoClose: true });
-              this.router.navigate(['/'], { relativeTo: this.route });
+              this.alertService.success('Registro exitoso :)', { autoClose: true });
+             // this.router.navigate(['/'], { relativeTo: this.route });
+              this.tableService.uploadTable();
               this.loading = false;
+
           },
           error => {
               this.error = error;

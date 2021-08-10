@@ -69,12 +69,11 @@
   <div class="form-row">
     <div class="form-group col">
       <label for="dni" class="first"><strong class="info" >Documento</strong></label>
-      <input type="text" formControlName="userDni" required name="dni" id="dni" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('users.userDni').errors }">
-      <div *ngIf="submitted && f.get('users.userDni').errors" class="invalid-feedback">
-        <div *ngIf="f.get('users.userDni').errors.required"><small>*Campo requerido</small></div>
-    </div>
+      <p class="form-control">{{user.users.userDni}}</p>
   </div>
   </div>
+  
+
   <ng-container formGroupName="persons">
   <div class="form-row">
     <div class="form-group col">
@@ -93,7 +92,7 @@
   <div class="form-row">
     <div class="form-group col">
       <label for="date" class="first"><strong class="info" >Fecha de nacimiento</strong></label>
-      <input type="datetime" formControlName="birthdate" required name="date" id="date" class="form-control" [ngModel]="user.users.persons.birthdate" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.birthdate').errors }" >
+      <input type="datetime" formControlName="birthdate" required name="date" id="date" class="form-control" [ngModel]="user.users.persons.birthdate | date:'yyyy-MM-dd'" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.birthdate').errors }" >
       <div *ngIf="submitted && f.get('users.persons.birthdate').errors" class="invalid-feedback">
         <div *ngIf="f.get('users.persons.birthdate').errors.required"><small>*Campo requerido</small></div>
     </div>
@@ -147,8 +146,8 @@
     <div class="form-row">
       <div class="form-group col">
     <label for="role" class="first"><strong class="info">Cargo</strong></label>
-    <select required formControlName="roleName" class="form-control info" [ngClass]="{ 'is-invalid': submitted && f.get('users.roleName').errors }">
-      <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+    <select required formControlName="roleName" (change)="setRole()" class="form-control info" [ngClass]="{ 'is-invalid': submitted && f.get('users.roleName').errors }">
+      <option *ngFor="let role of roles"  [ngValue]="role.RoleName">{{role.RoleName}}</option>
     </select>
     <div *ngIf="submitted && f.get('users.roleName').errors" class="invalid-feedback">
       <div *ngIf="f.get('users.roleName').errors.required"><small>*Campo requerido</small></div>
@@ -156,7 +155,12 @@
   </div>
 </div>
 
-
+<div class="form-row" formGroupName="estates">
+  <div class="form-group col">
+  <label for="estateType" class="first"><strong>Lugar de trabajo</strong></label>
+  <p class="form-control">{{user.users.estates.estateTypes}}</p>
+</div>
+</div>
 
     <div class="form-row" formGroupName="estates">  
       <div class="form-group col" formGroupName="locationAddress">
@@ -173,11 +177,7 @@
 <div class="form-row">
   <div class="form-group col" formGroupName="estates">
   <label for="workPhone" class="first"><strong>Telefono de la Filial</strong></label>
-  <input type="tel"
-  formControlName="estatePhone" class="form-control info" required name="" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.estatePhone').errors }">
-  <div *ngIf="submitted && f.get('users.estates.estatePhone').errors" class="invalid-feedback">
-    <div *ngIf="f.get('users.estates.estatePhone').errors.required"><small>*Campo requerido</small></div>
-</div>
+  <p class="form-control">{{user.users.estates.estatePhone}}</p>
 </div>
 </div>
 

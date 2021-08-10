@@ -1,199 +1,181 @@
-    <!-- Menu con Logo de Cruz Roja-->
      <div class="container-fluid">
-         <!-- <form id="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()"> -->
-           <!-- <div class="form-left">
-
-             <h2>Perfil</h2> -->
-
-              <!-- <label class="hoverable" for="fileInput">
-              <img class="avatar" [src]="url ? url : 'https://www.w3schools.com/howto/img_avatar.png'">
-              <input id="fileInput" type='file' (change)="onSelectFile($event)" formControlName="userAvatar"  [ngClass]="{ 'is-invalid': submitted && f.userAvatar.errors }" />
-           <div *ngIf="submitted && f.userAvatar.errors" class="invalid-feedback">
-              <div *ngIf="f.userAvatar.errors.required">*Campo requerido</div>
-          </div>
-              <div class="background"></div>
-            </label> -->
-
-              <!-- <div class="dni">
-               <input class="dniInput" type="text"  placeholder="Documento"  formControlName="userDni" name="userDni" [ngClass]="{ 'is-invalid': submitted && f.userDni.errors }" />
-               <div  *ngIf="submitted && f.userDni.errors" class="invalid-feedback">
-                <div *ngIf="f.userDni.errors.required">*Campo requerido</div>
-                <div *ngIf="f.userDni.errors.maxlength">Debe tener máximo 8 carácteres</div>
-                <div *ngIf="f.userDni.errors.pattern">Número Dni inválido</div>
-              </div>
-
-            </div>
-                <div class="password">
-               <input class="dniInput" type="password"  placeholder="Contraseña" formControlName="userPassword" [ngClass]="{ 'is-invalid': submitted && f.userPassword.errors }"/>
-               <div *ngIf="submitted && f.userPassword.errors" class="invalid-feedback">
-                   <div *ngIf="f.userPassword.errors.required">*Campo requerido</div>
-                   <div *ngIf="f.userPassword.errors.minlength">Debe tener mínimo 8 carácteres</div>
-                   <div *ngIf="f.userPassword.errors.maxlength">Debe tener máximo 16 carácteres</div>
-
-                </div>
-               </div>
-               </div>
- -->
-
-
+        
            <div class="form-center">
-             <!-- <h2>Datos del Usuario</h2>
-
-
-             <input class="nombreInput" type="text" formControlName="userFirstName" placeholder="Nombres" [ngClass]="{ 'is-invalid': submitted && f.userFirstName.errors }"/>
-             <div *ngIf="submitted && f.userFirstName.errors" class="invalid-feedback">
-
-              <div *ngIf="f.userFirstName.errors.required">*Campo requerido</div>
-              <div *ngIf="f.userFirstName.errors.pattern">*Nombre inválido</div>
-
-          </div>
-
-             <input class="apellidoInput" type="text" formControlName="userLastname" placeholder="Apellidos" [ngClass]="{ 'is-invalid': submitted && f.userLastname.errors }" />
-             <div *ngIf="submitted && f.userLastname.errors" class="invalid-feedback">
-              <div *ngIf="f.userLastname.errors.required">*Campo requerido</div>
-              <div *ngIf="f.userLastname.errors.pattern">Apellido inválido</div>
-
-          </div>
-
-             <input class="telefonoInput" type="text" placeholder="Telefono" formControlName="userPhone" [ngClass]="{ 'is-invalid': submitted && f.userPhone.errors }" />
-             <div *ngIf="submitted && f.userPhone.errors" class="invalid-feedback">
-              <div *ngIf="f.userPhone.errors.required">*Campo requerido</div>
-              <div *ngIf="f.userPhone.errors.pattern">Número de teléfono inválido - Ingrese tu número de teléfono completo.</div>
-
-
-          </div>
-
-             <input class="direccionInput" type="text" placeholder="Domicilio" formControlName="userAddress" [ngClass]="{ 'is-invalid': submitted && f.userAddress.errors }" />
-             <div *ngIf="submitted && f.userAddress.errors" class="invalid-feedback">
-              <div *ngIf="f.userAddress.errors.required">Campo requerido</div>
-          </div>
-
-
-             <label for="userGender" >Genero: </label>
-             <div class="Gender">
-             <input class="Gender-Gender" type="radio" id="male" name="userGender" value="M" formControlName="userGender"/>
-             <label class="Gender-Gender-text" for="male">Masculino</label><br>
-             <input class="Gender-Gender" type="radio" id="female" name="userGender" value="F" formControlName="userGender"/>
-             <label class="Gender-Gender-text" for="female">Femenino</label><br>
-             <input class="Gender-Gender" type="radio" id="other" name="userGender" value="O"formControlName="userGender" />
-             <label class="Gender-Gender-text" for="female">Otro</label>
-           </div>
-           <div *ngIf="submitted && f.userGender.errors" class="invalid-feedback">
-            <div *ngIf="f.userGender.errors.required">*Campo requerido</div>
-          </div>
-
-             <input class="correoInput" type="text" placeholder="Correo electronico" formControlName="userEmail"  [ngClass]="{ 'is-invalid': submitted && f.userEmail.errors }" />
-             <div *ngIf="submitted && f.userEmail.errors" class="invalid-feedback">
-              <div *ngIf="f.userEmail.errors.required">*Campo requerido</div>
-             <div *ngIf="f.userEmail.errors.email">*Correo electrónico inválido</div>
-
-        </div>
-
-             <input class="fechaInput" type="date" formControlName="userBirthdate"  [ngClass]="{ 'is-invalid': submitted && f.userBirthdate.errors }" />
-             <div *ngIf="submitted && f.userBirthdate.errors" class="invalid-feedback">
-              <div *ngIf="f.userBirthdate.errors.required">*Campo requerido</div>
-                            <div *ngIf="f.userBirthdate.errors.pattern">Fecha inválido</div>
-
-          </div>
-
-        <div class="role">
-             <select class="select" name="idRole" formControlName="roleID"  [ngClass]="{ 'is-invalid': submitted && f.roleID.errors }">
-               <option value="">Seleccione el puesto</option>
-               <option value="1">Administrador</option>
-               <option value="2">Coordinador General</option>
-               <option value="3">Coordinador de Emergencias y Desastres</option>
-               <option value="4" >Logistica</option>
-             </select>
-             <div *ngIf="submitted && f.roleID.errors" class="invalid-feedback">
-              <div *ngIf="f.roleID.errors.required">*Campo requerido</div>
-             </div>
-             </div>
-
-             <input class='enviar' type='submit' value='Register'>
-
-             <a routerLink="/home" >Cancelar</a> -->
-
-            <form [formGroup]="registerForm" id="form">
-             <mat-horizontal-stepper linear #stepper formGroupName="users">
-              <mat-step [stepControl]="formPerson" formGroupName="persons" errorMessage="Datos son requeridos.">
-                  <ng-template matStepLabel>Datos personales</ng-template>
-                  <mat-form-field>
-                  <div class=""> 
+            
+<form [formGroup]="registerForm" id="form">
+  <mat-horizontal-stepper linear #stepper formGroupName="users">
+    <mat-step [stepControl]="formPerson" formGroupName="persons" errorMessage="Datos son requeridos.">
+      <ng-template matStepLabel>Datos personales</ng-template>
+                   
+      <mat-grid-list cols="4" rowHeight="80px">
+                      
+              <mat-grid-tile>
+                <mat-form-field appearance="outline">
                     <mat-label>Nombre</mat-label>
-                    <input matInput placeholder="Nombres completos" formControlName="firstName" required>
-                  </div></mat-form-field>
-                  <mat-form-field>
-                   <div class="">
+                    <input matInput placeholder="Nombre completo" formControlName="firstName" required>
+                    <mat-error *ngIf="formPerson.get('firstName').hasError('pattern') && !formPerson.get('firstName').hasError('required')">
+                      Por favor ingresar un nombre valido
+                    </mat-error>
+                    <mat-error *ngIf="formPerson.get('firstName').hasError('required')">
+                      El nombre es <strong>requerido</strong>
+                    </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+                  <br>
+              <mat-grid-tile>
+                <mat-form-field appearance="outline">
                     <mat-label>Apellido</mat-label>
-                    <input matInput placeholder="Apellidos completos" formControlName="lastName" required>
-                   </div>
+                    <input matInput placeholder="Apellido completo" formControlName="lastName" required>
+                    <mat-error *ngIf="formPerson.get('lastName').hasError('pattern') && !formPerson.get('lastName').hasError('required')">
+                      Por favor ingresar un apellido valido
+                    </mat-error>
+                    <mat-error *ngIf="formPerson.get('lastName').hasError('required')">
+                      El apellido es <strong>requerido</strong>
+                    </mat-error>
                     </mat-form-field>
-                    <mat-form-field>
-                    <div class="">
+              </mat-grid-tile>
+                    <br>
+              <mat-grid-tile>
+                <mat-form-field appearance="outline">
                                          <mat-label>Dirección</mat-label>
                     <input matInput placeholder="Ex. Calle, Numero, Dpto/Lote/Portero" formControlName="address" required>
-
-                    </div></mat-form-field>
-                    <mat-form-field>
-                    <div class="">
+                    <mat-error *ngIf="formPerson.get('address').hasError('required')">
+                      La dirección es <strong>requerida</strong>
+                    </mat-error>
+                </mat-form-field>
+              </mat-grid-tile>
+                    <br>
+              <mat-grid-tile>
+                <mat-form-field appearance="outline">
                                          <mat-label>Email de contacto</mat-label>
                     <input matInput placeholder="Correo electronico" formControlName="email" required>
+                    <mat-error *ngIf="formPerson.get('email').hasError('email') && !formPerson.get('email').hasError('required')">
+                      Por favor ingresar un email valido
+                    </mat-error>
+                    <mat-error *ngIf="formPerson.get('email').hasError('required')">
+                      Email es <strong>requerido</strong>
+                    </mat-error>
+                    
+                </mat-form-field>
+              </mat-grid-tile>
+                  <br>
+              <mat-grid-tile>
+                <mat-form-field appearance="outline">
 
-                    </div></mat-form-field>
-                    <mat-form-field>
-                    <div class="">
-                                         <mat-label>Telefono de contacto</mat-label>
-                    <input matInput placeholder="(351)-5954878" formControlName="phone" required>
-
-                    </div></mat-form-field>
-                    <mat-form-field>
-                    <div class="">
-                                         <mat-label>Genero</mat-label>
-                    <input matInput placeholder="Nombre" formControlName="gender" required>
-
-                    </div></mat-form-field>
-                    <mat-form-field>
-                    <div class="">
+                  <mat-label>Telefono de contacto</mat-label>
+                  <input matInput placeholder="(351)-5954878" formControlName="phone" type="tel" required>
+                  <mat-error *ngIf="formPerson.get('phone').hasError('pattern') && !formPerson.get('phone').hasError('required')">
+                    Por favor ingresar un telefono valido
+                  </mat-error>
+                  <mat-error *ngIf="formPerson.get('phone').hasError('required')">
+                    El telefono es <strong>requerido</strong>
+                  </mat-error>
+                  </mat-form-field>
+                </mat-grid-tile>  
+                  <br>
+                <mat-grid-tile>  
+                  <mat-form-field appearance="outline">
+                    
+                    <mat-label>Genero</mat-label>
+                    <mat-select [formControl]="gender" name="gender">
+                      <mat-option *ngFor="let gender of genre" [value]="gender.value" required>
+                        {{gender.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formPerson.get('gender').hasError('required')">
+                      El genero es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </mat-grid-tile> 
+                  <br>
+                <mat-grid-tile>  
+                  <mat-form-field appearance="outline">
+                    
                                          <mat-label>Fecha de nacimiento</mat-label>
                     <input matInput type="date" placeholder="Nombre" formControlName="birthdate" required>
-
-                    </div></mat-form-field>
-                    
-                  
-                  
+                    <mat-error *ngIf="formPerson.get('birthdate').hasError('pattern') && !formPerson.get('birthdate').hasError('required')">
+                      Por favor ingresar una fecha valida
+                    </mat-error>
+                    <mat-error *ngIf="formPerson.get('birthdate').hasError('required')">
+                      La fecha es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </mat-grid-tile>    
+                  <br>
+                  </mat-grid-list>
                   <div>
+                    <button mat-button routerLink="/" type="button">Cancelar</button>
                     <button mat-button matStepperNext type="button">Siguiente</button>
                   </div>
               </mat-step>
               <mat-step [stepControl]="formUser"  errorMessage="Todos los datos son requeridos">
-                <!-- <form [formGroup]="secondFormGroup"> -->
                   <ng-template matStepLabel>Datos laborales</ng-template>
-                  <mat-form-field>
+                  <mat-grid-list cols="3" rowHeight="80px">
+                      
+                    <mat-grid-tile>
+                  <mat-form-field appearance="outline">
                     <mat-label>Documento</mat-label>
                     <input matInput placeholder="Documento de identidad" formControlName="userDni"
                            required>
+                           <mat-error *ngIf="formUser.get('userDni').hasError('pattern') && !formUser.get('userDni').hasError('required')">
+                            Por favor ingresar un documento valido
+                          </mat-error>
+                          <mat-error *ngIf="formUser.get('userDni').hasError('required')">
+                            El documento es <strong>requerido</strong>
+                          </mat-error>
                     </mat-form-field>
-                    <mat-form-field>      <mat-label>Cargo</mat-label>
-                    <input matInput placeholder="Cargo a desempeñar" formControlName="FK_RoleID"
-                           required></mat-form-field>
-                           <mat-form-field>   <mat-label>Direccion de trabajo</mat-label>
-                    <input matInput type="number" placeholder="Direccion" formControlName="FK_EstateID"
-                           required></mat-form-field>
+                    </mat-grid-tile>
+                    <br>
 
-                  
+                    <mat-grid-tile>  
+                      <mat-form-field appearance="outline">
+                        
+                        <mat-label>Cargo</mat-label>
+                        <mat-select [formControl]="formRoles" name="FK_RoleID">
+                          <mat-option placeholder='Cargo en la organización' *ngFor="let role of roles" [value]="role.roleID" required>
+                            {{role.RoleName}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formUser.get('FK_RoleID').hasError('required')">
+                          El cargo es <strong>requerido</strong>
+                        </mat-error>
+                      </mat-form-field>
+                    </mat-grid-tile>
+                    <br>
+                           <mat-grid-tile>  
+                            <mat-form-field appearance="outline">
+                              
+                              <mat-label>Lugar de trabajo</mat-label>
+                              <mat-select [formControl]="formEstate" name="FK_EstateID">
+                                <mat-option *ngFor="let estates of estate" [value]="estates.value" required>
+                                  {{estates.viewValue}}
+                                </mat-option>
+                              </mat-select>
+                              <mat-error *ngIf="formUser.get('FK_EstateID').hasError('required')">
+                               La filial es <strong>requerida</strong>
+                              </mat-error>
+                            </mat-form-field>
+                          </mat-grid-tile>
+                          <br>
+                          </mat-grid-list>
                   <div>
                     <button mat-button matStepperPrevious type="button">Atras</button>
                     <button mat-button matStepperNext type="button">Siguiente</button>
                   </div>
-                <!-- </form> -->
               </mat-step>
               <mat-step>
                 <ng-template matStepLabel>Finalizar</ng-template>
                 <p>¿Todo OK?</p>
-                <div>
+                <div class="">
                   <button mat-button matStepperPrevious type="button">Atras</button>
                   <button mat-button (click)="stepper.reset()">Resetear</button>
-                  <button mat-button type="submit" (click)="onSubmit()">Enviar</button>
+                  
+                  <button mat-button type="submit" [disabled]="loading" (click)="onSubmit()">
+                    <span class="text-center" *ngIf="loading">
+                      <i class="fas fa-spinner fa-lg fa-spin">
+                      </i>
+                    </span>
+                   <span *ngIf="!loading">Enviar</span></button>
                 </div>
               </mat-step>
             </mat-horizontal-stepper>
