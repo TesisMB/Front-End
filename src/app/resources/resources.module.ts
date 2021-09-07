@@ -8,10 +8,11 @@ import { VoluntariesComponent } from './voluntaries/voluntaries.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { MaterialsComponent } from './materials/materials.component';
 import { StatesComponent } from './states/states.component';
+import { LayoutResourcesComponent } from './layout/layout-resources.component';
 
 
 @NgModule({
-  declarations: [ResourcesComponent, MedicineComponent, VoluntariesComponent, VehiclesComponent, MaterialsComponent, StatesComponent],
+  declarations: [ResourcesComponent, MedicineComponent, VoluntariesComponent, VehiclesComponent, MaterialsComponent, StatesComponent, LayoutResourcesComponent],
   imports: [
     SharedModule,
     ResourcesRoutingModule

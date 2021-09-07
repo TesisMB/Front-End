@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../services/_authentication/authentication.service';
 import { TableService } from 'src/app/services/_table.service/table.service';
 import { AlertService } from './../../services/_alert.service/alert.service';
 import { Employee } from './../../models/employee';
@@ -5,10 +6,11 @@ import { Component, Input, OnInit, ViewEncapsulation, OnDestroy, AfterViewInit }
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray, FormGroup } from '@angular/forms';
 import { UserService } from '../user.service';
-import { RoleName, Role} from 'src/app/models';
+import { Role} from 'src/app/models';
 import {compare } from 'fast-json-patch';
 import * as _ from 'lodash';
 import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'ngbd-modal-component',
@@ -25,8 +27,9 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   
   updateHandler: any;
   deleteHandler: any;
-  error: any ="";
   formHandler: any;
+  resetHandler: any;
+  error: any ="";
 
   model : Employee;
   roles: Role[];
@@ -35,8 +38,9 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
     private tableService: TableService,
-    public userService: UserService,
-    public alertService: AlertService) {
+    private userService: UserService,
+    private alertService: AlertService,
+    private authenticationService: AuthenticationService ) {
     }
   
     @Input() user: Employee;
@@ -189,9 +193,29 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
       this.error = error;
       console.log(error);
     }
-  );
+  );}
 
+  generatePDF(){ 
+    let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
+    this.userService.generatePDF(this.user.employeeID).subscribe(res => {
+      const file = new Blob([res], { type: 'application/pdf' });
+    //  saveAs(file, fileName);
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    });
   }
+
+  resetPassword(){
+    this.resetHandler = this.authenticationService.sendEmail(this.user.users.persons.email)
+                        .subscribe(
+                          () => {
+                            this.alertService.success('Contraseña reseteada, por favor verifique su correo electronico.', {autoClose : true})
+                          },
+                          error => {this.error = error;
+                                    this.alertService.error('Ha ocurrido un error, porfavor intentar más tarde.',{autoClose: true});}
+                          );}
+
+  
  
 ngOnDestroy(){
   this.formHandler.unsubscribe();
@@ -201,5 +225,8 @@ ngOnDestroy(){
   if(this.deleteHandler){
     this.deleteHandler.unsubscribe();
   }
+  if(this.resetHandler){
+    this.resetHandler.unsubscribe();
+}
 }
 }

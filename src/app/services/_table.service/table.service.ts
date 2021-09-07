@@ -68,10 +68,7 @@ export class TableService {
     sortDirection: ''
   };
   constructor(private pipe: DecimalPipe, private service: UserService, private alertService: AlertService) { 
-    
-
-    this.uploadTable();
-    
+        
     this._search$.pipe(
     tap(() => this._loading$.next(true)),
     debounceTime(200),
@@ -119,7 +116,6 @@ public _setEmployee(patch:Employee){
 public uploadTable() {
 
   this.service.getAll()
- // .pipe(filter(empleados => empleados.users.userAvailability !== this._showAvailability$.value))
   .subscribe(
     (result: Employee[]) => {
       this.EMPLEADOS = result;

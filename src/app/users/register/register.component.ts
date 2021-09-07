@@ -6,6 +6,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 
 
 @Component({
@@ -40,10 +41,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     //   this.canReset = false
     // }
 
-        this.roles = this.userService.listarRoles;
     }
 
     ngOnInit() {
+      
+      this.roles = this.userService.listarRoles;
+
       this.registerForm = this.formBuilder.group({
         users: this.formBuilder.group({
           userDni:      ['', [Validators.required,Validators.pattern("[0-9]{7,8}")]],
@@ -52,7 +55,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         persons: this.formBuilder.group({
             firstName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,254}")]],
             lastName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,254}")]],
-            phone:    ['', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+            phone:    ['', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{9,11}$")]],
             gender:    ['', Validators.required],
             email:    ['',[Validators.required,Validators.email]],
             address: ['',[Validators.required]],
@@ -67,15 +70,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     get f() { return this.registerForm.controls; }
     get formUser () { return this.registerForm.get('users');}
     get formPerson () { return this.registerForm.get('users.persons');}
-    get gender() {return this.registerForm.get('users.persons.gender');}
-    get formRoles () { return this.registerForm.get('users.FK_RoleID');}
-    get formEstate () { return this.registerForm.get('users.FK_EstateID');}
-
     
 
     onSubmit() {
-
-        this.submitted = true;
         //Resetea las alertas
         this.alertService.clear();
         // STOP si el formulario es invalido.
@@ -106,7 +103,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
           });
     }
-
+        
     // onSelectFile(event) {
     //   if (event.target.files && event.target.files[0]) {
     //     let reader = new FileReader();

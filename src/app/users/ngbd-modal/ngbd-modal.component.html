@@ -10,7 +10,7 @@
         <ng-template   #popMenu >
           <button type="button" class="btn btn-option  btn-sm" (click)="onClick()"><mat-icon class="icon">mode_edit</mat-icon><span class="option-text">Actualizar datos</span> </button>
           
-          <button type="button" class="btn btn-option  btn-sm" ><mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span></button>
+          <button type="button" class="btn btn-option  btn-sm" (click)="generatePDF()"><mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span></button>
 
           <button *ngIf="user.users.userAvailability" type="button " class="btn btn-option-warning  btn-sm" (click)="changeStatus('Deshabilitar')">
             <mat-icon class="icon">person_remove</mat-icon>
@@ -155,12 +155,6 @@
   </div>
 </div>
 
-<div class="form-row" formGroupName="estates">
-  <div class="form-group col">
-  <label for="estateType" class="first"><strong>Lugar de trabajo</strong></label>
-  <p class="form-control">{{user.users.estates.estateTypes}}</p>
-</div>
-</div>
 
     <div class="form-row" formGroupName="estates">  
       <div class="form-group col" formGroupName="locationAddress">
@@ -174,6 +168,19 @@
   </div>
   </div>
 </div>
+
+<div class="form-row">
+  <div class="form-group col">
+  <label for="estateType" class="first"><strong>Ciudad y Tipo de sucursal</strong></label>
+  <div class="input-group">
+  <p class="form-control info" id="address">{{user.users.estates.locations.locationCityName}}</p>
+
+  <p class="form-control info" id="numberAddress">{{user.users.estates.estateTypes}}</p>
+    
+ </div>
+</div>
+</div>
+
 <div class="form-row">
   <div class="form-group col" formGroupName="estates">
   <label for="workPhone" class="first"><strong>Telefono de la Filial</strong></label>

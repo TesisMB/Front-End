@@ -1,4 +1,4 @@
-import {User, RoleName} from './index';
+import {User, RoleName, Estates} from './index';
 
 export interface Employee {
 
@@ -16,25 +16,7 @@ export interface Employee {
         gender: string;
         status: boolean;
     };
-    estates?: {
-        estateID: number,
-        estateTypes: string,
-        estatePhone: string,
-        locationAddress: {
-        locationAddressID: number,
-        postalCode: string,
-        address: string;
-        numberAddress: string;};
-        estatesTimes:[{
-                    times: { 
-                        startTime: number;
-                        endTime: number;
-                        schedules: {
-                        scheduleDate: string;
-                        };
-                    };
-                 }];
-                };
+    estates?: Estates;
     roleName: RoleName;
     token?: string;
     userID?: number;

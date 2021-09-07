@@ -1,5 +1,5 @@
-<router-outlet>
 <section class="Resources">
+
   <div class="title">
       <h1>Recursos</h1>
   </div>
@@ -16,9 +16,9 @@
 
               <div class="card-content">
                   <h3>Materiales</h3>
-                  <div class="arrow">
+                  <div class="arrow" routerLink="materiales">
                     <img src="../../assets/icons - Resources - EmergDesas/arrow-point-to-right.png" alt="">
-                    <a  class="" routerLink="materiales"></a>
+                    <a  class="" ></a>
                 </div>
               </div>
 
@@ -34,10 +34,10 @@
               </div>
 
               <div class="card-content">
-                  <h3>Humanos</h3>
-                  <div class="arrow">
+                  <h3>Voluntarios</h3>
+                  <div class="arrow" routerLink="voluntarios">
                     <img src="../../assets/icons - Resources - EmergDesas/arrow-point-to-right.png" alt="">
-                    <a  class="" routerLink="voluntarios"></a>
+                    <a  class="" ></a>
                 </div>
               </div>
 
@@ -53,10 +53,10 @@
 
               <div class="card-content">
                   <h3>Medicamentos</h3>
-                  <div class="arrow">
+                  <div class="arrow" routerLink="medicamentos">
                      
                     <img src="../../assets/icons - Resources - EmergDesas/arrow-point-to-right.png" alt="">
-                    <a  class="" routerLink="medicamentos"></a>
+                    <a  class="" ></a>
                 </div>
 
               </div>
@@ -71,11 +71,11 @@
                   <i class="icono-arg-vehiculo-autorizado-01"></i>
               </div>
 
-              <div class="card-content">
+              <div class="card-content" >
                   <h3>Vehiculos</h3>
-                  <div class="arrow">
+                  <div class="arrow" [routerLink]="['vehiculos']">
                     <img src="../../assets/icons - Resources - EmergDesas/arrow-point-to-right.png" alt="">
-                    <a  class="" [routerLink]="['vehiculos']"></a>
+                    <a  class="" ></a>
                 </div>
               </div>
 
@@ -83,4 +83,3 @@
       </div>
   </div>
 </section>
-</router-outlet>

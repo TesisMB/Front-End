@@ -13,7 +13,7 @@ export class DataService {
 
   constructor(protected http: HttpClient,
       protected patch:string,
-     protected authenticateService: AuthenticationService ) {}
+     protected authenticateService?: AuthenticationService ) {}
 
  
 

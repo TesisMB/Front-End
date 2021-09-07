@@ -1,47 +1,8 @@
-<!-- <div class="container-fluid">
-  <div class="title">
-    <h2>Lista de Empleados</h2>
-  </div>
-    <div class="row">
-    <button [routerLink]="['register']" class="btn btn-sm btn-success m-2">Agregar usuario</button>
-    <button class="btn btn-sm btn-secondary m-2" >Ver más</button>
-    <table class="table table-striped table-hover">
-      <thead >
-        <tr >
-          
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Cargo</th>
-          <th>Lugar de trabajo</th>
-          <th>Disponibilidad</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users; let i = index;" >
-          <td>{{user.users.persons.firstName | titlecase}}</td>
-          <td> {{user.users.persons.lastName| titlecase}}</td>
-          <td>{{user.users.roleName | titlecase}}</td>
-          <label for="workAddress"><td>{{user.users.estates.locationAddress.address}} {{user.users.estates.locationAddress.numberAddress| number}}</td></label>
-          <td><span for="status"  *ngIf="user.users.persons.status"><i [class.text-success]="user.users.persons.status" class="fas fa-circle"></i>      Disponible</span>
-            <span *ngIf="!user.users.persons.status"><i [class.text-danger]="!user.users.persons.status"class="fas fa-circle"></i>      No disponible</span></td>
-           <td id="modal" (click)="open(i)"><i class="fas fa-info-circle fa-lg fa-spin"></i></td>
-        </tr>
-        <tr *ngIf="!users">
-          <td colspan="4" class="text-center">
-            <span class="spinner-border spinner-border-lg align-center"></span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div> -->
-
-
  <div class="container-fluid">
    <header>
      <div class="title">
     <h2>Listado de empleados</h2>
+    <h4>Ciudad de {{ubication}}</h4>
   </div>
 </header>
   <div class="row">

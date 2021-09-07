@@ -10,8 +10,10 @@ import { CarouselComponent } from './';
 import {ClientHomeComponent} from './';
 import {LoginComponent} from './';
 import { LayoutComponent } from './index';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 @NgModule({
-  declarations: [LayoutComponent, ClientNavbarComponent,FooterComponent,CarouselComponent,ClientHomeComponent,LoginComponent],
+  declarations: [LayoutComponent, ClientNavbarComponent,FooterComponent,CarouselComponent,ClientHomeComponent,LoginComponent, ForgotPasswordComponent, ResetPasswordComponent],
   imports: [
     SharedModule,
     ClientRoutingModule,

@@ -1,9 +1,11 @@
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DataService } from '../services/data.service';
 import { Injectable} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticationService } from '../services';
 import { Role, RoleName } from '../models';
+import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 
 @Injectable({ providedIn: 'root' })
@@ -21,6 +23,14 @@ let roles: Role[];
   return roles;
 }
 
+public generatePDF(id): any {
+  const headers = new HttpHeaders().set('Accept', 'application/pdf');
+  return this.http.get(environment.URL + this.patch+'/pdf/'+id,  {
+    headers: headers,
+    observe: 'response',
+    responseType: 'blob' as 'json'
+  });
+}
 
 public get EmployeeForm () {
 return this._employeeForm.group({

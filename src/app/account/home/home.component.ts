@@ -1,3 +1,4 @@
+import { UserService } from './../../users/user.service';
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -12,12 +13,14 @@ import { User } from 'src/app/models';
 })
 export class HomeComponent implements OnInit {
   constructor(
-      private authenticationService: AuthenticationService,
-      private router: Router,
-      private alertService: AlertService
+  
   ) {
   }
 
+  
+
+
   ngOnInit() {
+
   }
 }

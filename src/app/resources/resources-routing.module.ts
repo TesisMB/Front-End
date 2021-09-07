@@ -1,3 +1,4 @@
+import { LayoutResourcesComponent } from './layout/layout-resources.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { MaterialsComponent } from './materials/materials.component';
 import { MedicineComponent } from './medicine/medicine.component';
@@ -8,15 +9,21 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ResourcesComponent } from './resources.component';
 
-const routes: Routes = [{ 
-  path: '',
-     component: ResourcesComponent,
-     children: [
-   
-      { path: 'voluntarios',
-     component: VoluntariesComponent,
-       canActivate:[AuthGuard],
-       data: {roles: [RoleName.CoordinadorGeneral,RoleName.Admin]}},
+const routes: Routes = [
+  { 
+     path: '',
+     component: LayoutResourcesComponent,
+     children:[
+       {
+         path: '',
+         component: ResourcesComponent
+       },
+     
+      { 
+      path: 'voluntarios',
+      component: VoluntariesComponent,
+      canActivate:[AuthGuard],
+      data: {roles: [RoleName.CoordinadorGeneral,RoleName.Admin]}},
  { 
       path: 'medicamentos',
       component: MedicineComponent},
@@ -25,11 +32,9 @@ const routes: Routes = [{
      component: MaterialsComponent
 },
 {     path: 'vehiculos',
-       component: VehiclesComponent
-      }
-        ]
-          }
-            ];
+      component: VehiclesComponent
+    }]}
+ ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

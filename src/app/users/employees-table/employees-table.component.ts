@@ -32,6 +32,7 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
 ngOnInit() {
     this.employees$ = this.service.employees$;
     this.total$ = this.service.total$;
+    this.service.uploadTable();
 
 }
   onShow(event){

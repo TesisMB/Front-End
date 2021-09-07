@@ -13,10 +13,6 @@ const routes: Routes = [
               path: '',
               component: ListComponent,
             },
-            // {
-           //   path: 'add',
-           //   component: AddResourceComponent
-       //  },
             {
               path: 'register',
               component: RegisterComponent,

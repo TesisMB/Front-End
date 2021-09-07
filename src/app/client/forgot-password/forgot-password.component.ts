@@ -1,26 +1,21 @@
-import { AlertService, AuthenticationService } from '../../services';
-import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-import { User } from 'src/app/models';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService, AlertService } from 'src/app/services';
 
 @Component({
-  selector: 'login',
-  templateUrl: 'login.component.html',
-  styleUrls: ['login.component.css']}
-)
-export class LoginComponent implements OnInit {
-    loginForm: FormGroup;
+  selector: 'forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.css']
+})
+export class ForgotPasswordComponent implements OnInit {
+
+    resetForm: FormGroup;
     loading = false;
     submitted = false;
     returnUrl: string;
     hide=true;
-    eyeHide = true;
-    currentUser: User;
     handler: any;
-    
 
     constructor(
         private formBuilder: FormBuilder,
@@ -29,7 +24,6 @@ export class LoginComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private alertService: AlertService
     ) {
-        this.currentUser = this.authenticationService.currentUserValue;
          //Redirecciona si el usuario esta logeado
          if (this.authenticationService.currentUserValue) {
             this.router.navigate(['/']);
@@ -38,21 +32,16 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
      
-        this.loginForm = this.formBuilder.group({
-            userDni: ['', Validators.required],
-            userPassword: ['', Validators.required]
-
+        this.resetForm = this.formBuilder.group({
+            email: ['', [Validators.required, Validators.email]]
         });
-           
+
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    }
+      }
     // convenience getter for easy access to form fields
-    get f() { return this.loginForm.controls; }
-    
+    get r() { return this.resetForm.controls; }
 
-
-    
 
     onSubmit() {
         this.submitted = true;
@@ -61,20 +50,25 @@ export class LoginComponent implements OnInit {
         this.alertService.clear();
 
         // Para aca si el form es invalido
-        if (this.loginForm.invalid) {
+        if (this.resetForm.invalid) {
             return;
         }
 
         this.loading = true;
        this.handler = this.authenticationService
-            .login(this.loginForm.get('userDni').value, this.loginForm.get('userPassword').value)
-            .pipe(first())
+            .sendEmail(this.resetForm.value)
+            .pipe()
             .subscribe(
                 data => {
-                    this.router.navigate([this.returnUrl]);
+                    console.log(data);
+                    this.alertService.info('Correo enviado, revise su correo electronico.', {autoClose: true})
+                   // this.router.navigate([this.returnUrl]);
+                     this.loading = false;
+
                 },
                 error => {
-                  this.alertService.error('Ha ingresado el usuario o la contraseña incorrectamente');
+                  console.log(error);
+                  this.alertService.error('Ha ocurrido un error :(', {autoClose: true});
                   this.loading = false;
                 });
     }
