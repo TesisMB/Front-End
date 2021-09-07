@@ -1,58 +1,58 @@
 <div class="Container">
-  
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
 
-    <div class="head">
-    <h1 class= "Title-1">Acceder</h1>
-    <img class="img" src="https://1.bp.blogspot.com/-XnYaCR8Oah4/XwzTOABWn3I/AAAAAAAABaY/-EyDoHPCIIQ6EAloBqlxoLnmyXWUu2DmwCLcBGAsYHQ/s320/cruzar.png">
-</div>
-<!------------------------------------DNI------------------------------------>
+        <div class="head">
+            <img class="img" src="https://1.bp.blogspot.com/-XnYaCR8Oah4/XwzTOABWn3I/AAAAAAAABaY/-EyDoHPCIIQ6EAloBqlxoLnmyXWUu2DmwCLcBGAsYHQ/s320/cruzar.png">
+            <h1 class="Title-1">Acceder</h1>
+        </div>
+        <!------------------------------------DNI------------------------------------>
 
-  <div class="dni">
-    <input  type="text" formControlName="userDni" autocomplete="off" required [ngClass]="{ 'is-invalid': submitted && f.userDni.errors }">
-    <label for="userDni" class="labelDni">
+        <div class="dni">
+            <input type="text" formControlName="userDni" autocomplete="off" required [ngClass]="{ 'is-invalid': submitted && f.userDni.errors }">
+            <label for="userDni" class="labelDni">
      <span class="contentDni">Documento</span></label>
 
 
-      <div *ngIf="submitted && f.userDni.errors" class="invalid-feedback">
-        <div *ngIf="f.userDni.hasError('required')">*Campo obligatorio</div>
-      </div>
+            <div *ngIf="submitted && f.userDni.errors" class="invalid-feedback">
+                <div *ngIf="f.userDni.hasError('required')">*Campo obligatorio</div>
+            </div>
 
-      </div>
+        </div>
 
-    <div class="icons">
+        <div class="icons">
 
-         <!-- Añadir un icono de un ojo que permita poder visualizar la contraseña-->
-         <div class="eye" style="position: relative; top:50px ;left: 250px;">
-          <span class="material-icons" matsuffix (click)="eyeHide = !eyeHide" >
+            <!-- Añadir un icono de un ojo que permita poder visualizar la contraseña-->
+            <div class="eye" style="position: relative; top:50px ;left: 250px;">
+                <span class="material-icons" matsuffix (click)="eyeHide = !eyeHide">
           {{eyeHide ? 'visibility_off':'visibility'}}</span></div>
 
 
-      <!------------------------------------Password------------------------------------>
-      <!-- Añadir un icono de un ojo que permita poder visualizar la contraseña-->
-      <input   type="password" [type]="eyeHide ? 'password':'text'" formControlName="userPassword" required  [ngClass]="{ 'is-invalid': submitted && f.userPassword.errors }">
+            <!------------------------------------Password------------------------------------>
+            <!-- Añadir un icono de un ojo que permita poder visualizar la contraseña-->
+            <input type="password" [type]="eyeHide ? 'password':'text'" formControlName="userPassword" required [ngClass]="{ 'is-invalid': submitted && f.userPassword.errors }">
 
-      <label for="userPassword" class="labelPassword">
+            <label for="userPassword" class="labelPassword">
         <span class="contentPassword">Contraseña</span></label>
 
 
-        <div *ngIf="submitted && f.userPassword.errors" class="invalid-feedback">
-        <div *ngIf="f.userPassword.hasError('required')">*Campo obligatorio</div>
-      </div>
+            <div *ngIf="submitted && f.userPassword.errors" class="invalid-feedback">
+                <div *ngIf="f.userPassword.hasError('required')">*Campo obligatorio</div>
+            </div>
 
-    </div>
+        </div>
         <button type="submit" [disabled]="loading" class="btn btn-login">
           <span *ngIf="loading" ></span> Ingresar
         </button>
         <div class="buttons mt-2">
 
-        <a class="btn" id="cancelar" routerLink='/cliente'>Cancelar</a>
+            <a class="btn" id="cancelar" routerLink='/cliente'>Cancelar</a>
 
-        <a type="button" class="btn btn-forgot p-2" routerLink='/cliente/recuperar-contraseña' id="forgot-password"> ¿Olvidaste la contraseña?</a>
-</div>
+            <a type="button" class="btn btn-forgot" routerLink='/cliente/recuperar-contraseña' id="forgot-password"> ¿Olvidaste la contraseña?</a>
+        </div>
 
-</form>
+    </form>
 
 
 </div>
