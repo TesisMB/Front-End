@@ -1,0 +1,67 @@
+*{
+  outline: none;
+}
+.head {
+  margin: 10px 10px 30px 10px;
+}
+.head h1 {
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+}
+
+h2{
+  margin: 0 !important;
+}
+
+.card-out_of_stock{
+  filter: grayscale(0.4) opacity(0.4);
+}
+
+
+a{
+  text-decoration: none;
+  color: #000;
+}
+a:hover{
+  color: red;
+}
+.imagen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  position: relative; 
+  overflow: hidden;
+  z-index: 0;
+}
+
+.status {
+  height: 26px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.status .status-out_of_stock{
+  border-color: #333;
+  background: #333;
+  color: #fff;
+}
+
+.status .status-with_stock{
+  border-color:green;
+  background: green;
+  color: #fff;
+}
+
+.status span{
+  border: 1px solid #ccc;
+  font-weight: 600;
+  border-radius: 4px;
+  margin-right: 3px;
+  font-size: 10px;
+  display: inline-block;
+  padding: 0 4px;
+}

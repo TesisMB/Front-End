@@ -46,9 +46,13 @@
         
 </td>
     </tr>
-    <tr *ngIf="!(employees$ | async)">
-      <td colspan="7" class="text-center">
+    <tr *ngIf="(employees$ | async).length == 0">
+      <!--******************* Spinner - se debe refactorizar  **************************-->
+      <!-- <td *ngIf="(employees$ | async) == null" colspan="7" class="text-center" >
         <span class="spinner-border spinner-border-lg align-center"></span>
+      </td> -->
+      <td *ngIf="(employees$ | async).length == 0" colspan="7" class="text-center">
+        <p class="align-center">No hay personal registrado.</p>
       </td>
     </tr>
     </tbody>

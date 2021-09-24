@@ -16,7 +16,7 @@ export class AuthenticationService   {
 
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
-  public patch = '/login'
+  public patch = 'login'
   constructor(private http: HttpClient, private router: Router, private modalService: NgbModal) {
     this.currentUserSubject = new BehaviorSubject<User>
     (JSON.parse(localStorage.getItem('currentUser')));

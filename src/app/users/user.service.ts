@@ -13,7 +13,7 @@ export class UserService extends DataService{
 
 
   constructor(http: HttpClient, public _employeeForm: FormBuilder, authenticateService: AuthenticationService) {
-    super(http, '/employees', authenticateService);
+    super(http, 'employees', authenticateService);
 }
 
 public get listarRoles(): Role[] {
@@ -23,14 +23,7 @@ let roles: Role[];
   return roles;
 }
 
-public generatePDF(id): any {
-  const headers = new HttpHeaders().set('Accept', 'application/pdf');
-  return this.http.get(environment.URL + this.patch+'/pdf/'+id,  {
-    headers: headers,
-    observe: 'response',
-    responseType: 'blob' as 'json'
-  });
-}
+
 
 public get EmployeeForm () {
 return this._employeeForm.group({

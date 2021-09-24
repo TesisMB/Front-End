@@ -5,3 +5,8 @@ export * from './person';
 export * from './estates';
 export * from './employee';
 export * from './inUser.model';
+export * from './material';
+export * from './medicine';
+export * from './resources.model';
+export * from './vehicle.model';
+export * from './volunteer.model';

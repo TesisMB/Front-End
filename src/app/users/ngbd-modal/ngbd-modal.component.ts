@@ -198,12 +198,13 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   generatePDF(){ 
     let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
     this.userService.generatePDF(this.user.employeeID).subscribe(res => {
-      const file = new Blob([res], { type: 'application/pdf' });
+      const file = new Blob([<any>res], {type: 'application/pdf'});
     //  saveAs(file, fileName);
-      const fileURL = URL.createObjectURL(file);
+      const fileURL = window.URL.createObjectURL(file);
       window.open(fileURL);
     });
   }
+
 
   resetPassword(){
     this.resetHandler = this.authenticationService.sendEmail(this.user.users.persons.email)

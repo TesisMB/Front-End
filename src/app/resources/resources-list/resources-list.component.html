@@ -1,0 +1,66 @@
+<section class="head justify-content-start">
+  <button (click)="onBack()" class="btn btn-secondary">Atrás</button>
+
+  <h1>Lista de {{ tipo | lowercase }}</h1>
+</section>
+<div class="row">
+  <aside class="col-4">
+    <h1>ASIDE</h1>
+  </aside>
+
+  <section class="col-8">
+    <div class="row row-cols-1 row-cols-md-3">
+      <ul *ngFor="let item of data">
+        <li>
+          <div class="col mb-4">
+            <div class="card h-100" [ngClass]="[item.availability  && item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']" >
+              <a [routerLink]="['/recursos', 'lista', tipo, item.id]">
+              <span class="imagen">
+                <img
+                src="../../../assets/img-materiales/{{ item.picture }}"
+                class="card-img-top"
+                alt="..."
+              />
+              </span>
+              
+              <div class="card-body">
+                <div>
+                  <h2 class="card-title">{{ item.name | titlecase }}</h2>
+                  <h6 *ngIf="item.materials" class="card-subtitle text-muted">
+                    de {{ item.materials.mark | titlecase }}
+                  </h6>
+                </div>
+
+                <p class="card-text">
+                  {{ item.description }}
+                </p>
+                
+              </div>
+            </a>
+              <div class="card-footer">
+              
+               <div class="status">
+                 <span [ngClass]="[item.availability == false || item.quantity <= 0 ? 'status-out_of_stock' : 'status-with_stock']"> 
+                   <p *ngIf="item.availability && item.quantity > 0">
+                    Cantidad : {{item.quantity | number}}
+                   </p >
+
+                   <p *ngIf="!item.availability || item.quantity <= 0">
+                      SIN STOCK
+                   </p>
+                 </span>
+               </div>    
+                
+                <small *ngIf="item.medicines" class="text-muted"
+                  >Fecha de vencimiento
+                  {{ item.medicines.medicineExpirationDate | date }}</small
+                >
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="pagination"><h1>PAGINATION</h1></div>
+  </section>
+</div>

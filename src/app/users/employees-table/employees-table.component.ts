@@ -15,7 +15,7 @@ import {SorteableDirective, SortEvent} from '../../directives/sorteable.directiv
    styleUrls: ['./employees-table.component.css'],
 })
 export class EmployeesTableComponent implements OnInit, OnDestroy {
-  employees$: Observable<Employee[]>;
+  employees$: Observable<Employee[]> ;
   total$: Observable<number>;
   getHandler: any="";
   patchHandler: any ="";
@@ -33,7 +33,6 @@ ngOnInit() {
     this.employees$ = this.service.employees$;
     this.total$ = this.service.total$;
     this.service.uploadTable();
-
 }
   onShow(event){
     this.service.showAvailability = event.checked; 
@@ -58,6 +57,7 @@ ngOnInit() {
   
 
 
-  ngOnDestroy(){   
+  ngOnDestroy(){  
+     
   }
 }
