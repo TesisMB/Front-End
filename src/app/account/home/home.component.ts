@@ -8,14 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  constructor(private hubService: SignalRService) {
+  constructor(
+  //  private hubService: SignalRService
+    ) {
   }
 
   ngOnInit() {
 
-    this.hubService.notificacion.subscribe(notif => {
-       console.log('****Recepción del mje****'); 
-      console.log(notif);
-    });
+    // this.hubService.notificacion.subscribe(notif => {
+    //    console.log('****Recepción del mje****'); 
+    //   console.log(notif);
+    // });
   }
 }

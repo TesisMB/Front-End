@@ -1,12 +1,29 @@
 *{
   outline: none;
+  /* box-sizing: border-box; */
 }
 .head {
-  margin: 10px 10px 30px 10px;
+  /* box-sizing: border-box; */
+  /* border-radius: 0.5em; */
+  margin: 15px 10px 30px 35px;
 }
 .head h1 {
   text-align: center;
 }
+
+.col-body, .col-aside  {
+  background-color: white;
+  border-radius: 10px;
+  
+}
+#row-aside {
+  max-width: 100%;
+}
+.col-aside {
+}
+.col-body {
+ /* max-height: 300px !important;  */
+}  
 
 ul {
   list-style-type: none;
@@ -19,7 +36,13 @@ h2{
 .card-out_of_stock{
   filter: grayscale(0.4) opacity(0.4);
 }
-
+.card {
+  /* box-sizing: border-box; */
+  margin-top: 1.5em ;
+}
+.card-body{
+  text-align: center;
+}
 
 a{
   text-decoration: none;
@@ -36,6 +59,8 @@ a:hover{
   position: relative; 
   overflow: hidden;
   z-index: 0;
+  min-height: 100px;
+  max-height: 216px;
 }
 
 .status {

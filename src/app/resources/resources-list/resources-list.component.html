@@ -1,20 +1,29 @@
-<section class="head justify-content-start">
+<section class="head row">
+  <div class="col-2">
   <button (click)="onBack()" class="btn btn-secondary">Atrás</button>
-
-  <h1>Lista de {{ tipo | lowercase }}</h1>
+  </div>
+<div class="col-8">
+      <h1>Lista de {{ tipo | lowercase }}</h1>
+  </div>
 </section>
-<div class="row">
-  <aside class="col-4">
-    <h1>ASIDE</h1>
+<div class="row justify-content-around" id="row-aside">
+  <aside class="col-2 col-aside">
+    <div class="aside">
+          <h1>ASIDE</h1>
+    </div>
   </aside>
 
-  <section class="col-8">
+  <section class="col-8 col-body">
     <div class="row row-cols-1 row-cols-md-3">
       <ul *ngFor="let item of data">
         <li>
           <div class="col mb-4">
             <div class="card h-100" [ngClass]="[item.availability  && item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']" >
+              
               <a [routerLink]="['/recursos', 'lista', tipo, item.id]">
+                <div class="card-header">
+
+                </div>
               <span class="imagen">
                 <img
                 src="../../../assets/img-materiales/{{ item.picture }}"
@@ -22,10 +31,13 @@
                 alt="..."
               />
               </span>
-              
+
               <div class="card-body">
+                <ng-container *ngIf="item.volunteers; then volunteers else notVolunteers"></ng-container>
+
+               <ng-template #notVolunteers>
                 <div>
-                  <h2 class="card-title">{{ item.name | titlecase }}</h2>
+                  <h2 class="card-title justify-content">{{ item.name | titlecase }}</h2>
                   <h6 *ngIf="item.materials" class="card-subtitle text-muted">
                     de {{ item.materials.mark | titlecase }}
                   </h6>
@@ -34,7 +46,21 @@
                 <p class="card-text">
                   {{ item.description }}
                 </p>
-                
+              </ng-template>
+              <ng-template #volunteers>
+              <div>
+                <h2 class="card-title">{{ item.volunteers.users.persons.firstName | titlecase }}
+                  {{ item.volunteers.users.persons.lastName | titlecase }}
+                </h2>
+                <h6 class="card-subtitle text-muted">
+                  de {{ item.estates.locations.locationCityName | titlecase }}
+                </h6>
+              </div>
+
+              <p class="card-text">
+                {{ item.description }}
+              </p>
+              </ng-template>
               </div>
             </a>
               <div class="card-footer">
@@ -46,8 +72,9 @@
                    </p >
 
                    <p *ngIf="!item.availability || item.quantity <= 0">
-                      SIN STOCK
+                      NO DISPONIBLE
                    </p>
+                   
                  </span>
                </div>    
                 

@@ -7,10 +7,15 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NestedTreeControl } from '@angular/cdk/tree';
 
 interface FoodNode {
-  name: string;
+  name: string,
   patch?: string,
   icon: string,
-  children?: FoodNode[];
+  children?: FoodNode[],
+}
+
+interface Notifications{
+  hasNotifications: boolean,
+  number: number,
 }
 
 const TREE_DATA: FoodNode[] = [
@@ -83,6 +88,8 @@ export class AppComponent implements OnDestroy{
 currentUser: User;
 error:any= "";
 handler: any;
+
+notifications: Notifications = {hasNotifications: true, number:22};
 mobileQuery: MediaQueryList;
 treeControl = new NestedTreeControl<FoodNode>(node => node.children);
 dataSource = new MatTreeNestedDataSource<FoodNode>();

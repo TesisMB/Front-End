@@ -135,7 +135,11 @@
   
   /* --------------------------------------Nav user-------------------------------------- */
   #perfil {
-margin-right: 25px;  }
+    display: flex;
+    width: 150px;
+    justify-content: space-between;
+    margin-right: 35px;
+}
   /* user */
   .dropdown-menu {
     width: 200px;
@@ -226,4 +230,10 @@ margin-right: 25px;  }
     background-color:unset;
     color: unset;
   }
-  
+
+  .material-icons{
+    font-size: 40px;
+  }
+  .mat-icon{
+    width: 44px;
+  }
