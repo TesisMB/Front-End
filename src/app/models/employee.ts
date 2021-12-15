@@ -1,8 +1,10 @@
+import { Location } from './estates';
 import {User, RoleName, Estates} from './index';
 
 export interface Employee {
 
     employeeID: number;
+    employeeCreatedate?: string;
     users: {
         userDni: string;
     userAvailability?: boolean;
@@ -16,10 +18,11 @@ export interface Employee {
         gender: string;
         status: boolean;
     };
+    locations: Location;
     estates?: Estates;
     roleName: RoleName;
-    token?: string;
     userID?: number;
+    token?: string;
     UserPassword?: string;
     UserNewPassword?: string;
 }

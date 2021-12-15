@@ -6,8 +6,8 @@
             <img src="assets/img-home-users/Logo.png" alt="">
         </div>
         <div id="perfil">
-            <div *ngIf="notifications.hasNotifications; else isNot"><button mat-icon-button><mat-icon matBadge="{{notifications.number}}" matBadgeColor="warn">notifications_active</mat-icon></button></div>
-            <ng-template #isNot><button mat-icon-button class="mr-4"><mat-icon>notifications</mat-icon></button></ng-template>
+            <div *ngIf="notifications.hasNotifications; else isNot"><button [ngbPopover]="popNotify" popoverClass="option" container="body" mat-icon-button><mat-icon matBadge="{{notifys.length}}" matBadgeColor="warn">notifications_active</mat-icon></button></div>
+            <ng-template #isNot><button [ngbPopover]="popNotify" popoverClass="option" container="body" mat-icon-button class="mr-4"><mat-icon>notifications</mat-icon></button></ng-template>
             <a class="fas fa-user-circle fa-2x" id="user" data-toggle="dropdown"></a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <div class="first-title ">
@@ -20,7 +20,21 @@
                 </ul>
             </div>
         </div>
+
+        <ng-template   #popNotify >
+<ul class="notify-menu">
+    <li *ngFor="let notifys of notifys">
+        <div class="notify-list">
+            <span>
+                {{notifys.message}}
+             </span>
+    </div>
+    </li>
+</ul>
+          </ng-template>
+
     </mat-toolbar>
+    
 
     <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
         <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">

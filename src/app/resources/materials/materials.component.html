@@ -1,22 +1,49 @@
+<div class="d-flex flex-sm-column">
 <section class="head row">
     <div class="col-4">
       <button (click)="onBack()" class="btn btn-secondary">Atrás</button>
       </div>
-    <div class="col-6">
+    <div class="col-4">
       <h1>Detalle del producto</h1>
     </div>
   </section>
-  <div class="row">
-    <section class="col-8">
-      <div class="row row-cols-1 row-cols-md-3 body">
-        
-      </div>
-      <div class="pagination"><h1>PAGINATION</h1></div>
+<ng-container *ngIf="item">
+
+  <section class="center row">
+    <section class="img col-6">
+        <img src="../../../assets/img-materiales/{{ item.picture }}" alt="{{item.description}}">
     </section>
-    <aside class="col-4">
-      <h1>ASIDE</h1>
+    <aside class="request d-flex col-4">
+      <div class="title">
+        <span><h3>Descripcion</h3></span>
+      </div>
+      <div class="descripcion">
+        <span>  {{item.description}}  </span>
+      </div>
+      <div class="boton">
+        <button class="btn btn-sm btn-danger" (click)="requestItem()">Solicitar</button>
+      </div>
     </aside>
-  
-    
-  </div>
-  
+  </section>
+  <section class="center row">
+    <section class="f-tec col-6">
+      <div class="m-3">
+
+        <table class="table table-striped table-bordered">
+          <tbody>
+          <tr *ngFor="let title of titles;" >
+            <th scope="row">{{ title.label }}</th>
+            <td>
+              {{ title.content | json}}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <aside class="info col-4">
+      <h4>Informacion</h4>
+    </aside>
+  </section>
+</ng-container>
+</div>

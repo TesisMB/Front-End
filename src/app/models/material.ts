@@ -1,8 +1,8 @@
 
 export class Material {
-  mark: string;
+  brand: string;
 
-  constructor(_mark: string) {
-    this.mark = _mark;
+  constructor(_brand: string) {
+    this.brand = _brand;
   }
 }

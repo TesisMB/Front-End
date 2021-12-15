@@ -5,89 +5,168 @@
 <div class="col-8">
       <h1>Lista de {{ tipo | lowercase }}</h1>
   </div>
+  <div class="d-flex align-items-center ml-auto bd-highlight" id="search"> 
+      <span class="mr-3 text-center" *ngIf="false" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
+      <input class="form-control ml-3" type="text" name="searchTerm"  placeholder="Filtrado por letra" />
+</div>
 </section>
 <div class="row justify-content-around" id="row-aside">
-  <aside class="col-2 col-aside">
-    <div class="aside">
-          <h1>ASIDE</h1>
-    </div>
-  </aside>
 
-  <section class="col-8 col-body">
-    <div class="row row-cols-1 row-cols-md-3">
-      <ul *ngFor="let item of data">
+  <section class="col-12 col-body">
+    <div class="row row-cols-md-4">
+      <ul *ngFor="let item of data | async">
         <li>
-          <div class="col mb-4">
-            <div class="card h-100" [ngClass]="[item.availability  && item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']" >
+          <div class="col mb-3">
+            
+            <div class="card h-100" [ngClass]="[item.availability  || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']" >
               
               <a [routerLink]="['/recursos', 'lista', tipo, item.id]">
                 <div class="card-header">
-
+                  <div *ngIf="item.volunteers || item.vehicles" class="d-flex justify-content-sm-center">
+                    <span class="mb-2">
+                      <strong *ngIf="item.volunteers"> ID: {{item.volunteers.dni}}</strong>
+                      <strong *ngIf="item.vehicles" >Patente: {{item.vehicles.vehiclePatent}}</strong>
+                    </span>
+                  </div>
+                  <span class="imagen">
+                                  <img
+                                  src="../../../assets/img-materiales/{{ item.picture }}"
+                                  class="card-img-top"
+                                  alt="..."
+                                />
+                                </span>
                 </div>
-              <span class="imagen">
-                <img
-                src="../../../assets/img-materiales/{{ item.picture }}"
-                class="card-img-top"
-                alt="..."
-              />
-              </span>
+              
 
               <div class="card-body">
+                <h2 class="card-title justify-content">{{ item.name | titlecase }}</h2>
+                
                 <ng-container *ngIf="item.volunteers; then volunteers else notVolunteers"></ng-container>
 
                <ng-template #notVolunteers>
                 <div>
-                  <h2 class="card-title justify-content">{{ item.name | titlecase }}</h2>
                   <h6 *ngIf="item.materials" class="card-subtitle text-muted">
-                    de {{ item.materials.mark | titlecase }}
+                    de {{ item.materials.brand | titlecase }}
+                  </h6>
+                  <h6 *ngIf="item.vehicles" class="card-subtitle text-muted">
+                    de {{ item.locationCityName | titlecase }}
+                  </h6>
+                       <div *ngIf="item.medicines" class="medicine-body card-subtitle text-muted">
+                    <h6>
+                    {{item.medicines.medicineLab}}
+                  </h6>
+                  <h6 >
+                     {{item.medicines.medicineDrug}} {{item.medicines.medicineWeight}} {{item.medicines.medicineUnits}}
                   </h6>
                 </div>
-
+                <hr>
                 <p class="card-text">
                   {{ item.description }}
                 </p>
+                </div>
+
               </ng-template>
               <ng-template #volunteers>
               <div>
-                <h2 class="card-title">{{ item.volunteers.users.persons.firstName | titlecase }}
-                  {{ item.volunteers.users.persons.lastName | titlecase }}
-                </h2>
                 <h6 class="card-subtitle text-muted">
-                  de {{ item.estates.locations.locationCityName | titlecase }}
+                  de {{ item.locationCityName | titlecase }}
                 </h6>
               </div>
+              <hr>
+              <div class="d-flex flex-sm-row bd-highlight">
+              <div class="d-flex flex-sm-column p-2 w-100 bd-highlight justify-content-between">
+                <mat-icon aria-hidden="false" aria-label="Email" >email</mat-icon>
+                <mat-icon aria-hidden="false" aria-label="Phone number" >call</mat-icon>
 
-              <p class="card-text">
-                {{ item.description }}
-              </p>
+                </div>
+                <div class="d-flex flex-sm-column p-2 flex-shrink-1 bd-highlight align-items-sm-baseline
+                ">
+                  <span class="card-subtitle text-muted p-2">
+                    {{item.volunteers.email}}</span>
+                <span class="card-subtitle text-muted p-2"> {{item.volunteers.phone}}</span>
+              </div>
+                </div>
+              
               </ng-template>
+
+
               </div>
             </a>
               <div class="card-footer">
-              
                <div class="status">
+                <ng-container *ngIf="item.volunteers || item.vehicles; then volunteersStatus else notVolunteersStatus"></ng-container>
+
+               <ng-template #notVolunteersStatus>
+
                  <span [ngClass]="[item.availability == false || item.quantity <= 0 ? 'status-out_of_stock' : 'status-with_stock']"> 
                    <p *ngIf="item.availability && item.quantity > 0">
                     Cantidad : {{item.quantity | number}}
                    </p >
 
                    <p *ngIf="!item.availability || item.quantity <= 0">
-                      NO DISPONIBLE
+                      SIN STOCK
                    </p>
                    
                  </span>
+                </ng-template>
+               <ng-template #volunteersStatus>
+                <span [ngClass]="[item.availability == false ? 'status-out_of_stock' : 'status-with_stock']"> 
+                  <p *ngIf="item.availability">
+                   DISPONIBLE
+                  </p >
+
+                  <p *ngIf="!item.availability">
+                     NO DISPONIBLE
+                  </p>
+                  
+                </span>
+               </ng-template>
+
                </div>    
-                
-                <small *ngIf="item.medicines" class="text-muted"
-                  >Fecha de vencimiento
-                  {{ item.medicines.medicineExpirationDate | date }}</small
-                >
+               <div *ngIf="item.medicines" class="expiration-date text-muted"><small
+                  ><span>Fecha de vencimiento: </span></small>
+                  <small>
+                  <span>{{ item.medicines.medicineExpirationDate | date }}</span>
+                </small>
+              </div> 
               </div>
             </div>
           </div>
         </li>
       </ul>
     </div>
-    <div class="pagination"><h1>PAGINATION</h1></div>
+    
+      <div class="d-flex justify-content-between p-2">
+       <div class="pagination"> 
+        <ngb-pagination>
+        </ngb-pagination>
+        </div>
+
+        <select class="custom-select" style="width: auto" name="pageSize" >
+          <option [ngValue]="4">4 {{tipo}} por pagina</option>
+          <option [ngValue]="6">6 {{tipo}} por pagina</option>
+          <option [ngValue]="10">10 {{tipo}} por pagina</option>
+        </select>
+      </div>
+    
   </section>
+
+  <ng-template   #popMenu >
+    <button type="button" class="btn btn-option  btn-sm" ><mat-icon class="icon">mode_edit</mat-icon><span class="option-text">Actualizar datos</span> </button>
+    
+    <button type="button" class="btn btn-option  btn-sm" ><mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span></button>
+
+    <button *ngIf="false" type="button " class="btn btn-option-warning  btn-sm" >
+      <mat-icon class="icon">person_remove</mat-icon>
+      <span class="option-text">Deshabilitar usuario</span>
+    </button>
+    <button *ngIf="false" type="button " class="btn btn-option-success  btn-sm" >
+      <mat-icon class="icon">person_add</mat-icon>
+      <span class="option-text">Habilitar usuario</span>
+    </button>
+    <button type="button " class="btn btn-option-warning  btn-sm">
+      <mat-icon class="icon">delete</mat-icon>
+      <span class="option-text">Eliminar usuario</span>
+    </button>
+  </ng-template>
 </div>

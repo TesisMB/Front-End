@@ -28,6 +28,7 @@ let roles: Role[];
 public get EmployeeForm () {
 return this._employeeForm.group({
     employeeID:[],
+    employeeCreatedate: [],
     users: this._employeeForm.group({
       persons: this._employeeForm.group({
         lastName: [{},[Validators.required]],
@@ -41,27 +42,26 @@ return this._employeeForm.group({
       }),
       estates: this._employeeForm.group({
         estateID: [],
-        estateTypes: [],
         estatePhone: [],
-        locationAddress: this._employeeForm.group({
-          locationAddressID: [],
-          postalCode: [],
-          numberAddress: [],
-          address: [],
-        }),
+        estateTypes: [],
+        locationAddressID: [],
+        postalCode: [],
+        address: [],
+        numberAddress: [],
+        locationsID: [],
+        locationCityName: [],
          estatesTimes: this._employeeForm.array([
            this._employeeForm.group({
             
-              times: this._employeeForm.group({
-            startTime:[],
-            endTime:[],
-              schedules: this._employeeForm.group({
-                scheduleDate:[]
-              }),
-            
-          })
-        }),
+              times: [],
+              scheduleDate:[]
+              })
             ]),
+      }),
+      locations: this._employeeForm.group({
+        locationCityName: [],
+        locationDepartmentName: [],
+        locationMunicipalityName: []
       }),
       userDni: [{},[Validators.required]],
       FK_RoleID:[{},[Validators.required]],

@@ -3,32 +3,21 @@ export interface Estates {
     estateID?: number;
     estateTypes: string;
     estatePhone: string;
-    locationAddress: LocationAddress;
-    locations: Location;
-    estatesTimes:[{
-                times: Times;
-             }];
-}
-
-export interface LocationAddress {
-    locationAddressID: number;
+    locationCityName: string;
     postalCode: string;
     address: string;
-    numberAddress: string;
-}
-
-export interface Times {
-    startTime: number;
-    endTime: number;
-    schedules: {
+    numberAddress: string; 
+    locationAddressID: number;
+    estatesTimes:[{
         scheduleDate: string;
-    };
+        times: string;
+             }];
 }
 export interface Location {
     locationID: number;
     locationDepartmentName: string;
     locationMunicipalityName: string;
-    locationCityName: string;
     locationLongitude: string;
     locationLatitude: string;
+    locationCityName: string;
     }

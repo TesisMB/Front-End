@@ -39,3 +39,5 @@ export class Resource {
     this.estates = _estates;
   }
 }
+
+     

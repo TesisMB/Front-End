@@ -65,6 +65,8 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     while (staffs.length) {
       staffs.removeAt(0);
     }
+    console.log('Datos de usuario: ', this.user);
+
     // inserto los valores del usuario al formulario
     this.f.patchValue(this.user);
     // agrego los horarios al formArray
@@ -74,7 +76,6 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     //Se obtiene el role y se le asigna al formulario el ID de dicho rol.
     let id =(this.roles.find(name => name.RoleName === this.user.users.roleName));
     this.roleID.patchValue(id.roleID)
-
     // Se deshabilita el formulario
      this.f.disable();
   }

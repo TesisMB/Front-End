@@ -1,5 +1,6 @@
 *{
   outline: none;
+
   /* box-sizing: border-box; */
 }
 .head {
@@ -10,20 +11,28 @@
 .head h1 {
   text-align: center;
 }
-
+#search{
+  margin-right: 3em;
+}
 .col-body, .col-aside  {
   background-color: white;
   border-radius: 10px;
   
 }
+.medicine-body{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.vehicles-body{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
 #row-aside {
   max-width: 100%;
+  margin: 1em 3.5em;
 }
-.col-aside {
-}
-.col-body {
- /* max-height: 300px !important;  */
-}  
 
 ul {
   list-style-type: none;
@@ -37,7 +46,6 @@ h2{
   filter: grayscale(0.4) opacity(0.4);
 }
 .card {
-  /* box-sizing: border-box; */
   margin-top: 1.5em ;
 }
 .card-body{
@@ -50,7 +58,10 @@ a{
 }
 a:hover{
   color: red;
+  text-decoration: none;
+
 }
+
 .imagen {
   display: flex;
   flex-direction: column;
@@ -61,6 +72,19 @@ a:hover{
   z-index: 0;
   min-height: 100px;
   max-height: 216px;
+  
+}
+
+.card-header{
+background-color: white;
+}
+.card-footer{
+  display: flex;
+  flex-direction: column;
+}
+.status-button{
+  display: flex;
+  flex-direction: row;
 }
 
 .status {
@@ -68,7 +92,12 @@ a:hover{
   width: 100%;
   overflow: hidden;
 }
+.expiration-date{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
+}
 .status .status-out_of_stock{
   border-color: #333;
   background: #333;
@@ -86,7 +115,13 @@ a:hover{
   font-weight: 600;
   border-radius: 4px;
   margin-right: 3px;
-  font-size: 10px;
+  font-size: 14px;
   display: inline-block;
   padding: 0 4px;
+}
+
+@media screen and (max-width: 738px) {
+.row {
+  justify-content: center;
+}
 }

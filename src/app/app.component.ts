@@ -15,8 +15,40 @@ interface FoodNode {
 
 interface Notifications{
   hasNotifications: boolean,
-  number: number,
+  number: number
 }
+interface Notifys{
+ 
+      id: number,
+      message: string,
+      state: boolean,
+      createDate: string,
+      url: string
+}
+
+const NOTIFY_DATA: Notifys[] = [
+  {
+    id: 1,
+    message: 'Esta es una notificacion',
+    state: true,
+    createDate: '15-11-2021',
+    url: null
+  },
+  {
+    id: 2,
+    message: 'Esta es la segunda notificacion',
+    state: true,
+    createDate: '14-11-2021',
+    url: null
+  },
+   {
+    id: 3,
+    message: 'Esta es la 3ra notificacion',
+    state: false,
+    createDate: '13-11-2021',
+    url: null
+  }
+]
 
 const TREE_DATA: FoodNode[] = [
   {
@@ -36,21 +68,21 @@ const TREE_DATA: FoodNode[] = [
     children: [
       {
         name: 'Voluntarios',
-        patch:'recursos/voluntarios',
+        patch:'recursos/lista/voluntarios',
         icon:'fas fa-hands-helping'
       }, {
         name: 'Medicamentos',
-        patch:'recursos/medicinas',
+        patch:'recursos/lista/medicamentos',
         icon:'fas fa-capsules'
       },
       {
         name: 'Materiales',
-        patch:'recursos/materiales',
+        patch:'recursos/lista/materiales',
         icon:'fas fa-thermometer'
       },
       {
         name: 'Vehiculos',
-        patch:'recursos/vehiculos',
+        patch:'recursos/lista/vehiculos',
         icon:'fas fa-ambulance'
       },
     ]
@@ -66,7 +98,7 @@ const TREE_DATA: FoodNode[] = [
     icon:'fas fa-exclamation-triangle' ,
   },
   {
-    name: 'Monitorio',
+    name: 'Monitoreo',
     patch:'/monitoreo',
     icon:'fas fa-tv' ,
   },
@@ -93,6 +125,7 @@ notifications: Notifications = {hasNotifications: true, number:22};
 mobileQuery: MediaQueryList;
 treeControl = new NestedTreeControl<FoodNode>(node => node.children);
 dataSource = new MatTreeNestedDataSource<FoodNode>();
+notifys: Notifys[] = NOTIFY_DATA;
 
 private _mobileQueryListener: () => void;
     constructor(

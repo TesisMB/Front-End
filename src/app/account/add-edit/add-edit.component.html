@@ -114,11 +114,11 @@
           <strong class="info">Cargo</strong>
           <p class="info">{{model.users.roleName | titlecase}}</p>
           <strong class="first">Direccion de trabajo</strong>
-          <p class="info"> {{model.users.estates.locationAddress.address}} {{model.users.estates.locationAddress.numberAddress}}</p>
+          <p class="info"> {{model.users.estates.address}} {{model.users.estates.numberAddress}}</p>
           <strong>Horarios</strong>
           <ul *ngFor="let times of model['users']['estates']['estatesTimes']; let i = index;">
             <li style="list-style: none;" >
-              <p class="info">{{times['times']['schedules']['scheduleDate']}} {{times['times']['startTime']}} - {{times['times']['endTime']}}</p>
+              <p class="info">{{times['scheduleDate']}} {{times['times']}}</p>
           </li>
         </ul>
           <strong>Telefono de la Filial</strong>

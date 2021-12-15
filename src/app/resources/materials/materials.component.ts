@@ -4,6 +4,15 @@ import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Resource } from 'src/app/models';
 
+const TITLES = [
+{label: 'Nombre',               content:"item.name"},
+{label: 'Cantidad',             content:'item.quantity'},
+{label: 'Fecha de vencimiento', content:'item.medicines.medicineExpirationDate'},
+{label: 'Laboratorio',          content:'item'},
+{label: 'Droga',                content:'item'},
+{label: 'Peso',                 content:'item'},
+{label: 'Utilidad',             content:'item'}
+]
 @Component({
   selector: 'app-materials',
   templateUrl: './materials.component.html',
@@ -15,7 +24,7 @@ export class MaterialsComponent implements OnInit {
   item: Resource = null;
   handler: any;
   error: any = '';
-
+  titles = TITLES;
   constructor(
     private location: Location,
     private route: ActivatedRoute,
@@ -58,5 +67,9 @@ export class MaterialsComponent implements OnInit {
         this.error = err;
       }
     );
+  }
+
+  requestItem(){
+    console.log('Item solicitado...');
   }
 }

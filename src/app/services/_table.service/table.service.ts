@@ -42,8 +42,8 @@ function matches(employee: Employee, term: string, pipe: PipeTransform) {
     || employee.users.persons.lastName.toLowerCase().includes(term.toLowerCase())
     || (employee.users.persons.firstName).toLowerCase().includes(term.toLowerCase())
     || (employee.users.roleName).toLowerCase().includes(term.toLowerCase())
-    || (employee.users.estates.locationAddress.address).toLowerCase().includes(term.toLowerCase())
-    || pipe.transform(employee.users.estates.locationAddress.numberAddress).includes(term);
+    || (employee.users.estates.address).toLowerCase().includes(term.toLowerCase())
+    || pipe.transform(employee.users.estates.numberAddress).includes(term);
 
 
 }
@@ -120,6 +120,8 @@ public uploadTable() {
     (result: Employee[]) => {
       this.EMPLEADOS = result;
       console.log('GetAll AJAX ejecutado');
+    console.log('Empleados: ', this.EMPLEADOS);
+
    },
      error => { 
        console.log('Error: ' + error.message);

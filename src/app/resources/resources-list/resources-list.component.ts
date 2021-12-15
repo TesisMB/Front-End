@@ -2,33 +2,40 @@ import { AuthenticationService } from 'src/app/services';
 import { AlertService } from './../../services/_alert.service/alert.service';
 import { ResourcesService } from './../resources.service';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, QueryList, OnInit, ViewChildren, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { Resource } from 'src/app/models';
 import { filter } from 'rxjs/operators';
+import { TableService } from 'src/app/services/_table.service/table.service';
+import { Observable } from 'rxjs';
+import {SorteableDirective, SortEvent} from '../../directives/sorteable.directive';
 
 @Component({
   selector: 'resources-list',
   templateUrl: './resources-list.component.html',
   styleUrls: ['./resources-list.component.css'],
 })
-export class ResourcesListComponent implements OnInit {
+export class ResourcesListComponent implements OnInit, OnDestroy {
   tipo: string = null;
-  data: Resource[] = null;
+  data:Observable<Resource[]>;
+  total$: Observable<number>;
   handlerGetAll: any;
   error: any = '';
+
   constructor(
     private location: Location,
     private alertService: AlertService,
     private route: ActivatedRoute,
-    private service: ResourcesService,
+    private resourceService: ResourcesService,
   ) {
-    this.tipo = this.route.snapshot.params.tipo;
+    //this.tipo = this.route.snapshot.params.tipo;
+    //console.log('Tipo constructor: ',this.tipo);
   }
 
   ngOnInit(): void {
     this.getParams();
     this.getAllItems();
+
   }
 
   get availabilityItem(){
@@ -36,11 +43,12 @@ export class ResourcesListComponent implements OnInit {
     return;
   }
   getAllItems() {
-    this.handlerGetAll = this.service.getAll(this.tipo)
+    this.handlerGetAll = this.resourceService.getAll(this.tipo)
     .subscribe(
-      (data: Resource[]) => {
-        this.data = data;
-        console.log(this.data);
+      (data) => {
+        console.log('Datos: ',data);   
+        this.data = this.resourceService.resources$;
+
       },
       (err) => {
         this.error = err;
@@ -54,9 +62,26 @@ export class ResourcesListComponent implements OnInit {
   getParams() {
     this.route.params.subscribe((params: Params) => {
       this.tipo = params.tipo;
+      console.log('Tipo getParams: ',this.tipo);
     });
   }
   onBack() {
     this.location.back();
+  }
+
+  // onSort({column, direction}: SortEvent) {
+  //   // resetting other headers
+  //   this.headers.forEach(header => {
+  //     if (header.sortable !== column) {
+  //       header.direction = '';
+  //     }
+  //   });
+
+  //   this.service.sortColumn = column;
+  //   this.service.sortDirection = direction;
+  // }
+  ngOnDestroy(){
+    this.handlerGetAll.unsubscribe();
+    console.log('Destroy executing...');
   }
 }

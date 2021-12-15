@@ -24,7 +24,10 @@ body {
   font-size: 30px;
   margin-top: 2%;
 }
-
+.a-card {
+  text-decoration: none;
+  color: black;
+}
 
 .card-general {
   margin-top: 2.5%;

@@ -7,11 +7,11 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit, OnDestroy{
-  ubication: string;
+  ubication: string = "";
   constructor(private _authenticationService: AuthenticationService) {}
 
   ngOnInit() {    
-       this.ubication = this._authenticationService.currentUserValue.estates.locations.locationCityName;
+       this.ubication = this._authenticationService.currentUserValue.estates.locationCityName;
 }
   ngOnDestroy(){}
 }

@@ -157,25 +157,25 @@
 
 
     <div class="form-row" formGroupName="estates">  
-      <div class="form-group col" formGroupName="locationAddress">
+      <div class="form-group col">
    <label for="workAddress" class="first"> <strong class="info">Direccion de trabajo</strong></label>
    <div class="input-group">
-     <input type="text"  class="form-control info" id="address" required formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.locationAddress.numberAddress').errors || submitted && f.get('users.estates.locationAddress.address').errors }">
-      <input type="text"   class="form-control info" id="numberAddress"  required formControlName="numberAddress" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.locationAddress.numberAddress').errors || submitted && f.get('users.estates.locationAddress.address').errors }" >
-      <div *ngIf="submitted && (f.get('users.estates.locationAddress.address').errors || f.get('users.estates.locationAddress.numberAddress').errors)" class="invalid-feedback">
-        <div *ngIf="f.get('users.estates.locationAddress.address').errors.required || f.get('users.estates.locationAddress.numberAddress').errors.required"><small>*Campo requerido</small></div>
+     <input type="text"  class="form-control info" id="address" required formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.numberAddress').errors || submitted && f.get('users.estates.address').errors }">
+      <input type="text"   class="form-control info" id="numberAddress"  required formControlName="numberAddress" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.numberAddress').errors || submitted && f.get('users.estates.address').errors }" >
+      <div *ngIf="submitted && (f.get('users.estates.address').errors || f.get('users.estates.numberAddress').errors)" class="invalid-feedback">
+        <div *ngIf="f.get('users.estates.address').errors.required || f.get('users.estates.numberAddress').errors.required"><small>*Campo requerido</small></div>
       </div>
   </div>
   </div>
 </div>
 
-<div class="form-row">
+<div class="form-row" >
   <div class="form-group col">
   <label for="estateType" class="first"><strong>Ciudad y Tipo de sucursal</strong></label>
-  <div class="input-group">
-  <p class="form-control info" id="address">{{user.users.estates.locations.locationCityName}}</p>
+  <div class="input-group" formGroupName="estates" >
+  <p class="form-control info" id="address">{{user.users.estates.locationCityName}}</p>
 
-  <p class="form-control info" id="numberAddress">{{user.users.estates.estateTypes}}</p>
+  <p class="form-control info"  id="numberAddress">{{user.users.estates.estateTypes}}</p>
     
  </div>
 </div>
@@ -194,7 +194,7 @@
     <label for="times" class="first"><strong class="info">Horarios</strong></label>
     <ul *ngFor="let times of model['users']['estates']['estatesTimes']; let i = index;">
       <li style="list-style: none;" >
-      {{times['times']['schedules']['scheduleDate']}} {{times['times']['startTime']}} - {{times['times']['endTime']}}
+      {{times['scheduleDate']}} {{times['times']}}
 <!-- ******************* Form Array ********************* -->
         <!-- <div  *ngFor="let times of estates.controls; index as i" >
           <div [formGroupName]="i">
@@ -216,8 +216,8 @@
   </div>
 </div>
 <!-- Informacion de Acceso -->
-<div class="access col-sm" formGroupName="persons">
-  <div class="form-row" >
+<div class="access col-sm" >
+  <div class="form-row" formGroupName="persons">
     <div class="form-group col">
       <label for="first"><strong>Disponibilidad ante emergencias</strong></label>
   <select class="form-control info" required formControlName="status"  name="" id="" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.status').errors }">
@@ -241,7 +241,7 @@
   <div class="form-row">
     <div class="form-group col">
       <label for="" class="first"><strong class="info">Fecha de alta</strong></label>
-      <p class="form-control">{{user.users.persons.birthdate | date:'dd-MM-yyyy hh:mm'}}</p>
+      <p class="form-control">{{user.employeeCreatedate | date:'dd-MM-yyyy'}}</p>
     </div>
   </div>
 <div class="form-row" style="margin-top: 15px;">

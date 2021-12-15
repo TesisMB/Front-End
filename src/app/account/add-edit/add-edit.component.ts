@@ -101,7 +101,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.f.phone.setValue(x.users.persons.phone);
                 this.f.email.setValue(x.users.persons.email);
                 this.f.address.setValue(x.users.persons.address);
-
+                console.log('Datos: ', x);
       },
                 error =>{this.error = error;
                         this.alertService.error('Ha ocurrido un error, porfavor intente más tarde');});
