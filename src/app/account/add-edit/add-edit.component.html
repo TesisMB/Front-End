@@ -24,7 +24,7 @@
         <div class="personal col-6">
           <form [formGroup]="form" (ngSubmit)="onSubmit()"  style="background-color: #fff!Important;" style="display: flex; flex-direction: column; background: #fff;">
         <h2 class="title">Información Personal</h2>
-        <p style="font-size: small;"><i class="fas fa-edit text-danger " style=" cursor: pointer;"(click)="onUpdate(model)"></i> Editar Informacion</p>
+        <p style="font-size: small;"><i class="fas fa-edit text-danger " style=" cursor: pointer;" (click)="onUpdate(model)"></i> Editar Informacion</p>
 
        <p class="info" > <strong class="first">Nombre y Apellido</strong>
           {{model.users.persons.firstName | titlecase}} {{model.users.persons.lastName | titlecase}}</p>

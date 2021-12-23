@@ -1,8 +1,14 @@
 import { User } from '.';
 
 export class Volunteer {
-  users: User;
-  volunteersSkills: [
+  users?: User;
+  address: string;
+  birthdate: Date;
+  dni: string;
+  email: string;
+  phone: string;
+  status: boolean;
+  volunteersSkills?: [
     {
       skills: VolunteerSkills;
     }

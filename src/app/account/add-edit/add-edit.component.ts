@@ -53,13 +53,13 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
       });
            
      
-      
   }
 
   // getter para acortar el acceso a la variable
   get f() { return this.form.controls; }
 
-  onUpdate(user:Employee) {
+  onUpdate(user) {
+    console.log(user);
       if (this.form.disabled){
       this.form.enable();
       this.model = _.cloneDeep(user);

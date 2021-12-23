@@ -63,7 +63,9 @@ export class ForgotPasswordComponent implements OnInit {
                     console.log(data);
                     this.alertService.info('Correo enviado, revise su correo electronico.', {autoClose: true})
                    // this.router.navigate([this.returnUrl]);
-                     this.loading = false;
+                    this.loading = false;
+                    this.resetForm.reset();
+
 
                 },
                 error => {

@@ -1,49 +1,271 @@
 <div class="d-flex flex-sm-column">
-<section class="head row">
+  <section class="head row">
     <div class="col-4">
       <button (click)="onBack()" class="btn btn-secondary">Atrás</button>
-      </div>
+    </div>
     <div class="col-4">
-      <h1>Detalle del producto</h1>
+      <h1 class="title">Detalle del producto</h1>
     </div>
   </section>
-<ng-container *ngIf="item">
-
-  <section class="center row">
-    <section class="img col-6">
-        <img src="../../../assets/img-materiales/{{ item.picture }}" alt="{{item.description}}">
+  <ng-container *ngIf="item">
+    <section class="center row">
+      <section class="img col-4">
+        <img
+          src="../../../assets/img-materiales/{{ item.picture }}"
+          alt="{{ item.description }}"
+        />
+      </section>
+      <aside class="request col-3">
+        <div *ngIf="item.volunteers" class="skills" >
+          <span><h2 class="title">Especialidades</h2></span>
+          <span> Aqui van las skills </span>
+          <hr />
+        </div>
+        <div class="descripcion">
+          <span><h3 class="title">Descripcion</h3></span>
+          <span> {{ item.description }} </span>
+          <hr />
+        </div>
+        <ng-container *ngIf="!item.volunteers">
+          <div class="stock">
+            <div class="cantidad"> 
+              <span><h3 class="title">Cantidad</h3></span>
+            <span> {{ item.quantity }} </span>
+            
+          </div>
+            <div class="disponibilidad">
+              <span><h3 class="title">Disponibilidad</h3></span>
+              <span for="status" *ngIf="item.availability"
+                      ><i
+                        [class.text-success]="item.availability"
+                        class="fas fa-circle"
+                      ></i>
+                      Stock</span
+                    >
+                    <span *ngIf="!item.availability"
+                      ><i
+                        [class.text-danger]="!item.availability"
+                        class="fas fa-circle"
+                      ></i>
+                      Sin stock</span
+                    >
+           
+            </div>
+          </div>
+          <hr />
+          <div class="boton">
+            <button
+              class="btn btn-sm btn-danger"
+              [disabled]="!item.availability"
+              (click)="requestItem()"
+            >
+              Solicitar
+            </button>
+          </div>
+        </ng-container>
+      </aside>
     </section>
-    <aside class="request d-flex col-4">
-      <div class="title">
-        <span><h3>Descripcion</h3></span>
-      </div>
-      <div class="descripcion">
-        <span>  {{item.description}}  </span>
-      </div>
-      <div class="boton">
-        <button class="btn btn-sm btn-danger" (click)="requestItem()">Solicitar</button>
-      </div>
-    </aside>
-  </section>
-  <section class="center row">
-    <section class="f-tec col-6">
-      <div class="m-3">
+    <section class="center row">
+      <section class="f-tec col-4">
+        <div class="m-2">
+          <h2 class="title">Ficha Tecnica</h2>
+          <table class="table table-striped table-bordered">
+            <tbody>
+              <tr>
+                <th scope="row">Nombre</th>
+                <td>
+                  {{ item.name }}
+                </td>
+              </tr>
+              <ng-container *ngIf="!item.volunteers">
+                <tr>
+                  <th scope="row">Disponibilidad</th>
 
-        <table class="table table-striped table-bordered">
-          <tbody>
-          <tr *ngFor="let title of titles;" >
-            <th scope="row">{{ title.label }}</th>
-            <td>
-              {{ title.content | json}}
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+                  <td>
+                    <span for="status" *ngIf="item.availability"
+                      ><i
+                        [class.text-success]="item.availability"
+                        class="fas fa-circle"
+                      ></i>
+                      Disponible</span
+                    >
+                    <span *ngIf="!item.availability"
+                      ><i
+                        [class.text-danger]="!item.availability"
+                        class="fas fa-circle"
+                      ></i>
+                      No disponible</span
+                    >
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="item.medicines">
+                <tr>
+                  <th scope="row">Fecha de vencimiento</th>
+                  <td>
+                    {{
+                      item.medicines.medicineExpirationDate | date: "yyyy-MM-dd"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Laboratorio</th>
+                  <td>
+                    {{ item.medicines.medicineLab }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Droga</th>
+                  <td>
+                    {{ item.medicines.medicineDrug | titlecase }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Peso</th>
+                  <td>
+                    {{ item.medicines.medicineWeight | number }}
+                    {{ item.medicines.medicineUnits }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Utilidad</th>
+                  <td></td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="item.volunteers">
+                <tr>
+                  <th scope="row">Documento</th>
+                  <td> {{item.volunteers.dni}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Telefono de contacto</th>
+                  <td> {{item.volunteers.phone}}</td>
+                </tr>
+               
+                  <tr>
+                    <th scope="row">Correo electronico</th>
+                    <td> {{item.volunteers.email}}</td>
+                  </tr>
+           
+                    <tr>
+                      <th scope="row">Domicilio</th>
+                      <td> {{item.volunteers.address}}</td>
+                    </tr>
+
+                      <tr>
+                  <th scope="row">Dias laborales</th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">Disponibilidad</th>
+                  <td>
+                    <span for="availability" *ngIf="item.volunteers.status"
+                      ><i
+                        [class.text-success]="item.volunteers.status"
+                        class="fas fa-circle"
+                      ></i>
+                      Disponible</span
+                    >
+                    <span *ngIf="!item.volunteers.status"
+                      ><i
+                        [class.text-danger]="!item.volunteers.status"
+                        class="fas fa-circle"
+                      ></i>
+                      No disponible</span
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Acceso al sistema</th>
+                  <td>
+                    <span for="status" *ngIf="item.availability"
+                      ><i
+                        [class.text-success]="item.availability"
+                        class="fas fa-circle"
+                      ></i>
+                      Disponible</span
+                    >
+                    <span *ngIf="!item.availability"
+                      ><i
+                        [class.text-danger]="!item.availability"
+                        class="fas fa-circle"
+                      ></i>
+                      No disponible</span
+                    >
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <aside class="info form-row col-3">
+        <span><h2 class="title">Informacion de sucursal</h2></span>
+
+        <ng-container *ngIf="item.estates" 
+        >
+        <div class="form-control">
+          <label for="responsable">
+            <mat-icon aria-hidden="false" aria-label="responsable"
+              >person</mat-icon
+            >
+            Responsable
+          </label>
+          <p></p>
+        </div>
+        <div class="form-control">
+          <label for="telefono">
+            <mat-icon aria-hidden="false" aria-label="responsable"
+              >call</mat-icon
+            >
+            Telefono
+          </label>
+          <p>{{item.estates.estatePhone}}</p>
+        </div>
+
+          <div class="form-control">
+                <label for="otro">
+                  <mat-icon aria-hidden="false" aria-label="responsable"
+                    >pin_drop</mat-icon
+                  >
+                  Direccion
+                </label>
+                <p>{{item.estates.address}} {{item.estates.numberAddress}}</p>
+              </div>
+          <div class="form-control"> 
+            <label   for="ubicacion">
+            <mat-icon aria-hidden="false" aria-label="responsable"
+              >location_city</mat-icon
+            >
+            Ubicación
+          </label>
+          <span id="ubicacion">{{item.locationCityName}}</span>
+        </div>
+        <div class="form-control">
+          <label for="codigoPostal">
+            <mat-icon aria-hidden="false" aria-label="responsable"
+              >flag</mat-icon
+            >
+            Codigo Postal
+          </label>
+          <p>{{item.estates.postalCode}}</p>
+        </div>
+
+        <div class="form-control">
+          <label for="horarioAtencion">
+            <mat-icon aria-hidden="false" aria-label="responsable"
+              >schedule</mat-icon
+            >
+            Horario de Atención
+          </label>
+          <p></p>
+        </div>
+    
+      </ng-container>
+        
+      </aside>
     </section>
-    <aside class="info col-4">
-      <h4>Informacion</h4>
-    </aside>
-  </section>
-</ng-container>
+  </ng-container>
 </div>

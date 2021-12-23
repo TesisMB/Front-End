@@ -1,27 +1,57 @@
 .head {
     margin: 10px 10px 30px 10px;
 }
-.head h1 {
-    text-align: center;
-}
+
 .center{
     justify-content:space-evenly;
-    margin: 10px 10px 30px 10px;
+    margin: 10px 10px 15px 10px;
     max-height: 22em;
 }
 .request , .info , .f-tec{
     background-color: white;
+    height: max-content;
+    padding: 15px 15px;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+
 }
 .request{
+    display: flex;
     flex-direction: column;
     height: 18em;
-    justify-content:space-around;
-    align-items: center;
+    justify-content:flex-start;
+    align-items: stretch;
+    
 
+}
+.boton{
+    align-self: center;
+}
+.btn-danger {
+    width: 200px;
+}
+.title{
+text-align: center;
 }
 .img {
 display: flex;
 justify-content: center;
 }
 
-    
+.info{
+    display: flex ;
+    flex-direction: column;
+    height: min-content;
+}
+
+.stock{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info .form-control {
+    display: flex !important;
+    justify-content: space-between ;
+    border:none;
+}

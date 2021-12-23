@@ -59,13 +59,13 @@ export class AuthenticationService   {
       this.router.navigate(['/cliente/login']);
     }
     sendEmail(email: string){
-      return this.http.post<string>(environment.URL+'/Forgot-Password', email);
+      return this.http.post<string>(environment.URL+'Forgot-Password', email);
     }
   
     changePassword(token: string, userPassword: string){
       let parametros = new HttpParams().append('token', token);
       this.options.params = parametros;
-      return this.http.post<any>(environment.URL+'/reset-password/', {userPassword}, this.options);
+      return this.http.post<any>(environment.URL+'reset-password/', {userPassword}, this.options);
     }
   }
  

@@ -5,6 +5,7 @@ export class Resource {
   name: string;
   quantity: number;
   availability: boolean;
+  locationCityName?:string;
   picture: string;
   description: string;
   medicines: Medicine;
@@ -24,7 +25,9 @@ export class Resource {
     _materials: Material,
     _vehicles: Vehicle,
     _volunteers: Volunteer,
-    _estates: Estates
+    _estates: Estates,
+    _locationCityName?:string
+
   ) {
     this.id = _id;
     this.name = _name;
@@ -37,6 +40,7 @@ export class Resource {
     this.vehicles = _vehicles;
     this.volunteers = _volunteers;
     this.estates = _estates;
+    this.locationCityName = _locationCityName;
   }
 }
 

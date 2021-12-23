@@ -9,15 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   constructor(
-  //  private hubService: SignalRService
+   // private hubService: SignalRService
     ) {
   }
 
   ngOnInit() {
 
-    // this.hubService.notificacion.subscribe(notif => {
-    //    console.log('****Recepción del mje****'); 
-    //   console.log(notif);
-    // });
-  }
+  //    this.hubService.notificacion.subscribe(notif => {
+  //      console.log('****Recepción del mje****'); 
+  //     console.log(notif);
+  //   });
+   }
 }
+
+

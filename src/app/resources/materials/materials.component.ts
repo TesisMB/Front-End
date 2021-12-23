@@ -5,13 +5,13 @@ import { Location } from '@angular/common';
 import { Resource } from 'src/app/models';
 
 const TITLES = [
-{label: 'Nombre',               content:"item.name"},
-{label: 'Cantidad',             content:'item.quantity'},
-{label: 'Fecha de vencimiento', content:'item.medicines.medicineExpirationDate'},
-{label: 'Laboratorio',          content:'item'},
-{label: 'Droga',                content:'item'},
-{label: 'Peso',                 content:'item'},
-{label: 'Utilidad',             content:'item'}
+{label: 'Nombre',               value:""},
+{label: 'Cantidad',             value:''},
+{label: 'Fecha de vencimiento', value:''},
+{label: 'Laboratorio',          value:''},
+{label: 'Droga',                value:''},
+{label: 'Peso',                 value:''},
+{label: 'Utilidad',             value:''}
 ]
 @Component({
   selector: 'app-materials',
