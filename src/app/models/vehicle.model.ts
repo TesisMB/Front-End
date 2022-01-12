@@ -1,21 +1,21 @@
 import { Employee } from '.';
 export class Vehicle {
   vehiclePatent: string;
-  utility: string;
-  employees: Employee;
-  type: TypeVehicle;
+  vehicleYear: number;
+  employeeName: string;
+  type: string;
   brandsModels: BrandsModels;
   constructor(
     _vehiclePatent: string,
-    _utility: string,
-    _type: TypeVehicle,
-    _employees: Employee,
+    _vehicleYear: number,
+    _type: string,
+    _employees: string,
     _brandsModels: BrandsModels
 
   ) {
     this.vehiclePatent = _vehiclePatent;
-    this.utility = _utility;
-    this.employees = _employees;
+    this.vehicleYear = _vehicleYear;
+    this.employeeName = _employees;
     this.type = _type;
     this.brandsModels = _brandsModels;
   }

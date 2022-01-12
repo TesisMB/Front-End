@@ -39,6 +39,9 @@ export class MaterialsComponent implements OnInit {
     this.getParams();
     this.getItems();
   }
+  get availability(){
+    return this.item.volunteers ? this.item.volunteers.status : this.item.availability;
+  }
 
   getParams() {
     this.route.params.subscribe((params: Params) => {

@@ -18,11 +18,28 @@
 .request{
     display: flex;
     flex-direction: column;
-    height: 18em;
+    height: max-content;
+    
     justify-content:flex-start;
     align-items: stretch;
     
 
+}
+#schedule-title{
+    flex-direction: column;
+    align-items: center;
+
+}
+#times{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 6px 3px;
+
+}
+.cantidad {
+    flex-direction: column;
+    align-items: center;
 }
 .boton{
     align-self: center;
@@ -41,7 +58,7 @@ justify-content: center;
 .info{
     display: flex ;
     flex-direction: column;
-    height: min-content;
+    /* height: min-content; */
 }
 
 .stock{
@@ -54,4 +71,12 @@ justify-content: center;
     display: flex !important;
     justify-content: space-between ;
     border:none;
+}
+.list-times{
+    width: inherit;
+    padding-bottom: 5px;
+}
+.form-control{
+ height: min-content !important;
+
 }
