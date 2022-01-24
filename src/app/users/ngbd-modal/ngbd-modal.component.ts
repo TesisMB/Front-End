@@ -208,7 +208,8 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   resetPassword(){
-    this.resetHandler = this.authenticationService.sendEmail(this.user.users.persons.email)
+    const e = {email: this.user.users.persons.email}
+    this.resetHandler = this.authenticationService.sendEmail(e)
                         .subscribe(
                           () => {
                             this.alertService.success('Contraseña reseteada, por favor verifique su correo electronico.', {autoClose : true})

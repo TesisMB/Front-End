@@ -92,9 +92,9 @@
   <div class="form-row">
     <div class="form-group col">
       <label for="date" class="first"><strong class="info" >Fecha de nacimiento</strong></label>
-      <input type="datetime" formControlName="birthdate" required name="date" id="date" class="form-control" [ngModel]="user.users.persons.birthdate | date:'yyyy-MM-dd'" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.birthdate').errors }" >
-      <div *ngIf="submitted && f.get('users.persons.birthdate').errors" class="invalid-feedback">
-        <div *ngIf="f.get('users.persons.birthdate').errors.required"><small>*Campo requerido</small></div>
+      <input type="datetime" formControlName="date" required name="date" id="date" class="form-control" [ngModel]="user.users.persons.birthdate" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.date').errors }" >
+      <div *ngIf="submitted && f.get('users.persons.date').errors" class="invalid-feedback">
+        <div *ngIf="f.get('users.persons.date').errors.required"><small>*Campo requerido</small></div>
     </div>
     </div>
   </div>    
@@ -172,7 +172,7 @@
 <div class="form-row" >
   <div class="form-group col">
   <label for="estateType" class="first"><strong>Ciudad y Tipo de sucursal</strong></label>
-  <div class="input-group" formGroupName="estates" >
+  <div class="input-group"  >
   <p class="form-control info" id="address">{{user.users.estates.locationCityName}}</p>
 
   <p class="form-control info"  id="numberAddress">{{user.users.estates.estateTypes}}</p>
@@ -241,13 +241,13 @@
   <div class="form-row">
     <div class="form-group col">
       <label for="" class="first"><strong class="info">Fecha de alta</strong></label>
-      <p class="form-control">{{user.employeeCreatedate | date:'dd-MM-yyyy'}}</p>
+      <p class="form-control">{{user.employeeCreatedate}}</p>
     </div>
   </div>
 <div class="form-row" style="margin-top: 15px;">
     <div class="form-group col">
       <div class="bd-highlight" >
-      <button mat-flat-button popoverClass="resetPassword" [disabled]="canReset" type="button" name="canReset" ngbPopover="Se le enviara un email con la nueva contraseña" triggers="mouseenter:mouseleave" placement="bottom-right" color="warn" aria-label="Resetear contraseña">
+      <button mat-flat-button popoverClass="resetPassword" [disabled]="canReset" (click)="resetPassword()" type="button" name="canReset" ngbPopover="Se le enviara un email con la nueva contraseña" triggers="mouseenter:mouseleave" placement="bottom-right" color="warn" aria-label="Resetear contraseña">
         <mat-icon >lock_clock</mat-icon> Resetear Contraseña
       </button>
     </div>

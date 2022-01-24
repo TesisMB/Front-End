@@ -10,3 +10,4 @@ export * from './medicine';
 export * from './resources.model';
 export * from './vehicle.model';
 export * from './volunteer.model';
+export * from './requestCart.model';

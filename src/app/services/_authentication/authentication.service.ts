@@ -58,8 +58,8 @@ export class AuthenticationService   {
       this.modalService.dismissAll();
       this.router.navigate(['/cliente/login']);
     }
-    sendEmail(email: string){
-      return this.http.post<string>(environment.URL+'Forgot-Password', email);
+    sendEmail(email:any){
+      return this.http.post<any>(environment.URL+'forgot-password', email);
     }
   
     changePassword(token: string, userPassword: string){

@@ -22,44 +22,46 @@
           <hr />
         </div>
         <div class="descripcion">
-          <span><h3 class="title">Descripciòn</h3></span>
+          <span><h3 class="title">Descripción</h3></span>
           <span> {{ item.description }} </span>
           <hr />
         </div>
         
           <div class="stock">
             <ng-container *ngIf="!item.volunteers && !item.vehicles">
-            <div  class="d-flex cantidad"> 
-              <span><h3 class="title">Cantidad</h3></span>
-            <span> {{ item.quantity }} </span>
-            
-          </div>
-            <div  class="disponibilidad">
-              <span><h3 class="title">Disponibilidad</h3></span>
-              <span for="status" *ngIf="item.availability"
-                      ><i
-                        [class.text-success]="item.availability"
-                        class="fas fa-circle"
-                      ></i>
-                      Stock</span
-                    >
-                    <span *ngIf="!item.availability"
-                      ><i
-                        [class.text-danger]="!item.availability"
-                        class="fas fa-circle"
-                      ></i>
-                      Sin stock</span
-                    >
-            </div>
+              <div  class="disponibilidad">
+                <button
+              class="btn btn-sm"
+              disabled
+              type="button"
+              [ngClass]="[item.availability == false || item.quantity <= 0 ?  'btn-danger' : 'btn-success']">
+              <span  id="stock" *ngIf="item.availability && item.quantity > 0">Stock</span>
+              <span id="stock" *ngIf="!item.availability || item.quantity == 0">Sin stock</span>
+            </button>
+              </div>
+           
+      
         </ng-container>
 
           </div>
           <hr *ngIf="item.materials || item.medicines" />
+          <div  *ngIf="!item.volunteers && !item.vehicles"> 
+            <form class="cantidad" [formGroup]="form" (ngSubmit)="onSubmit()">
+              <span class="text-muted">{{item.quantity | number}} disponibles</span>
+              <mat-form-field appearance="outline">
+                <mat-label>Cantidad</mat-label>
+                <input required matInput formControlName="quantity" type="number" class="example-right-align" placeholder="0" min="0" [max]="item.quantity">
+                <!-- <span matPrefix>({{item.quantity | number}} disponibles) &nbsp;</span> -->
+                <span matSuffix class="text-muted"> &nbsp; uds. </span>
+                <!-- <mat-hint>{{item.quantity | number}} disponibles</mat-hint> -->
+              </mat-form-field>
+          </form>
+        </div>
           <div class="boton">
             <button
               class="btn btn-sm btn-danger"
               [disabled]="!availability"
-              (click)="requestItem()"
+              (click)="onSubmit()"
             >
               Solicitar
             </button>
@@ -84,7 +86,7 @@
                   <th scope="row">Fecha de vencimiento</th>
                   <td>
                     {{
-                      item.medicines.medicineExpirationDate | date: "yyyy-MM-dd"
+                      item.medicines.medicineExpirationDate
                     }}
                   </td>
                 </tr>

@@ -57,11 +57,11 @@ return this._employeeForm.group({
               scheduleDate:[]
               })
             ]),
-      }),
-      locations: this._employeeForm.group({
-        locationCityName: [],
-        locationDepartmentName: [],
-        locationMunicipalityName: []
+      // }),
+      // locations: this._employeeForm.group({
+      //   locationCityName: [],
+      //   locationDepartmentName: [],
+      //   locationMunicipalityName: []
       }),
       userDni: [{},[Validators.required]],
       FK_RoleID:[{},[Validators.required]],

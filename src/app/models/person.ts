@@ -4,7 +4,7 @@ export interface Person {
     firstName: string;
     phone: string;
     email: string;
-    birthdate: number;
+    date: any;
     address: string;
     gender: string;
     status: boolean;

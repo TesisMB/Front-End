@@ -6,9 +6,14 @@
             <img src="assets/img-home-users/Logo.png" alt="">
         </div>
         <div id="perfil">
-            <div *ngIf="notifications.hasNotifications; else isNot"><button [ngbPopover]="popNotify" popoverClass="option" container="body" mat-icon-button><mat-icon matBadge="{{notifys.length}}" matBadgeColor="warn">notifications_active</mat-icon></button></div>
+            <div *ngIf="request; else isNotRequest"><button [ngbPopover]="popCart" popoverClass="option" container="body" mat-icon-button><mat-icon matBadge="{{request.request.length}}" matBadgeColor="warn">shopping_cart</mat-icon></button></div>
+            <ng-template #isNotRequest><button [ngbPopover]="popCart" popoverClass="option" container="body" mat-icon-button class="mr-4"><mat-icon>shopping_cart</mat-icon></button></ng-template>
+
+            <div *ngIf="notifications.hasNotifications; else isNot"><button [ngbPopover]="popNotify" popoverClass="option" container="body" mat-icon-button><mat-icon matBadge="{{notifications.number}}" matBadgeColor="warn">notifications_active</mat-icon></button></div>
             <ng-template #isNot><button [ngbPopover]="popNotify" popoverClass="option" container="body" mat-icon-button class="mr-4"><mat-icon>notifications</mat-icon></button></ng-template>
+            
             <a class="fas fa-user-circle fa-2x" id="user" data-toggle="dropdown"></a>
+
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <div class="first-title ">
                     <p class="title">{{currentUser.persons.firstName}} {{currentUser.persons.lastName}}</p>
@@ -20,7 +25,7 @@
                 </ul>
             </div>
         </div>
-
+        
         <ng-template   #popNotify >
 <ul class="notify-menu">
     <li style="list-style: none;" *ngFor="let notifys of notifys">
@@ -32,6 +37,23 @@
     </li>
 </ul>
           </ng-template>
+
+          <ng-template   #popCart >
+              <div *ngIf="!request">
+                <p>Carrito vacio...</p>
+              </div>
+              <div *ngIf="request">
+            <ul class="cart-menu">
+                <li style="list-style: none;" *ngFor="let res of request['request']">
+                    <div class="notify-list">
+                        <span>
+                            {{res.resource.name}}
+                         </span>
+                </div>
+                </li>
+            </ul>
+        </div>
+                      </ng-template>
 
     </mat-toolbar>
     
