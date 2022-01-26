@@ -2,7 +2,7 @@ import { Resource } from ".";
 
 export  interface Request{
  
-    id: number,
+    id: any,
     userID: number,
     request:[{
       resource: Resource,

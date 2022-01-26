@@ -16,55 +16,52 @@
         />
       </section>
       <aside class="request col-3">
-        <div *ngIf="item.volunteers" class="skills" >
-          <span><h2 class="title">Especialidades</h2></span>
-          <span> Aqui van las skills </span>
-          <hr />
-        </div>
-        <div class="descripcion">
-          <span><h3 class="title">Descripción</h3></span>
-          <span> {{ item.description }} </span>
-          <hr />
-        </div>
+
         
           <div class="stock">
             <ng-container *ngIf="!item.volunteers && !item.vehicles">
-              <div  class="disponibilidad">
-                <button
+                <div
               class="btn btn-sm"
-              disabled
-              type="button"
-              [ngClass]="[item.availability == false || item.quantity <= 0 ?  'btn-danger' : 'btn-success']">
-              <span  id="stock" *ngIf="item.availability && item.quantity > 0">Stock</span>
-              <span id="stock" *ngIf="!item.availability || item.quantity == 0">Sin stock</span>
-            </button>
-              </div>
-           
-      
+              [ngClass]="[checkStock ?  'btn-danger' : 'btn-success']">
+              <span  id="stock" *ngIf="!checkStock">Stock disponible</span>
+              <span id="stock" *ngIf="checkStock">Sin stock</span>
+            </div>
+            <span style="font-size: 13px;" class="text-muted pt-2">Cantidad total: {{item.quantity}}</span>
         </ng-container>
 
           </div>
+
           <hr *ngIf="item.materials || item.medicines" />
           <div  *ngIf="!item.volunteers && !item.vehicles"> 
             <form class="cantidad" [formGroup]="form" (ngSubmit)="onSubmit()">
-              <span class="text-muted">{{item.quantity | number}} disponibles</span>
               <mat-form-field appearance="outline">
                 <mat-label>Cantidad</mat-label>
-                <input required matInput formControlName="quantity" type="number" class="example-right-align" placeholder="0" min="0" [max]="item.quantity">
+                <input required matInput #input formControlName="quantity" type="number" class="example-right-align" 
+                placeholder="0" min="0" [max]="item.quantity" [ngClass]="{'is-invalid': f.quantity.invalid}">
                 <!-- <span matPrefix>({{item.quantity | number}} disponibles) &nbsp;</span> -->
                 <span matSuffix class="text-muted"> &nbsp; uds. </span>
-                <!-- <mat-hint>{{item.quantity | number}} disponibles</mat-hint> -->
-              </mat-form-field>
+                <mat-hint *ngIf="f.quantity.valid" align="end">restantes: {{item.quantity - input.value}}</mat-hint>
+                <mat-error *ngIf="f.quantity.invalid">{{getErrorMessage()}}</mat-error>
+              </mat-form-field>       
           </form>
         </div>
-          <div class="boton">
+          <div class="boton p-1">
             <button
               class="btn btn-sm btn-danger"
-              [disabled]="!availability"
+              [disabled]="checkStock"
               (click)="onSubmit()"
             >
               Solicitar
             </button>
+          </div>
+          <hr/>
+          <div *ngIf="item.volunteers" class="skills" >
+            <span><h2 class="title">Especialidades</h2></span>
+            <span> Aqui van las skills </span>
+          </div>
+          <div class="descripcion">
+            <span><h3 class="title">Descripción</h3></span>
+            <span> {{ item.description }} </span>
           </div>
       </aside>
     </section>

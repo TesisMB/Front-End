@@ -17,7 +17,6 @@ const card = document.querySelector(".content");
 export class MaterialsComponent implements OnInit {
   id: number = null;
   type: string = null;
-  isRequest: boolean = false;
   item: Resource = null;
   handler: any;
   error: any = '';
@@ -41,23 +40,28 @@ export class MaterialsComponent implements OnInit {
     this.getParams();
     this.getItems();
 
-   this.form = this.formBuilder.group({
-     quantity: [0]
- });
+    this.form = this.formBuilder.group({
+     quantity: [0] });
+
+
+  //   if(this.checkStock) {
+  //   this.form.disable();
+  // }
+    
+    
 
   }
-  get availability(){
-    return this.item.volunteers ? this.item.volunteers.status : this.item.availability;
+  // get availability(){
+  //   return this.item.volunteers ? this.item.volunteers.status : this.item.availability;
+  //  }
   
-  }
-
-
-  getParams() {
+    get f(){ return this.form.controls;}
+    get checkStock(){ return (!this.item.availability || this.item.quantity <= 0);}
+  
+    getParams() {
     this.route.params.subscribe((params: Params) => {
       this.id = +params.id;
       this.type = params.tipo;
-      console.log(this.id);
-      console.log(this.type);
 
       if ((params.id || params.tipo) == 'undefined' || null) {
         this.router.navigate(['**']);
@@ -69,11 +73,24 @@ export class MaterialsComponent implements OnInit {
     this.location.back();
   }
 
+
+  getErrorMessage() {
+    if (this.f.quantity.hasError('required')) {
+      return 'Seleccione la cantidad ha solicitar.';
+    }
+    else if(this.f.quantity.hasError('max')) {
+      return 'La cantidad maxima de stock disponible es ' + this.item.quantity; 
+    }
+
+    else if(this.f.quantity.hasError('min')) {
+      return 'La cantidad minima para solicitar es 1'; 
+    } 
+   }
+
   getItems() {
     this.handler = this.service.getById(this.id, this.type).subscribe(
       (data) => {
         this.item = data;
-        console.log(this.item);
         this.form.controls.quantity.setValidators([
           Validators.required,
           Validators.min(1),
@@ -86,14 +103,10 @@ export class MaterialsComponent implements OnInit {
     );
   }
 
-  requestItem(){
-  //this.request = !this.request;
-    console.log('Estado Solicitud: ', this.isRequest);
-    if(this.isRequest === true){
-      
-    }
-  }
+
  onSubmit(){
+   
+  // this.submitted = true;
    if(this.form.valid){
    const quantity: number = this.form.get('quantity').value || 1;
    this.item.quantity -= quantity;
@@ -110,8 +123,14 @@ export class MaterialsComponent implements OnInit {
    };
    console.log('Item solicitado: ', request);
    this.requestService.setRequest(request);
+   
    this.form.reset();
   }
+  if(this.checkStock){
+    this.form.disable();
+  }
+  // this.submitted = false;
+
  }
 
 }

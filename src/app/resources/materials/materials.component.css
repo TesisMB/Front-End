@@ -5,8 +5,8 @@
 
 .center{
     justify-content:space-evenly;
-    margin: 10px 10px 15px 10px;
-    max-height: 22em;
+    margin: 15px 10px 15px 10px;
+    /* max-height: 22em; */
 }
 .request , .info , .f-tec{
     background-color: white;

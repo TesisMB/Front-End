@@ -183,7 +183,9 @@ private _mobileQueryListener: () => void;
           
             logout() { 
               this.authenticationService.logout();
-           
+            }
+            clearCart(){
+              this.requestService.clearCartRequest();
             }
           
             ngOnDestroy(): void {
@@ -199,7 +201,7 @@ private _mobileQueryListener: () => void;
             getRequest(){
               this.handleRequest = this.requestService._request
               .subscribe(
-                items => {this.request = items; console.log('Carrito actual: ', this.request);},
+                items => this.request = items,
                 error => this.error = error
               );
             }

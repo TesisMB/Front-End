@@ -19,12 +19,12 @@ export class MaterialsService extends DataService {
     super(http, 'materials')
     this.requestSubject = new BehaviorSubject<Request>
     (JSON.parse(localStorage.getItem('cart')));
-
+  //  this.request = ;
     this._request = this.requestSubject.asObservable();
   }
 
   get getCartRequest(): Request {
-    const req: Request =  (JSON.parse(localStorage.getItem('cart')));
+    const req: Request = (JSON.parse(localStorage.getItem('cart')));
       if(req !== this.requestSubject.value) {
         this.requestSubject.next(req);
       }
@@ -32,31 +32,42 @@ export class MaterialsService extends DataService {
   }
 
   public setRequest(items: Request){
-    let mapRequest;
-    (this.request) ? this.request = this.requestSubject.value : this.request = items;
+    this.request = this.requestSubject.value;
 
-   const isAdd = this.request.request.some(res => 
-    (res.resource.id === items.request[0].resource.id && res.resource.name === items.request[0].resource.name)
-     ? true : false);
-
-   console.log('Probando isAdd: ', isAdd);
-
-    if(isAdd){
-      mapRequest = this.request.request.map(res => {
-              (res.resource.id === items.request[0].resource.id && res.resource.name === items.request[0].resource.name)
-              ? items.request[0].quantity += res.quantity : console.log('No es igual...');
-            });
-
-            console.log('mapRequest: ',mapRequest);
-        } 
-
-    if(this.request.request != items.request && isAdd === false){ 
-     this.request.request.push(...items.request);
+    let mapRequest = [];
+    let resourceId = items.request[0].resource.id;
+    let resourceName = items.request[0].resource.name;
+    let resourceQuantity = items.request[0].quantity;
+    
+    if(this.request)  {
+    const timestamp = this.request.createDate;
+    const hasSome = this.request.request.some((res) => 
+      (res.resource.id == resourceId 
+      && res.resource.name == resourceName
+      && timestamp != items.createDate ) ?
+      true : false);
+            
+      if(hasSome){
+        mapRequest = this.request.request.map(res => {
+                (res.resource.id == resourceId && res.resource.name == resourceName)
+                ? res.quantity += resourceQuantity : console.log('Item: ' ,res.resource);
+              });
+  
+         } 
+        else {
+          this.request.request.push(...items.request);
     }
+  }
+    else this.request = items;
 
   const cart = (JSON.stringify(this.request));
   localStorage.setItem('cart', cart);
   this.requestSubject.next(this.request);    
 
+  }
+
+  public clearCartRequest(){
+    this.requestSubject.next(null);
+    localStorage.removeItem('cart');
   }
 }
