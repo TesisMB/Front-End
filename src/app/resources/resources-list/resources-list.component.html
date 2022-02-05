@@ -10,62 +10,98 @@
       <input class="form-control ml-3" type="text" name="searchTerm"  placeholder="Filtrado por letra" />
 </div>
 </section>
+
 <div class="row justify-content-around" id="row-aside">
 
-  <section class="col-12 col-body">
-    <div class="row row-cols-md-4">
+
+  <section>
+    <div class="fila"> 
       <ul *ngFor="let item of data | async">
         <li>
-          <div class="col mb-3">
             
-            <div class="card h-100" [ngClass]="[item.availability  || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']" >
+          <!--   <div class="card h-100 columna" [ngClass]="[item.availability  || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']" > -->
+            <div class="columna" [ngClass]="[item.availability  || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']" >
               
               <a [routerLink]="['/recursos', 'lista', tipo, item.id]">
-                <div class="card-header">
+<!--                 <div class="card-header">
+ -->               <div>
+                  <!-- Voluntarios y vehiculos -->
                   <div *ngIf="item.volunteers || item.vehicles" class="d-flex justify-content-sm-center">
                     <span class="mb-2">
                       <strong *ngIf="item.volunteers"> ID: {{item.volunteers.dni}}</strong>
                       <strong *ngIf="item.vehicles" >Patente: {{item.vehicles.vehiclePatent}}</strong>
                     </span>
                   </div>
-                  <span class="imagen">
-                                  <img
-                                  src="../../../assets/img-materiales/{{ item.picture }}"
-                                  class="card-img-top"
-                                  alt="..."
-                                />
-                                </span>
+
+                  <span class="imagen"><img src="../../../assets/img-materiales/{{ item.picture }}" class="card-img-top"alt="..."
+                    ></span>
+                    <h3>{{ item.name | titlecase }}</h3>
+               
                 </div>
               
 
-              <div class="card-body">
-                <h2 class="card-title justify-content">{{ item.name | titlecase }}</h2>
-                
-                <ng-container *ngIf="item.volunteers; then volunteers else notVolunteers"></ng-container>
+                <div class="layer">
+                  <div class="hov">
+                    <h3>
+                      {{ item.description }}
+                    </h3>
 
-               <ng-template #notVolunteers>
-                <div>
-                  <h6 *ngIf="item.materials" class="card-subtitle text-muted">
-                    de {{ item.materials.brand | titlecase }}
-                  </h6>
-                  <h6 *ngIf="item.vehicles" class="card-subtitle text-muted">
-                    de {{ item.locationCityName | titlecase }}
-                  </h6>
-                       <div *ngIf="item.medicines" class="medicine-body card-subtitle text-muted">
-                    <h6>
-                    {{item.medicines.medicineLab}}
-                  </h6>
-                  <h6 >
-                     {{item.medicines.medicineDrug}} {{item.medicines.medicineWeight}} {{item.medicines.medicineUnits}}
-                  </h6>
+                    <ng-container *ngIf="item.volunteers || item.vehicles; then volunteersStatus else notVolunteersStatus"></ng-container>
+
+                    <ng-template #notVolunteersStatus>
+     
+                      <span [ngClass]="[item.availability == false || item.quantity <= 0 ? 'status-out_of_stock' : 'status-with_stock']"> 
+                        <p *ngIf="item.availability && item.quantity > 0">
+                         Cantidad : {{item.quantity | number}}
+                        </p >
+     
+                        <p *ngIf="!item.availability || item.quantity <= 0">
+                           SIN STOCK
+                        </p>
+                        
+                      </span>
+                     </ng-template>
+                    <ng-template #volunteersStatus>
+                     <span [ngClass]="[item.availability == false ? 'status-out_of_stock' : 'status-with_stock']"> 
+                       <p *ngIf="item.availability">
+                        DISPONIBLE
+                       </p >
+     
+                       <p *ngIf="!item.availability">
+                          NO DISPONIBLE
+                       </p>
+                       
+                     </span>
+                    </ng-template>
+                  </div>
                 </div>
-                <hr>
-                <p class="card-text">
-                  {{ item.description }}
-                </p>
+
+                <div class="footer">
+                  <!--  <h2 class="card-title justify-content">{{ item.name | titlecase }}</h2> -->
+                   <ng-container *ngIf="item.volunteers; then volunteers else notVolunteers"></ng-container>
+   
+                   <!-- arriba -->
+                  <ng-template #notVolunteers>
+                   <div>
+                     <h6 *ngIf="item.materials" class="text-muted">
+                       de {{ item.materials.brand | titlecase }}
+                     </h6>
+                   <hr>
+                     <h6 *ngIf="item.vehicles" class="card-subtitle text-muted">
+                       de {{ item.locationCityName | titlecase }}
+                     </h6>
+                          <div *ngIf="item.medicines" class="medicine-body  text-muted">
+                       <h6>
+                       {{item.medicines.medicineLab}}
+                     </h6>
+                     <h6 >
+                        {{item.medicines.medicineDrug}} {{item.medicines.medicineWeight}} {{item.medicines.medicineUnits}}
+                     </h6>
+                   </div>
                 </div>
 
               </ng-template>
+
               <ng-template #volunteers>
               <div>
                 <h6 class="card-subtitle text-muted">
@@ -73,6 +109,8 @@
                 </h6>
               </div>
               <hr>
+
+
               <div class="d-flex flex-sm-row bd-highlight">
               <div class="d-flex flex-sm-column p-2 w-100 bd-highlight justify-content-between">
                 <mat-icon aria-hidden="false" aria-label="Email" >email</mat-icon>
@@ -89,49 +127,22 @@
               
               </ng-template>
 
+              
+
 
               </div>
             </a>
-              <div class="card-footer">
-               <div class="status">
-                <ng-container *ngIf="item.volunteers || item.vehicles; then volunteersStatus else notVolunteersStatus"></ng-container>
+<!--               <div class="card-footer">
+ -->          
 
-               <ng-template #notVolunteersStatus>
-
-                 <span [ngClass]="[item.availability == false || item.quantity <= 0 ? 'status-out_of_stock' : 'status-with_stock']"> 
-                   <p *ngIf="item.availability && item.quantity > 0">
-                    Cantidad : {{item.quantity | number}}
-                   </p >
-
-                   <p *ngIf="!item.availability || item.quantity <= 0">
-                      SIN STOCK
-                   </p>
-                   
-                 </span>
-                </ng-template>
-               <ng-template #volunteersStatus>
-                <span [ngClass]="[item.availability == false ? 'status-out_of_stock' : 'status-with_stock']"> 
-                  <p *ngIf="item.availability">
-                   DISPONIBLE
-                  </p >
-
-                  <p *ngIf="!item.availability">
-                     NO DISPONIBLE
-                  </p>
-                  
-                </span>
-               </ng-template>
-
-               </div>    
                <div *ngIf="item.medicines" class="expiration-date text-muted"><small
                   ><span>Fecha de vencimiento: </span></small>
                   <small>
                   <span>{{ item.medicines.medicineExpirationDate}}</span>
                 </small>
               </div> 
-              </div>
-            </div>
-          </div>
+<!--               </div>
+ -->            </div>
         </li>
       </ul>
     </div>

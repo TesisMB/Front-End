@@ -55,6 +55,9 @@ text-align: center;
 .img {
 display: flex;
 justify-content: center;
+background-color: white;
+border-radius: .25rem;
+border: 1px solid #ced4da;
 }
 
 .info{
@@ -115,4 +118,8 @@ align-items: center;
 
 .rotate-180 {
       transform: rotateY(180deg);
+    }
+    img {
+        height: 338px;
+        max-width: 100%;
     }

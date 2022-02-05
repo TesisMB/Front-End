@@ -36,7 +36,6 @@ export class MaterialsComponent implements OnInit {
   ngOnInit(): void {
     this.id = +this.route.snapshot.params.id;
     this.type = this.route.snapshot.params.tipo;
-
     this.getParams();
     this.getItems();
 
@@ -56,7 +55,7 @@ export class MaterialsComponent implements OnInit {
   //  }
   
     get f(){ return this.form.controls;}
-    get checkStock(){ return (!this.item.availability || this.item.quantity <= 0);}
+    get checkStock(){ return (!this.item.availability || (this.item.quantity <= 0 && this.item.quantity != null));}
   
     getParams() {
     this.route.params.subscribe((params: Params) => {
@@ -91,6 +90,7 @@ export class MaterialsComponent implements OnInit {
     this.handler = this.service.getById(this.id, this.type).subscribe(
       (data) => {
         this.item = data;
+        this.getQuantity();
         this.form.controls.quantity.setValidators([
           Validators.required,
           Validators.min(1),
@@ -101,6 +101,20 @@ export class MaterialsComponent implements OnInit {
         this.error = err;
       }
     );
+  }
+
+  getQuantity(){
+    let cart = null;
+    this.requestService._request.subscribe( x => cart = x);
+    if(cart) {
+    cart.request.forEach((value)=> {
+      if(value.resource.name == this.item.name){
+        if(this.item.quantity > value.quantity)
+        this.item.quantity -= value.quantity;
+       else if(this.item.quantity <= value.quantity)
+       this.item.quantity = 0;
+   }});
+}
   }
 
 

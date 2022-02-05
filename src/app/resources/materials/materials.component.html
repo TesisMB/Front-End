@@ -21,7 +21,7 @@
           <div class="stock">
             <ng-container *ngIf="!item.volunteers && !item.vehicles">
                 <div
-              class="btn btn-sm"
+              class="btn btn-sm" type="button"
               [ngClass]="[checkStock ?  'btn-danger' : 'btn-success']">
               <span  id="stock" *ngIf="!checkStock">Stock disponible</span>
               <span id="stock" *ngIf="checkStock">Sin stock</span>
@@ -45,7 +45,7 @@
               </mat-form-field>       
           </form>
         </div>
-          <div class="boton p-1">
+          <div *ngIf="!item.volunteers" class="boton p-1">
             <button
               class="btn btn-sm btn-danger"
               [disabled]="checkStock"
@@ -53,8 +53,9 @@
             >
               Solicitar
             </button>
+            <hr/>
+
           </div>
-          <hr/>
           <div *ngIf="item.volunteers" class="skills" >
             <span><h2 class="title">Especialidades</h2></span>
             <span> Aqui van las skills </span>

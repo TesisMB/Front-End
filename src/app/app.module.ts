@@ -1,3 +1,4 @@
+import { ResourcesModule } from './resources/resources.module';
 import { AuthenticationService } from './services/_authentication/authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -32,7 +33,8 @@ import { ErrorInterceptor, JwtInterceptor} from './_helpers';
     NgbModule,
     ReactiveFormsModule,
     SharedModule,
-    MaterialDesignModule
+    MaterialDesignModule,
+    ResourcesModule
 
     
   ],

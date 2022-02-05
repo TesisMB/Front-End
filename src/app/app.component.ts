@@ -6,7 +6,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ChangeDetectorRef ,Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { MaterialsService } from './resources/materials/materials.service';
 
 interface FoodNode {
   name: string,
@@ -152,25 +151,22 @@ export class AppComponent implements OnDestroy{
 currentUser: User;
 error:any= "";
 handler: any;
-handleRequest: any;
-
+request = null;
 notifications: Notifications = {hasNotifications: true, number:22};
 mobileQuery: MediaQueryList;
 treeControl = new NestedTreeControl<FoodNode>(node => node.children);
 dataSource = new MatTreeNestedDataSource<FoodNode>();
 notifys: Notifys[] = NOTIFY_DATA;
-request: Request = null;
+
 
 private _mobileQueryListener: () => void;
     constructor(
         changeDetectorRef: ChangeDetectorRef,
         media: MediaMatcher,
         private authenticationService: AuthenticationService,
-        private requestService: MaterialsService,
         private router: Router,
     ) {
     this.getCurrentUser();
-    this.getRequest();
     this.dataSource.data = TREE_DATA;
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -184,9 +180,6 @@ private _mobileQueryListener: () => void;
             logout() { 
               this.authenticationService.logout();
             }
-            clearCart(){
-              this.requestService.clearCartRequest();
-            }
           
             ngOnDestroy(): void {
               this.handler.unsubscribe();
@@ -198,12 +191,9 @@ private _mobileQueryListener: () => void;
               .subscribe(x => {this.currentUser = x},
                           err => { this.error = err;});
             }
-            getRequest(){
-              this.handleRequest = this.requestService._request
-              .subscribe(
-                items => this.request = items,
-                error => this.error = error
-              );
+            get isRequest(){
+              const cart: Request = JSON.parse(localStorage.getItem('cart'));
+              return cart ? cart.request.length : false;
             }
 
           // get isAdmin() {

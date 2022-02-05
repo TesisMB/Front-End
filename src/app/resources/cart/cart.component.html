@@ -1,0 +1,83 @@
+<div *ngIf="!isRequest">
+    <div class="card text-center">
+      <div class="card-body">
+          <h4 class="card-text">Carrito vacio...</h4>
+      </div>
+    </div>
+</div>
+
+<!-- <div class="card">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let res of request['request']">
+         <p>{{res.resource.name}}</p>
+         <p>{{res.quantity}}</p> 
+        </li>
+    </ul>
+</div> -->
+<div *ngIf="isRequest">
+    
+
+   <div class="card-group scrollbar" [style.height]="getStyle" id="style-2" data-target="#navbar-example">
+        <div class="card" id="navbar-example" *ngFor="let res of request['request']; index as i">
+          
+          <div class="row no-gutters">
+                <div>
+                <img  src="../../../assets/img-materiales/{{ res.resource.picture }}"
+                    alt="{{ res.resource.description }}" 
+                    width="104" height="93" style="border-radius:0.25em">
+                </div>
+
+                <div>
+                    <div class="card-body">
+                        <button (click)="deleteFromCart(i)" color="warn" mat-icon-button>
+                            <mat-icon>clear</mat-icon>
+                          </button>
+                          <div class="card-body2">
+                            <h5 class="card-text"> {{res.resource.name}}</h5>
+                            <p class="card-text">{{res.quantity}}</p>
+                          </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    </div>
+
+<form class="form-cart">
+   
+  <mat-form-field appearance="outline">
+    <mat-label>Emergencia</mat-label>
+    <mat-select [formControl]="emergencyControl" >
+      <mat-option>-- None --</mat-option>
+      <mat-optgroup *ngFor="let group of emergencyGroups" [label]="group.name"
+                    [disabled]="group.disabled" style="z-index: 1600;">
+        <mat-option *ngFor="let emergency of group.emergency" [value]="emergency.value">
+          {{emergency.viewValue}}
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+
+<mat-form-field class="input-form-cart" appearance="outline">
+  <mat-label>Razón de la solicitud</mat-label>
+  <textarea matInput placeholder="Explique para que utilizara los recursos..."></textarea>
+</mat-form-field>
+
+<button
+class="btn btn-sm btn-primary"
+
+(click)="submitCart()"
+>
+Enviar solicitud
+</button>
+<button
+class="btn btn-sm btn-danger pl-2" style="margin-left: 35px;"
+
+(click)="clearCart()"
+>
+Vaciar carrito
+</button>
+
+</form>
+
+
+</div>

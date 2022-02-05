@@ -3,16 +3,15 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { DataService } from './../../services/data.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResourcesService } from '../resources.service';
-import { TouchSequence } from 'selenium-webdriver';
 import { Request } from 'src/app/models';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MaterialsService extends DataService {
   private requestSubject : BehaviorSubject<any>;
-  public _request: Observable<any>;
+  public _request: Observable<any> = null;
   private request: Request = null;
 
   constructor(http: HttpClient) { 
@@ -70,4 +69,26 @@ export class MaterialsService extends DataService {
     this.requestSubject.next(null);
     localStorage.removeItem('cart');
   }
+
+  updateCart(items:Request){
+    if (items.request.length > 0){
+    this.requestSubject.next(items);
+    const jsonItems = JSON.stringify(items);
+    localStorage.setItem('cart',JSON.stringify(items));
+  } else {
+  this.clearCartRequest();
+  }
+}
+
+  postRequest(request){
+    return this.http.post(environment.URL + 'Resources_Request', request);
+  }
+
+  deleteFromCart(index: number){
+    let cart = this.requestSubject.value;
+   cart.request.splice(index,1);
+  this.updateCart(cart);
+  }
+
+
 }

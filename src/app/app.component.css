@@ -1,6 +1,31 @@
+    /* --------------Cart ------- */
+/*     .form-cart{
+    max-width: 211px;
+    min-width: 100px;
+    width: 100%;
+    }
+    .input-form-cart{
+    width: 100% ;
+    }
+    .card-group{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        }
+        .card{
+        width: 100% ;
+        max-width: 211px;
+        min-width: 211px;
+        }
+        .list-group-item{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: baseline;
+        } */
     /* --------------------------------------Nav-------------------------------------- */
     /* Nav */
-    
+
     .contenedor {
         width: 96%;
         max-width: 1366px;
@@ -33,6 +58,7 @@
         min-height: 0 !important;
         padding-top: 10px;
     }
+
     
     .listado-interno {}
     
