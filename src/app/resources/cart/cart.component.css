@@ -1,5 +1,8 @@
     --------------Cart ------- 
    .form-cart{
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
     max-width: 100px;
     width: 100%;
     margin-top: 10px !important;
@@ -11,12 +14,15 @@
     }
     textarea{
         /* resize: none; */
-        height: 25px;
+        height: 40px;
     }
     .input-form-cart{
-    width: 100% ;
+    width: 250px;
     }
 
+    .button{
+        flex-direction: column;
+    }
 
     .card-group{
         overflow-y: scroll !important;
@@ -49,6 +55,7 @@
             padding: .25rem;
             width: 100%;
         }
+
 
         .card-body button{
             margin-left: 5.2rem;
@@ -89,4 +96,24 @@
     
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #D62929;
+}
+.notRender{
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 250px;
+}
+.mat-icon1{
+    margin: 10px;
+    font-size: 45px;
+}
+.body-message{
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+height: 250px;  
 }

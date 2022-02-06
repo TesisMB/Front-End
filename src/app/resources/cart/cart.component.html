@@ -1,7 +1,38 @@
+<ng-container *ngIf="!error; then render else notRender"></ng-container>
+
+<ng-template #notRender>
+  <ng-container *ngIf="error">
+    <span class="text-center" *ngIf="loading">
+      <i class="fas fa-spinner fa-lg fa-spin">
+      </i>
+    </span>
+  </ng-container>
+ <ng-container *ngIf="!error" >
+<div class="notRender">
+  <div class="error-message">
+<div class="text-center">
+  <button color="warn" mat-icon-button>
+    <mat-icon  class="mat-icon1" > production_quantity_limits
+</mat-icon> 
+  </button>
+</div>
+
+<h4 class=" text-muted text-center m-2">Ha ocurrido un error...</h4>
+<p class="text-muted text-center m-2">Vuelva a intentar mas tarde</p>
+</div>
+</div>
+</ng-container>
+</ng-template>
+
+
+<ng-template #render>
+
+<ng-template *ngIf="!isRequest"></ng-template>
 <div *ngIf="!isRequest">
-    <div class="card text-center">
-      <div class="card-body">
+    <div class="card notRender text-center">
+      <div class="">
           <h4 class="card-text">Carrito vacio...</h4>
+          <mat-icon class="mat-icon1" >add_shopping_cart</mat-icon>
       </div>
     </div>
 </div>
@@ -15,10 +46,9 @@
     </ul>
 </div> -->
 <div *ngIf="isRequest">
-    
-
    <div class="card-group scrollbar" [style.height]="getStyle" id="style-2" data-target="#navbar-example">
-        <div class="card" id="navbar-example" *ngFor="let res of request['request']; index as i">
+
+           <div class="card" id="navbar-example" *ngFor="let res of request['request']; index as i">
           
           <div class="row no-gutters">
                 <div>
@@ -33,9 +63,16 @@
                             <mat-icon>clear</mat-icon>
                           </button>
                           <div class="card-body2">
-                            <h5 class="card-text"> {{res.resource.name}}</h5>
-                            <p class="card-text">{{res.quantity}}</p>
-                          </div>
+                            <h3 class="card-text mb-2"> {{res.resource.name}}</h3>
+
+                            <mat-form-field appearance="legacy" style="width: 85px;">
+                              <mat-label>Cantidad</mat-label>
+                              <input required matInput #input type="number" [(ngModel)]="res.quantity"  
+                               min="0" [max]="res.resource.quantity" [ngClass]="{'is-invalid': input.value <= 0}">
+                              <span matSuffix class="text-muted"> &nbsp; uds. </span>
+                              <mat-hint  align="end">{{input.value}} / {{getMax(i)}}</mat-hint>
+                              <mat-error *ngIf="input.value <= 0">{{getErrorMessage(input.value)}}</mat-error>
+                            </mat-form-field>                                 </div>
                     </div>
                 </div>
             </div>
@@ -44,12 +81,12 @@
 
 <form class="form-cart">
    
-  <mat-form-field appearance="outline">
+  <mat-form-field class="input-form-cart" appearance="outline">
     <mat-label>Emergencia</mat-label>
     <mat-select [formControl]="emergencyControl" >
       <mat-option>-- None --</mat-option>
       <mat-optgroup *ngFor="let group of emergencyGroups" [label]="group.name"
-                    [disabled]="group.disabled" style="z-index: 1600;">
+                    [disabled]="group.disabled">
         <mat-option *ngFor="let emergency of group.emergency" [value]="emergency.value">
           {{emergency.viewValue}}
         </mat-option>
@@ -61,23 +98,29 @@
   <mat-label>Razón de la solicitud</mat-label>
   <textarea matInput placeholder="Explique para que utilizara los recursos..."></textarea>
 </mat-form-field>
-
+<div class="button m-3 d-flex">
 <button
-class="btn btn-sm btn-primary"
-
+class="btn btn-sm btn-secondary" 
+[disabled]="loading"
 (click)="submitCart()"
 >
-Enviar solicitud
+<span class="text-center" *ngIf="loading">
+  <i class="fas fa-spinner fa-lg fa-spin">
+  </i>
+</span>
+<span *ngIf="!loading">Enviar solicitud
+</span>
 </button>
 <button
-class="btn btn-sm btn-danger pl-2" style="margin-left: 35px;"
-
+  class="btn btn-sm btn-danger mt-3"
+  [disabled]="loading"
 (click)="clearCart()"
 >
 Vaciar carrito
 </button>
-
+</div>
 </form>
 
 
 </div>
+</ng-template>
