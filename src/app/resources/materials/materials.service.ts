@@ -71,7 +71,7 @@ export class MaterialsService extends DataService {
   }
 
   updateCart(items:Request){
-    if (items.request.length > 0){
+    if (items.request.length){
     this.requestSubject.next(items);
     const jsonItems = JSON.stringify(items);
     localStorage.setItem('cart',JSON.stringify(items));
@@ -81,7 +81,7 @@ export class MaterialsService extends DataService {
 }
 
   postRequest(request){
-    return this.http.post(environment.URL + 'Resources_Request', request);
+    return this.http.post(environment.URL + 'ResourcesRequest', request);
   }
 
   deleteFromCart(index: number){

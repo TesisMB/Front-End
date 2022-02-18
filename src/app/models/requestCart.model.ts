@@ -6,7 +6,8 @@ export  interface Request{
     userID: number,
     request:[{
       resource: Resource,
-      quantity: number
+      quantity: number,
+      error?:string
     }],
     state: boolean,
     createDate: number,

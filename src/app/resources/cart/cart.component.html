@@ -46,15 +46,18 @@
     </ul>
 </div> -->
 <div *ngIf="isRequest">
-   <div class="card-group scrollbar" [style.height]="getStyle" id="style-2" data-target="#navbar-example">
+<form  [formGroup]="form" (ngSubmit)="onSubmit()">
+
+   <div class="card-group scrollbar" formArrayName="resources_RequestResources_Materials_Medicines_Vehicles" [style.height]="getStyle" id="style-2" data-target="#navbar-example">
 
            <div class="card" id="navbar-example" *ngFor="let res of request['request']; index as i">
           
-          <div class="row no-gutters">
-                <div>
+          <div class="row no-gutters" [formGroupName]="i">
+            
+                <div width="104" height="93" style="border-radius:0.25em">
                 <img  src="../../../assets/img-materiales/{{ res.resource.picture }}"
                     alt="{{ res.resource.description }}" 
-                    width="104" height="93" style="border-radius:0.25em">
+                    width="100%"  style="border-radius:0.25em">
                 </div>
 
                 <div>
@@ -64,45 +67,70 @@
                           </button>
                           <div class="card-body2">
                             <h3 class="card-text mb-2"> {{res.resource.name}}</h3>
-
-                            <mat-form-field appearance="legacy" style="width: 85px;">
+                          <ng-container *ngIf="!res.error">
+                            <mat-form-field appearance="legacy" style="width: 85px;" >
                               <mat-label>Cantidad</mat-label>
-                              <input required matInput #input type="number" [(ngModel)]="res.quantity"  
-                               min="0" [max]="res.resource.quantity" [ngClass]="{'is-invalid': input.value <= 0}">
+                              <input required matInput #input type="number" [(ngModel)]="cloneRequest.request[i].quantity" name="quantity"  formControlName="quantity"
+                               min="1" [max]="getMax(i)" [readonly]="" [ngClass]="{'is-invalid': input.value <= 0}">
                               <span matSuffix class="text-muted"> &nbsp; uds. </span>
-                              <mat-hint  align="end">{{input.value}} / {{getMax(i)}}</mat-hint>
-                              <mat-error *ngIf="input.value <= 0">{{getErrorMessage(input.value)}}</mat-error>
-                            </mat-form-field>                                 </div>
+                              <mat-hint  align="end">{{input.value}} / {{res.resource.quantity + res.quantity}}</mat-hint>
+                              <mat-error *ngIf="array.invalid">{{getErrorMessage(input.value, res.resource.quantity )}}</mat-error>
+                            </mat-form-field>       
+                          </ng-container>
+                          <ng-container *ngIf="res.error">
+                            <p class="text-muted">{{res.error}}</p>
+                          </ng-container>
+                          </div>
                     </div>
                 </div>
-            </div>
+              </div>
     </div>
     </div>
 
-<form class="form-cart">
-   
-  <mat-form-field class="input-form-cart" appearance="outline">
-    <mat-label>Emergencia</mat-label>
-    <mat-select [formControl]="emergencyControl" >
-      <mat-option>-- None --</mat-option>
-      <mat-optgroup *ngFor="let group of emergencyGroups" [label]="group.name"
-                    [disabled]="group.disabled">
+    <!-- <mat-form-field class="input-form-cart" appearance="outline"> -->
+      
+      <!-- <mat-select matInput formControlName="FK_EmergencyDisasterID" >
+        <mat-option>-- None --</mat-option>
+        <mat-optgroup *ngFor="let group of emergencyGroups" [label]="group.name"
+        [disabled]="group.disabled">
         <mat-option *ngFor="let emergency of group.emergency" [value]="emergency.value">
           {{emergency.viewValue}}
         </mat-option>
       </mat-optgroup>
     </mat-select>
-  </mat-form-field>
-
+    <mat-label>Emergencia</mat-label> 
+ <mat-error *ngIf="EmergencyIDForm">Dato obligatorio.</mat-error>-->
+ <!-- </mat-form-field> -->
+ 
+ <div class="input-form-cart">
+    <select type="number" formControlName="FK_EmergencyDisasterID" class="custom-select custom-select-sm">
+      <option selected>Seleccione una emergencia</option>
+      <optgroup *ngFor="let group of emergencyGroups" [label]="group.name"
+      [disabled]="group.disabled">
+      <option  *ngFor="let emergency of group.emergency" [value]="emergency.value">
+        {{emergency.viewValue}}</option>
+      </optgroup>
+    </select>
+    <div *ngIf="f.FK_EmergencyDisasterID.touched && f.FK_EmergencyDisasterID.invalid">
+ <mat-error *ngIf="f.FK_EmergencyDisasterID.errors.required">Este campo es requerido.</mat-error>
+ <mat-error *ngIf="f.FK_EmergencyDisasterID.errors.pattern">Seleccione una porfavor.</mat-error>
+  </div>
+  </div>
+  
+  
+  <div class="form-cart mt-3">
 <mat-form-field class="input-form-cart" appearance="outline">
   <mat-label>Razón de la solicitud</mat-label>
-  <textarea matInput placeholder="Explique para que utilizara los recursos..."></textarea>
+  <textarea formControlName="Reason" maxLength="153" matInput #textarea placeholder="Explique para que utilizara los recursos..."></textarea>
+  <mat-hint  align="end">{{textarea.value.length}} / 153</mat-hint>
+  <mat-error *ngIf="reasonForm">Dato obligatorio.</mat-error>
+
 </mat-form-field>
 <div class="button m-3 d-flex">
 <button
+type="submit"
 class="btn btn-sm btn-secondary" 
 [disabled]="loading"
-(click)="submitCart()"
 >
 <span class="text-center" *ngIf="loading">
   <i class="fas fa-spinner fa-lg fa-spin">
@@ -119,8 +147,8 @@ class="btn btn-sm btn-secondary"
 Vaciar carrito
 </button>
 </div>
+
+</div>
 </form>
-
-
 </div>
 </ng-template>
