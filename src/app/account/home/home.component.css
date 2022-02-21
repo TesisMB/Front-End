@@ -1,4 +1,3 @@
-
 /* --------------------------------------Nav-------------------------------------- */
 
 /* Nav */
@@ -67,20 +66,20 @@ nav {
 }
 
 
-label #menu{
+label #menu {
   cursor: pointer;
   font-size: 20px;
   transition: .5s;
 }
 
 
-#check:checked ~ .Enlaces {
+#check:checked~.Enlaces {
   left: 0px;
 }
 
 
 
-.Enlaces ul, .enlaces-user ul{
+.Enlaces ul, .enlaces-user ul {
   line-height: 40px;
   font-size: 16px;
   font-weight: 600;
@@ -88,22 +87,22 @@ label #menu{
 
 
 
-.Enlaces ul li{
+.Enlaces ul li {
   list-style: none;
-  border-bottom: 1px solid  rgb(188, 188, 188);
+  border-bottom: 1px solid rgb(188, 188, 188);
 }
 
-.Enlaces ul li:hover, .enlaces-user ul li:hover{
+.Enlaces ul li:hover, .enlaces-user ul li:hover {
   background: rgba(188, 188, 188, 0.337);
 }
 
 
-.Enlaces ul li i, .enlaces-user ul li i{
+.Enlaces ul li i, .enlaces-user ul li i {
   padding-right: 20px;
   margin-left: 10px;
 }
 
-.Enlaces ul li a, .enlaces-user ul li a{
+.Enlaces ul li a, .enlaces-user ul li a {
   color: #000;
   margin-left: 20px;
   transition: all .3s ease;
@@ -113,7 +112,7 @@ label #menu{
 /* --------------------------------------Nav user-------------------------------------- */
 
 /* user */
-.enlaces-user{
+.enlaces-user {
   position: fixed;
   width: 240px;
   top: 60px;
@@ -126,13 +125,13 @@ label #menu{
   right: 0px;
 }
 
-.enlaces-user ul li{
+.enlaces-user ul li {
   list-style: none;
-  border-bottom: 1px solid  rgb(188, 188, 188);
+  border-bottom: 1px solid rgb(188, 188, 188);
 }
 
-label #user{
-cursor: pointer;
+label #user {
+  cursor: pointer;
 }
 
 /* --------------------------------------header-------------------------------------- */
@@ -140,7 +139,6 @@ cursor: pointer;
 header::before {
   content: "";
   display: flex;
-  margin-bottom: 60px;
 }
 
 .contenedor1 {
@@ -157,7 +155,6 @@ header::before {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 30px;
   border-bottom: 1px solid transparent;
 }
 
@@ -205,7 +202,7 @@ header::before {
   justify-content: space-around;
 }
 
-.articulo{
+.articulo {
   width: 20%;
   background: #fff;
   margin-bottom: 20px;
@@ -218,13 +215,13 @@ header::before {
 }
 
 
-.articulo h3{
-      font-size: 24px;
-      margin-top: 10px;
-      text-align: center;
+.articulo h3 {
+  font-size: 24px;
+  margin-top: 10px;
+  text-align: center;
 }
 
-.articulo p{
+.articulo p {
   font-weight: 100;
   color: #5d6678;
   margin-top: 10px;
@@ -232,7 +229,7 @@ header::before {
   padding-bottom: 10px;
 }
 
-.articulo a, .articulo-max a{
+.articulo a, .articulo-max a {
   text-decoration: none;
   color: #5d6678;
   font-weight: 400;
@@ -244,13 +241,13 @@ header::before {
 }
 
 
-.contenedor-articulo-max{
+.contenedor-articulo-max {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
 
-.articulo-max{
+.articulo-max {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -263,19 +260,18 @@ header::before {
   padding-bottom: 30px;
 }
 
-.articulo-max:hover{
+.articulo-max:hover {
   box-shadow: 0 4px 10px rgba(17, 29, 48, 0.563);
 }
 
-.articulo-max h3{
+.articulo-max h3 {
   font-size: 24px;
   margin-top: 30px;
   text-align: center;
 }
 
-.articulo-max p{
+.articulo-max p {
   font-weight: 100;
   color: #5d6678;
   text-align: center;
 }
-

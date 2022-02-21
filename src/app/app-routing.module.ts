@@ -7,30 +7,30 @@ import { AuthGuard } from './_helpers';
 import { NotFoundComponent } from './shared';
 import { RoleName } from './models/role';
 
-const clientModule = () => import ('./client/client.module').then(x => x.ClientModule);
-const accountModule = () => import ('./account/account.module').then(x => x.AccountModule);
-const usersModule = () => import ('./users/users.module').then(x => x.UsersModule);
+const clientModule = () => import('./client/client.module').then(x => x.ClientModule);
+const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
+const usersModule = () => import('./users/users.module').then(x => x.UsersModule);
 const resourcesModule = () => import('./resources/resources.module').then(m => m.ResourcesModule);
-const emergencyModule = () => import('./emergency-disaster/emergency-disaster.module').then(m => m.EmergencyDisasterModule);
+const emergencyModule = () => import('./emergency-disaster/layout-emergency-disaster/emergency-disaster.module').then(m => m.EmergencyDisasterModule);
 
 export const routes: Routes = [
   {
-    path: '' ,
+    path: '',
     loadChildren: accountModule,
-     canActivate: [AuthGuard]
-    
+    canActivate: [AuthGuard]
+
   },
 
   {
-     path: 'cliente',
-     loadChildren: clientModule
+    path: 'cliente',
+    loadChildren: clientModule
 
   },
   {
     path: 'empleados',
     loadChildren: usersModule,
     canActivate: [AuthGuard],
-    data:{ roles: [RoleName.Admin, RoleName.CoordinadorGeneral]}
+    data: { roles: [RoleName.Admin, RoleName.CoordinadorGeneral] }
   },
 
 
@@ -38,18 +38,23 @@ export const routes: Routes = [
     path: 'recursos',
     loadChildren: resourcesModule,
     canActivate: [AuthGuard],
+<<<<<<< Updated upstream
     data:{ roles: [RoleName.Admin, RoleName.CoordinadorGeneral, RoleName.Logistica]}
    },
+=======
+    data: { roles: [RoleName.Admin, RoleName.Logistica, RoleName.CEyD, RoleName.CoordinadorGeneral] }
+  },
+>>>>>>> Stashed changes
 
   {
     path: 'emergencias',
     loadChildren: emergencyModule,
     canActivate: [AuthGuard],
-    data:{ roles: [RoleName.Admin, RoleName.CoordinadorGeneral, RoleName.CEyD]}
-   },
+    data: { roles: [RoleName.Admin, RoleName.CoordinadorGeneral, RoleName.CEyD] }
+  },
   // Si se ingresa a una direccion inexistente, redirecciona a 404 not found.-
   {
-    path:'**',
+    path: '**',
     component: NotFoundComponent
   }
 ];

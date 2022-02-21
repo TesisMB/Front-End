@@ -1,56 +1,66 @@
-.container{
+.container {
   display: flex;
-  margin-top: 100px;
+  margin-top: 50px;
+  flex-direction: row;
   justify-content: space-around;
-  position: absolute;
   z-index: -1;
-  left: 6%;
 }
 
-.Name-Lastname
-{
+.Name-Lastname {
   font-size: 18px;
   text-align: center;
   padding-top: 20px;
 }
 
-.Email{
+.Email {
   text-align: center;
 }
 
-.active{
-  background: #F7F7F7!Important;
+.active {
+  background: #F7F7F7 !Important;
 }
 
-.nav-link{
-  color: #000!Important;
-  font-size: 14px!Important;
+.nav-link {
+  color: #000 !Important;
+  font-size: 14px !Important;
   padding: 15px 35px;
   cursor: pointer;
 }
 
-.nav-link i{
+.nav-link i {
   padding-right: 10px;
 }
 
 
+<<<<<<< Updated upstream
 label{
   display:flex;
+=======
+strong {
+  display: flex;
+>>>>>>> Stashed changes
   margin-bottom: 0;
 }
 
 
-.info, .Email{
+.info, .Email {
   font-size: 14px;
 }
 
 
 
-.title{
+.title {
   text-transform: uppercase;
   color: #000;
   font-size: 16px;
   padding: 20px;
+<<<<<<< Updated upstream
+=======
+  text-align: center;
+  background-color: #F7F7F7;
+  font-weight: 300;
+
+>>>>>>> Stashed changes
 }
 
 
@@ -62,44 +72,105 @@ label{
 .correoInput,
 .fechaInput,
 .correoInput,
+<<<<<<< Updated upstream
 .passwordInput{
   width:30%;
   border: none;
  border-bottom: 1px solid black;
  outline: none;
  margin-bottom: 1rem;
+=======
+.passwordInput {
+  width: 60%;
+  padding: 4px 0;
+  margin-bottom: 1rem;
+>>>>>>> Stashed changes
 }
 
-.enviar{
+.enviar {
   width: 30%;
-    background: #9ea0a3;
-      transition: 0.3s ease-in-out;
-      border:none;
-      outline:none;
-      margin-bottom: 1rem;
-      margin-top: 15px;
-      padding: 10px 10px;
+  background: #9ea0a3;
+  transition: 0.3s ease-in-out;
+  border: none;
+  outline: none;
+  margin-bottom: 1rem;
+  margin-top: 15px;
+  padding: 10px 10px;
   box-shadow: 0px 0px 30px -7px rgba(0, 0, 0, 0.75);
 
 }
 
+<<<<<<< Updated upstream
 .cancelar{
+=======
+.ngContainer {
+  transition: 1s linear;
+}
+
+.cancelar {
+>>>>>>> Stashed changes
   color: #000;
   text-decoration: none;
   margin-bottom: 15px;
 }
 
-.enviar:hover{
+.enviar:hover {
   background: #b71c1c;
-    transform: translateY(5px);
-    color: #fff;
+  transform: translateY(5px);
+  color: #fff;
 }
 
+<<<<<<< Updated upstream
 .general{
+  padding: 25px 0 0 50px;
+=======
+.personal {
   padding: 25px 0 0 50px;
 }
 
-.form-group
-{
+.general {
+  padding: 25px 0 0 50px;
+
+}
+
+.work {
+  padding: 25px 0 0 0;
+>>>>>>> Stashed changes
+}
+
+.form-group {
   margin: 0;
+}
+
+@media screen and (max-width: 1000px) {
+  .container {
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+  }
+
+  .perfil {
+    width: 100%;
+  }
+
+  .card-left, .card-right {
+    margin-top: 20px;
+    max-width: 100%;
+  }
+
+  .card-right {
+    margin-left: 0 !important;
+  }
+
+  .row {
+    margin: 0 !important;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  .work, .personal {
+    padding: 0;
+    width: 100%;
+  }
 }

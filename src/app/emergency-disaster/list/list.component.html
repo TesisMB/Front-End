@@ -1,0 +1,39 @@
+<!-- Card -->
+<div class="card" *ngFor="let emergency of emergencyDisaster index as i"
+  [ngStyle]="{backgroundColor: getCardColor(emergency.alerts.alertDegree)}">
+
+  <div class="content-left">
+    <img
+      src="../../../assets/icons - Resources - EmergDesas/{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterIcon}}.svg"
+      alt="" class="img">
+    <p>{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
+  </div>
+
+  <div class="content-center">
+    <div class="child">
+
+      <p>{{emergency.locations.locationCityName}}</p>
+
+      <p>{{emergency.emergencyDisasterStartDate}}</p>
+    </div>
+  </div>
+
+  <div class="content-right">
+    <div class="child-2">
+
+      <button mat-icon-button (click)="openVerticallyCentered(i)">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+
+      <!--  <button mat-menu-item>
+          <span>Redial</span>
+        </button> -->
+
+      <div class="child-2p">
+        <p *ngIf="!emergency.emergencyDisasterEndDate">Activo</p>
+        <p *ngIf="emergency.emergencyDisasterEndDate">Inactivo</p>
+      </div>
+    </div>
+  </div>
+</div>

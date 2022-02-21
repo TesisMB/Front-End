@@ -1,0 +1,63 @@
+.modo {
+  text-align: center;
+}
+
+.modo h2 {
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.124);
+  font-size: 25px;
+}
+
+.modo h4 {
+  font-size: 20px;
+  margin: 2rem 0;
+
+}
+
+.date {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1rem;
+}
+
+.date p:nth-child(1) {
+  text-align: left;
+}
+
+.date p:nth-child(2) {
+  text-align: right;
+}
+
+.date p span {
+  font-size: 16px;
+}
+
+mat-icon {
+  font-size: 20px;
+}
+
+
+.location {
+  border: 1px solid #ccc;
+  height: 300px;
+  grid-template-columns: 1fr;
+}
+
+.location:nth-child(1) {
+  margin-left: 20px;
+}
+
+.instruction {
+  overflow-y: auto;
+  margin: 0 20px;
+}
+
+
+.date .calendar,
+.date .person {
+  margin-left: 20px;
+}
+
+.date .calendar-end {
+  margin-right: 20px;
+}
