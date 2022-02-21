@@ -24,7 +24,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   loading = false;
   canReset: boolean = true;
   form: FormGroup;
-
+  
   updateHandler: any;
   deleteHandler: any;
   formHandler: any;
@@ -42,17 +42,17 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     private alertService: AlertService,
     private authenticationService: AuthenticationService ) {
     }
-
+  
     @Input() user: Employee;
 
-
+    
   ngOnInit() {
 
     //elimino el valor Voluntario y Admin y deshabilito la opcion de resetear password.
-    if(this.user.users.roleName=='Admin'){
+    if(this.user.users.roleName=='Admin'){ 
       this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !=='Voluntario');
       this.canReset = true;
-    }
+    }  
     else {
       this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !=='Voluntario' && 'Admin');
       this.canReset = false
@@ -106,7 +106,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.f.invalid) {
         console.log('form invalido');
           return;}
-
+    
     this.loading = true;
 
     //Compara los cambios realizados del modelo clonado al principio
@@ -117,7 +117,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     //Subscripcion que captura todos los cambios realizados en el formulario
     // y los guarda en el usuario
     this.formHandler = this.f.valueChanges
-    .subscribe((change: Employee) =>
+    .subscribe((change: Employee) => 
       {
       this.user = change;
     },
@@ -130,11 +130,11 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onClick(){
     //metodo que habilita y deshabilita el formulario, se ejecuta al clickear en el boton Actualizar Datos
-    (this.form.disabled)?this.form.enable():this.form.disable();
+    (this.form.disabled)?this.form.enable():this.form.disable(); 
   }
 
   private updateUser(patch) {
-
+  
     this.updateHandler =  this.userService.userUpdate(this.user.employeeID, patch, this.user.users )
           .pipe()
           .subscribe(
@@ -151,13 +151,13 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
               });
   }
 
-  changeStatus(reason: string){
+  changeStatus(reason: string){  
     this.loading = true;
     //Se abre el modal de confirmacion.
     const modalRef = this.modalService.open(ConfirmModalComponent);
     modalRef.componentInstance.user = this.model.users;
     modalRef.componentInstance.action = reason;
-
+  
     modalRef.result.then(
       ()=> {
         if (reason ==='Eliminar'){
@@ -167,10 +167,10 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     (this.model.users.userAvailability) ? this.f.get('users.userAvailability').setValue(false) : this.f.get('users.userAvailability').setValue(true);
       this.patch();
   }},
-    cancel =>{
+    cancel =>{ 
       this.loading = false;
       console.log('Acción cancelada con: ' + cancel);
-    });
+    }); 
   }
 
   patch(){
@@ -196,7 +196,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   );}
 
-  generatePDF(){
+  generatePDF(){ 
     let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
     this.userService.generatePDF(this.user.employeeID).subscribe(res => {
       const file = new Blob([<any>res], {type: 'application/pdf'});
@@ -218,8 +218,8 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
                                     this.alertService.error('Ha ocurrido un error, porfavor intentar más tarde.',{autoClose: true});}
                           );}
 
-
-
+  
+ 
 ngOnDestroy(){
   this.formHandler.unsubscribe();
   if(this.updateHandler){

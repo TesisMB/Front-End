@@ -1,142 +1,155 @@
 .head {
-  justify-content: center;
-  align-self: center;
-  position: relative;
-  top: 30px;
-  margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+    margin-top: 1rem;
 }
 
 .img {
-  height: 50px;
-  width: 50px;
-  position: relative;
-  top: -50px;
-  left: 20px;
+    height: 50px;
+    width: 50px;
+    position: relative;
 }
 
 h1 {
-  color: #fff;
-  position: relative;
-  top: 50px;
-  font-size: 25px;
+    color: #fff;
+    position: relative;
+    font-size: 25px;
+    margin: 10px 0 0 0 !important;
 }
 
 .Container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  top: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 50px;
 }
 
 form {
-  /*todo lo que se encuentra dentro del login */
-  width: 300px;
-  height: 400px;
-  position: relative;
-  background-color: #bd2d2d;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: 15px;
-  padding: 0px 15px 0px 15px;
-  box-shadow: 0px 25px 36px 12px rgba(0, 0, 0, 0.51); /*sombra del login */
-  overflow: hidden;
+    /*todo lo que se encuentra dentro del login */
+    width: 300px;
+    height: 480px;
+    position: relative;
+    background-color: #bd2d2d;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 15px;
+    padding: 0px 15px 0px 15px;
+    box-shadow: 0px 25px 36px 12px rgba(0, 0, 0, 0.51);
+    /*sombra del login */
+    overflow: hidden;
 }
 
 .invalid-feedback {
-  color: #fff;
+    color: #fff;
 }
 
 .text .invalid-feedback {
-  color: #fff;
+    color: #fff;
 }
 
-.icons{
-  margin: 0;
-  padding: 0;
+.icons {
+    margin: 0;
+    padding: 0;
 }
 
 .material-icons {
-  /* Icono usado para poder visualizar la contraseña */
-  color: white;
+    /* Icono usado para poder visualizar la contraseña */
+    color: white;
+    cursor: pointer;
 }
 
 form input {
-  /*contraseña y el Dni */
-  width: 100%;
-  height: 50px;
-  padding-top: 20px;
-  color: white;
-  border: none;
-  background-color: #bd2d2d;
-  border-bottom: 2px solid white;
-  outline: none;
+    /*contraseña y el Dni */
+    width: 100%;
+    height: 50px;
+    padding-top: 20px;
+    color: white;
+    border: none;
+    background-color: #bd2d2d;
+    border-bottom: 2px solid white;
+    outline: none;
 }
 
 .dni {
-  position: relative;
-  top: 20px;
+    position: relative;
+    top: 20px;
 }
 
 form label {
-  transform: translateY(-50px);
-  pointer-events: none;
+    transform: translateY(-50px);
+    pointer-events: none;
 }
 
 .contentDni {
-  position: absolute;
-  top: 45px;
-  right: 195px;
-  color: white;
-  transition: all 0.3s ease;
+    position: absolute;
+    top: 45px;
+    right: 195px;
+    color: white;
+    transition: all 0.3s ease;
 }
 
 .contentPassword {
-  position: absolute;
-  top: 45px;
-  right: 195px;
-  color: white;
-  transition: all 0.3s ease;
+    position: absolute;
+    top: 45px;
+    right: 195px;
+    color: white;
+    transition: all 0.3s ease;
 }
 
-form input:focus + .labelDni .contentDni,
-form input:valid + .labelDni .contentDni {
-  transform: translateY(-100%);
-  font-size: 14px;
-  color: rgb(20, 20, 20);
+form input:focus+.labelDni .contentDni,
+form input:valid+.labelDni .contentDni {
+    transform: translateY(-100%);
+    font-size: 14px;
+    color: rgb(20, 20, 20);
 }
 
-form input:focus + .labelPassword .contentPassword,
-form input:valid + .labelPassword .contentPassword {
-  transform: translateY(-100%);
-  font-size: 14px;
-  color: rgb(20, 20, 20);
+form input:focus+.labelPassword .contentPassword,
+form input:valid+.labelPassword .contentPassword {
+    transform: translateY(-100%);
+    font-size: 14px;
+    color: rgb(20, 20, 20);
 }
 
-button {
-  background-color: white;
-  color: rgb(20, 20, 20);
-  width: 130px;
-  height: 40px;
-  border: none;
-  border-radius: 8px;
-  display: flex;
-  align-self: center;
-  margin-top: 30px;
-  justify-content: center;
-  font-size: 16px;
-  text-align: center;
-  outline: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding-top: 10px;
+.btn-login {
+    background-color: white;
+    color: rgb(20, 20, 20);
+    width: 130px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-self: center;
+    margin-top: 30px;
+    justify-content: center;
+    font-size: 16px;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding-top: 10px;
 }
 
-button:hover {
-  transform: translateY(10px);
+.buttons {
+    position: relative;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
 }
 
-a:hover {
-  color: #fff;
+.btn-login:hover {
+    transform: translateY(10px);
+}
+
+a:hover,
+.btn-forgot:hover {
+    color: #fff;
+}
+
+#cancelar {
+    margin-top: 10px;
 }

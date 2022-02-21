@@ -20,14 +20,14 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
   getHandler: any="";
   patchHandler: any ="";
   error: any = "";
-
+  
 
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
-  constructor(
+  constructor( 
     private modalService: NgbModal,
     public service: TableService) {
 
-
+    
   }
 ngOnInit() {
     this.employees$ = this.service.employees$;
@@ -35,7 +35,7 @@ ngOnInit() {
     this.service.uploadTable();
 }
   onShow(event){
-    this.service.showAvailability = event.checked;
+    this.service.showAvailability = event.checked; 
   }
 
   onSort({column, direction}: SortEvent) {
@@ -50,15 +50,14 @@ ngOnInit() {
     this.service.sortDirection = direction;
   }
   open(index) {
-    console.log('indice', index)
     const modalRef = this.modalService.open(NgbdModalComponent, { size: 'xl' });
-    modalRef.componentInstance.user = this.service.empleadosValue[index];
+    modalRef.componentInstance.user = this.service.empleadosValue[index];      
   }
 
+  
 
 
-
-  ngOnDestroy(){
-
+  ngOnDestroy(){  
+     
   }
 }

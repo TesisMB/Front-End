@@ -1,74 +1,15 @@
-  <div class="title">
-    <h1>Lista de Usuarios</h1>
+ <div class="container-fluid">
+   <header>
+     <div class="title">
+    <h2>Listado de empleados</h2>
+    <h4>Ciudad de {{ubication}}</h4>
   </div>
-
-  <div class="container">
-    <a routerLink="register" class="btn btn-sm btn-success mb-2">Agregar usuario</a>
-    <table class="table table-striped" style="z-index: 50; box-shadow: 0px 25px 36px 12px rgba(0, 0, 0, 0.10);">
-      <thead>
-        <tr style="background: #fff;">
-          <th>DNI</th>
-          <th>Nombre</th>
-          <th>Role</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{user.userDni}}</td>
-          <td>{{user.persons.firstName | titlecase}} {{user.persons.lastName| titlecase}}</td>
-          <td>{{user.roles.roleName| titlecase}}</td>
-          <td style="white-space: nowrap">
-            <a routerLink="edit/{{user.userID}}" class="btn btn-sm btn-primary mr-1">Actualizar</a>
-
-  <!-- Button trigger modal -->
-  <button type="button" (click)="GetID(user.userID)" class="btn btn-sm btn-danger mr-1" data-toggle="modal" data-target="#exampleModalCenter">
-    Eliminar
-  </button>
-           
-          </td>
-        </tr>
-        <tr *ngIf="!users">
-          <td colspan="4" class="text-center">
-            <span class="spinner-border spinner-border-lg align-center"></span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+</header>
+  <div class="row">
+  
+  <div class="table">
+    <ngbd-table-complete></ngbd-table-complete>
   </div>
-
-
-
-
-
-
-
-
-  <!-- Modal -->
-  <div *ngFor="let user of users" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header"  style="background: #b71c1c; padding: 15px;">
-          <h5 class="modal-title" id="exampleModalLongTitle" style="color: #fff;">Eliminación de Usuario</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true" style="color: #fff;">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ¿Esta seguro que quiere eliminar al usuario?
-          <br><br>
-          Toda la información asociada a este perfil se eliminará de forma permanente.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <tr>
-             <button type="button" (click)="deleteUser(userID)" class="btn btn-danger btn-delete-user"
-              [disabled]="user.isDeleting">
-              <span *ngIf="user.isDeleting" class="spinner-border spinner-border-sm"></span>
-              <span *ngIf="!user.isDeleting">Eliminar</span>
-            </button>
-          </tr>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
+</div>
+  

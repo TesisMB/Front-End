@@ -4,7 +4,8 @@
   max-width: 1200px;
   margin: auto;
   overflow: hidden;
-  z-index: -1;
+ 
+ /* z-index: -1; */
  position: relative;
 }
 
@@ -15,7 +16,7 @@ body {
 
 .title {
   text-align: center;
-  background: #fff;
+  /* background: #fff; */
   padding:  5% 0 2% 0;
   margin-bottom: 2%;}
 
@@ -23,7 +24,10 @@ body {
   font-size: 30px;
   margin-top: 2%;
 }
-
+.a-card {
+  text-decoration: none;
+  color: black;
+}
 
 .card-general {
   margin-top: 2.5%;

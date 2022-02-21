@@ -1,5 +1,5 @@
 import { AlertService, AuthenticationService } from '../../services';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -17,8 +17,10 @@ export class LoginComponent implements OnInit {
     submitted = false;
     returnUrl: string;
     hide=true;
+    eyeHide = true;
     currentUser: User;
     handler: any;
+    
 
     constructor(
         private formBuilder: FormBuilder,
@@ -39,14 +41,18 @@ export class LoginComponent implements OnInit {
         this.loginForm = this.formBuilder.group({
             userDni: ['', Validators.required],
             userPassword: ['', Validators.required]
-        });
 
+        });
+           
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-      }
+    }
     // convenience getter for easy access to form fields
     get f() { return this.loginForm.controls; }
+    
 
+
+    
 
     onSubmit() {
         this.submitted = true;
@@ -61,7 +67,7 @@ export class LoginComponent implements OnInit {
 
         this.loading = true;
        this.handler = this.authenticationService
-            .login(this.f.userDni.value, this.f.userPassword.value)
+            .login(this.loginForm.get('userDni').value, this.loginForm.get('userPassword').value)
             .pipe(first())
             .subscribe(
                 data => {

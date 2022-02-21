@@ -1,0 +1,125 @@
+.head {
+    margin: 10px 10px 30px 10px;
+}
+
+
+.center{
+    justify-content:space-evenly;
+    margin: 15px 10px 15px 10px;
+    /* max-height: 22em; */
+}
+.request , .info , .f-tec{
+    background-color: white;
+    height: max-content;
+    padding: 15px 15px;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+.request{
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    
+    justify-content:flex-start;
+    align-items: stretch;
+    
+
+}
+#schedule-title{
+    flex-direction: column;
+    align-items: center;
+
+}
+#times{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 6px 3px;
+
+}
+.cantidad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.boton{
+    align-self: center;
+}
+.btn-danger {
+    width: 200px;
+}
+.title{
+text-align: center;
+}
+.img {
+display: flex;
+justify-content: center;
+background-color: white;
+border-radius: .25rem;
+border: 1px solid #ced4da;
+}
+
+.info{
+    display: flex ;
+    flex-direction: column;
+    /* height: min-content; */
+}
+
+.stock{
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+}
+
+.info .form-control {
+    display: flex !important;
+    justify-content: space-between ;
+    border:none;
+}
+.list-times{
+    width: inherit;
+    padding-bottom: 5px;
+}
+.form-control{
+ height: min-content !important;
+
+}
+.iteratorSkills{
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+}
+.iteratorItems{
+    list-style: none;
+}
+
+.card{
+    background-color: transparent;
+    width: 300px;
+    height: 200px;
+    border: 1px solid #f1f1f1;
+    perspective: 1000px; 
+}
+
+.content{
+    transition: transform .8s;
+    transform-style: preserve-3d;
+}
+
+.front, .back{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; 
+    backface-visibility: hidden;
+}
+
+.rotate-180 {
+      transform: rotateY(180deg);
+    }
+    img {
+        height: 338px;
+        max-width: 100%;
+    }

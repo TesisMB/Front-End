@@ -1,9 +1,6 @@
+import { SignalRService } from './../../services/_signal-r.service/signal-r.service';
 import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
-import {AlertService, AuthenticationService } from './../../services';
-import { User } from 'src/app/models';
 
 @Component({
   selector: 'home',
@@ -12,12 +9,17 @@ import { User } from 'src/app/models';
 })
 export class HomeComponent implements OnInit {
   constructor(
-      private authenticationService: AuthenticationService,
-      private router: Router,
-      private alertService: AlertService
-  ) {
+   // private hubService: SignalRService
+    ) {
   }
 
   ngOnInit() {
-  }
+
+  //    this.hubService.notificacion.subscribe(notif => {
+  //      console.log('****Recepción del mje****'); 
+  //     console.log(notif);
+  //   });
+   }
 }
+
+

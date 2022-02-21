@@ -1,0 +1,278 @@
+    /* --------------Cart ------- */
+/*     .form-cart{
+    max-width: 211px;
+    min-width: 100px;
+    width: 100%;
+    }
+    .input-form-cart{
+    width: 100% ;
+    }
+    .card-group{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        }
+        .card{
+        width: 100% ;
+        max-width: 211px;
+        min-width: 211px;
+        }
+        .list-group-item{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: baseline;
+        } */
+    /* --------------------------------------Nav-------------------------------------- */
+    /* Nav */
+
+    .contenedor {
+        width: 96%;
+        max-width: 1366px;
+        margin: auto;
+        overflow: hidden;
+        padding-bottom: 5px;
+    }
+    
+    .mat-list-base {
+        padding: 0;
+    }
+    
+    .example-tree-invisible {
+        display: none;
+    }
+    
+    .mat-icon-rtl-mirror {
+        font-size: 30px !important;
+    }
+    
+    .example-tree ul,
+    .example-tree li {
+        margin-top: 0;
+        margin-bottom: 0;
+        list-style-type: none;
+    }
+    
+    .mat-tree-node,
+    .listado-interno {
+        min-height: 0 !important;
+        padding-top: 10px;
+    }
+
+    
+    .listado-interno {}
+    
+    .listado-interno:hover,
+    mat-tree-node:hover {
+        background: rgba(228, 70, 70, 0.337);
+    }
+    
+    .listado:hover {
+        background: none !important;
+    }
+    
+    nav {
+        width: 100%;
+        height: 64px;
+        border-bottom: 1px solid transparent;
+        background: #fff;
+        box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, .2);
+        position: fixed;
+        top: 0;
+    }
+    
+    .nav {
+        display: flex;
+        justify-content: space-between;
+        height: 64px;
+        width: 96%;
+        align-items: center;
+    }
+    /* --------------------------------------Nav sidebar + logo juntos -------------------------------------- */
+    
+    .sidelogo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    /* --------------------------------------Nav Logo-------------------------------------- */
+    /* logo */
+    
+    .logo {
+        height: 64px;
+        width: 200px;
+        padding-bottom: 5px;
+        padding-left: 16px;
+    }
+    
+    .logo img {
+        height: 100%;
+        width: 90%;
+    }
+    /* --------------------------------------Nav Sidebar + User-------------------------------------- */
+    
+    input {
+        display: none;
+    }
+    
+    .Enlaces {
+        position: fixed;
+        width: 240px;
+        top: 64px;
+        left: -240px;
+        height: 100%;
+        background: rgb(255, 255, 255);
+        transition: .5s;
+    }
+    
+    label #menu {
+        cursor: pointer;
+        font-size: 20px;
+        transition: .5s;
+    }
+    
+    #check:checked~body {
+        margin-left: 200px;
+    }
+    
+    #check:checked~.Enlaces {
+        left: 0px;
+    }
+    
+    .Enlaces div,
+    .dropdown-menu div {
+        line-height: 40px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    
+    .Enlaces div div {
+        list-style: none;
+        border-bottom: 1px solid rgb(188, 188, 188);
+    }
+    
+    .Enlaces div div:hover,
+    .dropdown-menu li:hover {
+        background: rgba(228, 70, 70, 0.337);
+    }
+    
+    .Enlaces div div i,
+    .dropdown-menu ul li i {
+        padding-right: 20px;
+        margin-left: 10px;
+    }
+    
+    .Enlaces div div a,
+    .dropdown-menu ul li a {
+        color: #000;
+        margin-left: 20px;
+        transition: all .3s ease;
+        text-decoration: none;
+    }
+    /* --------------------------------------Nav user-------------------------------------- */
+    
+    #perfil {
+        display: flex;
+        width: 215px;
+        justify-content: space-between;
+        margin-right: 35px;
+    }
+    /* user */
+    
+    .dropdown-menu {
+        width: 200px;
+        margin: 0;
+        padding: 0;
+        border-radius: 5px;
+        position: absolute;
+        top: 5px !important;
+        left: -15px !important;
+    }
+    
+    .dropdown-menu ul li {
+        list-style: none;
+        border-bottom: 1px solid rgb(188, 188, 188);
+        height: 40px;
+        text-align: justify;
+        padding-top: 3px;
+    }
+    
+    #user {
+        color: #000;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    
+    .first-title {
+        color: #fff;
+        text-align: center;
+        background: rgb(207, 55, 55);
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    
+    .title {
+        margin: 0;
+    }
+    
+    .dos {
+        font-size: 12px;
+    }
+    
+    .example-container {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    
+    .example-toolbar {
+        width: 100%;
+        height: 64px;
+        border-bottom: 1px solid transparent;
+        background-color: #fff;
+        color: black;
+        box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, .2);
+        justify-content: space-between;
+    }
+    
+    .example-is-mobile .example-toolbar {
+        position: fixed;
+        /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+        z-index: 2;
+        background-color: white;
+    }
+    
+    h1.example-app-name {
+        margin-left: 8px;
+    }
+    
+    .example-sidenav-container {
+        /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+       causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+        flex: 1;
+        background-color: unset;
+        color: unset;
+    }
+    
+    .example-is-mobile .example-sidenav-container {
+        /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+       `<body>` to be our scrolling element for mobile layouts. */
+        flex: 1 0 auto;
+        background-color: unset;
+        color: unset;
+    }
+    
+    .material-icons {
+        font-size: 40px;
+    }
+    
+    .mat-icon {
+        width: 44px;
+    }

@@ -1,0 +1,23 @@
+
+  
+  .title {
+    text-align: center;
+    background: #fff;
+    padding:  5% 0 2% 0;
+    margin-bottom: 2%;
+    color:black;
+  }
+  
+  
+  .title h1 {
+    font-size: 30px;
+    margin-top: 2%;
+  }
+
+
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  

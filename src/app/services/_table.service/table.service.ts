@@ -44,6 +44,8 @@ function matches(employee: Employee, term: string, pipe: PipeTransform) {
     || (employee.users.roleName).toLowerCase().includes(term.toLowerCase())
     || (employee.users.estates.address).toLowerCase().includes(term.toLowerCase())
     || pipe.transform(employee.users.estates.numberAddress).includes(term);
+
+
 }
 
 
@@ -65,8 +67,8 @@ export class TableService {
     sortColumn: '',
     sortDirection: ''
   };
-  constructor(private pipe: DecimalPipe, private service: UserService, private alertService: AlertService) {
-
+  constructor(private pipe: DecimalPipe, private service: UserService, private alertService: AlertService) { 
+        
     this._search$.pipe(
     tap(() => this._loading$.next(true)),
     debounceTime(200),
@@ -121,11 +123,11 @@ public uploadTable() {
     console.log('Empleados: ', this.EMPLEADOS);
 
    },
-     error => {
+     error => { 
        console.log('Error: ' + error.message);
        this.alertService.error('No se ha podido cargar, intentelo nuevamente más tarde.');
       });
-
+    
     this._search$.next();
 
 }
@@ -135,7 +137,7 @@ private _search(): Observable<SearchResult> {
 
   // 1. filtrado por disponibilidad
   const empleados = this.EMPLEADOS.filter(x => x.users.userAvailability !== this._showAvailability$.value);
-
+  
   // 1. sort
   let _employees = sort(empleados, sortColumn, sortDirection);
 

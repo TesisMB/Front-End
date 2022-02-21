@@ -1,5 +1,95 @@
-<navbar *ngIf="currentUser"></navbar>
-<div class="container-fluid">
-  <router-outlet></router-outlet>
-</div>
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
 
+    <mat-toolbar color="primary" class="example-toolbar" *ngIf="currentUser">
+        <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+        <div class="logo">
+            <img src="assets/img-home-users/Logo.png" alt="">
+        </div>
+        <div id="perfil">
+            <div *ngIf="isRequest; else isNotRequest">
+                <button [ngbPopover]="popCart" [autoClose]="'outside'" popoverClass="option" container="body" mat-icon-button><mat-icon matBadge="{{isRequest}}" matBadgeColor="warn">shopping_cart</mat-icon></button></div>
+          
+            <ng-template #isNotRequest><button [ngbPopover]="popCart" [autoClose]="'outside'" popoverClass="option" container="body" mat-icon-button class="mr-4"><mat-icon>shopping_cart</mat-icon></button></ng-template>
+
+            <div *ngIf="notifications.hasNotifications; else isNot"><button [autoClose]="'outside'" [ngbPopover]="popNotify" popoverClass="option" container="body" mat-icon-button><mat-icon matBadge="{{notifications.number}}" matBadgeColor="warn">notifications_active</mat-icon></button></div>
+            <ng-template #isNot><button [ngbPopover]="popNotify" [autoClose]="'outside'" popoverClass="option" container="body" mat-icon-button class="mr-4"><mat-icon>notifications</mat-icon></button></ng-template>
+            
+            <a class="fas fa-user-circle fa-2x" id="user" data-toggle="dropdown"></a>
+
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="first-title ">
+                    <p class="title">{{currentUser.persons.firstName}} {{currentUser.persons.lastName}}</p>
+                    <p class="title dos">{{currentUser.roleName}} </p>
+                </div>
+                <ul>
+                    <li><a routerLink="/perfil"><i class="fas fa-id-card"></i>Perfil</a></li>
+                    <li><a (click)="snav.close(); logout()" type="button" class="btn navbar-btn ml-2"><i class="fas fa-sign-out-alt"></i>Cerrar Sesion</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <ng-template   #popNotify >
+<ul class="notify-menu">
+    <li style="list-style: none;" *ngFor="let notifys of notifys">
+        <div class="notify-list">
+            <span>
+                {{notifys.message}}
+             </span>
+    </div>
+    </li>
+</ul>
+          </ng-template>
+          <!-- ********************** Carrito ***********************-->
+          <ng-template   #popCart ><cart></cart></ng-template>
+          <!-- ********************** Fin del Carrito ***********************-->
+
+
+    </mat-toolbar>
+    
+
+    <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+            <mat-nav-list>
+
+                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+                    <!-- This is the tree node template for leaf nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+                        <li>
+                            <!-- use a disabled button to provide padding for tree leaf -->
+                            <button mat-icon-button disabled></button>
+                            <a routerLink="{{node.patch}}" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
+            {{node.name}}
+            </a>
+                            <button mat-icon-button disabled></button>
+                        </li>
+                        <hr/>
+                    </mat-tree-node>
+                    <!-- This is the tree node template for expandable nodes -->
+                    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+                        <li class="listado">
+                            <div class="listado-interno">
+                                <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+              </button>
+                                <a routerLink="{{node.patch}}" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
+                {{node.name}}
+              </a>
+                            </div>
+                            <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                                <ng-container matTreeNodeOutlet></ng-container>
+                            </ul>
+                        </li>
+                    </mat-nested-tree-node>
+                </mat-tree>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div class="container-fluid">
+                <alert></alert>
+                <router-outlet></router-outlet>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

@@ -1,1 +1,338 @@
-<p>materials works!</p>
+<div class="d-flex flex-sm-column">
+  <section class="head row">
+    <div class="col-4">
+      <button (click)="onBack()" class="btn btn-secondary">Atrás</button>
+    </div>
+    <div class="col-4">
+      <h1 class="title">Detalle del producto</h1>
+    </div>
+  </section>
+  <ng-container *ngIf="item">
+    <section class="center row">
+      <section class="img col-4">
+        <img
+          src="../../../assets/img-materiales/{{ item.picture }}"
+          alt="{{ item.description }}"
+        />
+      </section>
+      <aside class="request col-3">
+
+        
+          <div class="stock">
+            <ng-container *ngIf="!item.volunteers && !item.vehicles">
+                <div
+              class="btn btn-sm" type="button"
+              [ngClass]="[checkStock ?  'btn-danger' : 'btn-success']">
+              <span  id="stock" *ngIf="!checkStock">Stock disponible</span>
+              <span id="stock" *ngIf="checkStock">Sin stock</span>
+            </div>
+            <span style="font-size: 13px;" class="text-muted pt-2">Cantidad total: {{item.quantity}}</span>
+        </ng-container>
+
+          </div>
+
+          <hr *ngIf="item.materials || item.medicines" />
+          <div  *ngIf="!item.volunteers && !item.vehicles"> 
+            <form class="cantidad" [formGroup]="form" (ngSubmit)="onSubmit()">
+              <mat-form-field appearance="outline">
+                <mat-label>Cantidad</mat-label>
+                <input required matInput #input formControlName="quantity" type="number" class="example-right-align" 
+                placeholder="0" min="0" [max]="item.quantity" [ngClass]="{'is-invalid': f.quantity.invalid}">
+                <!-- <span matPrefix>({{item.quantity | number}} disponibles) &nbsp;</span> -->
+                <span matSuffix class="text-muted"> &nbsp; uds. </span>
+                <mat-hint *ngIf="f.quantity.valid" align="end">restantes: {{item.quantity - input.value}}</mat-hint>
+                <mat-error *ngIf="f.quantity.invalid">{{getErrorMessage()}}</mat-error>
+              </mat-form-field>       
+          </form>
+        </div>
+          <div *ngIf="!item.volunteers" class="boton p-1">
+            <button
+              class="btn btn-sm btn-danger"
+              [disabled]="checkStock"
+              (click)="onSubmit()"
+            >
+              Solicitar
+            </button>
+            <hr/>
+
+          </div>
+          <div *ngIf="item.volunteers" class="skills" >
+            <span><h2 class="title">Especialidades</h2></span>
+            <span> Aqui van las skills </span>
+          </div>
+          <div class="descripcion">
+            <span><h3 class="title">Descripción</h3></span>
+            <span> {{ item.description }} </span>
+          </div>
+      </aside>
+    </section>
+    <section class="center row">
+      <section class="f-tec col-4">
+        <div class="m-2">
+          <h2 class="title">Ficha Tecnica</h2>
+          <table class="table table-striped table-bordered">
+            <tbody>
+              <tr>
+                <th scope="row">Nombre</th>
+                <td>
+                  {{ item.name }}
+                </td>
+              </tr>
+
+              <ng-container *ngIf="item.medicines">
+                <tr>
+                  <th scope="row">Fecha de vencimiento</th>
+                  <td>
+                    {{
+                      item.medicines.medicineExpirationDate
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Laboratorio</th>
+                  <td>
+                    {{ item.medicines.medicineLab }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Droga</th>
+                  <td>
+                    {{ item.medicines.medicineDrug | titlecase }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Peso</th>
+                  <td>
+                    {{ item.medicines.medicineWeight | number }}
+                    {{ item.medicines.medicineUnits }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Utilidad</th>
+                  <td></td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="item.materials">
+                <tr>
+                  <th scope="row">Marca</th>
+                  <td>
+                    {{
+                      item.materials.brand
+                    }}
+                  </td>
+                </tr>
+               
+              </ng-container>
+
+              <ng-container *ngIf="item.volunteers">
+                <tr>
+                  <th scope="row">Documento</th>
+                  <td> {{item.volunteers.dni}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Telefono de contacto</th>
+                  <td> {{item.volunteers.phone}}</td>
+                </tr>
+               
+                  <tr>
+                    <th scope="row">Correo electronico</th>
+                    <td> {{item.volunteers.email}}</td>
+                  </tr>
+           
+                    <tr>
+                      <th scope="row">Domicilio</th>
+                      <td> {{item.volunteers.address}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Fecha de nacimiento</th>
+                      <td>
+                        {{
+                          item.volunteers.birthdate | date: "dd-MM-yyyy"
+                        }}
+                      </td>
+                    </tr>
+
+                      <tr>
+                  <th scope="row">Dias laborales</th>
+                  <td></td>
+                </tr>
+                <tr>
+                  <th scope="row">Disponibilidad</th>
+                  <td>
+                    <span for="availability" *ngIf="item.volunteers.status"
+                      ><i
+                        [class.text-success]="item.volunteers.status"
+                        class="fas fa-circle"
+                      ></i>
+                      Disponible</span
+                    >
+                    <span *ngIf="!item.volunteers.status"
+                      ><i
+                        [class.text-danger]="!item.volunteers.status"
+                        class="fas fa-circle"
+                      ></i>
+                      No disponible</span
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Acceso al sistema</th>
+                  <td>
+                    <span for="status" *ngIf="item.availability"
+                      ><i
+                        [class.text-success]="item.availability"
+                        class="fas fa-circle"
+                      ></i>
+                      Disponible</span
+                    >
+                    <span *ngIf="!item.availability"
+                      ><i
+                        [class.text-danger]="!item.availability"
+                        class="fas fa-circle"
+                      ></i>
+                      No disponible</span
+                    >
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-container *ngIf="item.vehicles">
+                <tr>
+                  <th scope="row">Tipo de vehiculo</th>
+                  <td>
+                    {{
+                      item.vehicles.type
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Año de patentamiento</th>
+                  <td>
+                    {{ item.vehicles.vehicleYear }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Patente</th>
+                  <td>
+                    {{ item.vehicles.vehiclePatent| uppercase }}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Utilidad</th>
+                  <td></td>
+                </tr>
+              </ng-container>
+              <ng-container *ngIf="!item.volunteers">
+                <tr>
+                  <th scope="row">Disponibilidad</th>
+
+                  <td>
+                    <span for="status" *ngIf="item.availability"
+                      ><i
+                        [class.text-success]="item.availability"
+                        class="fas fa-circle"
+                      ></i>
+                      Disponible</span
+                    >
+                    <span *ngIf="!item.availability"
+                      ><i
+                        [class.text-danger]="!item.availability"
+                        class="fas fa-circle"
+                      ></i>
+                      No disponible</span
+                    >
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+
+
+      <aside class="info form-row col-3" >
+        <span><h2 class="title">Información de sucursal</h2></span>
+        <ng-container *ngIf="item.estates; then full else empty"></ng-container>
+
+        <ng-template #full
+        >
+        <div>
+        <div *ngIf="item.vehicles" class="form-control">
+          <label for="responsable">
+            <mat-icon aria-hidden="false" aria-label="responsable"
+              >person</mat-icon
+            >
+            Responsable
+          </label>
+          <p >{{item.vehicles.employeeName}}</p>
+        </div>
+        <div class="form-control">
+          <label for="telefono">
+            <mat-icon aria-hidden="false" aria-label="responsable"
+              >call</mat-icon
+            >
+            Telefono
+          </label>
+          <p>{{item.estates.estatePhone}}</p>
+        </div>
+
+          <div class="form-control">
+                <label for="otro">
+                  <mat-icon aria-hidden="false" aria-label="responsable"
+                    >pin_drop</mat-icon
+                  >
+                  Direccion
+                </label>
+                <p>{{item.estates.address}} {{item.estates.numberAddress}}</p>
+              </div>
+          <div class="form-control"> 
+            <label   for="ubicacion">
+            <mat-icon aria-hidden="false" aria-label="responsable"
+              >location_city</mat-icon
+            >
+            Ubicación
+          </label>
+          <span id="ubicacion">{{item.locationCityName}}</span>
+        </div>
+        <div class="form-control">
+          <label for="codigoPostal">
+            <mat-icon aria-hidden="false" aria-label="responsable"
+              >flag</mat-icon
+            >
+            Codigo Postal
+          </label>
+          <p>{{item.estates.postalCode}}</p>
+        </div>
+      </div>
+      <hr>
+        <div *ngIf=item.estates class="form-control" id="schedule-title">
+          <label for="horarioAtencion">
+            <mat-icon aria-hidden="false" aria-label="responsable"
+              >schedule</mat-icon
+            >
+            Horario de Atención
+          </label>
+          <ul class="list-times">
+           <li *ngFor="let schedules of item.estates.estatesTimes" id="times">
+            <span>{{schedules.scheduleDate}}</span>
+            <span>{{schedules.times}} Hrs</span>
+           </li>
+
+          </ul>
+          
+        </div>
+      
+      </ng-template>
+      <ng-template #empty>
+        <span style="text-align: center;">
+          <h4>
+            No hay información por el momento.
+          </h4>
+        </span>
+      </ng-template>
+        
+      </aside>
+    </section>
+  </ng-container>
+</div>

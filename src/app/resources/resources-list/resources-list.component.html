@@ -1,0 +1,183 @@
+<section class="head row">
+  <div class="col-2">
+  <button (click)="onBack()" class="btn btn-secondary">Atrás</button>
+  </div>
+<div class="col-8">
+      <h1>Lista de {{ tipo | lowercase }}</h1>
+  </div>
+  <div class="d-flex align-items-center ml-auto bd-highlight" id="search"> 
+      <span class="mr-3 text-center" *ngIf="false" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
+      <input class="form-control ml-3" type="text" name="searchTerm"  placeholder="Filtrado por letra" />
+</div>
+</section>
+
+<div class="row justify-content-around" id="row-aside">
+
+
+  <section>
+    <div class="fila"> 
+      <ul *ngFor="let item of data | async">
+        <li>
+            
+          <!--   <div class="card h-100 columna" [ngClass]="[item.availability  || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']" > -->
+            <div class="columna" [ngClass]="[item.availability  || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']" >
+              
+              <a [routerLink]="['/recursos', 'lista', tipo, item.id]">
+<!--                 <div class="card-header">
+ -->               <div>
+                  <!-- Voluntarios y vehiculos -->
+                  <div *ngIf="item.volunteers || item.vehicles" class="d-flex justify-content-sm-center">
+                    <span class="mb-2">
+                      <strong *ngIf="item.volunteers"> ID: {{item.volunteers.dni}}</strong>
+                      <strong *ngIf="item.vehicles" >Patente: {{item.vehicles.vehiclePatent}}</strong>
+                    </span>
+                  </div>
+
+                  <span class="imagen"><img src="../../../assets/img-materiales/{{ item.picture }}" class="card-img-top"alt="..."
+                    ></span>
+                    <h3>{{ item.name | titlecase }}</h3>
+               
+                </div>
+              
+
+                <div class="layer">
+                  <div class="hov">
+                    <h3>
+                      {{ item.description }}
+                    </h3>
+
+                    <ng-container *ngIf="item.volunteers || item.vehicles; then volunteersStatus else notVolunteersStatus"></ng-container>
+
+                    <ng-template #notVolunteersStatus>
+     
+                      <span [ngClass]="[item.availability == false || item.quantity <= 0 ? 'status-out_of_stock' : 'status-with_stock']"> 
+                        <p *ngIf="item.availability && item.quantity > 0">
+                         Cantidad : {{item.quantity | number}}
+                        </p >
+     
+                        <p *ngIf="!item.availability || item.quantity <= 0">
+                           SIN STOCK
+                        </p>
+                        
+                      </span>
+                     </ng-template>
+                    <ng-template #volunteersStatus>
+                     <span [ngClass]="[item.availability == false ? 'status-out_of_stock' : 'status-with_stock']"> 
+                       <p *ngIf="item.availability">
+                        DISPONIBLE
+                       </p >
+     
+                       <p *ngIf="!item.availability">
+                          NO DISPONIBLE
+                       </p>
+                       
+                     </span>
+                    </ng-template>
+                  </div>
+                </div>
+
+                <div class="footer">
+                  <!--  <h2 class="card-title justify-content">{{ item.name | titlecase }}</h2> -->
+                   <ng-container *ngIf="item.volunteers; then volunteers else notVolunteers"></ng-container>
+   
+                   <!-- arriba -->
+                  <ng-template #notVolunteers>
+                   <div>
+                     <h6 *ngIf="item.materials" class="text-muted">
+                       de {{ item.materials.brand | titlecase }}
+                     </h6>
+                   <hr>
+                     <h6 *ngIf="item.vehicles" class="card-subtitle text-muted">
+                       de {{ item.locationCityName | titlecase }}
+                     </h6>
+                          <div *ngIf="item.medicines" class="medicine-body  text-muted">
+                       <h6>
+                       {{item.medicines.medicineLab}}
+                     </h6>
+                     <h6 >
+                        {{item.medicines.medicineDrug}} {{item.medicines.medicineWeight}} {{item.medicines.medicineUnits}}
+                     </h6>
+                   </div>
+                </div>
+
+              </ng-template>
+
+              <ng-template #volunteers>
+              <div>
+                <h6 class="card-subtitle text-muted">
+                  de {{ item.locationCityName | titlecase }}
+                </h6>
+              </div>
+              <hr>
+
+
+              <div class="d-flex flex-sm-row bd-highlight">
+              <div class="d-flex flex-sm-column p-2 w-100 bd-highlight justify-content-between">
+                <mat-icon aria-hidden="false" aria-label="Email" >email</mat-icon>
+                <mat-icon aria-hidden="false" aria-label="Phone number" >call</mat-icon>
+
+                </div>
+                <div class="d-flex flex-sm-column p-2 flex-shrink-1 bd-highlight align-items-sm-baseline
+                ">
+                  <span class="card-subtitle text-muted p-2">
+                    {{item.volunteers.email}}</span>
+                <span class="card-subtitle text-muted p-2"> {{item.volunteers.phone}}</span>
+              </div>
+                </div>
+              
+              </ng-template>
+
+              
+
+
+              </div>
+            </a>
+<!--               <div class="card-footer">
+ -->          
+
+               <div *ngIf="item.medicines" class="expiration-date text-muted"><small
+                  ><span>Fecha de vencimiento: </span></small>
+                  <small>
+                  <span>{{ item.medicines.medicineExpirationDate}}</span>
+                </small>
+              </div> 
+<!--               </div>
+ -->            </div>
+        </li>
+      </ul>
+    </div>
+    
+      <div class="d-flex justify-content-between p-2">
+       <div class="pagination"> 
+        <ngb-pagination>
+        </ngb-pagination>
+        </div>
+
+        <select class="custom-select" style="width: auto" name="pageSize" >
+          <option [ngValue]="4">4 {{tipo}} por pagina</option>
+          <option [ngValue]="6">6 {{tipo}} por pagina</option>
+          <option [ngValue]="10">10 {{tipo}} por pagina</option>
+        </select>
+      </div>
+    
+  </section>
+
+  <ng-template   #popMenu >
+    <button type="button" class="btn btn-option  btn-sm" ><mat-icon class="icon">mode_edit</mat-icon><span class="option-text">Actualizar datos</span> </button>
+    
+    <button type="button" class="btn btn-option  btn-sm" ><mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span></button>
+
+    <button *ngIf="false" type="button " class="btn btn-option-warning  btn-sm" >
+      <mat-icon class="icon">person_remove</mat-icon>
+      <span class="option-text">Deshabilitar usuario</span>
+    </button>
+    <button *ngIf="false" type="button " class="btn btn-option-success  btn-sm" >
+      <mat-icon class="icon">person_add</mat-icon>
+      <span class="option-text">Habilitar usuario</span>
+    </button>
+    <button type="button " class="btn btn-option-warning  btn-sm">
+      <mat-icon class="icon">delete</mat-icon>
+      <span class="option-text">Eliminar usuario</span>
+    </button>
+  </ng-template>
+</div>

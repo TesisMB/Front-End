@@ -1,0 +1,68 @@
+
+  .modal-header {
+    text-align: center!important;
+  }
+
+  .modal-body {
+    margin: 0 15px!important ;
+  }
+
+  #numberAddress {
+    width: 35%;
+  }
+  #address {
+    width: 65%;
+  }
+  .input-group .form-control {
+    flex: none!important;
+  }
+  .modal-title{
+    text-transform: uppercase;
+    font-weight: 500; 
+    
+  }
+  .option {
+    padding: 8px 0px;
+    background-color: #424242;
+  }
+  .option .arrow::after{
+    border-bottom-color: #424242 !important;
+
+  }
+  .btn-option, .btn-option-warning, .btn-option-success{
+    width: 100%;
+    background-color: #424242;
+    outline: none;
+    padding: 0px 16px;
+    display: block;
+    position: relative;
+    height: 48px;
+    text-align: left;
+    border:none;
+    color: white;
+  }
+  .btn-option-warning:hover {
+    background:red;
+    color:white;
+  }
+  .btn-option-success:hover {
+    background: green;
+    color:white;
+  }
+  .btn-option:hover{
+    background:rgba(255,255,255,.04);
+    color:white;
+  }
+
+  .icon{
+    vertical-align: middle;
+    margin-right: 16px;
+  }
+
+  .option .popover-body{
+    padding: 8px 0 !important;
+  }
+
+  .availability, p{
+    margin: 0 !important;
+  }

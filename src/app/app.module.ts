@@ -1,3 +1,5 @@
+import { ResourcesModule } from './resources/resources.module';
+import { AuthenticationService } from './services/_authentication/authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -6,12 +8,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 
-import {MAT_DATE_LOCALE} from '@angular/material/core';
-
 
 //---- Importaciones internas ----
 //******************Modulos ********************** */
 import { SharedModule } from './shared/shared.module';
+import { MaterialDesignModule } from './material-design/material-design.module';
 //*****************Components************ */
 import { AppComponent } from './app.component';
 
@@ -19,12 +20,10 @@ import { AppComponent } from './app.component';
 //**************CLIENT************* */
 
 //***************SERVICES*********** */
-import { ErrorInterceptor, JwtInterceptor } from './_helpers';
-
+import { ErrorInterceptor, JwtInterceptor} from './_helpers';
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -34,24 +33,18 @@ import { ErrorInterceptor, JwtInterceptor } from './_helpers';
     NgbModule,
     ReactiveFormsModule,
     SharedModule,
-<<<<<<< Updated upstream
-    
-=======
     MaterialDesignModule,
     ResourcesModule
->>>>>>> Stashed changes
+
+    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-<<<<<<< Updated upstream
-=======
-    AuthenticationService,
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
->>>>>>> Stashed changes
+    AuthenticationService
 
 
-  ],
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,7 +6,7 @@ import {AddEditComponent, HomeComponent} from './index';
 const routes: Routes = [
     {    path: '', component: HomeComponent },
     {
-      path: 'edit/:id',
+      path: 'perfil',
       component: AddEditComponent
     },
 ];
