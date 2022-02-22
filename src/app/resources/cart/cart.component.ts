@@ -2,7 +2,7 @@ import { EmergencyDisasterService } from './../../emergency-disaster/emergency-d
 import { AlertService } from './../../services/_alert.service/alert.service';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MaterialsService } from '../materials/materials.service';
+import { ResourcesDetailsService } from './cart.service';
 import { Request } from 'src/app/models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { pipe } from 'rxjs';
@@ -38,8 +38,8 @@ export class CartComponent implements OnInit, OnDestroy {
   emergencies: any = {};
   handleEmergency: any;
 
-  constructor(
-    private requestService: MaterialsService,
+  constructor( 
+    private requestService: ResourcesDetailsService,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     private _snackBar: MatSnackBar,

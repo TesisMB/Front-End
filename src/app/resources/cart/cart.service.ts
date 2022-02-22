@@ -1,15 +1,15 @@
-import { Resource } from './../../models/resources.model';
+import { Resource } from '../../models/resources.model';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DataService } from './../../services/data.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Request } from 'src/app/models';
 import { environment } from 'src/environments/environment';
+import { ResourcesService } from '../resources.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MaterialsService extends DataService {
+export class ResourcesDetailsService extends ResourcesService {
   private requestSubject : BehaviorSubject<any>;
   public _request: Observable<any> = null;
   private request: Request = null;
