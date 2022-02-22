@@ -1,3 +1,4 @@
+import { EmergencyDisasterModule } from './emergency-disaster/layout-emergency-disaster/emergency-disaster.module';
 import { ResourcesModule } from './resources/resources.module';
 import { AuthenticationService } from './services/_authentication/authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -34,9 +35,10 @@ import { ErrorInterceptor, JwtInterceptor} from './_helpers';
     ReactiveFormsModule,
     SharedModule,
     MaterialDesignModule,
-    ResourcesModule
+    ResourcesModule,
+    EmergencyDisasterModule
 
-    
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

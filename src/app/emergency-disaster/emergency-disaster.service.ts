@@ -1,4 +1,4 @@
-import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
+import { EmergencyDisaster } from '../models/emergencyDisaster';
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';

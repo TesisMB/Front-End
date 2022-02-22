@@ -11,14 +11,14 @@ const clientModule = () => import ('./client/client.module').then(x => x.ClientM
 const accountModule = () => import ('./account/account.module').then(x => x.AccountModule);
 const usersModule = () => import ('./users/users.module').then(x => x.UsersModule);
 const resourcesModule = () => import('./resources/resources.module').then(m => m.ResourcesModule);
-const emergencyModule = () => import('./emergency-disaster/emergency-disaster.module').then(m => m.EmergencyDisasterModule);
+const emergencyModule = () => import('./emergency-disaster/layout-emergency-disaster/emergency-disaster.module').then(m => m.EmergencyDisasterModule);
 
 export const routes: Routes = [
   {
     path: '' ,
     loadChildren: accountModule,
      canActivate: [AuthGuard]
-    
+
   },
 
   {

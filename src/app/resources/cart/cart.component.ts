@@ -28,7 +28,7 @@ interface Emergencies {
 export class CartComponent implements OnInit, OnDestroy {
   emergencyControl = new FormControl();
   emergencyGroups: Emergencies[] = [];
-  
+
   request: Request = null;
   error:any;
   handle: any;
@@ -38,7 +38,7 @@ export class CartComponent implements OnInit, OnDestroy {
   emergencies: any = {};
   handleEmergency: any;
 
-  constructor( 
+  constructor(
     private requestService: MaterialsService,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
@@ -58,14 +58,14 @@ export class CartComponent implements OnInit, OnDestroy {
 
   get f() {return this.form.controls;}
   get array() { return this.form.get('resources_RequestResources_Materials_Medicines_Vehicles') as FormArray ;}
-  get isRequest(){ 
+  get isRequest(){
       if(this.request){
         return this.request.request.length > 0 ? true : false;
       }else {
         return false;
       }
       }
-           
+
   get getStyle() { return this.request.request.length >= 2 ? '230px' : 'max-content';}
    get reasonForm(){return this.form.get('Reason').getError('required');}
    get EmergencyIDForm(){return this.form.get('FK_EmergencyDisasterID').getError('required');}
@@ -92,7 +92,7 @@ createForm() {
 
   getRequest(){
     this.isLoading();
-    
+
     this.handle = this.requestService._request
     .subscribe(
       items => {
@@ -107,7 +107,7 @@ createForm() {
       error => {
        // this.isLoading();
         this.alertService.error('Ha ocurrido un error :(, intente mas tarde', { autoClose: true });
-          
+
       });
       }
 
@@ -124,7 +124,7 @@ createForm() {
     clearCart(){
     this.requestService.clearCartRequest();
   }
- 
+
   postCart(f){
     this.requestService.postRequest(f)
    .subscribe(
@@ -137,9 +137,9 @@ createForm() {
         duration: 2000,
       });
       this.isLoading();
-   //   this.clearCart();
+      this.clearCart();
       },
-     error =>{ 
+     error =>{
     this.error = error;
     this.setMessageError(this.error);
     this.alertService.warn('Chequee la solicitud, hay articulos sin stock.', { autoClose: true });
@@ -152,8 +152,8 @@ createForm() {
       return 'La cantidad minima para solicitar es 1.';
     }  else if(value > max) {
       return ('La cantidad maxima de stock disponible es '+ max);
-    } 
-   
+    }
+
   }
 
   getStock(index){
@@ -194,25 +194,26 @@ createForm() {
       });
     }
     }
-    
-  
+
+
   getMax(i){
   const max =   this.request.request[i].resource.quantity + this.request.request[i].quantity;
     return  max;
   }
 
   getEmergencies(){
-    const arrayEmergencies: Emergencies[] = [];  
-    
+    const arrayEmergencies: Emergencies[] = [];
+
     this.handleEmergency = this.emergenciesService.getAll()
     .pipe(
       map( x =>{
-      
+        console.log('Emergencias =>', x)
+
       x.forEach(e => {
       let emergency: any = {};
       emergency.value = e.emergencyDisasterID;
       emergency.viewValue = e.locations.locationDepartmentName;
-      const index = arrayEmergencies.findIndex(x => 
+      const index = arrayEmergencies.findIndex(x =>
         x.name === e.typesEmergenciesDisasters.typeEmergencyDisasterName
       );
         if (index === -1) {
@@ -223,18 +224,17 @@ createForm() {
         } else {
           arrayEmergencies[index].emergency.push(emergency);
         }
-        
       });
        return arrayEmergencies;
     }))
-    .subscribe(data =>{ 
+    .subscribe(data =>{
       console.log('data: ',data);
       this.emergencyGroups = data;
-    } ); 
+    } );
   }
 
   setMessageError(error){
-    this.request.request.forEach(x => 
+    this.request.request.forEach(x =>
       {
         error.forEach(err => {
           if(x.resource.id == err.resource.id && x.resource.name == err.resource.name){
@@ -254,5 +254,5 @@ createForm() {
    if(this.form){
     this.form.reset();
   }
-  }   
+  }
 }

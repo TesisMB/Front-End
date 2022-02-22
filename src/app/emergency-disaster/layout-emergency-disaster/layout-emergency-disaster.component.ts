@@ -15,12 +15,7 @@ export class LayoutEmergencyDisasterComponent implements OnInit, OnDestroy {
   isActive: boolean = false;
   emergencyDisasterClone: EmergencyDisaster [];
 
-changeEmergencyDisasterDate(e){
-  console.log(e.target.value);
-}
-
   constructor(
-    private emergencyDisasterService: EmergencyDisasterService
 
     ) {
   }
