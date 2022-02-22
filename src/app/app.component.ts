@@ -52,35 +52,6 @@ const NOTIFY_DATA: Notifys[] = [
   }
 ];
 
-
-
-
-
-// const REQUEST_DATA: Request = {
-//     id: 1,
-//     userID: 4,
-//     state: false,
-//     createDate: Date.now(),
-//     resources:[{
-//       resource: {
-//         id:1,
-//         name: 'Barbijo',
-//         availability: true,
-//         description: 'Esto es un barbijo ATOM PROTECT re sarpado',
-//         estates: null,
-//         materials: null,
-//         medicines: null,
-//         picture: null,
-//         quantity: null,
-//         vehicles: null,
-//         volunteers: null,
-//         locationCityName: 'Villa Maria'
-//       },
-//       quantity: 1 
-//     }]
-    
-//   };
- 
 const TREE_DATA: FoodNode[] = [
   {
     name: 'Inicio',
@@ -99,21 +70,21 @@ const TREE_DATA: FoodNode[] = [
     children: [
       {
         name: 'Voluntarios',
-        patch:'recursos/lista/voluntarios',
+        patch:'recursos/lista',
         icon:'fas fa-hands-helping'
       }, {
         name: 'Medicamentos',
-        patch:'recursos/lista/medicamentos',
+        patch:'recursos/lista',
         icon:'fas fa-capsules'
       },
       {
         name: 'Materiales',
-        patch:'recursos/lista/materiales',
+        patch:'recursos/lista',
         icon:'fas fa-thermometer'
       },
       {
         name: 'Vehiculos',
-        patch:'recursos/lista/vehiculos',
+        patch:'recursos/lista',
         icon:'fas fa-ambulance'
       },
     ]

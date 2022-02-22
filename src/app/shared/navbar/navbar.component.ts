@@ -32,7 +32,7 @@ const TREE_DATA: FoodNode[] = [
     children: [
       {
         name: 'Voluntarios',
-        patch:'recursos/voluntarios',
+        patch:'recursos/request',
         icon:''
       }, {
         name: 'Medicamentos',

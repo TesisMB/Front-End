@@ -5,10 +5,10 @@ import { DataService } from 'src/app/services';
 @Injectable({
   providedIn: 'root'
 })
-export class VehiclesService extends DataService {
+export class RequestService extends DataService {
 
   constructor(http: HttpClient) { 
-    super(http, 'vehicles')
+    super(http, '')
   }
 
 }
