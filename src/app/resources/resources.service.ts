@@ -6,12 +6,11 @@ import { Resource } from '../models';
 import { filter, map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
 export class ResourcesService {
  private _resources$ = new BehaviorSubject<Resource[]>([]);
   constructor(
-    private http: HttpClient,
-    private service?: AuthenticationService
+    protected http: HttpClient,
+    protected patch: string,
   ) {}
 
   get resources$(){return this._resources$.asObservable();}
