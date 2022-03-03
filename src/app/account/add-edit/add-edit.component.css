@@ -63,13 +63,16 @@ strong {
 .correoInput,
 .fechaInput,
 .correoInput,
-.passwordInput {
-  width: 60%;
-  padding: 4px 0;
-  margin-bottom: 1rem;
+.passwordInput,
+.statusInput{
+  width:50%;
+  padding: 4px 0 ;
+ margin-bottom: 1rem;
 }
-
-.enviar {
+.statusInput{
+  width: 40%;
+}
+.enviar{
   width: 30%;
   background: #9ea0a3;
   transition: 0.3s ease-in-out;

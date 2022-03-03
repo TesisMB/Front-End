@@ -1,0 +1,66 @@
+<form>
+    <div class="mb-3 row">
+      <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Busqueda:</label>
+      <div class="col-xs-3 col-sm-auto">
+        <input id="table-filtering-search" class="form-control" type="text" [formControl]="filter">
+      </div>
+    </div>
+  </form>
+  
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">#Legajo</th>
+      <th scope="col">Numero de emergencia</th>
+      <th scope="col">Tipo de emergencia</th>
+      <th scope="col">Municipalidad</th>
+      <th scope="col">Departamento</th>
+      <th scope="col">Ciudad</th>
+      <th scope="col">Razón</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Encargado</th>
+      <th scope="col">Solicitante</th>
+      <th scope="col">Fecha de creación</th>
+      <th scope="col">i</th>
+
+
+
+    </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="request">
+    <tr *ngFor="let request of request$ | async; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        <ngb-highlight [result]="request.id" [term]="filter.value"></ngb-highlight>
+      </td>
+      <td><ngb-highlight [result]="request.emergenciesDisasters.emergencyDisasterID | number" [term]="filter.value"></ngb-highlight></td>
+      <td><ngb-highlight [result]="request.emergenciesDisasters.typesEmergenciesDisasters.typeEmergencyDisasterName | titlecase" [term]="filter.value"></ngb-highlight></td>
+      <td><ngb-highlight [result]="request.emergenciesDisasters.locations.locationMunicipalityName" [term]="filter.value"></ngb-highlight></td>
+      <td><ngb-highlight [result]="request.emergenciesDisasters.locations.locationDepartmentName" [term]="filter.value"></ngb-highlight></td>
+      <td><ngb-highlight [result]="request.emergenciesDisasters.locations.locationCityName" [term]="filter.value"></ngb-highlight></td>
+      <td><ngb-highlight [result]="request.reason | titlecase" [term]="filter.value"></ngb-highlight></td>
+      <td><ngb-highlight [result]="request.condition | titlecase" [term]="filter.value"></ngb-highlight></td>
+      <td><a matTooltip="Información del encargado" matTooltipPosition="above" color="warn" (click)="openModal('employee',request.users.userID)" aria-label="Información del encargado">
+
+      <ngb-highlight [result]="request.users.name" [term]="filter.value"></ngb-highlight></a></td>
+      <td><ngb-highlight [result]="request.users.name | titlecase" [term]="filter.value"></ngb-highlight></td>
+      <td><ngb-highlight [result]="request.requestDate" [term]="filter.value"></ngb-highlight></td>
+    <td><button mat-icon-button matTooltip="Ver más" matTooltipPosition="right" color="warn"(click)="openModal('info', i)" aria-label="Ver más">
+      <mat-icon>info</mat-icon>
+    </button></td>
+    </tr>
+  </ng-container>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshRequest()">
+    </ngb-pagination>
+  
+    <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshRequest()">
+      <option [ngValue]="2">2 items per page</option>
+      <option [ngValue]="4">4 items per page</option>
+      <option [ngValue]="6">6 items per page</option>
+    </select>
+  </div>

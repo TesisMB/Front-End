@@ -26,7 +26,7 @@
           </button>
         </ng-template>
     
-        <div >
+        <div *ngIf="isAdmin">
         <button  mat-icon-button type="button" class="btn btn-outline-secondary"
         [ngbPopover]="popMenu" popoverClass="option" container="body">
                 <mat-icon>more_vert</mat-icon>
@@ -91,10 +91,10 @@
 
   <div class="form-row">
     <div class="form-group col">
-      <label for="date" class="first"><strong class="info" >Fecha de nacimiento</strong></label>
-      <input type="datetime" formControlName="date" required name="date" id="date" class="form-control" [ngModel]="user.users.persons.birthdate" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.date').errors }" >
-      <div *ngIf="submitted && f.get('users.persons.date').errors" class="invalid-feedback">
-        <div *ngIf="f.get('users.persons.date').errors.required"><small>*Campo requerido</small></div>
+      <label for="birthdate" class="first"><strong class="info" >Fecha de nacimiento</strong></label>
+      <input type="datetime" formControlName="birthdate" required name="birthdate" id="birthdate" class="form-control" [ngModel]="user.users.persons.birthdate" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.birthdate').errors }" >
+      <div *ngIf="submitted && f.get('users.persons.birthdate').errors" class="invalid-feedback">
+        <div *ngIf="f.get('users.persons.birthdate').errors.required"><small>*Campo requerido</small></div>
     </div>
     </div>
   </div>    

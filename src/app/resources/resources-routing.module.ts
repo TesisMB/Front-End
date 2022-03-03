@@ -1,11 +1,12 @@
+import { StatesComponent } from './states/states.component';
 import { ResourcesListComponent } from './resources-list/resources-list.component';
 import { LayoutResourcesComponent } from './layout/layout-resources.component';
-import { VehiclesComponent } from './vehicles/vehicles.component';
-import { MaterialsComponent } from './materials/materials.component';
-import { MedicineComponent } from './medicine/medicine.component';
+import { addEditResourcesComponent } from './add-edit-resources/add-edit-resources.component';
+import { ResourcesDetails } from './resources-details/resources-details.component';
+import { HistoryRequestComponent } from './history-request/history-request.component';
 import { RoleName } from './../models/role';
 import { AuthGuard } from './../_helpers/auth.guard';
-import { VoluntariesComponent } from './voluntaries/voluntaries.component';
+import { RequestComponent } from './request/request.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ResourcesComponent } from './resources.component';
@@ -25,22 +26,29 @@ const routes: Routes = [
       },
       {
         path: 'lista/:tipo/:id',
-        component: MaterialsComponent,
-      },
-      {
-        path: 'voluntarios',
-        component: VoluntariesComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [RoleName.CoordinadorGeneral, RoleName.Admin] },
-      },
-      {
-        path: 'medicamentos',
-        component: MedicineComponent,
-      },
-
-      { path: 'vehiculos', component: VehiclesComponent },
-    ],
+        component: ResourcesDetails,
+      }],
+     
+    
   },
+  { 
+    path: 'solicitudes',
+    component: RequestComponent,
+    // children:[
+    //     {
+    //     path: 'solicitudes',
+    //     component: RequestComponent,
+    //     canActivate: [AuthGuard],
+    //     data: { roles: [RoleName.CoordinadorGeneral, RoleName.Admin] },
+    //   },
+    //   {
+    //     path: 'historial-de-solicitudes',
+    //     component: HistoryRequestComponent,
+    //   }
+    // ],
+    },
+
+      { path: 'add-edit-resources', component: addEditResourcesComponent },
 ];
 
 @NgModule({

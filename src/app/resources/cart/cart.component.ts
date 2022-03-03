@@ -2,8 +2,8 @@ import { EmergencyDisasterService } from './../../emergency-disaster/emergency-d
 import { AlertService } from './../../services/_alert.service/alert.service';
 import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MaterialsService } from '../materials/materials.service';
-import { Request } from 'src/app/models';
+import { ResourcesDetailsService } from './cart.service';
+import { Cart } from 'src/app/models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 interface EmergenciesInput {
   value: number;
   viewValue: string;
+  date?: Date;
 }
 
 interface Emergencies {
@@ -29,17 +30,17 @@ export class CartComponent implements OnInit, OnDestroy {
   emergencyControl = new FormControl();
   emergencyGroups: Emergencies[] = [];
 
-  request: Request = null;
+  request: Cart = null;
   error:any;
   handle: any;
   form: FormGroup;
   loading: boolean = false;
-  cloneRequest: Request = null;
+  cloneRequest: Cart = null;
   emergencies: any = {};
   handleEmergency: any;
 
-  constructor(
-    private requestService: MaterialsService,
+  constructor( 
+    private requestService: ResourcesDetailsService,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     private _snackBar: MatSnackBar,
@@ -67,7 +68,7 @@ export class CartComponent implements OnInit, OnDestroy {
       }
 
   get getStyle() { return this.request.request.length >= 2 ? '230px' : 'max-content';}
-   get reasonForm(){return this.form.get('Reason').getError('required');}
+ //  get reasonForm(){return this.form.get('Reason').getError('required');}
    get EmergencyIDForm(){return this.form.get('FK_EmergencyDisasterID').getError('required');}
 
  // get getRes(){ return this.form.}
@@ -83,7 +84,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
 createForm() {
   this.form = this.formBuilder.group({
-    Reason: ['', [Validators.required, Validators.maxLength(153)]],
+    Reason: [null, [Validators.maxLength(153)]],
     FK_EmergencyDisasterID: ['Seleccione una emergencia',[Validators.required, Validators.pattern("^[0-9]*$")]],
     resources_RequestResources_Materials_Medicines_Vehicles: this.formBuilder.array(
     this.request.request.map(item => this.createRequest(item)))
@@ -210,9 +211,10 @@ createForm() {
         console.log('Emergencias =>', x)
 
       x.forEach(e => {
-      let emergency: any = {};
+      const emergency: any = {};
       emergency.value = e.emergencyDisasterID;
-      emergency.viewValue = e.locations.locationDepartmentName;
+      emergency.viewValue = e.locations.locationMunicipalityName + ' - '+ e.locations.locationDepartmentName;
+      emergency.date = e.emergencyDisasterStartDate;
       const index = arrayEmergencies.findIndex(x =>
         x.name === e.typesEmergenciesDisasters.typeEmergencyDisasterName
       );

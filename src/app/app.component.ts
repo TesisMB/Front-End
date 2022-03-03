@@ -1,4 +1,4 @@
-import { Request} from 'src/app/models';
+import { Cart} from 'src/app/models';
 import { AuthenticationService } from './services';
 import { User, RoleName, Material, Vehicle, Medicine} from './models/index';
 import {MediaMatcher} from '@angular/cdk/layout';
@@ -52,35 +52,6 @@ const NOTIFY_DATA: Notifys[] = [
   }
 ];
 
-
-
-
-
-// const REQUEST_DATA: Request = {
-//     id: 1,
-//     userID: 4,
-//     state: false,
-//     createDate: Date.now(),
-//     resources:[{
-//       resource: {
-//         id:1,
-//         name: 'Barbijo',
-//         availability: true,
-//         description: 'Esto es un barbijo ATOM PROTECT re sarpado',
-//         estates: null,
-//         materials: null,
-//         medicines: null,
-//         picture: null,
-//         quantity: null,
-//         vehicles: null,
-//         volunteers: null,
-//         locationCityName: 'Villa Maria'
-//       },
-//       quantity: 1 
-//     }]
-    
-//   };
- 
 const TREE_DATA: FoodNode[] = [
   {
     name: 'Inicio',
@@ -187,7 +158,7 @@ private _mobileQueryListener: () => void;
                           err => { this.error = err;});
             }
             get isRequest(){
-              const cart: Request = JSON.parse(localStorage.getItem('cart'));
+              const cart: Cart = JSON.parse(localStorage.getItem('cart'));
               return cart ? cart.request.length : false;
             }
 

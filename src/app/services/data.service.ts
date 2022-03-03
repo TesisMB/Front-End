@@ -1,16 +1,17 @@
 import { AuthenticationService } from './_authentication/authentication.service';
 import { environment } from '../../environments/environment';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Operation } from 'fast-json-patch';
 import * as _ from 'lodash';
 import { throwError } from 'rxjs';
 
 export class DataService {
-  private options = {
+  protected options = {
     headers: new HttpHeaders().set('Content-Type', 'application/json'),
-  };
+    params: new HttpParams() };
+
 
   constructor(
     protected http: HttpClient,

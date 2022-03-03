@@ -28,12 +28,7 @@
     </mat-form-field>
   
     <div class="col-10">
-        <div *ngIf="!role">
-        <request></request>
-        </div>
-        <div *ngIf="role">
-            <history-request></history-request>
-            </div>
+        <request-table></request-table>
     </div>
   
   </section>

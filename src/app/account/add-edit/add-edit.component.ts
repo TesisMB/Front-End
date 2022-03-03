@@ -48,8 +48,8 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
       address: [{value: '', disabled: true },[Validators.required,Validators.pattern, Validators.maxLength(25)]],
       password: [{value: '', disabled: true },[Validators.minLength(8), Validators.maxLength(16)]],
       newPassword: [{value: '', disabled: true },[Validators.minLength(8), Validators.maxLength(16)]],
-      passwordRepeat: [{value: '', disabled: true },[Validators.minLength(8), Validators.maxLength(16)]]
-
+      passwordRepeat: [{value: '', disabled: true },[Validators.minLength(8), Validators.maxLength(16)]],
+      status: [{value: '', disabled: true }, [Validators.required]]
       });
            
      
@@ -101,6 +101,8 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.f.phone.setValue(x.users.persons.phone);
                 this.f.email.setValue(x.users.persons.email);
                 this.f.address.setValue(x.users.persons.address);
+                this.f.status.setValue(x.users.persons.status);
+
                 console.log('Datos: ', x);
       },
                 error =>{this.error = error;
@@ -128,8 +130,8 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
  this.form.get('password').valueChanges.subscribe(data => this.model.users.UserPassword = data);
  this.form.get('newPassword').valueChanges.subscribe(data => this.model.users.UserNewPassword = data);
  this.form.get('email').valueChanges.subscribe(data => this.model.users.persons.email = data);
-
-}
+this.form.get('status').valueChanges.subscribe(data => this.model.users.persons.status = data);
+} 
 
 resetForm (): void{
   this.form.reset({
@@ -138,7 +140,9 @@ resetForm (): void{
     password: {value: '', disabled: true},
     newPassword: {value: '', disabled: true},
     passwordRepeat:{value: '', disabled: true},
-    address: {value: this.model.users.persons.address, disabled: true}
+    address: {value: this.model.users.persons.address, disabled: true},
+    status: {value: this.model.users.persons.status, disabled: true}
+
   });
   this.form.disable();
 }

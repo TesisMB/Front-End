@@ -1,0 +1,28 @@
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+  <ngb-panel type="light">
+    <ng-template ngbPanelTitle>
+        <span class="text-warning">En proceso</span>
+      </ng-template>
+    <ng-template ngbPanelContent>
+        <request-table></request-table>
+    </ng-template>
+  </ngb-panel>
+  <ngb-panel type="light">
+    <ng-template ngbPanelTitle>
+      <span class="text-success">Aceptadas</span>
+    </ng-template>
+    <ng-template ngbPanelContent>
+        <request-table></request-table>
+
+    </ng-template>
+  </ngb-panel>
+  <ngb-panel type="light">
+    <ng-template ngbPanelTitle>
+        <span class="text-danger">Rechazadas</span>
+      </ng-template>
+    <ng-template ngbPanelContent>
+        <request-table></request-table>
+
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>

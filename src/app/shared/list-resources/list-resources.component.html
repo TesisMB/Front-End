@@ -1,0 +1,108 @@
+<div class="accordion" id="accordionResources">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMaterials" aria-expanded="true" aria-controls="collapseMaterials">
+            Lista de Materiales
+          </button>
+        </h5>
+      </div>
+  
+      <div id="collapseMaterials" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionResources">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Marca</th>
+                  <th scope="col">Cantidad solicitada</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let ma of materials; index as i">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>
+                    {{ ma.materials.name | titlecase}}
+                  </td>
+                  <td>{{ ma.materials.brand | titlecase }}</td>
+                  <td>{{ ma.materials.quantity | number }}</td>
+                </tr>
+                </tbody>
+              </table>
+                </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseMedicines" aria-expanded="false" aria-controls="collapseMedicines">
+            Lista de Medicinas
+          </button>
+        </h5>
+      </div>
+      <div id="collapseMedicines" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionResources">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Farmaco</th>
+                  <th scope="col">Laboratorio</th>
+                  <th scope="col">Peso/Volumen</th>
+                  <th scope="col">Cantidad solicitada</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let me of medicines; index as i">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>
+                    {{ me.medicines.name | titlecase}}
+                  </td>
+                  <td>{{ me.medicines.medicineDrug | titlecase }}</td>
+                  <td>{{ me.medicines.medicineLab | titlecase }}</td>
+                  <td>{{ me.medicines.medicineWeight }} {{ me.medicines.medicineUnits}}</td>
+                  <td>{{ me.medicines.quantity | number }}</td>
+                </tr>
+                </tbody>
+              </table>        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseVehicles" aria-expanded="false" aria-controls="collapseVehicles">
+            Lista de Vehiculos
+          </button>
+        </h5>
+      </div>
+      <div id="collapseVehicles" class="collapse" aria-labelledby="headingThree" data-parent="#accordionResources">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Patente</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Tipo</th>
+                  <th scope="col">Año</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let v of vehicles; index as i">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>
+                    {{ v.vehicles.vehiclePatent | titlecase}}
+                  </td>
+                  <td> {{ v.vehicles.name | titlecase}}</td>
+                  <td>{{ v.vehicles.type | titlecase }}</td>
+                  <td>{{ v.vehicles.vehicleYear }}</td>
+                </tr>
+                </tbody>
+              </table>        </div>
+      </div>
+    </div>
+  </div>

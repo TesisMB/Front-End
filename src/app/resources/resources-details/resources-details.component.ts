@@ -1,20 +1,20 @@
 import { FormGroup, FormBuilder, Validators, FormArray, AbstractControl } from '@angular/forms';
-import { ResourcesService } from './../resources.service';
+import { ResourcesService } from '../resources.service';
 import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { Resource, Request } from 'src/app/models';
-import { MaterialsService } from './materials.service';
+import { Resource, Cart } from 'src/app/models';
+import { ResourcesDetailsService } from '../cart/cart.service';
 import { AuthenticationService } from 'src/app/services';
 
 const card = document.querySelector(".content");
 
 @Component({
-  selector: 'app-materials',
-  templateUrl: './materials.component.html',
-  styleUrls: ['./materials.component.css'],
+  selector: 'resources-details',
+  templateUrl: './resources-details.component.html',
+  styleUrls: ['./resources-details.component.css'],
 })
-export class MaterialsComponent implements OnInit {
+export class ResourcesDetails implements OnInit {
   id: number = null;
   type: string = null;
   item: Resource = null;
@@ -28,7 +28,7 @@ export class MaterialsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private service: ResourcesService,
-    private requestService: MaterialsService,
+    private requestService: ResourcesDetailsService,
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder
   ) {}
@@ -125,7 +125,7 @@ export class MaterialsComponent implements OnInit {
    const quantity: number = this.form.get('quantity').value || 1;
    this.item.quantity -= quantity;
    const userID = this.authenticationService.currentUserValue.userID;
-   const request: Request = {
+   const request: Cart = {
     id: this.id,
     userID: userID,
     createDate: Date.now(),

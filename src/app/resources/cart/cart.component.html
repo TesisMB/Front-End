@@ -107,8 +107,8 @@
       <option selected>Seleccione una emergencia</option>
       <optgroup *ngFor="let group of emergencyGroups" [label]="group.name"
       [disabled]="group.disabled">
-      <option  *ngFor="let emergency of group.emergency" [value]="emergency.value">
-        {{emergency.viewValue}}</option>
+      <option  *ngFor="let emergency of  group.emergency" [value]="emergency.value">
+        {{emergency.viewValue}} - {{emergency.date | date :'dd/MM hh:mm a'}}</option>
       </optgroup>
     </select>
     <div *ngIf="f.FK_EmergencyDisasterID.touched && f.FK_EmergencyDisasterID.invalid">
@@ -123,7 +123,7 @@
   <mat-label>Razón de la solicitud</mat-label>
   <textarea formControlName="Reason" maxLength="153" matInput #textarea placeholder="Explique para que utilizara los recursos..."></textarea>
   <mat-hint  align="end">{{textarea.value.length}} / 153</mat-hint>
-  <mat-error *ngIf="reasonForm">Dato obligatorio.</mat-error>
+  <!-- <mat-error *ngIf="reasonForm">Dato obligatorio.</mat-error> -->
 
 </mat-form-field>
 <div class="button m-3 d-flex">

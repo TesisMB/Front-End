@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Vehicle, Volunteer, Medicine, Material, Estates } from '.';
 
 export class Resource {
@@ -42,6 +43,30 @@ export class Resource {
     this.estates = _estates;
     this.locationCityName = _locationCityName;
   }
+
+
 }
 
-     
+      export interface ResourcesRequest{
+        brand: string,
+        id: number,
+        medicineDrug: string,
+        medicineExpirationDate: string,
+        medicineLab: string,
+        medicineUnits: string,
+        medicineWeight: number,
+        name: string,
+        quantity: number,
+        resourceID: number,
+        type: string,
+        vehiclePatent: string,
+        vehicleYear: number
+  } 
+
+  export interface ResourcesRequestGet {
+    FK_Resource_RequestID: number,
+    id: number,
+    materials: Material,
+    medicines:Medicine,
+    vehicles: Vehicle
+  }

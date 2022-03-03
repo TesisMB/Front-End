@@ -3,11 +3,22 @@
  export interface User  {
   userDni: string;
   userAvailability?: boolean;
-  persons: Person;
-  estates: Estates;
-  roleName: RoleName;
+  roleName: RoleName;  
+  persons?: Person;
+  estates?: Estates
   token?: string;
   userID?: number;
   UserPassword?: string;
   UserNewPassword?: string;
+ }
+
+ export interface UserRequest {
+    userID: number,
+    userAvailability: boolean,
+    userDni: string,
+    roleName: string,
+    name: string,
+    statis: boolean
+
+
  }

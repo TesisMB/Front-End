@@ -89,6 +89,10 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   get roleName(){ return this.form.get('users.roleName') }
 
+  get isAdmin(){
+    return (this.authenticationService.currentUserValue.roleName === ('Admin' || 'Coordinador General')) ? true : false;
+  }
+
 
   setRole(){
   let role = (this.roles.find(name => name.RoleName === this.roleName.value));
@@ -125,6 +129,9 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
       this.error = error;
       console.log(error);
     });
+
+    console.log('isAdmin ? => ', this.isAdmin);
+
   }
 
 
@@ -205,8 +212,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
       window.open(fileURL);
     });
   }
-
-
+  
   resetPassword(){
     const e = {email: this.user.users.persons.email}
     this.resetHandler = this.authenticationService.sendEmail(e)
@@ -217,9 +223,6 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
                           error => {this.error = error;
                                     this.alertService.error('Ha ocurrido un error, porfavor intentar más tarde.',{autoClose: true});}
                           );}
-
-  
- 
 ngOnDestroy(){
   this.formHandler.unsubscribe();
   if(this.updateHandler){
