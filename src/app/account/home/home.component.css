@@ -158,12 +158,13 @@ header::before {
   border-bottom: 1px solid transparent;
 }
 
-.textos-header {
+
+.textos-header h1 {
   color: #38A9F9;
-  font-size: 35px;
+  font-size: 40px;
+  margin-top: 3rem;
+  font-weight: 700;
 }
-
-
 
 .contenido-header a {
   margin: 30px 0 0 0;

@@ -1,0 +1,30 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.alert1 {
+    color: #FADBD8;
+}
+
+.alert2 {
+    color: #FCF3CF;
+
+}
+
+.alert3 {
+    color: #D5F5E3;
+}
+
+.mat-icon {
+    cursor: pointer;
+}
+
+textarea {
+    height: 250px;
+}

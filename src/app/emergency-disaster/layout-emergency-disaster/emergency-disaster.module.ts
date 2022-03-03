@@ -5,9 +5,10 @@ import { EmergencyDisasterRoutingModule } from '../emergency-disaster-routing.mo
 import { LayoutEmergencyDisasterComponent } from './layout-emergency-disaster.component';
 import { ListComponent } from '../list/list.component';
 import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
+import { NgbdEditDialogComponent } from '../ngbd-edit-dialog/ngbd-edit-dialog.component';
 
 @NgModule({
-  declarations: [LayoutEmergencyDisasterComponent, ListComponent, NgbdModalComponent],
+  declarations: [LayoutEmergencyDisasterComponent, ListComponent, NgbdModalComponent, NgbdEditDialogComponent],
   imports: [
     SharedModule,
     EmergencyDisasterRoutingModule

@@ -4,7 +4,7 @@
     <button (click)="onBack()" class="btn btn-secondary">Atrás</button>
   </div>
 
-  <div class="col-8">
+  <div class="col-8 title">
     <h1>Lista de {{ tipo | lowercase }}</h1>
   </div>
 
@@ -24,7 +24,7 @@
         <li>
           <div class="col mb-3">
 
-            <div class="card h-100"
+            <div class="card"
               [ngClass]="[item.availability  || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']">
 
 
@@ -38,7 +38,7 @@
                     </span>
                   </div>
                   <span class="imagen">
-                    <img src="../../../assets/img-materiales/{{ item.picture }}" class="card-img-top" alt="..." />
+                    <img src="{{ item.picture }}" class="card-img-top" alt="..." />
                   </span>
                 </div>
 
@@ -139,13 +139,13 @@
 
 
                 <ng-template #volunteersStatus>
-                  <span [ngClass]="[item.availability == false ? 'status-out_of_stock' : 'status-with_stock']">
+                  <span [ngClass]="[item.availability == false ? 'status-out_of_stock2' : 'status-with_stock2']">
 
-                    <p *ngIf="item.availability">
+                    <p *ngIf="item.availability" class="disponible">
                       DISPONIBLE
                     </p>
 
-                    <p *ngIf="!item.availability">
+                    <p *ngIf="!item.availability" class="disponible">
                       NO DISPONIBLE
                     </p>
 

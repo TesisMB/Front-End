@@ -1,60 +1,57 @@
-.container{
+.container {
   display: flex;
-  margin-top: 100px;
+  margin-top: 2rem;
   justify-content: space-around;
-  position: absolute;
   z-index: -1;
-  left: 6%;
 }
 
-.Name-Lastname
-{
+.Name-Lastname {
   font-size: 18px;
   text-align: center;
   padding-top: 20px;
 }
 
-.Email{
+.Email {
   text-align: center;
 }
 
-.active{
-  background: #F7F7F7!Important;
+.active {
+  background: #F7F7F7 !Important;
 }
 
-.nav-link{
-  color: #000!Important;
-  font-size: 14px!Important;
+.nav-link {
+  color: #000 !Important;
+  font-size: 14px !Important;
   padding: 15px 35px;
   cursor: pointer;
 }
 
-.nav-link i{
+.nav-link i {
   padding-right: 10px;
 }
 
 
-strong{
-  display:flex;
+strong {
+  display: flex;
   margin-bottom: 0;
 }
 
 
-.info, .Email{
+.info, .Email {
   font-size: 14px;
 }
 
 
 
-.title{
+.title {
   text-transform: uppercase;
   color: #000;
   font-size: 16px;
   padding: 20px;
   text-align: center;
   background-color: #F7F7F7;
-  font-weight: 300; 
-  
+  font-weight: 300;
+
 }
 
 
@@ -66,51 +63,54 @@ strong{
 .correoInput,
 .fechaInput,
 .correoInput,
-.passwordInput{
-  width:60%;
-  padding: 4px 0 ;
- margin-bottom: 1rem;
+.passwordInput {
+  width: 60%;
+  padding: 4px 0;
+  margin-bottom: 1rem;
 }
 
-.enviar{
+.enviar {
   width: 30%;
-    background: #9ea0a3;
-      transition: 0.3s ease-in-out;
-      border:none;
-      outline:none;
-      margin-bottom: 1rem;
-      margin-top: 15px;
-      padding: 10px 10px;
+  background: #9ea0a3;
+  transition: 0.3s ease-in-out;
+  border: none;
+  outline: none;
+  margin-bottom: 1rem;
+  margin-top: 15px;
+  padding: 10px 10px;
   box-shadow: 0px 0px 30px -7px rgba(0, 0, 0, 0.75);
 
 }
-.ngContainer{
-transition: 1s linear;
+
+.ngContainer {
+  transition: 1s linear;
 }
-.cancelar{
+
+.cancelar {
   color: #000;
   text-decoration: none;
   margin-bottom: 15px;
 }
 
-.enviar:hover{
+.enviar:hover {
   background: #b71c1c;
-    transform: translateY(5px);
-    color: #fff;
+  transform: translateY(5px);
+  color: #fff;
 }
 
-.personal{
+.personal {
   padding: 25px 0 0 50px;
 }
-.general{
+
+.general {
   padding: 25px 0 0 50px;
 
 }
-.work{
+
+.work {
   padding: 25px 0 0 0;
 }
 
-.form-group
-{
+.form-group {
   margin: 0;
 }

@@ -40,11 +40,17 @@
 .content-left {
   margin-left: 15px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .content-left img {
+  position: relative;
   margin: 5px 0;
-  width: 30%;
+  width: 50%;
+  height: 90%;
+  z-index: 100;
 }
 
 .content-ceneter {
@@ -52,7 +58,6 @@
 }
 
 .child {
-  width: 150px;
   height: 150px;
   position: absolute;
   top: 58%;
@@ -90,4 +95,32 @@
 
 .child-toggle {
   margin-top: 25px;
+}
+
+.circulo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  margin: 5px 0;
+}
+
+.triangulo {
+  background-image: url("https://i.imgur.com/MTZHuke.png");
+  background-position: center;
+  background-size: cover;
+  height: 79px;
+  width: 89px;
+  z-index: 100;
+}
+
+
+
+
+.cuadrado {
+  width: 80px;
+  height: 80px;
+  border: 1px solid #000;
+  margin: 5px 0;
+
 }

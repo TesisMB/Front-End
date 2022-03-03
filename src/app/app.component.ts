@@ -124,11 +124,6 @@ const TREE_DATA: FoodNode[] = [
     icon:'fas fa-briefcase-medical' ,
   },
   {
-    name: 'Alertas',
-    patch:'/alertas',
-    icon:'fas fa-exclamation-triangle' ,
-  },
-  {
     name: 'Monitoreo',
     patch:'/monitoreo',
     icon:'fas fa-tv' ,

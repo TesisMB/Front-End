@@ -13,9 +13,9 @@
   <mat-form-field appearance="fill">
     <mat-label>Tipo de Emergencia</mat-label>
     <mat-select>
-      <mat-option *ngFor="let emergency of emergencyDisaster"
-        [value]="emergency.typesEmergenciesDisasters.typeEmergencyDisasterID">
-        {{emergency.typesEmergenciesDisasters.typeEmergencyDisasterName}}
+      <mat-option *ngFor="let emergency of arraytypeEmergencyDisaster" [value]="emergency.id"
+        (click)="selectTypes(emergency.id)">
+        {{emergency.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
