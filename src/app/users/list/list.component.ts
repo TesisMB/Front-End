@@ -45,8 +45,8 @@ public getUsers() {
 
 public setUsers(employees: Employee[]) {
    this.tableService.uploadTable(employees);
-
 }
+
   ngOnDestroy(){
     this.handleSU.unsubscribe();
   }

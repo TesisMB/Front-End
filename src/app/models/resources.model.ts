@@ -43,8 +43,6 @@ export class Resource {
     this.estates = _estates;
     this.locationCityName = _locationCityName;
   }
-
-
 }
 
       export interface ResourcesRequest{

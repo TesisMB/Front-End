@@ -111,6 +111,12 @@ public _setEmployee(patch:Employee){
   this._search$.next();
 }
 
+public deleteFromTable(id){
+  const index =  this.EMPLEADOS.findIndex(x => x.employeeID == id);
+  let deleteUser = this.EMPLEADOS.splice(index, 1);
+  console.log("deleteUser =>", deleteUser);
+  this.uploadTable(this.EMPLEADOS);
+}
 
 public uploadTable(employees: Employee[]) {
   this.EMPLEADOS = employees;
