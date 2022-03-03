@@ -5,7 +5,10 @@ export class Medicine {
   medicineDrug: string;
   medicineWeight: number;
   medicineUnits: string;
-
+  id: number;
+  name: string;
+  quantity: number;
+  
   constructor(
     _medicineExpirationDate: string,
     _medicineLab: string,

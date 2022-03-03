@@ -37,6 +37,10 @@
         </div>
         <ul>
           <li><a routerLink="/perfil"><i class="fas fa-id-card"></i>Perfil</a></li>
+          <li><span style="max-width: 180px;">
+            <a routerLink="/recursos/solicitudes"><i class="fas fa-clipboard-list"></i>Solicitudes de recursos</a>
+          </span></li>
+          
           <li><a (click)="snav.close(); logout()" type="button" class="btn navbar-btn ml-2"><i
                 class="fas fa-sign-out-alt"></i>Cerrar Sesion</a></li>
         </ul>

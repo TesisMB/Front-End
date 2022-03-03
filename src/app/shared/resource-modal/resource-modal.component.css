@@ -1,0 +1,8 @@
+.modal-header{
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+.input-form-cart{
+    width: 100%;
+}

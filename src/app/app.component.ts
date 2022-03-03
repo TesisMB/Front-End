@@ -1,4 +1,4 @@
-import { Request} from 'src/app/models';
+import { Cart} from 'src/app/models';
 import { AuthenticationService } from './services';
 import { User, RoleName, Material, Vehicle, Medicine} from './models/index';
 import {MediaMatcher} from '@angular/cdk/layout';
@@ -70,21 +70,21 @@ const TREE_DATA: FoodNode[] = [
     children: [
       {
         name: 'Voluntarios',
-        patch:'recursos/lista',
+        patch:'recursos/lista/voluntarios',
         icon:'fas fa-hands-helping'
       }, {
         name: 'Medicamentos',
-        patch:'recursos/lista',
+        patch:'recursos/lista/medicamentos',
         icon:'fas fa-capsules'
       },
       {
         name: 'Materiales',
-        patch:'recursos/lista',
+        patch:'recursos/lista/materiales',
         icon:'fas fa-thermometer'
       },
       {
         name: 'Vehiculos',
-        patch:'recursos/lista',
+        patch:'recursos/lista/vehiculos',
         icon:'fas fa-ambulance'
       },
     ]
@@ -163,7 +163,7 @@ private _mobileQueryListener: () => void;
                           err => { this.error = err;});
             }
             get isRequest(){
-              const cart: Request = JSON.parse(localStorage.getItem('cart'));
+              const cart: Cart = JSON.parse(localStorage.getItem('cart'));
               return cart ? cart.request.length : false;
             }
 

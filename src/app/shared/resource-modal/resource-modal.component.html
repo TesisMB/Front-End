@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h3 class="text-center modal-title" id="modal-title">Lista de recursos</h3>
+    <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <ng-container *ngIf ="resources">
+   <!-- <p class="text-center">{{res.name}}</p>
+   -->
+   <list-resources [resources]="resources.resources_RequestResources_Materials_Medicines_Vehicles"></list-resources>
+   </ng-container>
+   <form [formGroup]="form" (ngSubmit)="rejectRequest()">
+   <mat-form-field class="input-form-cart mt-4" appearance="outline">
+    <mat-label>Razón de rechazo</mat-label>
+    <textarea formControlName="Reason" maxLength="153" matInput #textarea placeholder="Explique la razón por la cual rechaza la solicitud..."></textarea>
+    <mat-hint  align="end">{{textarea.value.length}} / 153</mat-hint>
+    <mat-error *ngIf="reasonError">Dato obligatorio.</mat-error>
+  
+  </mat-form-field>
+  </form>
+</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="rejectRequest()">Rechazar</button>
+    <button type="button" ngbAutofocus class="btn btn-outline-primary"  (click)="modal.close('Ok click')">Cerrar</button>
+  </div>

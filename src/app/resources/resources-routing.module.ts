@@ -1,3 +1,4 @@
+import { StatesComponent } from './states/states.component';
 import { ResourcesListComponent } from './resources-list/resources-list.component';
 import { LayoutResourcesComponent } from './layout/layout-resources.component';
 import { addEditResourcesComponent } from './add-edit-resources/add-edit-resources.component';
@@ -26,21 +27,28 @@ const routes: Routes = [
       {
         path: 'lista/:tipo/:id',
         component: ResourcesDetails,
-      },
-      {
-        path: 'request',
-        component: RequestComponent,
-        canActivate: [AuthGuard],
-        data: { roles: [RoleName.CoordinadorGeneral, RoleName.Admin] },
-      },
-      {
-        path: 'history-request',
-        component: HistoryRequestComponent,
-      },
+      }],
+     
+    
+  },
+  { 
+    path: 'solicitudes',
+    component: RequestComponent,
+    // children:[
+    //     {
+    //     path: 'solicitudes',
+    //     component: RequestComponent,
+    //     canActivate: [AuthGuard],
+    //     data: { roles: [RoleName.CoordinadorGeneral, RoleName.Admin] },
+    //   },
+    //   {
+    //     path: 'historial-de-solicitudes',
+    //     component: HistoryRequestComponent,
+    //   }
+    // ],
+    },
 
       { path: 'add-edit-resources', component: addEditResourcesComponent },
-    ],
-  },
 ];
 
 @NgModule({

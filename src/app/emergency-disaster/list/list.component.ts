@@ -10,7 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  emergencyDisaster: EmergencyDisaster [];
+  emergencyDisaster: EmergencyDisaster [] = [];
   handler: any;
 
   constructor(private emergencyDisasterService: EmergencyDisasterService,

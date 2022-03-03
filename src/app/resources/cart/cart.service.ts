@@ -1,36 +1,37 @@
+import { DataService } from 'src/app/services';
 import { Resource } from '../../models/resources.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Request } from 'src/app/models';
+import { Cart } from 'src/app/models';
 import { environment } from 'src/environments/environment';
 import { ResourcesService } from '../resources.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ResourcesDetailsService extends ResourcesService {
+export class ResourcesDetailsService extends DataService {
   private requestSubject : BehaviorSubject<any>;
   public _request: Observable<any> = null;
-  private request: Request = null;
+  private request: Cart = null;
 
   constructor(http: HttpClient) { 
     super(http, 'materials')
-    this.requestSubject = new BehaviorSubject<Request>
+    this.requestSubject = new BehaviorSubject<Cart>
     (JSON.parse(localStorage.getItem('cart')));
   //  this.request = ;
     this._request = this.requestSubject.asObservable();
   }
 
-  get getCartRequest(): Request {
-    const req: Request = (JSON.parse(localStorage.getItem('cart')));
+  get getCartRequest(): Cart {
+    const req: Cart = (JSON.parse(localStorage.getItem('cart')));
       if(req !== this.requestSubject.value) {
         this.requestSubject.next(req);
       }
     return this.requestSubject.value; 
   }
 
-  public setRequest(items: Request){
+  public setRequest(items: Cart){
     this.request = this.requestSubject.value;
 
     let mapRequest = [];
@@ -70,7 +71,7 @@ export class ResourcesDetailsService extends ResourcesService {
     localStorage.removeItem('cart');
   }
 
-  updateCart(items:Request){
+  updateCart(items:Cart){
     if (items.request.length){
     this.requestSubject.next(items);
     const jsonItems = JSON.stringify(items);

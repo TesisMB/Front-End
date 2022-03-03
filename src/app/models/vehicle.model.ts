@@ -5,6 +5,8 @@ export class Vehicle {
   employeeName: string;
   type: string;
   brandsModels: BrandsModels;
+  id: number;
+  name: string;
   constructor(
     _vehiclePatent: string,
     _vehicleYear: number,

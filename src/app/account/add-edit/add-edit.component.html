@@ -15,6 +15,7 @@
 
     <div  class="col-10" style="background-color: #fff!Important; margin-left: 20px;  padding: 0;">
       <div class="tab-content" id="v-pills-tabContent" style="background-color: #fff;">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()"  style="background-color: #fff!Important;" style="display: flex; flex-direction: column; background: #fff;">
 
         <!-- Informacion General -->
 
@@ -22,7 +23,6 @@
         style="background-color: #fff!Important;">
       <div *ngIf="model" class="row">
         <div class="personal col-6">
-          <form [formGroup]="form" (ngSubmit)="onSubmit()"  style="background-color: #fff!Important;" style="display: flex; flex-direction: column; background: #fff;">
         <h2 class="title">Información Personal</h2>
         <p style="font-size: small;"><i class="fas fa-edit text-danger " style=" cursor: pointer;" (click)="onUpdate(model)"></i> Editar Informacion</p>
 
@@ -105,7 +105,7 @@
           </div>
               <!-- Botones  -->
         <button *ngIf="form.enabled"  class='btn btn-info m-2 enviar' type="submit">Guardar</button>
-        </form>
+        
         </div>
 
         <!-- Informacion de Trabajo -->
@@ -123,17 +123,32 @@
         </ul>
           <strong>Telefono de la Filial</strong>
           <p class="info">{{model.users.estates.estatePhone}}</p>
-          <strong>Disponibilidad ante emergencias</strong>
+          <!-- <strong>Disponibilidad ante emergencias</strong>
           <p class="info" *ngIf="model.users.persons.status"><i [class.text-success]="model.users.persons.status" class="fas fa-circle"></i>      Disponible</p>
-          <p class="info" *ngIf="!model.users.persons.status"><i [class.text-danger]="!model.users.persons.status"class="fas fa-circle"></i>      No disponible</p>
+          <p class="info" *ngIf="!model.users.persons.status"><i [class.text-danger]="!model.users.persons.status"class="fas fa-circle"></i>      No disponible</p> -->
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="info"><strong>Disponibilidad ante emergencias</strong></label>
+          <select class="form-control statusInput info" required formControlName="status"  name="status" id="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+        <option  [ngValue]="true"> <span>  <i [class.text-success]="model.users.persons.status" class="fas fa-circle"></i>Disponible</span></option>
+        <option  [ngValue]="false"> <span> <i [class.text-danger]="!model.users.persons.status" class="fas fa-circle"></i>No disponible</span></option>
+          </select>
+          <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+            <div *ngIf="f.status.errors.required"><small>*Campo requerido</small></div>
+        </div>
+           
+        </div>
+        </div>
         </div>
         <div class="col align-self-end">
         <button class='btn btn-danger m-5' routerLink="/" >Volver a Home</button>
 </div>
     </div>
+    
   </div>
-                 
+    </form>
       </div>
+      
     </div>
     </ng-container>
   </section>

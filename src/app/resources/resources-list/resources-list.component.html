@@ -1,7 +1,7 @@
-<section class="head row">
+<section class="row head ">
 
   <div class="col-2">
-    <button (click)="onBack()" class="btn btn-secondary">Atrás</button>
+    <button style="border: solid 1px;" (click)="onBack()" class="btn btn-secondary">Atrás</button>
   </div>
 
   <div class="col-8">
@@ -141,11 +141,11 @@
                 <ng-template #volunteersStatus>
                   <span [ngClass]="[item.availability == false ? 'status-out_of_stock' : 'status-with_stock']">
 
-                    <p *ngIf="item.availability">
+                    <p class="text-center" *ngIf="item.availability">
                       DISPONIBLE
                     </p>
 
-                    <p *ngIf="!item.availability">
+                    <p class="text-center" *ngIf="!item.availability">
                       NO DISPONIBLE
                     </p>
 

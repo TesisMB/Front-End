@@ -1,3 +1,4 @@
+import { ResourcesService } from './resources.service';
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from './../shared/shared.module';
@@ -11,14 +12,16 @@ import { StatesComponent } from './states/states.component';
 import { LayoutResourcesComponent } from './layout/layout-resources.component';
 import { ResourcesListComponent } from './resources-list/resources-list.component';
 import { CartComponent } from './cart/cart.component';
+import { RequestTableComponent } from './request-table/request-table.component';
 
 
 @NgModule({
-  declarations: [ResourcesComponent, HistoryRequestComponent, RequestComponent, addEditResourcesComponent, ResourcesDetails, StatesComponent, LayoutResourcesComponent, ResourcesListComponent, CartComponent],
+  declarations: [ResourcesComponent, HistoryRequestComponent, RequestComponent, addEditResourcesComponent, ResourcesDetails, StatesComponent, LayoutResourcesComponent, ResourcesListComponent, CartComponent, RequestTableComponent],
   imports: [
     SharedModule,
     ResourcesRoutingModule
   ],
-  exports: [CartComponent]
+  exports: [CartComponent],
+  // providers: [ResourcesService]
 })
 export class ResourcesModule { }

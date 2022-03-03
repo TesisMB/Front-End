@@ -1,3 +1,4 @@
+import { AuthenticationService } from 'src/app/services';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatesComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private authService: AuthenticationService,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  get role(){
+  const roleName = this.authService.currentUserValue.roleName;
+    return (roleName === 'Encargado de Logistica');
   }
 
 }

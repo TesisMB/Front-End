@@ -3,7 +3,7 @@ import { ResourcesService } from '../resources.service';
 import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { Resource, Request } from 'src/app/models';
+import { Resource, Cart } from 'src/app/models';
 import { ResourcesDetailsService } from '../cart/cart.service';
 import { AuthenticationService } from 'src/app/services';
 
@@ -125,7 +125,7 @@ export class ResourcesDetails implements OnInit {
    const quantity: number = this.form.get('quantity').value || 1;
    this.item.quantity -= quantity;
    const userID = this.authenticationService.currentUserValue.userID;
-   const request: Request = {
+   const request: Cart = {
     id: this.id,
     userID: userID,
     createDate: Date.now(),

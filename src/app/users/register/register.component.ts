@@ -92,7 +92,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           data => {
               this.alertService.success('Registro exitoso :)', { autoClose: true });
              // this.router.navigate(['/'], { relativeTo: this.route });
-              this.tableService.uploadTable();
+             // this.tableService.uploadTable();
               this.loading = false;
 
           },

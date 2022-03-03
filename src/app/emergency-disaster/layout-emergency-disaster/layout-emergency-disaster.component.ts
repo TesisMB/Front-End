@@ -10,10 +10,10 @@ import * as _ from 'lodash';
 })
 export class LayoutEmergencyDisasterComponent implements OnInit, OnDestroy {
 
-  emergencyDisaster: EmergencyDisaster [];
+  emergencyDisaster: EmergencyDisaster [] = [];
   selected: string;
   isActive: boolean = false;
-  emergencyDisasterClone: EmergencyDisaster [];
+  emergencyDisasterClone: EmergencyDisaster [] = [];
 
   constructor(
 

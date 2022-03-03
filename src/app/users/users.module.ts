@@ -14,7 +14,6 @@ import { RegisterComponent } from './register/register.component';
 import { UserService } from './';
 import { EmployeesTableComponent } from './employees-table/employees-table.component';
 import { SorteableDirective } from '../directives/sorteable.directive';
-import { NgbdModalComponent } from './ngbd-modal/ngbd-modal.component';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 @NgModule({
@@ -30,7 +29,6 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
         ListComponent,
         RegisterComponent,
         EmployeesTableComponent,
-        NgbdModalComponent,
     ],
     providers: [TableService, UserService, DecimalPipe,
     {provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true}}
