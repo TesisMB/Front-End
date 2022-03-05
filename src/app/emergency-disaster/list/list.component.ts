@@ -51,7 +51,7 @@ export class ListComponent implements OnInit {
 
 
   getEmergencyDisaster() {
-    this.emergencyDisasterService.getAll()
+    this.emergencyDisasterService.getAllWithoutFilter()
 
         //Objetos
         /* const user = _.pick(

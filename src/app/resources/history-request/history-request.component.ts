@@ -11,5 +11,8 @@ export class HistoryRequestComponent implements OnInit {
 
   ngOnInit(): void {
   }
+get pendiente(){ return 'Pendiente'}
+get aceptadas(){ return 'Aceptado'}
+get rechazadas(){ return 'Rechazado'}
 
 }

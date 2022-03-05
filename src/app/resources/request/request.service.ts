@@ -1,8 +1,8 @@
+import { environment } from './../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from 'src/app/services';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,10 @@ export class RequestService extends DataService {
     else {
       return this.http.get<any>(environment.URL + this.patch);
     }
+  }
+
+  rejectRequest(response){
+  return  this.http.post<any>(environment.URL +  this.patch, response);
   }
 
 }

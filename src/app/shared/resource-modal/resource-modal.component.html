@@ -10,10 +10,10 @@
    -->
    <list-resources [resources]="resources.resources_RequestResources_Materials_Medicines_Vehicles"></list-resources>
    </ng-container>
-   <form [formGroup]="form" (ngSubmit)="rejectRequest()">
+   <form [formGroup]="form">
    <mat-form-field class="input-form-cart mt-4" appearance="outline">
     <mat-label>Razón de rechazo</mat-label>
-    <textarea formControlName="Reason" maxLength="153" matInput #textarea placeholder="Explique la razón por la cual rechaza la solicitud..."></textarea>
+    <textarea formControlName="Description" maxLength="153" matInput #textarea placeholder="Explique la razón por la cual rechaza la solicitud..."></textarea>
     <mat-hint  align="end">{{textarea.value.length}} / 153</mat-hint>
     <mat-error *ngIf="reasonError">Dato obligatorio.</mat-error>
   
@@ -21,6 +21,8 @@
   </form>
 </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-danger" (click)="rejectRequest()">Rechazar</button>
-    <button type="button" ngbAutofocus class="btn btn-outline-primary"  (click)="modal.close('Ok click')">Cerrar</button>
+    <button type="button" class="btn btn-outline-primary" (click)="requestResponse(true)">Aprobar</button>
+
+    <button type="button" class="btn btn-outline-danger" (click)="requestResponse(false)">Rechazar</button>
+    <!-- <button type="button" ngbAutofocus class="btn btn-outline-primary"  (click)="modal.close('Ok click')">Cerrar</button> -->
   </div>
