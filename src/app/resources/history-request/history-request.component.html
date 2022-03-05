@@ -1,28 +1,17 @@
-<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-  <ngb-panel type="light">
-    <ng-template ngbPanelTitle>
-        <span class="text-warning">En proceso</span>
-      </ng-template>
-    <ng-template ngbPanelContent>
-        <request-table></request-table>
+<mat-tab-group>
+  <mat-tab label="Pendientes">
+    <ng-template matTabContent>
+<request-table [condition] = pendiente></request-table>
     </ng-template>
-  </ngb-panel>
-  <ngb-panel type="light">
-    <ng-template ngbPanelTitle>
-      <span class="text-success">Aceptadas</span>
+  </mat-tab>
+  <mat-tab label="Aceptadas">
+    <ng-template matTabContent>
+      <request-table [condition] = aceptadas></request-table>
     </ng-template>
-    <ng-template ngbPanelContent>
-        <request-table></request-table>
-
+  </mat-tab>
+  <mat-tab label="Rechazadas">
+    <ng-template matTabContent>
+      <request-table [condition] = rechazadas></request-table>
     </ng-template>
-  </ngb-panel>
-  <ngb-panel type="light">
-    <ng-template ngbPanelTitle>
-        <span class="text-danger">Rechazadas</span>
-      </ng-template>
-    <ng-template ngbPanelContent>
-        <request-table></request-table>
-
-    </ng-template>
-  </ngb-panel>
-</ngb-accordion>
+  </mat-tab>
+</mat-tab-group>

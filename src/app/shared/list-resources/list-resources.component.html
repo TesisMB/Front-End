@@ -1,5 +1,5 @@
 <div class="accordion" id="accordionResources">
-    <div class="card">
+    <div *ngIf="materials.length" class="card">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
           <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMaterials" aria-expanded="true" aria-controls="collapseMaterials">
@@ -33,7 +33,7 @@
                 </div>
       </div>
     </div>
-    <div class="card">
+    <div *ngIf="medicines.length" class="card">
       <div class="card-header" id="headingTwo">
         <h5 class="mb-0">
           <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseMedicines" aria-expanded="false" aria-controls="collapseMedicines">
@@ -70,7 +70,7 @@
               </table>        </div>
       </div>
     </div>
-    <div class="card">
+    <div *ngIf="vehicles.length" class="card">
       <div class="card-header" id="headingThree">
         <h5 class="mb-0">
           <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseVehicles" aria-expanded="false" aria-controls="collapseVehicles">

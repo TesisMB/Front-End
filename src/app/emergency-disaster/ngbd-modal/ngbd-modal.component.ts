@@ -3,7 +3,6 @@ import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
 import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as L from  'Leaflet';
-import { ThemePalette } from '@angular/material/core';
 
 
 @Component({

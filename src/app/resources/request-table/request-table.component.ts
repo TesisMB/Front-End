@@ -12,7 +12,6 @@ import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalComponent } from '../../users/ngbd-modal/ngbd-modal.component';
 import { SorteableDirective } from 'src/app/directives/sorteable.directive';
 
-const CONDITION = 'Pendiente';
 @Component({
   selector: 'request-table',
   templateUrl: './request-table.component.html',
@@ -21,7 +20,7 @@ const CONDITION = 'Pendiente';
 
 })
 export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
-  
+  @Input() condition = 'Pendiente';
   request$: Observable<RequestGet[]>;
   filter = new FormControl('');
   page = 1;
@@ -37,20 +36,20 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private pipe: DecimalPipe, private alertService: AlertService,
      private service: RequestService, private modalService: NgbModal,private userService: UserService) {
-    this.getRequest();
   }
 
 
   ngOnInit(): void {
     
+    this.getRequest();
+   
+  }
+
+  ngAfterViewInit(){
     this.request$ = this.filter.valueChanges.pipe(
       startWith(''),
       map(text => this.search(text, this.pipe))
     );
-  }
-
-  ngAfterViewInit(){
-
   // console.log('refreshCountries => ',this.refreshCountries());
 
   }
@@ -79,7 +78,7 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 }
   getRequest(){
-    this.handleRequest = this.service.getAll()
+    this.handleRequest = this.service.getAll(this.condition)
     .subscribe((x: any) =>{
       this.request = x;
      this.collectionSize = x.length;
