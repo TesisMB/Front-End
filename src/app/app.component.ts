@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { Cart} from 'src/app/models';
 import { AuthenticationService } from './services';
 import { User, RoleName, Material, Vehicle, Medicine} from './models/index';
@@ -6,10 +7,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ChangeDetectorRef ,Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NestedTreeControl } from '@angular/cdk/tree';
+import { ResourcesDetailsService } from './resources/cart/cart.service';
 
 interface FoodNode {
   name: string,
-  patch?: string,
+  patch?: any,
   icon: string,
   children?: FoodNode[],
 }
@@ -70,22 +72,27 @@ const TREE_DATA: FoodNode[] = [
     children: [
       {
         name: 'Voluntarios',
-        patch:'recursos/lista/voluntarios',
+        patch:'/recursos/lista/voluntarios',
         icon:'fas fa-hands-helping'
       }, {
         name: 'Medicamentos',
-        patch:'recursos/lista/medicamentos',
+        patch:'/recursos/lista/medicamentos',
         icon:'fas fa-capsules'
       },
       {
         name: 'Materiales',
-        patch:'recursos/lista/materiales',
+        patch:'/recursos/lista/materiales',
         icon:'fas fa-thermometer'
       },
       {
         name: 'Vehiculos',
-        patch:'recursos/lista/vehiculos',
+        patch:'/recursos/lista/vehiculos',
         icon:'fas fa-ambulance'
+      },
+      {
+        name: 'Solicitudes',
+        patch:'/recursos/solicitudes',
+        icon:'fas fa-clipboard-list' ,
       },
     ]
   },
@@ -116,7 +123,7 @@ styleUrls: ['app.component.css']
 export class AppComponent implements OnDestroy{
 currentUser: User;
 error:any= "";
-handler: any;
+handler: Subscription;
 request = null;
 notifications: Notifications = {hasNotifications: true, number:22};
 mobileQuery: MediaQueryList;
@@ -131,6 +138,8 @@ private _mobileQueryListener: () => void;
         media: MediaMatcher,
         private authenticationService: AuthenticationService,
         private router: Router,
+        private cartService: ResourcesDetailsService,
+        private route: ActivatedRoute
     ) {
     this.getCurrentUser();
     this.dataSource.data = TREE_DATA;
@@ -144,6 +153,7 @@ private _mobileQueryListener: () => void;
 
           
             logout() { 
+              this.cartService.clearCartRequest();
               this.authenticationService.logout();
             }
           

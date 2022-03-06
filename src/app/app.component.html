@@ -38,7 +38,7 @@
         <ul>
           <li><a routerLink="/perfil"><i class="fas fa-id-card"></i>Perfil</a></li>
           <li><span style="max-width: 180px;">
-            <a routerLink="/recursos/solicitudes"><i class="fas fa-clipboard-list"></i>Solicitudes de recursos</a>
+            <a routerLink="/recursos/historial"><i class="fas fa-clipboard-list"></i>Historial de solicitudes</a>
           </span></li>
           
           <li><a (click)="snav.close(); logout()" type="button" class="btn navbar-btn ml-2"><i
@@ -79,7 +79,7 @@
             <li>
               <!-- use a disabled button to provide padding for tree leaf -->
               <button mat-icon-button disabled></button>
-              <a routerLink="{{node.patch}}" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
+              <a [routerLink]="[node.patch]" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
                 {{node.name}}
               </a>
               <button mat-icon-button disabled></button>
@@ -95,13 +95,15 @@
                     {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                   </mat-icon>
                 </button>
-                <a routerLink="{{node.patch}}" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
+                <a [routerLink]="[node.patch]" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
                   {{node.name}}
                 </a>
               </div>
               <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
                 <ng-container matTreeNodeOutlet></ng-container>
+                <hr/>
               </ul>
+            
             </li>
           </mat-nested-tree-node>
         </mat-tree>

@@ -27,7 +27,10 @@ const routes: Routes = [
       {
         path: 'lista/:tipo/:id',
         component: ResourcesDetails,
-      }],
+      },
+      { path: 'agregar-recurso',
+        component: addEditResourcesComponent },
+    ],
      
     
   },
@@ -48,7 +51,9 @@ const routes: Routes = [
     // ],
     },
 
-      { path: 'add-edit-resources', component: addEditResourcesComponent },
+      { path: 'historial',
+       component: HistoryRequestComponent },
+
 ];
 
 @NgModule({
