@@ -195,11 +195,14 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     .subscribe(
     () =>{
       this.alertService.success('Usuario eliminado exitosamente', { autoClose: true });
+      this.tableService.deleteFromTable(id);
+      this.activeModal.close();
     },
     error => {
       this.alertService.warn('Ha ocurrido un error', { autoClose: true });
       this.error = error;
       console.log(error);
+      this.activeModal.close();
     }
   );}
 

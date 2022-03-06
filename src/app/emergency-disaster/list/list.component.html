@@ -3,9 +3,9 @@
   [ngStyle]="{backgroundColor: getCardColor(emergency.alerts.alertDegree)}">
 
   <div class="content-left" (click)="openVerticallyCentered(i)">
-    <div [ngClass]="{'circulo': emergency.alerts.alertDegree === 'Moderado',
+    <div [ngClass]="{'cuadrado': emergency.alerts.alertDegree === 'Moderado',
                 'triangulo': emergency.alerts.alertDegree === 'Controlado',
-              'cuadrado': emergency.alerts.alertDegree === 'Extremo'}">
+              'circulo': emergency.alerts.alertDegree === 'Extremo'}">
       <img
         src="../../../assets/icons - Resources - EmergDesas/{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterIcon}}.svg"
         alt="" class="img">

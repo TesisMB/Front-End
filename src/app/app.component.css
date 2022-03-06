@@ -53,8 +53,7 @@
 
     .example-tree ul,
     .example-tree li {
-      margin-top: 0;
-      margin-bottom: 0;
+      margin: 0 !important;
       list-style-type: none;
     }
 
@@ -189,13 +188,16 @@
     /* user */
 
     .dropdown-menu {
-      width: 200px;
       margin: 0;
       padding: 0;
       border-radius: 5px;
       position: absolute;
       top: 5px !important;
       left: -15px !important;
+    }
+
+    .dropdown-menu ul{
+      margin-bottom: 0;
     }
 
     .dropdown-menu ul li {
@@ -223,7 +225,7 @@
     }
 
     .title {
-      margin: 0;
+      margin: 0 10px;
     }
 
     .dos {
