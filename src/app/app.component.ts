@@ -14,6 +14,7 @@ interface FoodNode {
   patch?: any,
   icon: string,
   children?: FoodNode[],
+  role: any[]
 }
 
 
@@ -59,40 +60,48 @@ const TREE_DATA: FoodNode[] = [
     name: 'Inicio',
     patch:'/',
     icon:'fas fa-home' ,
+    role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
   },
   {
     name: 'Empleados',
     patch:'/empleados',
     icon:'fas fa-users' ,
+    role:['Admin','Coordinador General']
   },
   {
     name: 'Recursos',
     patch: 'recursos',
     icon:'fas fa-first-aid',
+    role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres'],
     children: [
       {
         name: 'Voluntarios',
         patch:'/recursos/lista/voluntarios',
-        icon:'fas fa-hands-helping'
+        icon:'fas fa-hands-helping',
+        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
       }, {
         name: 'Medicamentos',
         patch:'/recursos/lista/medicamentos',
-        icon:'fas fa-capsules'
+        icon:'fas fa-capsules',
+        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
       },
       {
         name: 'Materiales',
         patch:'/recursos/lista/materiales',
-        icon:'fas fa-thermometer'
+        icon:'fas fa-thermometer',
+        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
       },
       {
         name: 'Vehiculos',
         patch:'/recursos/lista/vehiculos',
-        icon:'fas fa-ambulance'
+        icon:'fas fa-ambulance',
+        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
       },
       {
         name: 'Solicitudes',
         patch:'/recursos/solicitudes',
         icon:'fas fa-clipboard-list' ,
+        role:['Admin','Coordinador General','Coordinador de Logistica']
       },
     ]
   },
@@ -100,16 +109,19 @@ const TREE_DATA: FoodNode[] = [
     name: 'Emergencias',
     patch:'/emergencias',
     icon:'fas fa-briefcase-medical' ,
+    role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
   },
   {
     name: 'Monitoreo',
     patch:'/monitoreo',
     icon:'fas fa-tv' ,
+    role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
   },
   {
     name: 'Estadisticas',
     patch:'/statistics',
     icon:'fas fa-chart-pie' ,
+    role:['Admin']
   },
 
 ];
@@ -142,7 +154,7 @@ private _mobileQueryListener: () => void;
         private route: ActivatedRoute
     ) {
     this.getCurrentUser();
-    this.dataSource.data = TREE_DATA;
+    this.dataSource.data = TREE_DATA.filter(x => x.role.includes(this.currentUser.roleName));
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -181,8 +193,7 @@ private _mobileQueryListener: () => void;
           //   return this.currentUser && this.currentUser.roleName === RoleName.CEyD;
           // }
         
-          // get isLogistica () {
-            
-          //   return this.currentUser && this.currentUser.roleName === RoleName.Logistica
-          // }
+           get isLogistica () {
+            return this.currentUser.roleName === RoleName.Logistica
+           }
 }
