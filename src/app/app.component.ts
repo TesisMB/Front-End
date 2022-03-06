@@ -133,7 +133,7 @@ templateUrl: 'app.component.html',
 styleUrls: ['app.component.css']
  })
 export class AppComponent implements OnDestroy{
-currentUser: User;
+currentUser: User = null;
 error:any= "";
 handler: Subscription;
 request = null;
@@ -154,7 +154,7 @@ private _mobileQueryListener: () => void;
         private route: ActivatedRoute
     ) {
     this.getCurrentUser();
-    this.dataSource.data = TREE_DATA.filter(x => x.role.includes(this.currentUser.roleName));
+    this.dataSource.data = TREE_DATA;
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -176,7 +176,13 @@ private _mobileQueryListener: () => void;
 
             getCurrentUser(){
               this.handler = this.authenticationService.currentUser
-              .subscribe(x => {this.currentUser = x},
+              .subscribe(x => {
+                console.log('x => ', x);
+                this.currentUser = x
+                if(this.currentUser){
+                this.dataSource.data = TREE_DATA.filter(x => x.role.includes(this.currentUser.roleName));
+                }
+              },
                           err => { this.error = err;});
             }
             get isRequest(){

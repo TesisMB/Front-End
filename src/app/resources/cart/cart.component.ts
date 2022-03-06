@@ -68,7 +68,7 @@ export class CartComponent implements OnInit, OnDestroy {
       }
 
   get getStyle() { return this.request.request.length >= 2 ? '230px' : 'max-content';}
- //  get reasonForm(){return this.form.get('Reason').getError('required');}
+   get reasonForm(){return this.form.get('Description').getError('required');}
    get EmergencyIDForm(){return this.form.get('FK_EmergencyDisasterID').getError('required');}
 
  // get getRes(){ return this.form.}
@@ -84,7 +84,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
 createForm() {
   this.form = this.formBuilder.group({
-    Reason: [null, [Validators.maxLength(153)]],
+    Description: [null, [Validators.maxLength(153)]],
     FK_EmergencyDisasterID: ['Seleccione una emergencia',[Validators.required, Validators.pattern("^[0-9]*$")]],
     resources_RequestResources_Materials_Medicines_Vehicles: this.formBuilder.array(
     this.request.request.map(item => this.createRequest(item)))
@@ -142,8 +142,10 @@ createForm() {
       },
      error =>{
     this.error = error;
+    console.log('Error => ', error);
+    
     this.setMessageError(this.error);
-    this.alertService.warn('Chequee la solicitud, hay articulos sin stock.', { autoClose: true });
+  
     //console.log('Error del post: ', error);
     this.isLoading();
   } );
@@ -236,6 +238,11 @@ createForm() {
   }
 
   setMessageError(error){
+    if(error == 'Internal server error'){
+    this.alertService.error('Error en el envìo de la solicitud, por favor intentar màs tarde.', { autoClose: true });
+
+    }
+    else {
     this.request.request.forEach(x =>
       {
         error.forEach(err => {
@@ -248,6 +255,8 @@ createForm() {
          }});
       }
       );
+    this.alertService.warn('Chequee la solicitud, hay articulos sin stock.', { autoClose: true });
+    }
   }
 
   ngOnDestroy(): void {

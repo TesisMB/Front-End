@@ -35,11 +35,11 @@ form: FormGroup;
     this.form.get('status').patchValue(status);
 
     this.requestService.rejectRequest(this.form.value).subscribe(
-      data => this.alertService.success('Petición rechazada con exito!'),
+      data => this.alertService.success(`Petición ${status} con exito!`),
       error => this.alertService.error('Ups! Ha ocurrido un error, vuelva a intentarlo mas tarde.')
     );
-    this.modal.close();
     status ? this.resources.condition = 'Aceptada': this.resources.condition = 'Rechazada';
+    this.modal.close();
    }
 
 }

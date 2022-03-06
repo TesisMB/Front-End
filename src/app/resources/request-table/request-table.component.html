@@ -2,7 +2,7 @@
   <div class="mb-3 row">
     <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Busqueda:</label>
     <div class="col-xs-3 col-sm-auto">
-      <input id="table-filtering-search" class="form-control" type="text" [formControl]="filter">
+      <input class="form-control ml-3" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
     </div>
   </div>
 </form>
@@ -33,45 +33,45 @@
       <tr *ngFor="let request of request$ | async; index as i">
         <th scope="row">{{ i + 1 }}</th>
         <td>
-          <ngb-highlight [result]="request.id" [term]="filter.value"></ngb-highlight>
+          <ngb-highlight [result]="request.id" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="request.emergenciesDisasters.emergencyDisasterID | number" [term]="filter.value">
+          <ngb-highlight [result]="request.emergenciesDisasters.emergencyDisasterID | number" [term]="service.searchTerm">
           </ngb-highlight>
         </td>
         <td>
           <ngb-highlight
             [result]="request.emergenciesDisasters.typesEmergenciesDisasters.typeEmergencyDisasterName | titlecase"
-            [term]="filter.value"></ngb-highlight>
+            [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
           <ngb-highlight [result]="request.emergenciesDisasters.locations.locationMunicipalityName"
-            [term]="filter.value"></ngb-highlight>
+            [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="request.emergenciesDisasters.locations.locationDepartmentName" [term]="filter.value">
+          <ngb-highlight [result]="request.emergenciesDisasters.locations.locationDepartmentName" [term]="service.searchTerm">
           </ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="request.emergenciesDisasters.locations.locationCityName" [term]="filter.value">
+          <ngb-highlight [result]="request.emergenciesDisasters.locations.locationCityName" [term]="service.searchTerm">
           </ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="request.description | titlecase" [term]="filter.value"></ngb-highlight>
+          <ngb-highlight [result]="request.description | titlecase" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="request.condition | titlecase" [term]="filter.value"></ngb-highlight>
+          <ngb-highlight [result]="request.condition | titlecase" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td><a matTooltip="Información del encargado" matTooltipPosition="above" color="warn"
             (click)="openModal('employee',request.users.userID)" aria-label="Información del encargado">
 
-            <ngb-highlight [result]="request.users.name" [term]="filter.value"></ngb-highlight>
+            <ngb-highlight [result]="request.users.name" [term]="service.searchTerm"></ngb-highlight>
           </a></td>
         <td>
-          <ngb-highlight [result]="request.users.name | titlecase" [term]="filter.value"></ngb-highlight>
+          <ngb-highlight [result]="request.users.name | titlecase" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="request.requestDate" [term]="filter.value"></ngb-highlight>
+          <ngb-highlight [result]="request.requestDate" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td><button mat-icon-button matTooltip="Ver más" matTooltipPosition="right" color="warn"
             (click)="openModal('info', i)" aria-label="Ver más">
@@ -82,11 +82,11 @@
   </tbody>
 </table>
 <div class="d-flex justify-content-between p-2">
-  <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
-    (pageChange)="refreshRequest()">
+  <ngb-pagination
+    [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
   </ngb-pagination>
 
-  <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshRequest()">
+  <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
     <option [ngValue]="2">2 items per page</option>
     <option [ngValue]="4">4 items per page</option>
     <option [ngValue]="6">6 items per page</option>
