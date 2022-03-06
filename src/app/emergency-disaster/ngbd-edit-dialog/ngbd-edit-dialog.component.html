@@ -23,6 +23,6 @@
 
     <div mat-dialog-actions>
         <button mat-button (click)="onNoClick()">Cancelar</button>
-        <button mat-button cdkFocusInitial>Guardar cambios</button>
+        <button mat-button cdkFocusInitial (click)="updateEmergency(emergencyDisaster)">Guardar cambios</button>
     </div>
 </form>

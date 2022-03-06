@@ -1,1 +1,20 @@
-<p>ngbd-delete-modal works!</p>
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">{{titulo}} Emergencia y/o desastre</h4>
+
+    <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+        (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p><strong>¿Está seguro que quiere {{titulo | lowercase}} <span
+                class="text-primary">"{{emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName |
+                titlecase}} en {{emergencyDisaster.locations.locationDepartmentName | titlecase}}"</span> ?</strong>
+    </p>
+    <p>Toda información asociada a esta emergencia y/o desastre será eliminada permanentemente.
+        <span class="text-danger">Esta operación es irreversible.</span>
+    </p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="button" ngbAutofocus class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>

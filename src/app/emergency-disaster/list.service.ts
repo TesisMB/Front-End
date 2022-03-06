@@ -1,14 +1,11 @@
-import { switchMap, delay, debounceTime } from 'rxjs/operators';
-import { EmergencyDisaster } from './../models/emergencyDisaster';
-import { TypesEmergencyDisaster } from './../models/typeEmergencyDisaster';
-import { Observable, BehaviorSubject, of, Subject } from 'rxjs';
-import { DataService } from 'src/app/services';
-import { HttpClient } from '@angular/common/http';
-import { Injectable, Output, EventEmitter } from '@angular/core';
-import { matches } from 'lodash';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { SortDirection } from '@angular/material/sort';
+import { matches } from 'lodash';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { delay, switchMap } from 'rxjs/operators';
 import { SortColumn } from '../directives/sorteable.directive';
-import { DecimalPipe } from '@angular/common';
+import { EmergencyDisaster } from '../models/emergencyDisaster';
+
 
 
 interface Result{
@@ -22,17 +19,18 @@ interface State {
   sortColumn: SortColumn;
   sortDirection: SortDirection;
 }
+
 @Injectable({
   providedIn: 'root'
 })
-export class SelectTypesEmergencyDisasterService extends DataService{
+export class ListService {
 
 
   @Output() TypesEvent: EventEmitter<number> = new EventEmitter();
   @Output() TypesEventBoolean: EventEmitter<boolean> = new EventEmitter(true);
 
 
-  private selectTypes$: BehaviorSubject<number> = new BehaviorSubject<number>(2); 
+  private selectTypes$: BehaviorSubject<number> = new BehaviorSubject<number>(8); 
 
   private emergencyDisaster$: BehaviorSubject<EmergencyDisaster[]> = new BehaviorSubject<EmergencyDisaster[]>(null); 
   
@@ -54,11 +52,8 @@ export class SelectTypesEmergencyDisasterService extends DataService{
     sortDirection: ''
   };
   
-  constructor(http: HttpClient, private pipe: DecimalPipe) { 
-    super(http, 'typesEmergenciesDisasters');
-
+  constructor() { 
     this._search$.pipe(
-      debounceTime(200),
       switchMap(()=> this.filterTypes()),
       delay(200)
     ).subscribe(result => {
@@ -67,7 +62,6 @@ export class SelectTypesEmergencyDisasterService extends DataService{
 
     this._search$.next();
   }
-
 
   get selectTypesEmergencyDisaster$(){
     return this.selectTypes$.asObservable();
@@ -110,12 +104,6 @@ export class SelectTypesEmergencyDisasterService extends DataService{
   }
 
 
-  public uploadTable(EmergencyDisaster: EmergencyDisaster[]) {
-    this.emergencyDisaster = EmergencyDisaster;
-    this.emergencyDisaster$.next(EmergencyDisaster);
-    this._search$.next();
-  }
-
 
   private filterTypes(): Observable<Result>{
 
@@ -130,7 +118,7 @@ export class SelectTypesEmergencyDisasterService extends DataService{
 
     _emergencyDisaster = _emergencyDisaster.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
 
-    console.log('datos filtrados => ',  emergency);
+    console.log('datos filtrados => ',  this.emergencyDisaster);
 
     return of({_emergencyDisaster});
   }
@@ -147,7 +135,7 @@ export class SelectTypesEmergencyDisasterService extends DataService{
     }
 
 
-    console.log('datos filtrados boolean => ', this.emergencyDisaster);
+    console.log('datos filtrados boolean => ',  this.emergencyDisaster);
 
 
     return  this.emergencyDisaster;

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { EmergencyDisaster } from './../../models/emergencyDisaster';
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ngbd-delete-modal',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NgbdDeleteModalComponent implements OnInit {
 
-  constructor() { }
+  @Input() emergencyDisaster: EmergencyDisaster;
+  
+  titulo: string;
+
+  constructor(public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
   }

@@ -1,33 +1,28 @@
-import { SelectTypesEmergencyDisasterService } from './../select-types-emergency-disaster.service';
-import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
-import { EmergencyDisasterService } from './../emergency-disaster.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { map, filter } from 'rxjs/operators';
-import { pipe, Observable } from 'rxjs';
-import * as _ from 'lodash';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { NgbdEditDialogComponent } from '../ngbd-edit-dialog/ngbd-edit-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
+import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
+import { EmergencyDisasterService } from '../emergency-disaster.service';
 import { NgbdDeleteModalComponent } from '../ngbd-delete-modal/ngbd-delete-modal.component';
+import { NgbdEditDialogComponent } from '../ngbd-edit-dialog/ngbd-edit-dialog.component';
+import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
+import { SelectTypesEmergencyDisasterService } from '../select-types-emergency-disaster.service';
 
 @Component({
-  selector: 'list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  selector: 'table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.css']
 })
-export class ListComponent implements OnInit {
+export class TableComponent implements OnInit {
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
-
   emergencyDisaster: EmergencyDisaster[];
   emergencyDisasterObservable: Observable<EmergencyDisaster[]>;
   handler: any;
   array= [];
   typesid: number;
   types$: Observable<number>;
-
-
 
   constructor(private emergencyDisasterService: EmergencyDisasterService,
     private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
@@ -36,23 +31,12 @@ export class ListComponent implements OnInit {
 
       
     }
-    
-    ngOnInit(): void {
+  ngOnInit(): void {
     this.emergencyDisasterObservable = this.selectTypesEmergencyDisasterService.emergencyDisasterObservable$;
-      
-     /*  this.selectTypesEmergencyDisasterService.TypesEvent.subscribe(data =>{
-        this.typesid = data;
-        this.emergencyDisaster = this.selectTypesEmergencyDisasterService.filterTypes(this.emergencyDisasterClone);
-      }) 
-
-      this.selectTypesEmergencyDisasterService.TypesEventBoolean.subscribe(data =>{
-        this.emergencyDisaster = this.selectTypesEmergencyDisasterService.status(this.emergencyDisasterClone);
-      })  */
-
   }
 
 
-
+  
 getCardColor(state: string){
   if(state === 'Extremo'){
     return '#FADBD8';
@@ -87,8 +71,7 @@ deletEmergencyDisaster(id : number){
   console.log("EmergencyDisasterId - Delete =>", id);
   
   this.emergencyDisasterService.deleteEmergencyDisaster(id).subscribe(data =>{
-/*     this.getEmergencyDisaster();
- */    console.log("EmergencyDisaster - Deleted");
+    console.log("EmergencyDisaster - Deleted");
   }, error =>{
     console.log("Error - EmergencyDisaster - Deleted ", error);
   })
@@ -101,4 +84,6 @@ deleteModal(i, reason: string){
   dialogRef.componentInstance.titulo = reason;
 }
 
+
 }
+

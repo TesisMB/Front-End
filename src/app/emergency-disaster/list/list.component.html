@@ -1,57 +1,56 @@
 <!-- Card -->
-<div class="card" *ngFor="let emergency of emergencyDisaster index as i"
-  [ngStyle]="{backgroundColor: getCardColor(emergency.alerts.alertDegree)}">
+<div class="card" *ngFor="let emergency of emergencyDisasterObservable | async index as i"
+    [ngStyle]="{backgroundColor: getCardColor(emergency.alerts.alertDegree)}">
 
-  <div class="content-left" (click)="openVerticallyCentered(i)">
-    <div [ngClass]="{'cuadrado': emergency.alerts.alertDegree === 'Moderado',
+    <div class="content-left" (click)="openVerticallyCentered(i)">
+        <div [ngClass]="{'cuadrado': emergency.alerts.alertDegree === 'Moderado',
                 'triangulo': emergency.alerts.alertDegree === 'Controlado',
               'circulo': emergency.alerts.alertDegree === 'Extremo'}">
-      <img
-        src="../../../assets/icons - Resources - EmergDesas/{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterIcon}}.svg"
-        alt="" class="img">
+            <img src="../../../assets/icons - Resources - EmergDesas/{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterIcon}}.svg"
+                alt="" class="img">
+        </div>
+        <p>{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
     </div>
-    <p>{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
-  </div>
 
 
-  <!-- <li [ngStyle]="{'color': 'white',
+    <!-- <li [ngStyle]="{'color': 'white',
                   'background-color': city === 'Madrid' ? 'blue' : 'gray'}">{{city}}</li> -->
 
-  <div class="content-center" (click)="openVerticallyCentered(i)">
-    <div class="child">
-      <p>{{emergency.locations.locationCityName}}</p>
+    <div class="content-center" (click)="openVerticallyCentered(i)">
+        <div class="child">
+            <p>{{emergency.locations.locationCityName}}</p>
 
-      <p>{{emergency.emergencyDisasterStartDate | date: 'dd/MM/yyyy hh:mm:ss a'}}</p>
+            <p>{{emergency.emergencyDisasterStartDate | date: 'dd/MM/yyyy hh:mm:ss a'}}</p>
+        </div>
     </div>
-  </div>
 
-  <div class="content-right">
-    <div class="child-2">
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
+    <div class="content-right">
+        <div class="child-2">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
 
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="openDialog(i)">
-          <mat-icon>edit</mat-icon>
-          <span>Editar</span>
-        </button>
-        <button mat-menu-item (click)="deletEmergencyDisaster(emergency.emergencyDisasterID)">
-          <mat-icon>delete</mat-icon>
-          <span>Eliminar</span>
-        </button>
-      </mat-menu>
-
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openDialog(i)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                </button>
+                <button mat-menu-item (click)="deleteModal(i, 'Eliminar')">
+                    <mat-icon>delete</mat-icon>
+                    <span>Eliminar</span>
+                </button>
+            </mat-menu>
 
 
-      <!--  <button mat-menu-item>
+
+            <!--  <button mat-menu-item>
           <span>Redial</span>
         </button> -->
 
-      <div class="child-2p">
-        <p *ngIf="!emergency.emergencyDisasterEndDate">Activo</p>
-        <p *ngIf="emergency.emergencyDisasterEndDate">Inactivo</p>
-      </div>
+            <div class="child-2p">
+                <p *ngIf="!emergency.emergencyDisasterEndDate">Activo</p>
+                <p *ngIf="emergency.emergencyDisasterEndDate">Inactivo</p>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

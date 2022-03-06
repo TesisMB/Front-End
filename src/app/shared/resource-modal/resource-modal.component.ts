@@ -19,14 +19,14 @@ form: FormGroup;
     console.log('resources =>', this.resources);
     this.form = this.formBuilder.group({
       FK_EmergencyDisasterID: [null,[Validators.required]],
-      Description: [null, [Validators.maxLength(153), Validators.required]],
+      reason: [null, [Validators.maxLength(153), Validators.required]],
       userRequest: [],
       status:[false, [Validators.required]]
     });
   }
 
   get f (){ return this.form.controls}
-  get reasonError(){return this.form.get('Reason').getError('required');}
+  get reasonError(){return this.form.get('reason').getError('required');}
 
   requestResponse(status){
      if(this.form.valid){

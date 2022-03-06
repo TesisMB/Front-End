@@ -1,7 +1,10 @@
+import { EmergencyDisasterService } from './../emergency-disaster.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import {compare} from 'fast-json-patch';
+import { _deepClone } from 'fast-json-patch/module/helpers';
 
 @Component({
   selector: 'ngbd-edit-dialog',
@@ -10,18 +13,31 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class NgbdEditDialogComponent implements OnInit {
 
-  @Input() emergencyDisaster: EmergencyDisaster
+  @Input() emergencyDisaster: EmergencyDisaster;
+  model : EmergencyDisaster;
+  originalEmergencyDisaster: EmergencyDisaster;
 
   emergencyDisasterForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<NgbdEditDialogComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private emergencyDisasterService : EmergencyDisasterService
   ) {}
 
   ngOnInit(): void {
     this.emergencyDisasterForm = this.initForm();
-    this.onatchValue()
+    this.onatchValue();
+
+    this.emergencyDisasterService.getAll().subscribe((data: EmergencyDisaster[])=>{
+      this.model = Object.assign({}, this.emergencyDisaster[0]);
+      this.originalEmergencyDisaster = this.emergencyDisaster[0];
+    })
+
+    /* this.model = _deepClone(this.emergencyDisaster);
+
+    console.log("Model =>", this.model);
+    console.log("originalEmergencyDisaster =>", this.emergencyDisaster); */
   }
 
 
@@ -49,8 +65,15 @@ export class NgbdEditDialogComponent implements OnInit {
     });
   }
 
+  updateEmergency(EmergencyDisaster: EmergencyDisaster){
+    this.model = Object.assign({}, EmergencyDisaster);
+    this.originalEmergencyDisaster = EmergencyDisaster;
+  }
+
   onSubmit(){
-    console.log("Form =>", this.emergencyDisasterForm.value)
+/*     const patch = compare(this.originalEmergencyDisaster, this.model);
+ *//*     console.log("Form =>", this.emergencyDisasterForm.value)
+ */    console.log("Patch =>", compare(this.originalEmergencyDisaster, this.model));
   }
 
   initForm(): FormGroup{

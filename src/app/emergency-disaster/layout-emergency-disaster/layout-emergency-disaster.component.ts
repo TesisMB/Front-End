@@ -1,10 +1,12 @@
+import { EmergencyDisaster } from './../../models/emergencyDisaster';
 import { SelectTypesEmergencyDisasterService } from './../select-types-emergency-disaster.service';
 import { TypesEmergencyDisaster } from './../../models/typeEmergencyDisaster';
-import { Component, OnDestroy, OnInit, AfterViewInit } from '@angular/core';
-import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
+import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import { map } from 'rxjs/operators';
-import {pipe} from 'rxjs';
+import {Observable, pipe, Subscription} from 'rxjs';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { EmergencyDisasterService } from '../emergency-disaster.service';
 
 @Component({
   selector: 'layout-emergency-disaster',
@@ -12,19 +14,21 @@ import {pipe} from 'rxjs';
   styleUrls: ['./layout-emergency-disaster.component.css']
 })
 export class LayoutEmergencyDisasterComponent implements OnInit, OnDestroy {
+  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
-  emergencyDisaster: EmergencyDisaster [] = [];
+  emergencyDisaster: EmergencyDisaster [];
   selected: string;
   isActive: boolean = false;
-  emergencyDisasterClone: EmergencyDisaster [];
   typeEmergencyDisaster: TypesEmergencyDisaster[];
   arraytypeEmergencyDisaster = [];
   id: number;
   status: boolean;
+  handleSU: Subscription;
 
 
   constructor(
-    private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService
+    private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
+    private emergencyDisasterService: EmergencyDisasterService,
     ) {
   }
 
@@ -33,12 +37,13 @@ export class LayoutEmergencyDisasterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getTypeEmergencyDisaster();
     
-    this.selectTypesEmergencyDisasterService.selectTypesEmergencyDisaster$.subscribe(
+    this.getEmergencyDisaster();
+    /* this.selectTypesEmergencyDisasterService.selectTypesEmergencyDisaster$.subscribe(
       (idTypes: number) => this.id = idTypes);
       
 
       this.selectTypesEmergencyDisasterService.statusTypesEmergencyDisaster$.subscribe(
-        (idTypes: boolean) => this.status = idTypes);
+        (idTypes: boolean) => this.status = idTypes); */
 
   }
 
@@ -53,25 +58,49 @@ export class LayoutEmergencyDisasterComponent implements OnInit, OnDestroy {
             name: item.typeEmergencyDisasterName
           };
           this.arraytypeEmergencyDisaster.push(types);
-
         })
+
+        this.arraytypeEmergencyDisaster.push({
+          id: 8,
+          name: "todos"
+        }
+        );
           
-          //console.log('arraytypeEmergencyDisaster []', this.arraytypeEmergencyDisaster);
+          console.log('arraytypeEmergencyDisaster []', this.arraytypeEmergencyDisaster);
           
           return x;
       }))
     .subscribe(data =>{
       this.typeEmergencyDisaster = data;
-      console.log('typeEmergencyDisaster => ', this.emergencyDisaster);
+      console.log('typeEmergencyDisaster => ', this.typeEmergencyDisaster);
     }, error =>{
       console.log("Error =>", error);
     })
   }
 
+
+  
+  getEmergencyDisaster() {
+    this.handleSU =  this.emergencyDisasterService.getAllWithoutFilter()
+ 
+        .subscribe(data => {
+          this.emergencyDisaster = data;
+          this.setEmergenciesDisaster(data);
+         
+     console.log('EmergencyDisaster - ListAll => ', data);
+    }, error => {
+      console.log('Error', error);
+    })
+  }
+
+  setEmergenciesDisaster(emergencyDisaster: EmergencyDisaster[]){
+    this.selectTypesEmergencyDisasterService.uploadTable(emergencyDisaster);
+  }
+
   selectTypes(id: number){
     console.log("data => ", id);
-    this.selectTypesEmergencyDisasterService.setTypes(id);
-    this.selectTypesEmergencyDisasterService.TypesEvent.emit(id);
+     this.selectTypesEmergencyDisasterService.setTypes(id);
+    /*this.selectTypesEmergencyDisasterService.TypesEvent.emit(id); */
     
   }
 
@@ -85,8 +114,8 @@ export class LayoutEmergencyDisasterComponent implements OnInit, OnDestroy {
 
   getcheckStatus(event) {
 
-    this.selectTypesEmergencyDisasterService.setStatus(event.checked);
-    this.selectTypesEmergencyDisasterService.TypesEventBoolean.emit(event.checked);
+   /*  this.selectTypesEmergencyDisasterService.setStatus(event.checked);
+    this.selectTypesEmergencyDisasterService.TypesEventBoolean.emit(event.checked); */
     console.log(event.checked)
 
     /*if(event.checked){
@@ -100,7 +129,7 @@ export class LayoutEmergencyDisasterComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-
+    this.handleSU.unsubscribe();
   }
 
 

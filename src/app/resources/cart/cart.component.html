@@ -7,37 +7,37 @@
       </i>
     </span>
   </ng-container>
- <ng-container *ngIf="!error" >
-<div class="notRender">
-  <div class="error-message">
-<div class="text-center">
-  <button color="warn" mat-icon-button>
-    <mat-icon  class="mat-icon1" > production_quantity_limits
-</mat-icon> 
-  </button>
-</div>
+  <ng-container *ngIf="!error">
+    <div class="notRender">
+      <div class="error-message">
+        <div class="text-center">
+          <button color="warn" mat-icon-button>
+            <mat-icon class="mat-icon1"> production_quantity_limits
+            </mat-icon>
+          </button>
+        </div>
 
-<h4 class=" text-muted text-center m-2">Ha ocurrido un error...</h4>
-<p class="text-muted text-center m-2">Vuelva a intentar mas tarde</p>
-</div>
-</div>
-</ng-container>
+        <h4 class=" text-muted text-center m-2">Ha ocurrido un error...</h4>
+        <p class="text-muted text-center m-2">Vuelva a intentar mas tarde</p>
+      </div>
+    </div>
+  </ng-container>
 </ng-template>
 
 
 <ng-template #render>
 
-<ng-template *ngIf="!isRequest"></ng-template>
-<div *ngIf="!isRequest">
+  <ng-template *ngIf="!isRequest"></ng-template>
+  <div *ngIf="!isRequest">
     <div class="card notRender text-center">
       <div class="">
-          <h4 class="card-text">Carrito vacio...</h4>
-          <mat-icon class="mat-icon1" >add_shopping_cart</mat-icon>
+        <h4 class="card-text">Carrito vacio...</h4>
+        <mat-icon class="mat-icon1">add_shopping_cart</mat-icon>
       </div>
     </div>
-</div>
+  </div>
 
-<!-- <div class="card">
+  <!-- <div class="card">
     <ul class="list-group list-group-flush">
       <li class="list-group-item" *ngFor="let res of request['request']">
          <p>{{res.resource.name}}</p>
@@ -45,50 +45,52 @@
         </li>
     </ul>
 </div> -->
-<div *ngIf="isRequest">
-<form  [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div *ngIf="isRequest">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-   <div class="card-group scrollbar" formArrayName="resources_RequestResources_Materials_Medicines_Vehicles" [style.height]="getStyle" id="style-2" data-target="#navbar-example">
+      <div class="card-group scrollbar" formArrayName="resources_RequestResources_Materials_Medicines_Vehicles"
+        [style.height]="getStyle" id="style-2" data-target="#navbar-example">
 
-           <div class="card" id="navbar-example" *ngFor="let res of request['request']; index as i">
-          
+        <div class="card" id="navbar-example" *ngFor="let res of request['request']; index as i">
+
           <div class="row no-gutters" [formGroupName]="i">
-            
-                <div width="104" height="93" style="border-radius:0.25em">
-                <img  src="../../../assets/img-materiales/{{ res.resource.picture }}"
-                    alt="{{ res.resource.description }}" 
-                    width="100%"  style="border-radius:0.25em">
-                </div>
 
-                <div>
-                    <div class="card-body">
-                        <button (click)="deleteFromCart(i)" color="warn" mat-icon-button>
-                            <mat-icon>clear</mat-icon>
-                          </button>
-                          <div class="card-body2">
-                            <h3 class="card-text mb-2"> {{res.resource.name}}</h3>
-                          <ng-container *ngIf="!res.error">
-                            <mat-form-field appearance="legacy" style="width: 85px;" >
-                              <mat-label>Cantidad</mat-label>
-                              <input required matInput #input type="number" [(ngModel)]="cloneRequest.request[i].quantity" name="quantity"  formControlName="quantity"
-                               min="1" [max]="getMax(i)" [readonly]="" [ngClass]="{'is-invalid': input.value <= 0}">
-                              <span matSuffix class="text-muted"> &nbsp; uds. </span>
-                              <mat-hint  align="end">{{input.value}} / {{res.resource.quantity + res.quantity}}</mat-hint>
-                              <mat-error *ngIf="array.invalid">{{getErrorMessage(input.value, res.resource.quantity )}}</mat-error>
-                            </mat-form-field>       
-                          </ng-container>
-                          <ng-container *ngIf="res.error">
-                            <p class="text-muted">{{res.error}}</p>
-                          </ng-container>
-                          </div>
-                    </div>
+            <div width="104" height="93" style="border-radius:0.25em">
+              <img src="{{ res.resource.picture }}" alt="{{ res.resource.description }}" width="100%"
+                style="border-radius:0.25em">
+            </div>
+
+            <div>
+              <div class="card-body">
+                <button (click)="deleteFromCart(i)" color="warn" mat-icon-button>
+                  <mat-icon>clear</mat-icon>
+                </button>
+                <div class="card-body2">
+                  <h3 class="card-text mb-2"> {{res.resource.name}}</h3>
+                  <ng-container *ngIf="!res.error">
+                    <mat-form-field appearance="legacy" style="width: 85px;">
+                      <mat-label>Cantidad</mat-label>
+                      <input required matInput #input type="number" [(ngModel)]="cloneRequest.request[i].quantity"
+                        name="quantity" formControlName="quantity" min="1" [max]="getMax(i)" [readonly]=""
+                        [ngClass]="{'is-invalid': input.value <= 0}">
+                      <span matSuffix class="text-muted"> &nbsp; uds. </span>
+                      <mat-hint align="end">{{input.value}} / {{res.resource.quantity + res.quantity}}</mat-hint>
+                      <mat-error *ngIf="array.invalid">{{getErrorMessage(input.value, res.resource.quantity )}}
+                      </mat-error>
+                    </mat-form-field>
+                  </ng-container>
+                  <ng-container *ngIf="res.error">
+                    <p class="text-muted">{{res.error}}</p>
+                  </ng-container>
                 </div>
               </div>
-    </div>
-    </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <!-- <mat-form-field class="input-form-cart" appearance="outline"> -->
-      
+      <!-- <mat-form-field class="input-form-cart" appearance="outline"> -->
+
       <!-- <mat-select matInput formControlName="FK_EmergencyDisasterID" >
         <mat-option>-- None --</mat-option>
         <mat-optgroup *ngFor="let group of emergencyGroups" [label]="group.name"
@@ -100,55 +102,47 @@
     </mat-select>
     <mat-label>Emergencia</mat-label> 
  <mat-error *ngIf="EmergencyIDForm">Dato obligatorio.</mat-error>-->
- <!-- </mat-form-field> -->
- 
- <div class="input-form-cart">
-    <select type="number" formControlName="FK_EmergencyDisasterID" class="custom-select custom-select-sm">
-      <option selected>Seleccione una emergencia</option>
-      <optgroup *ngFor="let group of emergencyGroups" [label]="group.name"
-      [disabled]="group.disabled">
-      <option  *ngFor="let emergency of  group.emergency" [value]="emergency.value">
-        {{emergency.viewValue}} - {{emergency.date | date :'dd/MM hh:mm a'}}</option>
-      </optgroup>
-    </select>
-    <div *ngIf="f.FK_EmergencyDisasterID.touched && f.FK_EmergencyDisasterID.invalid">
- <mat-error *ngIf="f.FK_EmergencyDisasterID.errors.required">Este campo es requerido.</mat-error>
- <mat-error *ngIf="f.FK_EmergencyDisasterID.errors.pattern">Seleccione una porfavor.</mat-error>
-  </div>
-  </div>
-  
-  
-  <div class="form-cart mt-3">
-<mat-form-field class="input-form-cart" appearance="outline">
-  <mat-label>Razón de la solicitud</mat-label>
-  <textarea formControlName="Reason" maxLength="153" matInput #textarea placeholder="Explique para que utilizara los recursos..."></textarea>
-  <mat-hint  align="end">{{textarea.value.length}} / 153</mat-hint>
-  <!-- <mat-error *ngIf="reasonForm">Dato obligatorio.</mat-error> -->
+      <!-- </mat-form-field> -->
 
-</mat-form-field>
-<div class="button m-3 d-flex">
-<button
-type="submit"
-class="btn btn-sm btn-secondary" 
-[disabled]="loading"
->
-<span class="text-center" *ngIf="loading">
-  <i class="fas fa-spinner fa-lg fa-spin">
-  </i>
-</span>
-<span *ngIf="!loading">Enviar solicitud
-</span>
-</button>
-<button
-  class="btn btn-sm btn-danger mt-3"
-  [disabled]="loading"
-(click)="clearCart()"
->
-Vaciar carrito
-</button>
-</div>
+      <div class="input-form-cart">
+        <select type="number" formControlName="FK_EmergencyDisasterID" class="custom-select custom-select-sm">
+          <option selected>Seleccione una emergencia</option>
+          <optgroup *ngFor="let group of emergencyGroups" [label]="group.name" [disabled]="group.disabled">
+            <option *ngFor="let emergency of  group.emergency" [value]="emergency.value">
+              {{emergency.viewValue}} - {{emergency.date | date :'dd/MM hh:mm a'}}</option>
+          </optgroup>
+        </select>
+        <div *ngIf="f.FK_EmergencyDisasterID.touched && f.FK_EmergencyDisasterID.invalid">
+          <mat-error *ngIf="f.FK_EmergencyDisasterID.errors.required">Este campo es requerido.</mat-error>
+          <mat-error *ngIf="f.FK_EmergencyDisasterID.errors.pattern">Seleccione una porfavor.</mat-error>
+        </div>
+      </div>
 
-</div>
-</form>
-</div>
+
+      <div class="form-cart mt-3">
+        <mat-form-field class="input-form-cart" appearance="outline">
+          <mat-label>Razón de la solicitud</mat-label>
+          <textarea formControlName="Reason" maxLength="153" matInput #textarea
+            placeholder="Explique para que utilizara los recursos..."></textarea>
+          <mat-hint align="end">{{textarea.value.length}} / 153</mat-hint>
+          <!-- <mat-error *ngIf="reasonForm">Dato obligatorio.</mat-error> -->
+
+        </mat-form-field>
+        <div class="button m-3 d-flex">
+          <button type="submit" class="btn btn-sm btn-secondary" [disabled]="loading">
+            <span class="text-center" *ngIf="loading">
+              <i class="fas fa-spinner fa-lg fa-spin">
+              </i>
+            </span>
+            <span *ngIf="!loading">Enviar solicitud
+            </span>
+          </button>
+          <button class="btn btn-sm btn-danger mt-3" [disabled]="loading" (click)="clearCart()">
+            Vaciar carrito
+          </button>
+        </div>
+
+      </div>
+    </form>
+  </div>
 </ng-template>

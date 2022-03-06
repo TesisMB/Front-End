@@ -1,35 +1,34 @@
 <section class="title">
-    <h1>Solicitudes de recursos</h1>
-  </section>
-  
-  
-  <section class="row justify-content-around col-body" id="row-aside">
-  
-    <div class="child-toggle">
-      <mat-slide-toggle color="warn">Mostrar solicitudes rechazadas
-      </mat-slide-toggle>
-    </div>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Solicitudes por emergencias</mat-label>
-      <mat-select>
-        <!-- <mat-option *ngFor="let emergency of emergencyDisaster"
+  <h1>Solicitudes de recursos</h1>
+</section>
+
+
+<section class="row justify-content-around col-body" id="row-aside">
+
+  <div class="child-toggle">
+    <mat-slide-toggle color="warn">Mostrar solicitudes rechazadas
+    </mat-slide-toggle>
+  </div>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Solicitudes por emergencias</mat-label>
+    <mat-select>
+      <!-- <mat-option *ngFor="let emergency of emergencyDisaster"
           [value]="emergency.typesEmergenciesDisasters.typeEmergencyDisasterID">
           {{emergency.typesEmergenciesDisasters.typeEmergencyDisasterName}}
         </mat-option> -->
-      </mat-select>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill">
-      <mat-label>Selecciona una fecha</mat-label>
-      <input matInput [matDatepicker]="picker">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  
-    <div class="col-10">
-        <request-table></request-table>
-    </div>
-  
-  </section>
-  
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Selecciona una fecha</mat-label>
+    <input matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <div class="col-10">
+    <request-table></request-table>
+  </div>
+
+</section>
