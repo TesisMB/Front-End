@@ -22,15 +22,17 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   handlerGetAll: Subscription;
   error: any = '';
 
+  @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
   constructor(
-    private location: Location,
     private alertService: AlertService,
     private route: ActivatedRoute,
-    private resourceService: ResourcesService,
+    public service: ResourcesService,
   ) {
     //this.tipo = this.route.snapshot.params.tipo;
     //console.log('Tipo constructor: ',this.tipo);
-    this.data = this.resourceService.resources$;
+    this.data = this.service.resources$;
+    this.total$ = this.service.total$;
+
 
   }
 
@@ -44,7 +46,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
     return;
   }
   getAllItems() {
-    this.handlerGetAll = this.resourceService.getAll(this.tipo)
+    this.handlerGetAll = this.service.getAll()
     .subscribe(
       (data) => {
         console.log('Datos: ',data);   
@@ -62,13 +64,14 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   getParams() {
     this.route.params.subscribe((params: Params) => {
       this.tipo = params.tipo;
+      this.service._setType(params.tipo);
       this.getAllItems();
       console.log('Tipo getParams: ',this.tipo);
     });
   }
-  onBack() {
-    this.location.back();
-  }
+  // onBack() {
+  //   this.location.back();
+  // }
 
   // onSort({column, direction}: SortEvent) {
   //   // resetting other headers
@@ -83,6 +86,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   // }
   ngOnDestroy(){
     this.handlerGetAll.unsubscribe();
+    this.service.destroyResources();
     console.log('Destroy executing...');
   }
 }

@@ -28,7 +28,7 @@ const routes: Routes = [
         path: 'lista/:tipo/:id',
         component: ResourcesDetails,
       },
-      { path: 'agregar-recurso',
+      { path: 'agregar-recurso/:tipo',
         component: addEditResourcesComponent },
     ],
      
