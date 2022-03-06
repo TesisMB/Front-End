@@ -1,3 +1,5 @@
+import { fromPairs } from 'lodash';
+
 export * from './role';
 export * from './user';
 export * from './alert';
@@ -11,3 +13,4 @@ export * from './resources.model';
 export * from './vehicle.model';
 export * from './volunteer.model';
 export * from './requestCart.model';
+export * from './search.model';

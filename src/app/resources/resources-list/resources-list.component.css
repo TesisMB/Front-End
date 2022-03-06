@@ -11,12 +11,16 @@
 .head h1 {
   text-align: center;
 }
-
+.bd-highlight{
+  display: flex;
+  justify-content: flex-end;
+}
 #search {
   margin-right: 3em;
 }
 
 .col-body, .col-aside {
+
   background-color: white;
   border-radius: 10px;
 

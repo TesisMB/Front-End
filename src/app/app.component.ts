@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { Cart} from 'src/app/models';
 import { AuthenticationService } from './services';
 import { User, RoleName, Material, Vehicle, Medicine} from './models/index';
@@ -6,12 +7,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ChangeDetectorRef ,Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NestedTreeControl } from '@angular/cdk/tree';
+import { ResourcesDetailsService } from './resources/cart/cart.service';
 
 interface FoodNode {
   name: string,
-  patch?: string,
+  patch?: any,
   icon: string,
   children?: FoodNode[],
+  role: any[]
 }
 
 
@@ -57,35 +60,48 @@ const TREE_DATA: FoodNode[] = [
     name: 'Inicio',
     patch:'/',
     icon:'fas fa-home' ,
+    role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
   },
   {
     name: 'Empleados',
     patch:'/empleados',
     icon:'fas fa-users' ,
+    role:['Admin','Coordinador General']
   },
   {
     name: 'Recursos',
     patch: 'recursos',
     icon:'fas fa-first-aid',
+    role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres'],
     children: [
       {
         name: 'Voluntarios',
-        patch:'recursos/lista/voluntarios',
-        icon:'fas fa-hands-helping'
+        patch:'/recursos/lista/voluntarios',
+        icon:'fas fa-hands-helping',
+        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
       }, {
         name: 'Medicamentos',
-        patch:'recursos/lista/medicamentos',
-        icon:'fas fa-capsules'
+        patch:'/recursos/lista/medicamentos',
+        icon:'fas fa-capsules',
+        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
       },
       {
         name: 'Materiales',
-        patch:'recursos/lista/materiales',
-        icon:'fas fa-thermometer'
+        patch:'/recursos/lista/materiales',
+        icon:'fas fa-thermometer',
+        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
       },
       {
         name: 'Vehiculos',
-        patch:'recursos/lista/vehiculos',
-        icon:'fas fa-ambulance'
+        patch:'/recursos/lista/vehiculos',
+        icon:'fas fa-ambulance',
+        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
+      },
+      {
+        name: 'Solicitudes',
+        patch:'/recursos/solicitudes',
+        icon:'fas fa-clipboard-list' ,
+        role:['Admin','Coordinador General','Coordinador de Logistica']
       },
     ]
   },
@@ -93,16 +109,19 @@ const TREE_DATA: FoodNode[] = [
     name: 'Emergencias',
     patch:'/emergencias',
     icon:'fas fa-briefcase-medical' ,
+    role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
   },
   {
     name: 'Monitoreo',
     patch:'/monitoreo',
     icon:'fas fa-tv' ,
+    role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
   },
   {
     name: 'Estadisticas',
     patch:'/statistics',
     icon:'fas fa-chart-pie' ,
+    role:['Admin']
   },
 
 ];
@@ -116,7 +135,7 @@ styleUrls: ['app.component.css']
 export class AppComponent implements OnDestroy{
 currentUser: User;
 error:any= "";
-handler: any;
+handler: Subscription;
 request = null;
 notifications: Notifications = {hasNotifications: true, number:22};
 mobileQuery: MediaQueryList;
@@ -131,9 +150,11 @@ private _mobileQueryListener: () => void;
         media: MediaMatcher,
         private authenticationService: AuthenticationService,
         private router: Router,
+        private cartService: ResourcesDetailsService,
+        private route: ActivatedRoute
     ) {
     this.getCurrentUser();
-    this.dataSource.data = TREE_DATA;
+    this.dataSource.data = TREE_DATA.filter(x => x.role.includes(this.currentUser.roleName));
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -144,6 +165,7 @@ private _mobileQueryListener: () => void;
 
           
             logout() { 
+              this.cartService.clearCartRequest();
               this.authenticationService.logout();
             }
           
@@ -171,8 +193,7 @@ private _mobileQueryListener: () => void;
           //   return this.currentUser && this.currentUser.roleName === RoleName.CEyD;
           // }
         
-          // get isLogistica () {
-            
-          //   return this.currentUser && this.currentUser.roleName === RoleName.Logistica
-          // }
+           get isLogistica () {
+            return this.currentUser.roleName === RoleName.Logistica
+           }
 }

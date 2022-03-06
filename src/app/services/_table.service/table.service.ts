@@ -1,26 +1,13 @@
 import { Employee } from './../../models/employee';
 import { Injectable, PipeTransform} from '@angular/core';
 
-
+import {SortColumn, SortDirection} from '../../directives/sorteable.directive';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {DecimalPipe} from '@angular/common';
 import { debounceTime, delay, switchMap, tap, filter, map } from 'rxjs/operators';
-import {SortColumn, SortDirection} from '../../directives/sorteable.directive';
 import * as _ from 'lodash';
+import { SearchResult, State } from 'src/app/models';
 
-
-interface SearchResult {
-  _employees: Employee[];
-  total: number;
-}
-
-interface State {
-  page: number;
-  pageSize: number;
-  searchTerm: string;
-  sortColumn: SortColumn;
-  sortDirection: SortDirection;
-}
 
 const compare = (v1: string | number | any, v2: string | number | any) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
@@ -74,7 +61,7 @@ export class TableService {
     delay(200),
     tap(() => this._loading$.next(false))
   ).subscribe(result => {
-    this._employees$.next(result._employees);
+    this._employees$.next(result.data);
     this._total$.next(result.total);
   });
 
@@ -132,16 +119,16 @@ private _search(): Observable<SearchResult> {
   const empleados = this.EMPLEADOS.filter(x => x.users.userAvailability !== this._showAvailability$.value);
   
   // 1. sort
-  let _employees = sort(empleados, sortColumn, sortDirection);
+  let data = sort(empleados, sortColumn, sortDirection);
 
   // 2. filter
-  _employees = _employees.filter(employee => matches(employee, searchTerm, this.pipe));
+  data = data.filter(employee => matches(employee, searchTerm, this.pipe));
 
-  const total = _employees.length;
+  const total = data.length;
 
   // 3. paginate
-  _employees = _employees.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-  return of({_employees, total});
+  data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+  return of({data, total});
  }
 }
 

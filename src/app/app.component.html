@@ -37,8 +37,8 @@
         </div>
         <ul>
           <li><a routerLink="/perfil"><i class="fas fa-id-card"></i>Perfil</a></li>
-          <li><span style="max-width: 180px;">
-            <a routerLink="/recursos/solicitudes"><i class="fas fa-clipboard-list"></i>Solicitudes de recursos</a>
+          <li *ngIf="!isLogistica"><span style="max-width: 180px;">
+            <a routerLink="/recursos/historial"><i class="fas fa-clipboard-list"></i>Historial de solicitudes</a>
           </span></li>
           
           <li><a (click)="snav.close(); logout()" type="button" class="btn navbar-btn ml-2"><i
@@ -77,31 +77,35 @@
           <!-- This is the tree node template for leaf nodes -->
           <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
             <li>
+              <div>
               <!-- use a disabled button to provide padding for tree leaf -->
-              <button mat-icon-button disabled></button>
-              <a routerLink="{{node.patch}}" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
+              <button  mat-icon-button disabled></button>
+              <a [routerLink]="[node.patch]" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
                 {{node.name}}
               </a>
               <button mat-icon-button disabled></button>
+            </div>
             </li>
             <hr />
           </mat-tree-node>
           <!-- This is the tree node template for expandable nodes -->
-          <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-            <li class="listado">
-              <div class="listado-interno">
-                <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+          <mat-nested-tree-node  *matTreeNodeDef="let node; when: hasChild">
+            <li  class="listado">
+              <div  class="listado-interno">
+                <button mat-icon-button  matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
                   <mat-icon class="mat-icon-rtl-mirror">
                     {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                   </mat-icon>
                 </button>
-                <a routerLink="{{node.patch}}" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
+                <a [routerLink]="[node.patch]" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
                   {{node.name}}
                 </a>
               </div>
               <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
                 <ng-container matTreeNodeOutlet></ng-container>
+                <hr/>
               </ul>
+            
             </li>
           </mat-nested-tree-node>
         </mat-tree>

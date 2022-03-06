@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 import { Resource } from 'src/app/models';
 import { filter } from 'rxjs/operators';
 import { TableService } from 'src/app/services/_table.service/table.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import {SorteableDirective, SortEvent} from '../../directives/sorteable.directive';
 
 @Component({
@@ -19,22 +19,25 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   tipo: string = null;
   data:Observable<Resource[]>;
   total$: Observable<number>;
-  handlerGetAll: any;
+  handlerGetAll: Subscription;
   error: any = '';
 
+  @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
   constructor(
-    private location: Location,
     private alertService: AlertService,
     private route: ActivatedRoute,
-    private resourceService: ResourcesService,
+    public service: ResourcesService,
   ) {
     //this.tipo = this.route.snapshot.params.tipo;
     //console.log('Tipo constructor: ',this.tipo);
+    this.data = this.service.resources$;
+    this.total$ = this.service.total$;
+
+
   }
 
   ngOnInit(): void {
     this.getParams();
-    this.getAllItems();
 
   }
 
@@ -43,11 +46,10 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
     return;
   }
   getAllItems() {
-    this.handlerGetAll = this.resourceService.getAll(this.tipo)
+    this.handlerGetAll = this.service.getAll()
     .subscribe(
       (data) => {
         console.log('Datos: ',data);   
-        this.data = this.resourceService.resources$;
 
       },
       (err) => {
@@ -62,12 +64,14 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   getParams() {
     this.route.params.subscribe((params: Params) => {
       this.tipo = params.tipo;
+      this.service._setType(params.tipo);
+      this.getAllItems();
       console.log('Tipo getParams: ',this.tipo);
     });
   }
-  onBack() {
-    this.location.back();
-  }
+  // onBack() {
+  //   this.location.back();
+  // }
 
   // onSort({column, direction}: SortEvent) {
   //   // resetting other headers
@@ -82,6 +86,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   // }
   ngOnDestroy(){
     this.handlerGetAll.unsubscribe();
+    this.service.destroyResources();
     console.log('Destroy executing...');
   }
 }
