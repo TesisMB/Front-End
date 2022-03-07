@@ -12,7 +12,7 @@ import { AlertService } from 'src/app/services';
   styleUrls: ['./request.component.css']
 })
 export class RequestComponent implements OnInit, OnDestroy {
- // condition: string  = 'Pendiente';
+  condition: string  = 'Pendiente';
   handleRequest: Subscription;
   constructor(
     public service: RequestTableService,
@@ -26,10 +26,10 @@ export class RequestComponent implements OnInit, OnDestroy {
 
 
   getRequest(){
-    this.handleRequest = this.requestService.getAll()
+    this.handleRequest = this.requestService.getAll(this.condition)
     .subscribe((x: any) =>{
     this.service._uploadTable(x);
-  //  this.service._setCondition(this.condition);
+    this.service._setCondition(this.condition);
       console.log('x => ', x);
     },
   e => {

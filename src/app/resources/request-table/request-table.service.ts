@@ -99,7 +99,12 @@ public _updateRequest(patch:RequestGet){
   this.request[index] = patch;
   this._search$.next();
 }
-
+public deleteFromTable(id){
+  const index =  this.request.findIndex(x => x.id == id);
+  let deleteRequest = this.request.splice(index, 1);
+  console.log("deleteUser =>", deleteRequest);
+  this._uploadTable(this.request);
+}
 
 public _uploadTable(_request: RequestGet[]) {
   this.request = _request;
