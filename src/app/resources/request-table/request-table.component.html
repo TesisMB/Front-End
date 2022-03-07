@@ -2,8 +2,13 @@
   <div class="mb-3 row">
     <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Busqueda:</label>
     <div class="col-xs-3 col-sm-auto">
-      <input class="form-control ml-3" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
+      <div class="d-flex align-items-center ml-auto bd-highlight mr-3" id="search"> 
+      <input class="form-control" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
+      <span class="ml-3 text-center" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
+
     </div>
+  </div>
+
   </div>
 </form>
 
@@ -29,8 +34,9 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngIf="request">
+    <ng-container *ngIf="(request$ | async).length && !(loading$ | async)">
       <tr *ngFor="let request of request$ | async; index as i">
+        
         <th scope="row">{{ i + 1 }}</th>
         <td>
           <ngb-highlight [result]="request.id" [term]="service.searchTerm"></ngb-highlight>
@@ -73,12 +79,20 @@
         <td>
           <ngb-highlight [result]="request.requestDate" [term]="service.searchTerm"></ngb-highlight>
         </td>
-        <td><button mat-icon-button matTooltip="Ver más" matTooltipPosition="right" color="warn"
+        <td  ><button mat-icon-button matTooltip="Ver más" matTooltipPosition="right" color="warn"
             (click)="openModal('info', i)" aria-label="Ver más">
             <mat-icon>info</mat-icon>
           </button></td>
       </tr>
     </ng-container>
+    <tr *ngIf="!(request$ | async).length || (loading$ | async)">
+      <td *ngIf="(loading$ | async)" colspan="13" class="text-center" >
+        <span class="spinner-border spinner-border-lg align-center"></span>
+      </td>
+      <td *ngIf="!(request$ | async).length" colspan="13" class="text-center">
+        <p class="align-center">No hay solicitudes.</p>
+      </td>
+    </tr>
   </tbody>
 </table>
 <div class="d-flex justify-content-between p-2">
