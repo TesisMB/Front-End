@@ -11,12 +11,13 @@
     <div>
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label for="name">Responsable: </mat-label>
-            <input matInput id="name" name="name" formControlName="name">
+            <input matInput id="name" name="name" formControlName="name" [(ngModel)]="emergencyDisaster.employees.name">
         </mat-form-field>
 
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label for="instruction">Instrucciones: </mat-label>
-            <textarea matInput id="instruction" name="instruction" formControlName="instruction"></textarea>
+            <textarea matInput id="instruction" name="instruction" formControlName="instruction"
+                [(ngModel)]="emergencyDisaster.emergencyDisasterInstruction"></textarea>
         </mat-form-field>
 
     </div>

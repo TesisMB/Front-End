@@ -32,18 +32,17 @@ export class SelectTypesEmergencyDisasterService extends DataService{
   @Output() TypesEventBoolean: EventEmitter<boolean> = new EventEmitter(true);
 
 
-  private selectTypes$: BehaviorSubject<number> = new BehaviorSubject<number>(2); 
+  private selectTypes$: BehaviorSubject<number> = new BehaviorSubject<number>(8); 
 
   private emergencyDisaster$: BehaviorSubject<EmergencyDisaster[]> = new BehaviorSubject<EmergencyDisaster[]>(null); 
   
-  private status$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true); 
+  private status$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); 
   
   private _search$ = new Subject<void>();
 
 
-  emergencyDisaster: EmergencyDisaster [];
+  emergencyDisaster: EmergencyDisaster [] = [];
   id: number;
-  EmergenciesDisastersClone: EmergencyDisaster [];
   
   statusBoolean: boolean = true;
   private _state: State = {
@@ -77,7 +76,7 @@ export class SelectTypesEmergencyDisasterService extends DataService{
   setTypes(id: number){
     this.id = id;
     this.selectTypes$.next(id);
-    console.log("SERVICIO ID", this.id);
+    this._search$.next();
   }
 
 
@@ -88,8 +87,8 @@ export class SelectTypesEmergencyDisasterService extends DataService{
 
   setStatus(event){
     console.log("Evento => ", event)
-    this.statusBoolean = event;
     this.status$.next(event);
+    this._search$.next();
   }
 
 
@@ -97,10 +96,21 @@ export class SelectTypesEmergencyDisasterService extends DataService{
   get  emergencyDisasterObservable$ (){
     return this.emergencyDisaster$.asObservable();
   }
+  
+  get  emergencyDisasterObservableValue$ (){
+    return this.emergencyDisaster$.value;
+  }
 
 
   setEmergencyDisaster (emrgencyDisaster: EmergencyDisaster[]){
     this.emergencyDisaster$.next(emrgencyDisaster);
+  }
+
+  public deleteFromTable(id){
+    const index =  this.emergencyDisaster.findIndex(x => x.emergencyDisasterID == id);
+    let deleteEmergencyDisaster = this.emergencyDisaster.splice(index, 1);
+    console.log("deleteUser =>", deleteEmergencyDisaster);
+    this.uploadTable(this.emergencyDisaster);
   }
   
 
@@ -119,43 +129,62 @@ export class SelectTypesEmergencyDisasterService extends DataService{
 
   private filterTypes(): Observable<Result>{
 
-    const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
+/*     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
+ */
+    let emergency = this.status(this.emergencyDisaster);
 
-    const emergency = this.emergencyDisaster.filter(data => data.typesEmergenciesDisasters['typeEmergencyDisasterID'] == this.selectTypes$.value);
+    emergency = this.selectType(emergency)
+
+    /* this.emergencyDisaster.filter(data => data.typesEmergenciesDisasters['typeEmergencyDisasterID'] == this.selectTypes$.value); */
   
 
     let _emergencyDisaster = emergency;
 
-    _emergencyDisaster = _emergencyDisaster.filter(employee => matches(employee));
-
-    _emergencyDisaster = _emergencyDisaster.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-
+/*     _emergencyDisaster = _emergencyDisaster.filter(employee => matches(employee));
+ */
+/*     _emergencyDisaster = _emergencyDisaster.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+ */
     console.log('datos filtrados => ',  emergency);
 
     return of({_emergencyDisaster});
   }
 
 
-  status(EmergencyDisasterClone: any){
+  status(EmergencyDisasterClone: EmergencyDisaster[]){
 
 
-    if(this.statusBoolean){
-      this.emergencyDisaster = EmergencyDisasterClone.filter(data => data.emergencyDisasterEndDate !== null)
-    }else if(!this.statusBoolean){
+    if(this.status$.value){
+      EmergencyDisasterClone = EmergencyDisasterClone.filter(data => data.emergencyDisasterEndDate !== null)
+    }else if(!this.status$.value){
 
-      this.emergencyDisaster = EmergencyDisasterClone.filter(data => data.emergencyDisasterEndDate === null)
+      EmergencyDisasterClone = EmergencyDisasterClone.filter(data => data.emergencyDisasterEndDate === null)
     }
 
 
-    console.log('datos filtrados boolean => ', this.emergencyDisaster);
+    console.log('datos filtrados boolean => ', EmergencyDisasterClone);
 
 
-    return  this.emergencyDisaster;
+    return  EmergencyDisasterClone;
+
+  }
+
+
+
+  selectType(EmergencyDisasterClone: EmergencyDisaster[]){
+
+
+    if(this.selectTypes$.value != 8){
+      EmergencyDisasterClone = EmergencyDisasterClone.filter(data => data.typesEmergenciesDisasters['typeEmergencyDisasterID'] === this.selectTypes$.value)
+    }
+
+
+    console.log('datos filtrados boolean => ', EmergencyDisasterClone);
+
+
+    return  EmergencyDisasterClone;
 
   }
 
 }
-function sort(emergency: EmergencyDisaster[], sortColumn: string, sortDirection: string) {
-  throw new Error('Function not implemented.');
-}
+
 

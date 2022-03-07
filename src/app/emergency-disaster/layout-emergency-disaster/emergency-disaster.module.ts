@@ -8,9 +8,10 @@ import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
 import { NgbdEditDialogComponent } from '../ngbd-edit-dialog/ngbd-edit-dialog.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableComponent } from '../table/table.component';
+import { NgbdDeleteModalComponent } from '../ngbd-delete-modal/ngbd-delete-modal.component';
 
 @NgModule({
-  declarations: [LayoutEmergencyDisasterComponent, ListComponent, NgbdModalComponent, NgbdEditDialogComponent,TableComponent],
+  declarations: [LayoutEmergencyDisasterComponent, ListComponent, NgbdModalComponent, NgbdEditDialogComponent,TableComponent, NgbdDeleteModalComponent],
   imports: [
     SharedModule,
     EmergencyDisasterRoutingModule

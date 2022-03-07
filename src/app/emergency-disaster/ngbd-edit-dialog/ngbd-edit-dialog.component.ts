@@ -5,6 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import {compare} from 'fast-json-patch';
 import { _deepClone } from 'fast-json-patch/module/helpers';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'ngbd-edit-dialog',
@@ -14,8 +15,8 @@ import { _deepClone } from 'fast-json-patch/module/helpers';
 export class NgbdEditDialogComponent implements OnInit {
 
   @Input() emergencyDisaster: EmergencyDisaster;
+
   model : EmergencyDisaster;
-  originalEmergencyDisaster: EmergencyDisaster;
 
   emergencyDisasterForm: FormGroup;
 
@@ -29,15 +30,13 @@ export class NgbdEditDialogComponent implements OnInit {
     this.emergencyDisasterForm = this.initForm();
     this.onatchValue();
 
-    this.emergencyDisasterService.getAll().subscribe((data: EmergencyDisaster[])=>{
-      this.model = Object.assign({}, this.emergencyDisaster[0]);
-      this.originalEmergencyDisaster = this.emergencyDisaster[0];
-    })
 
-    /* this.model = _deepClone(this.emergencyDisaster);
+     this.model = _.cloneDeep(this.emergencyDisaster);
 
     console.log("Model =>", this.model);
-    console.log("originalEmergencyDisaster =>", this.emergencyDisaster); */
+    console.log("originalEmergencyDisaster =>", this.emergencyDisaster); 
+  
+  
   }
 
 
@@ -66,14 +65,15 @@ export class NgbdEditDialogComponent implements OnInit {
   }
 
   updateEmergency(EmergencyDisaster: EmergencyDisaster){
-    this.model = Object.assign({}, EmergencyDisaster);
-    this.originalEmergencyDisaster = EmergencyDisaster;
+    console.log("Model", EmergencyDisaster);
   }
 
   onSubmit(){
-/*     const patch = compare(this.originalEmergencyDisaster, this.model);
- *//*     console.log("Form =>", this.emergencyDisasterForm.value)
- */    console.log("Patch =>", compare(this.originalEmergencyDisaster, this.model));
+     const patch = compare(this.model, this.emergencyDisaster,);
+    console.log("Patch =>", patch);
+
+    this.patch(patch);
+    this.dialogRef.close();
   }
 
   initForm(): FormGroup{
@@ -82,5 +82,14 @@ export class NgbdEditDialogComponent implements OnInit {
       instruction:['', [Validators.required]]
     });
   }
+
+  patch(value){
+    this.emergencyDisasterService.patchEmergencyDisaster(this.emergencyDisaster, value).subscribe(data =>{
+      console.log("Actualizado correctamente!!");
+    }, error => {
+      console.log("Error", error);
+    })
+  }
+
 
 }

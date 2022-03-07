@@ -1,3 +1,6 @@
+import { SelectTypesEmergencyDisasterService } from './../select-types-emergency-disaster.service';
+import { AlertService } from './../../services/_alert.service/alert.service';
+import { EmergencyDisasterService } from './../emergency-disaster.service';
 import { EmergencyDisaster } from './../../models/emergencyDisaster';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,9 +16,26 @@ export class NgbdDeleteModalComponent implements OnInit {
   
   titulo: string;
 
-  constructor(public modal: NgbActiveModal) { }
+  constructor(public modal: NgbActiveModal,
+              private emergencyDisasterService: EmergencyDisasterService,
+              private alertService: AlertService,
+              private selectTypesEmergencyDisasterService: SelectTypesEmergencyDisasterService){}
+              ngOnInit(): void {
+  }
 
-  ngOnInit(): void {
+
+  deletEmergencyDisaster(id : number){
+    this.emergencyDisasterService.deleteEmergencyDisaster(id).subscribe(data =>{
+      this.alertService.success('Emergencia y/o desastre eliminado exitosamente', { autoClose: true });
+      this.selectTypesEmergencyDisasterService.deleteFromTable(id);
+      this.modal.close();
+      console.log("EmergencyDisaster - Deleted", data);
+    }, error =>{
+      this.alertService.warn('Ha ocurrido un error', { autoClose: true });
+      console.log("Error - EmergencyDisaster - Deleted ", error);
+      this.modal.close();
+
+    })
   }
 
 }

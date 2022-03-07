@@ -1,5 +1,5 @@
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NgModule } from '@angular/core';
+import { NgModule,  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,7 +33,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
-import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+import {MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatRadioModule} from '@angular/material/radio';
@@ -47,6 +47,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -105,6 +106,6 @@ import {OverlayModule} from '@angular/cdk/overlay';
     ScrollingModule,
     
     ],
-    providers:[]
+    providers:[{ provide: MAT_DATE_LOCALE, useValue: 'es-ES' }]
 })
 export class MaterialDesignModule { }

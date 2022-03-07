@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import {Observable, pipe, Subscription} from 'rxjs';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { EmergencyDisasterService } from '../emergency-disaster.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'layout-emergency-disaster',
@@ -24,6 +25,8 @@ export class LayoutEmergencyDisasterComponent implements OnInit, OnDestroy {
   id: number;
   status: boolean;
   handleSU: Subscription;
+  date = new FormControl(new Date());
+  serializedDate = new FormControl(new Date().toISOString());
 
 
   constructor(
@@ -62,7 +65,7 @@ export class LayoutEmergencyDisasterComponent implements OnInit, OnDestroy {
 
         this.arraytypeEmergencyDisaster.push({
           id: 8,
-          name: "todos"
+          name: "Todos"
         }
         );
           
@@ -81,7 +84,7 @@ export class LayoutEmergencyDisasterComponent implements OnInit, OnDestroy {
 
   
   getEmergencyDisaster() {
-    this.handleSU =  this.emergencyDisasterService.getAllWithoutFilter()
+     this.emergencyDisasterService.getAllWithoutFilter()
  
         .subscribe(data => {
           this.emergencyDisaster = data;
@@ -105,31 +108,22 @@ export class LayoutEmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
 
-  slideToogle(select : string){
+/*   slideToogle(select : string){
     console.log("Checked: ", select);
-    this.selected = select;
+    this.selectTypesEmergencyDisasterService.setStatus(event.checked);
 
-  }
+  } */
 
 
   getcheckStatus(event) {
-
-   /*  this.selectTypesEmergencyDisasterService.setStatus(event.checked);
-    this.selectTypesEmergencyDisasterService.TypesEventBoolean.emit(event.checked); */
-    console.log(event.checked)
-
-    /*if(event.checked){
-      this.emergencyDisaster = this.emergencyDisasterClone.filter(data => data.emergencyDisasterEndDate !== null);
-    }
-    else if (!event.checked){
-      this.emergencyDisaster = this.emergencyDisasterClone.filter(data => data.emergencyDisasterEndDate === null);
-    }*/
+    this.selectTypesEmergencyDisasterService.setStatus(event.checked);
   }
 
-
+  currentDate(event){
+    console.log("Fecha =>", event.value);
+  }
 
   ngOnDestroy(): void {
-    this.handleSU.unsubscribe();
   }
 
 
