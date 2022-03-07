@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { SelectTypesEmergencyDisasterService } from './../select-types-emergency-disaster.service';
 import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
 import { EmergencyDisasterService } from './../emergency-disaster.service';
@@ -32,7 +33,8 @@ export class ListComponent implements OnInit {
   constructor(private emergencyDisasterService: EmergencyDisasterService,
     private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private modalService: NgbModal,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private router: Router) {
 
       
     }
@@ -68,36 +70,29 @@ getCardColor(state: string){
 
 
 openVerticallyCentered(i) {
-  const emergency = this.emergencyDisaster[i];
-  
-  if(emergency.alerts.alertDegree != 'Controlado' ){
+  //FALTA CONTROLAR LA CARD VERDE QUE NO SEA ABRA
+
     const modalRef = this.modalService.open(NgbdModalComponent,{  size: 'xl' });
-    modalRef.componentInstance.emergencyDisaster = emergency;
-  }
+    modalRef.componentInstance.emergencyDisaster = this.selectTypesEmergencyDisasterService.emergencyDisasterObservableValue$[i];
+}
+
+deployment(){
+  this.router.navigate(['emergencias/detalles']);
 }
 
 openDialog(i){
-  const emergency = this.emergencyDisaster[i];
+
+  const emergency = this.emergencyDisasterObservable[i];
   const dialogRef = this.dialog.open(NgbdEditDialogComponent);
-  dialogRef.componentInstance.emergencyDisaster = emergency;
+  dialogRef.componentInstance.emergencyDisaster = this.selectTypesEmergencyDisasterService.emergencyDisasterObservableValue$[i];
 }
 
-deletEmergencyDisaster(id : number){
 
-  console.log("EmergencyDisasterId - Delete =>", id);
-  
-  this.emergencyDisasterService.deleteEmergencyDisaster(id).subscribe(data =>{
-/*     this.getEmergencyDisaster();
- */    console.log("EmergencyDisaster - Deleted");
-  }, error =>{
-    console.log("Error - EmergencyDisaster - Deleted ", error);
-  })
-}
 
 deleteModal(i, reason: string){
-  const emergency = this.emergencyDisaster[i];
+  const emergency = this.emergencyDisasterObservable[i];
   const dialogRef = this.modalService.open(NgbdDeleteModalComponent, { centered: true });
-  dialogRef.componentInstance.emergencyDisaster = emergency;
+  dialogRef.componentInstance.emergencyDisaster = this.selectTypesEmergencyDisasterService.emergencyDisasterObservableValue$[i];
   dialogRef.componentInstance.titulo = reason;
 }
 

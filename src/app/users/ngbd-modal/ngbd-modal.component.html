@@ -50,6 +50,7 @@
     <div class="form-group col">
       <label for="firstName" class="first"><strong class="info" >Nombres</strong></label>
       <input type="text" formControlName="firstName" required name="firstName" id="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.firstName').errors }">
+     
       <div *ngIf="submitted && f.get('users.persons.firstName').errors" class="invalid-feedback">
         <div *ngIf="f.get('users.persons.firstName').errors.required"><small>*Campo requerido</small> </div>
       </div>
@@ -93,6 +94,7 @@
     <div class="form-group col">
       <label for="birthdate" class="first"><strong class="info" >Fecha de nacimiento</strong></label>
       <input type="datetime" formControlName="birthdate" required name="birthdate" id="birthdate" class="form-control" [ngModel]="user.users.persons.birthdate" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.birthdate').errors }" >
+    
       <div *ngIf="submitted && f.get('users.persons.birthdate').errors" class="invalid-feedback">
         <div *ngIf="f.get('users.persons.birthdate').errors.required"><small>*Campo requerido</small></div>
     </div>

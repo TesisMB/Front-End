@@ -50,31 +50,5 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="2">
-
-      <table class="table table-striped">
-        <!--      <thead>
-          <tr>
-            <th scope="col">Country</th>
-            <th scope="col">Area</th>
-            <th scope="col">Population</th>
-          </tr>
-        </thead> -->
-
-        <tbody *ngFor="let item of emergencyDisaster">
-          <tr
-            *ngFor="let item2 of item['resources_Requests']['resources_RequestResources_Materials_Medicines_Vehicles']">
-            <td>
-              {{item2}}
-            </td>
-            <td>dasdsadsad</td>
-            <td>asdasdsadasdads</td>
-          </tr>
-        </tbody>
-      </table>
-
-
-    </mat-tab>
-    <mat-tab label="3"> Content 3 </mat-tab>
   </mat-tab-group>
 </section>

@@ -22,11 +22,13 @@ import { AppComponent } from './app.component';
 
 //***************SERVICES*********** */
 import { ErrorInterceptor, JwtInterceptor} from './_helpers';
-import { NgbdDeleteModalComponent } from './emergency-disaster/ngbd-delete-modal/ngbd-delete-modal.component';
+import { AddEmergencyDisasterComponent } from './emergency-disaster/add-emergency-disaster/add-emergency-disaster.component';
+import { DeploymentComponent } from './emergency-disaster/deployment/deployment.component';
 @NgModule({
   declarations: [
     AppComponent,
-    NgbdDeleteModalComponent,
+    AddEmergencyDisasterComponent,
+    DeploymentComponent,
   ],
   imports: [
     BrowserModule,
