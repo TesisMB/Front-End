@@ -101,7 +101,7 @@ public _setResources(patch:Resource){
 }
   destroyResources(){
     this._resources$.next([]);
-    this._type$.next("");
+    this._type$.next('');
   //  this._search$.next();
     
   }

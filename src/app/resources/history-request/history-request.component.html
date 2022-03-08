@@ -1,17 +1,20 @@
-<mat-tab-group>
-  <mat-tab label="Pendientes">
-    <ng-template matTabContent>
-<request-table [condition] = pendiente></request-table>
-    </ng-template>
-  </mat-tab>
-  <mat-tab label="Aceptadas">
-    <ng-template matTabContent>
-      <request-table [condition] = aceptadas></request-table>
-    </ng-template>
-  </mat-tab>
-  <mat-tab label="Rechazadas">
-    <ng-template matTabContent>
-      <request-table [condition] = rechazadas></request-table>
-    </ng-template>
-  </mat-tab>
-</mat-tab-group>
+
+<section class="title">
+  <h1>Historial de solicitudes</h1>
+</section>
+
+
+<section class="row justify-content-around col-body" id="row-aside">
+  <div class="col-10">
+    <mat-tab-group mat-align-tabs="center" (selectedTabChange)="changeCondition($event)" color="warn">
+      <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab">
+       <ng-template matTabContent>
+         <div class="m-4">
+    <request-table></request-table>
+  </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>  
+  </div>
+
+</section>

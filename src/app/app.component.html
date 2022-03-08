@@ -1,19 +1,20 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
 
   <mat-toolbar color="primary" class="example-toolbar" *ngIf="currentUser">
-    <button mat-icon-button (click)="snav.toggle()">
+    <button mat-icon-button (click)="snav.toggle(); data;">
       <mat-icon>menu</mat-icon>
     </button>
     <div class="logo">
       <img src="assets/img-home-users/Logo.png" alt="">
     </div>
     <div id="perfil">
+      <ng-container *ngIf="!isLogistica">
       <div *ngIf="isRequest; else isNotRequest">
         <button [ngbPopover]="popCart" [autoClose]="'outside'" popoverClass="option" container="body" mat-icon-button>
           <mat-icon matBadge="{{isRequest}}" matBadgeColor="warn">shopping_cart</mat-icon>
         </button>
       </div>
-
+</ng-container>
       <ng-template #isNotRequest><button [ngbPopover]="popCart" [autoClose]="'outside'" popoverClass="option"
           container="body" mat-icon-button class="mr-4">
           <mat-icon>shopping_cart</mat-icon>

@@ -60,7 +60,7 @@ const TREE_DATA: FoodNode[] = [
     name: 'Inicio',
     patch:'/',
     icon:'fas fa-home' ,
-    role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
+    role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres', 'Encargado de Logistica']
   },
   {
     name: 'Empleados',
@@ -72,38 +72,39 @@ const TREE_DATA: FoodNode[] = [
     name: 'Recursos',
     patch: 'recursos',
     icon:'fas fa-first-aid',
-    role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres'],
+    role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres'],
     children: [
       {
         name: 'Voluntarios',
         patch:'/recursos/lista/voluntarios',
         icon:'fas fa-hands-helping',
-        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
+        role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
       }, {
         name: 'Medicamentos',
         patch:'/recursos/lista/medicamentos',
         icon:'fas fa-capsules',
-        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
+        role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
       },
       {
         name: 'Materiales',
         patch:'/recursos/lista/materiales',
         icon:'fas fa-thermometer',
-        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
+        role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
       },
       {
         name: 'Vehiculos',
         patch:'/recursos/lista/vehiculos',
         icon:'fas fa-ambulance',
-        role:['Admin','Coordinador General','Coordinador de Logistica','Coordinador de Emergencias y Desastres']
+        role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
       },
-      {
-        name: 'Solicitudes',
-        patch:'/recursos/solicitudes',
-        icon:'fas fa-clipboard-list' ,
-        role:['Admin','Coordinador General','Coordinador de Logistica']
-      },
+ 
     ]
+  },
+  {
+    name: 'Solicitudes',
+    patch:'/recursos/solicitudes',
+    icon:'fas fa-clipboard-list' ,
+    role:['Admin','Coordinador General','Encargado de Logistica']
   },
   {
     name: 'Emergencias',
@@ -132,8 +133,8 @@ selector: 'app',
 templateUrl: 'app.component.html',
 styleUrls: ['app.component.css']
  })
-export class AppComponent implements OnDestroy{
-currentUser: User;
+export class AppComponent implements OnInit, OnDestroy{
+currentUser: User = null;
 error:any= "";
 handler: Subscription;
 request = null;
@@ -153,47 +154,53 @@ private _mobileQueryListener: () => void;
         private cartService: ResourcesDetailsService,
         private route: ActivatedRoute
     ) {
-    this.getCurrentUser();
-    this.dataSource.data = TREE_DATA.filter(x => x.role.includes(this.currentUser.roleName));
+   // this.dataSource.data = TREE_DATA;
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+              }
+
+              ngOnInit(): void {
+              this.getCurrentUser();
+                  
               }
              
               hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
                 
 
+              get isLogistica () {
+                return this.currentUser.roleName === RoleName.Logistica;
+               }
+               get isRequest(){
+                const cart: Cart = JSON.parse(localStorage.getItem('cart'));
+                return cart ? cart.request.length : false;
+              }
+              get data(){
+                return this.dataSource.data = TREE_DATA.filter(x => x.role.includes(this.currentUser.roleName));
+              }
+  
+
           
-            logout() { 
-              this.cartService.clearCartRequest();
-              this.authenticationService.logout();
-            }
-          
-            ngOnDestroy(): void {
-              this.handler.unsubscribe();
-              this.mobileQuery.removeListener(this._mobileQueryListener);
-            }   
+
 
             getCurrentUser(){
               this.handler = this.authenticationService.currentUser
-              .subscribe(x => {this.currentUser = x},
-                          err => { this.error = err;});
-            }
-            get isRequest(){
-              const cart: Cart = JSON.parse(localStorage.getItem('cart'));
-              return cart ? cart.request.length : false;
+              .subscribe((x:User) => {
+                this.currentUser = x
+              },
+              err => { 
+                this.error = err;
+                console.log(err);
+              });
             }
 
-          // get isAdmin() {
-                
-          //     return this.currentUser && this.currentUser.roleName === RoleName.Admin || RoleName.CoordinadorGeneral;
-          // }
-        
-          // get isCoordEyD () {
-          //   return this.currentUser && this.currentUser.roleName === RoleName.CEyD;
-          // }
-        
-           get isLogistica () {
-            return this.currentUser.roleName === RoleName.Logistica
-           }
+          logout() { 
+            this.cartService.clearCartRequest();
+            this.authenticationService.logout();
+          }
+
+           ngOnDestroy(): void {
+            this.handler.unsubscribe();
+            this.mobileQuery.removeListener(this._mobileQueryListener);
+          }   
 }
