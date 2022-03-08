@@ -1,3 +1,4 @@
+import { EmergencyDisasterComponent } from './emergency-disaster/emergency-disaster.component';
 import { DeploymentComponent } from './deployment/deployment.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -11,6 +12,10 @@ const routes: Routes = [
     path: '',
     component: LayoutEmergencyDisasterComponent,
     children: [
+      {
+        path: '',
+        component: EmergencyDisasterComponent,
+      },
       {
         path: 'detalles',
         component: DeploymentComponent

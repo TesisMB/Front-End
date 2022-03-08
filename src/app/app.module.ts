@@ -22,13 +22,11 @@ import { AppComponent } from './app.component';
 
 //***************SERVICES*********** */
 import { ErrorInterceptor, JwtInterceptor} from './_helpers';
-import { AddEmergencyDisasterComponent } from './emergency-disaster/add-emergency-disaster/add-emergency-disaster.component';
-import { DeploymentComponent } from './emergency-disaster/deployment/deployment.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    AddEmergencyDisasterComponent,
-    DeploymentComponent,
+
   ],
   imports: [
     BrowserModule,
