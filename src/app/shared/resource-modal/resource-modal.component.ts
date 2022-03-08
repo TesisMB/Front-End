@@ -35,7 +35,9 @@ handleDelete: Subscription;
   get isLogistica(){return this.authService.currentUserValue.roleName == 'Encargado de Logistica';}
   get f (){ return this.form.controls}
   get reasonError(){return this.form.get('Reason').getError('required');}
+  get getCondition(){return this.resources.condition === 'Pendiente';}
   changeStatus(condition:boolean){this.status = condition;}
+
 
   requestResponse(){
      if(this.form.valid){

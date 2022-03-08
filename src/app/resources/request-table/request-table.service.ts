@@ -6,7 +6,8 @@ import {DecimalPipe} from '@angular/common';
 import { debounceTime, delay, switchMap, tap, filter, map } from 'rxjs/operators';
 import {SortColumn, SortDirection} from '../../directives/sorteable.directive';
 import * as _ from 'lodash';
-import { RequestGet, SearchResult, State } from 'src/app/models';
+import { RequestGet, SearchResult, State, User } from 'src/app/models';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 
@@ -46,6 +47,7 @@ export class RequestTableService {
   private _total$ = new BehaviorSubject<number>(0);
   private request: RequestGet[]= [];
   private _condition$ = new BehaviorSubject<string>('Pendiente');
+  private _filter$ = new BehaviorSubject<boolean>(false);
   private _state: State = {
     page: 1,
     pageSize: 4,
@@ -71,6 +73,7 @@ get requestValue(){  return this._request$.value; }
 get request$() { return this._request$.asObservable(); }
 get total$() { return this._total$.asObservable(); }
 get loading$() { return this._loading$.asObservable(); }
+get filter$(){ return this._filter$.asObservable();}
 get page() { return this._state.page; }
 get pageSize() { return this._state.pageSize; }
 get searchTerm() { return this._state.searchTerm; }
@@ -83,6 +86,10 @@ set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
 set condition(condition: string) {this._setCondition(condition);}
 set loadTable(request: any) {this._uploadTable(request);}
 set updateRequest(request: RequestGet){this._updateRequest(request);}
+set filter(f:boolean){
+  this._filter$.next(f);
+  this._search$.next();
+}
 
 private _set(patch: Partial<State>) {
   Object.assign(this._state, patch);
@@ -117,11 +124,15 @@ public _uploadTable(_request: RequestGet[]) {
 private _search(): Observable<SearchResult> {
   const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
-  // 1. filtrado por disponibilidad
- // const empleados = this.request.filter(x => x.condition === this._condition$.value);
+  // 1. filtrado por usuario
+  let req = this.request;
+  if(this._filter$.value){
+    const user : User = JSON.parse(localStorage.getItem('currentUser'));
+    req = this.request.filter(x => x.users.userID === user.userID);
+  }
   
   // 1. sort
-  let data = sort(this.request, sortColumn, sortDirection);
+  let data = sort(req, sortColumn, sortDirection);
 
   // 2. filter
   data = data.filter(request => search(request, searchTerm, this.pipe));
