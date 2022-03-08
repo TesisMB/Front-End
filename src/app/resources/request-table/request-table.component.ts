@@ -9,6 +9,7 @@ import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalComponent } from '../../users/ngbd-modal/ngbd-modal.component';
 import { RequestTableService } from './request-table.service';
 import { AuthenticationService } from 'src/app/services';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'request-table',
@@ -41,8 +42,18 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.request = this.service.requestValue;
   }
 
+    get isAdmin(){
+       const user : User = JSON.parse(localStorage.getItem('currentUser'));
+       
+       return (user.roleName === 'Admin' || user.roleName ===  'Coordinador General') ? true : false;
+      }
+
   ngAfterViewInit(){}
 
+  onShow(event){
+    this.service.filter = event.checked; 
+  }
+  
   openModal(patch, i){
     if(patch === 'info'){
       const modalRef = this.modalService.open(ResourceModalComponent, { size: 'lg', centered: true, scrollable: true });

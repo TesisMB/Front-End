@@ -90,7 +90,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   get roleName(){ return this.form.get('users.roleName') }
 
   get isAdmin(){
-    return (this.authenticationService.currentUserValue.roleName === ('Admin' || 'Coordinador General')) ? true : false;
+    return (this.authenticationService.currentUserValue.roleName === 'Admin' || this.authenticationService.currentUserValue.roleName ===  'Coordinador General') ? true : false;
   }
 
 

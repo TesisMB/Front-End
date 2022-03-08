@@ -25,13 +25,13 @@
   </ng-container>
 </div>
 <div class="modal-footer">
-  <ng-container *ngIf="isLogistica">
+  <ng-container *ngIf="isLogistica && getCondition">
 
   <button type="submit" class="btn btn-outline-primary" (click)="changeStatus(true)">Aprobar</button>
 
   <button type="submit" class="btn btn-outline-danger" (click)="changeStatus(false)">Rechazar</button>
 </ng-container>
-<ng-container *ngIf="!isLogistica">
+<ng-container *ngIf="!isLogistica && getCondition">
 
   <button type="button" ngbAutofocus class="btn btn-outline-danger"  (click)="deleteRequest()">Cancelar solicitud</button>
 </ng-container>

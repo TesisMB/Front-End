@@ -7,6 +7,9 @@
       <span class="ml-3 text-center" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
 
     </div>
+    <div class="bd-highlight ml-3" *ngIf="isAdmin">  
+      <mat-slide-toggle color="warn" (change)="onShow($event)">Mostrar mis solicitudes</mat-slide-toggle>
+  </div>
   </div>
 
   </div>
