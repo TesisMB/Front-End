@@ -133,7 +133,7 @@ selector: 'app',
 templateUrl: 'app.component.html',
 styleUrls: ['app.component.css']
  })
-export class AppComponent implements OnDestroy{
+export class AppComponent implements OnInit, OnDestroy{
 currentUser: User = null;
 error:any= "";
 handler: Subscription;
@@ -154,52 +154,53 @@ private _mobileQueryListener: () => void;
         private cartService: ResourcesDetailsService,
         private route: ActivatedRoute
     ) {
-    this.getCurrentUser();
-    this.dataSource.data = TREE_DATA;
+   // this.dataSource.data = TREE_DATA;
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+              }
+
+              ngOnInit(): void {
+              this.getCurrentUser();
+                  
               }
              
               hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
                 
 
+              get isLogistica () {
+                return this.currentUser.roleName === RoleName.Logistica;
+               }
+               get isRequest(){
+                const cart: Cart = JSON.parse(localStorage.getItem('cart'));
+                return cart ? cart.request.length : false;
+              }
+              get data(){
+                return this.dataSource.data = TREE_DATA.filter(x => x.role.includes(this.currentUser.roleName));
+              }
+  
+
           
-            logout() { 
-              this.cartService.clearCartRequest();
-              this.authenticationService.logout();
-            }
-          
-            ngOnDestroy(): void {
-              this.handler.unsubscribe();
-              this.mobileQuery.removeListener(this._mobileQueryListener);
-            }   
+
 
             getCurrentUser(){
               this.handler = this.authenticationService.currentUser
-              .subscribe(x => {
+              .subscribe((x:User) => {
                 this.currentUser = x
-                if(this.currentUser){
-                this.dataSource.data = TREE_DATA.filter(x => x.role.includes(this.currentUser.roleName));
-                }
               },
-              err => { this.error = err;});
-            }
-            get isRequest(){
-              const cart: Cart = JSON.parse(localStorage.getItem('cart'));
-              return cart ? cart.request.length : false;
+              err => { 
+                this.error = err;
+                console.log(err);
+              });
             }
 
-          // get isAdmin() {
-                
-          //     return this.currentUser && this.currentUser.roleName === RoleName.Admin || RoleName.CoordinadorGeneral;
-          // }
-        
-          // get isCoordEyD () {
-          //   return this.currentUser && this.currentUser.roleName === RoleName.CEyD;
-          // }
-        
-           get isLogistica () {
-            return this.currentUser.roleName === RoleName.Logistica;
-           }
+          logout() { 
+            this.cartService.clearCartRequest();
+            this.authenticationService.logout();
+          }
+
+           ngOnDestroy(): void {
+            this.handler.unsubscribe();
+            this.mobileQuery.removeListener(this._mobileQueryListener);
+          }   
 }

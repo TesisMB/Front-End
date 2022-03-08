@@ -32,9 +32,10 @@ handleDelete: Subscription;
       status:[false, [Validators.required]]
     });
   }
-  get isLogistica(){return this.authService.currentUserValue.roleName === 'Encargado de Logistica';}
+  get isLogistica(){return this.authService.currentUserValue.roleName == 'Encargado de Logistica';}
   get f (){ return this.form.controls}
   get reasonError(){return this.form.get('Reason').getError('required');}
+  changeStatus(condition:boolean){this.status = condition;}
 
   requestResponse(){
      if(this.form.valid){
@@ -48,12 +49,13 @@ handleDelete: Subscription;
         this.alertService.success(`Petición ${this.resources.condition.toLowerCase()} con exito!`, {autoClose: true});
 
       },
-      error => { if(error == 'Internal Server Error'){
+      error => { 
+        if(error == 'Internal server error'){
         this.alertService.error('Ups! Ha ocurrido un error, vuelva a intentarlo mas tarde.', {autoClose: true});
       }
       else{
         this.alertService.error(error.message, {autoClose: true});
-      }})
+      }});
     
     this.modal.close();
    }
@@ -76,11 +78,11 @@ deleteRequest(){
 }
 
 ngOnDestroy(){
-if(this.handleDelete){
-  this.handleDelete.unsubscribe();
-}
-if(this.handle){
-  this.handle.unsubscribe();
-}
+// if(this.handleDelete){
+//   this.handleDelete.unsubscribe();
+// }
+// if(this.handle){
+//   this.handle.unsubscribe();
+// }
 }
 }

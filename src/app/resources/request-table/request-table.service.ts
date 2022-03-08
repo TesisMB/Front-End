@@ -82,7 +82,7 @@ set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
 set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
 set condition(condition: string) {this._setCondition(condition);}
 set loadTable(request: any) {this._uploadTable(request);}
-set uodateRequest(request: RequestGet){this._updateRequest(request);}
+set updateRequest(request: RequestGet){this._updateRequest(request);}
 
 private _set(patch: Partial<State>) {
   Object.assign(this._state, patch);
@@ -108,6 +108,7 @@ public deleteFromTable(id){
 
 public _uploadTable(_request: RequestGet[]) {
   this.request = _request;
+  console.log(this.request);
   this._request$.next(_request);
   this._search$.next();
 

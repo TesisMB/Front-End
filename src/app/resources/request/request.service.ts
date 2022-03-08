@@ -28,4 +28,8 @@ export class RequestService extends DataService {
   return  this.http.post<any>(environment.URL +  this.patch, response);
   }
 
+  delete(id) {
+    return this.http.delete(environment.URL + this.patch + '/' + id);
+  }
+
 }

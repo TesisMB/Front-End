@@ -10,7 +10,8 @@ import { RequestTableService } from '../request-table/request-table.service';
   styleUrls: ['./history-request.component.css']
 })
 export class HistoryRequestComponent implements OnInit, OnDestroy {
-  condition: string  = 'Pendiente';
+  //condition: string  = 'Pendiente';
+  tabs = ['Pendiente', 'Aceptada', 'Rechazada'];
   handleRequest: Subscription;
   constructor(
     public service: RequestTableService,
@@ -20,17 +21,26 @@ export class HistoryRequestComponent implements OnInit, OnDestroy {
      }
 
   ngOnInit(): void {
-    this.getRequest();
+    this.getRequest('Pendiente');
   }
-get pendiente(){ this.condition = 'Pendiente'; return this.condition}
-get aceptadas(){this.condition ='Aceptada'; return this.condition}
-get rechazadas(){this.condition ='Rechazada'; return this.condition}
 
-getRequest(){
-  this.handleRequest = this.requestService.getAll(this.condition)
+// get pendiente(){ this.condition = 'Pendiente'; return this.condition}
+// get aceptadas(){this.condition ='Aceptada'; return this.condition}
+// get rechazadas(){this.condition ='Rechazada'; return this.condition}
+
+changeCondition(event){
+  const condition =  event.tab.textLabel;
+  console.log('Tab cambiada', event.tab.textLabel);
+  // this.condition = condition;
+   this.service._setCondition(condition);
+   this.getRequest(condition);
+}
+
+getRequest(condition){
+  this.handleRequest = this.requestService.getAll(condition)
   .subscribe((x: any) =>{
   this.service._uploadTable(x);
-  this.service._setCondition(this.condition);
+  this.service._setCondition(condition);
     console.log('x => ', x);
   },
 e => {
@@ -40,7 +50,7 @@ e => {
 }
 
 ngOnDestroy(): void {
-  this.handleRequest.unsubscribe();
+ // this.handleRequest.unsubscribe();
 }
   }
 

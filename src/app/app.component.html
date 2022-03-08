@@ -1,7 +1,7 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
 
   <mat-toolbar color="primary" class="example-toolbar" *ngIf="currentUser">
-    <button mat-icon-button (click)="snav.toggle()">
+    <button mat-icon-button (click)="snav.toggle(); data;">
       <mat-icon>menu</mat-icon>
     </button>
     <div class="logo">
