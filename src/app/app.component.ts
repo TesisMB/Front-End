@@ -63,13 +63,19 @@ const TREE_DATA: FoodNode[] = [
     role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres', 'Encargado de Logistica']
   },
   {
-    name: 'Empleados',
+    name: 'Usuarios',
     patch:'/empleados',
     icon:'fas fa-users' ,
-    role:['Admin','Coordinador General']
+    role:['Admin','Coordinador General'],
+    children: [
+      {name: 'Registrar usuario',
+      patch:'/empleados/registrar',
+      icon:'fas fa-user-plus',
+      role:['Admin','Coordinador General']
+    },]
   },
   {
-    name: 'Recursos',
+    name: 'Gestión de recursos',
     patch: 'recursos',
     icon:'fas fa-first-aid',
     role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres'],
