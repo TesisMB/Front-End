@@ -48,21 +48,25 @@
   <ng-container formGroupName="persons">
   <div class="form-row">
     <div class="form-group col">
-      <label for="firstName" class="first"><strong class="info" >Nombres</strong></label>
+      <label for="firstName" class="first"><strong class="info" >Nombre</strong></label>
       <input type="text" formControlName="firstName" required name="firstName" id="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.firstName').errors }">
      
       <div *ngIf="submitted && f.get('users.persons.firstName').errors" class="invalid-feedback">
         <div *ngIf="f.get('users.persons.firstName').errors.required"><small>*Campo requerido</small> </div>
+        <div *ngIf="f.get('users.persons.firstName').errors.pattern"><small>*Nombre invalido</small> </div>
+
       </div>
     </div>
   </div>
 
   <div class="form-row">
     <div class="form-group col">
-      <label for="lastName" class="first"><strong class="info" >Apellidos</strong></label>
+      <label for="lastName" class="first"><strong class="info" >Apellido</strong></label>
       <input type="text"  formControlName="lastName" required name="lastName" id="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.lastName').errors }" >
       <div *ngIf="submitted && f.get('users.persons.lastName').errors" class="invalid-feedback">
         <div *ngIf="f.get('users.persons.lastName').errors.required"><small>*Campo requerido</small></div>
+        <div *ngIf="f.get('users.persons.lastName').errors.pattern"><small>*Apellido invalido</small> </div>
+
     </div>
   </div>
   </div>
@@ -93,7 +97,7 @@
   <div class="form-row">
     <div class="form-group col">
       <label for="birthdate" class="first"><strong class="info" >Fecha de nacimiento</strong></label>
-      <input type="datetime" formControlName="birthdate" required name="birthdate" id="birthdate" class="form-control" [ngModel]="user.users.persons.birthdate" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.birthdate').errors }" >
+      <input type="datetime" formControlName="birthdate" readonly required name="birthdate" id="birthdate" class="form-control" [ngModel]="user.users.persons.birthdate" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.birthdate').errors }" >
     
       <div *ngIf="submitted && f.get('users.persons.birthdate').errors" class="invalid-feedback">
         <div *ngIf="f.get('users.persons.birthdate').errors.required"><small>*Campo requerido</small></div>

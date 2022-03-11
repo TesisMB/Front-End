@@ -44,12 +44,23 @@ export class AlertService {
   }
   errorForEmployee(error: any){
     if(error.type == 'C'){
-        ;
+        
         this.error(error.message, { autoClose: true });
     }
     else {
     this.error(error[1].messages[0], { autoClose: true });
     }  
+}
+
+errorForRegister(error){
+    if(error == 'Internal server error'){
+        this.error('Ha ocurrido un error :( , intente nuevamente mas tarde', {autoClose: true});
+    }
+    else {
+        error.forEach(e => {
+            this.error(e.messages, { autoClose: true });
+        });
+        } 
 }
 
 }

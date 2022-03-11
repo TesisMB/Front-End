@@ -3,9 +3,10 @@ import { DataService } from '../services/data.service';
 import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticationService } from '../services';
-import { Role, RoleName } from '../models';
+import { Group, Role, RoleName, Input } from '../models';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({ providedIn: 'root' })
@@ -31,8 +32,8 @@ return this._employeeForm.group({
     employeeCreatedate: [],
     users: this._employeeForm.group({
       persons: this._employeeForm.group({
-        lastName: [{},[Validators.required]],
-        firstName:[{},[Validators.required]],
+        lastName: [{},[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
+        firstName:[{},[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
         gender: [{},[Validators.required]],
         birthdate: [{},[Validators.required]],
         phone:    [{},[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
@@ -72,6 +73,22 @@ return this._employeeForm.group({
     })
 
     });
+}
+
+getLocations(): Observable<any> {
+  const arrayEmergencies: Input[] = [];
+
+    return this.http.get<any>(environment.URL + 'estates');
+  //   .pipe(map( data => {
+  //     data.forEach(e => {
+  //       const location: Group = {
+  //         name: e.locationCityName,
+  //         data: e.estates,
+  //         id: e.locationID
+  //       };
+  //     });
+  //   return data;
+  // }));
 }
 
 }

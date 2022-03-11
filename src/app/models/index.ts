@@ -14,3 +14,4 @@ export * from './vehicle.model';
 export * from './volunteer.model';
 export * from './requestCart.model';
 export * from './search.model';
+export * from './selectInput.model';

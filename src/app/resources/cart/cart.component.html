@@ -1,13 +1,18 @@
 <ng-container *ngIf="!error; then render else notRender"></ng-container>
 
 <ng-template #notRender>
-  <ng-container *ngIf="error">
-    <span class="text-center" *ngIf="loading">
+  <ng-container *ngIf="loading">
+      <div class="card notRender text-center">
+        <div class="">
+     <span class="text-center" >
       <i class="fas fa-spinner fa-lg fa-spin">
       </i>
     </span>
+        </div>
+      </div>
+
   </ng-container>
-  <ng-container *ngIf="!error">
+  <ng-container *ngIf="!loading">
     <div class="notRender">
       <div class="error-message">
         <div class="text-center">
@@ -70,11 +75,11 @@
                   <ng-container *ngIf="!res.error">
                     <mat-form-field appearance="legacy" style="width: 85px;">
                       <mat-label>Cantidad</mat-label>
-                      <input required matInput #input type="number" [(ngModel)]="cloneRequest.request[i].quantity"
-                        name="quantity" formControlName="quantity" min="1" [max]="getMax(i)" [readonly]=""
+                      <input required matInput #input type="number" readonly [(ngModel)]="cloneRequest.request[i].quantity"
+                        name="quantity" formControlName="quantity" min="1" [max]="getMax(i)" 
                         [ngClass]="{'is-invalid': input.value <= 0}">
                       <span matSuffix class="text-muted"> &nbsp; uds. </span>
-                      <mat-hint align="end">{{input.value}} / {{res.resource.quantity + res.quantity}}</mat-hint>
+                      <!-- <mat-hint align="end">{{input.value}} / {{res.resource.quantity + res.quantity}}</mat-hint> -->
                       <mat-error *ngIf="array.invalid">{{getErrorMessage(input.value, res.resource.quantity )}}
                       </mat-error>
                     </mat-form-field>

@@ -239,10 +239,9 @@ createForm() {
 
   setMessageError(error){
     if(error == 'Internal server error'){
-    this.alertService.error('Error en el envìo de la solicitud, por favor intentar màs tarde.', { autoClose: true });
-
-    }
-    else {
+      this.alertService.error('Error en el envìo de la solicitud, por favor intentar màs tarde.', { autoClose: true });
+      }
+    else if(error.length){
     this.request.request.forEach(x =>
       {
         error.forEach(err => {
@@ -257,6 +256,11 @@ createForm() {
       );
     this.alertService.warn('Chequee la solicitud, hay articulos sin stock.', { autoClose: true });
     }
+    else {
+    this.alertService.error(error.messages, { autoClose: true });
+
+    }
+     
   }
 
   ngOnDestroy(): void {

@@ -1,13 +1,12 @@
-import { Role } from 'src/app/models';
+import { Role, Input , Group, User} from 'src/app/models';
 import { TableService } from 'src/app/services/_table.service/table.service';
 import { UserService } from './../index';
 import { AlertService} from '../../services';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
-
 
 @Component({
 selector: 'register',
@@ -15,15 +14,18 @@ templateUrl: './register.component.html',
 styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+    currentUser: User = null;
     registerForm: FormGroup;
     loading = false;
     submitted = false;
     error: any = "";
     registerHandler: any;
     genre = [{value: 'M', viewValue:'Masculino'},{value: 'F', viewValue:'Femenino'}, {value: 'O', viewValue:'Otrx'}];
-    estate = [{value: 1 , viewValue:'Filial Cordoba'},{value: 2 , viewValue:'Filial Rio Tercero'},{value: 3 , viewValue:'Filial Jesus Maria'},]
+    estates : any[] = [];
+    locations: any[] = [];
     roles: Role[];
-
+    minDate: Date;
+    maxDate: Date;
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
@@ -44,35 +46,60 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-      
+      this.getDateValidations();
+      this.getLocations()
       this.roles = this.userService.listarRoles;
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      
 
       this.registerForm = this.formBuilder.group({
         users: this.formBuilder.group({
-          userDni:      ['', [Validators.required,Validators.pattern("[0-9]{7,8}")]],
-          FK_RoleID:    ['', Validators.required],
-          FK_EstateID:    ['', Validators.required],
+          userDni:      ['', [Validators.required,Validators.pattern("[0-9]{7,9}[a-zA-Z ]{0,2}")]],
+          FK_RoleID:    ['', [Validators.required]],
+          FK_EstateID:    ['', [Validators.required]],
+          FK_LocationID: ['', [Validators.required]],
         persons: this.formBuilder.group({
-            firstName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,254}")]],
-            lastName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,254}")]],
+            firstName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,15}")]],
+            lastName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,15}")]],
             phone:    ['', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{9,11}$")]],
-            gender:    ['', Validators.required],
+            gender:    ['',[ Validators.required]],
             email:    ['',[Validators.required,Validators.email]],
             address: ['',[Validators.required]],
-            birthdate: ['', [Validators.required,Validators.pattern("[0-9]{4}-[0-9]{2}-[0-9]{2}")]],
-          })
-        })
+            birthdate: ['',[Validators.required]]
+          }),
+        }),
       });
-      //  this.registerForm.valueChanges.subscribe(() => console.log(this.gender));
+      
+        // this.formUser.get('FK_LocationID').valueChanges.subscribe(value =>{
+        //   this.estates = this.locations.filter(x => x.locationID === value);
+        // } );
     }
 
     // Es un getter conveniente para facilitar el acceso a los campos del formulario
     get f() { return this.registerForm.controls; }
     get formUser () { return this.registerForm.get('users');}
     get formPerson () { return this.registerForm.get('users.persons');}
-    
+     get estate(){
+       const estate = this.locations.filter(x => x.locationCityName === this.currentUser.estates.locationCityName);
+       return estate
+      }
+  
+    private getDateValidations(){
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().getMonth();
+      const currentDate = new Date().getDate();
+
+      this.minDate = new Date(currentYear - 99,currentMonth, currentDate);
+      this.maxDate = new Date(currentYear - 18, currentMonth, currentDate);
+     // const max = this.maxDate.;
+     // console.log(max);
+     // console.log(this.minDate);
+    }
+
 
     onSubmit() {
+
+        // this.formUser.get('FK_LocationID').patchValue();
         //Resetea las alertas
         this.alertService.clear();
         // STOP si el formulario es invalido.
@@ -86,6 +113,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
 
   private register(){
+
       this.registerHandler = this.userService.register(this.registerForm.value)
       .pipe(first())
       .subscribe(
@@ -98,10 +126,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
           },
           error => {
               this.error = error;
-              this.alertService.error('Ha ocurrido un error :( , intente nuevamente mas tarde', {autoClose: true});
+              this.alertService.errorForRegister(error);
               this.loading = false;
 
           });
+    }
+    private getLocations(){
+      this.userService.getLocations().subscribe(
+        data => {
+          this.locations = data;
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        }
+      )
     }
         
     // onSelectFile(event) {
