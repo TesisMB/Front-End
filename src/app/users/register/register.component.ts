@@ -1,12 +1,13 @@
-import { Role, Input , Group, User} from 'src/app/models';
+import { Role, User} from 'src/app/models';
 import { TableService } from 'src/app/services/_table.service/table.service';
 import { UserService } from './../index';
 import { AlertService} from '../../services';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
 selector: 'register',
@@ -14,6 +15,8 @@ templateUrl: './register.component.html',
 styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+  @ViewChild('stepper',{read:MatStepper}) stepper:MatStepper;
+
     currentUser: User = null;
     registerForm: FormGroup;
     loading = false;
@@ -32,7 +35,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private userService: UserService,
         private alertService: AlertService,
-        private tableService: TableService
     ) {
     //   if(this.user.users.roleName=='Admin'){ 
     //   this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !=='Voluntario');
@@ -47,43 +49,42 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
       this.getDateValidations();
-      this.getLocations()
+      this.getLocations('estates');
       this.roles = this.userService.listarRoles;
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       
 
       this.registerForm = this.formBuilder.group({
-        users: this.formBuilder.group({
+        // users: this.formBuilder.group({
           userDni:      ['', [Validators.required,Validators.pattern("[0-9]{7,9}[a-zA-Z ]{0,2}")]],
           FK_RoleID:    ['', [Validators.required]],
-          FK_EstateID:    ['', [Validators.required]],
+          FK_EstateID:    [4],
           FK_LocationID: ['', [Validators.required]],
         persons: this.formBuilder.group({
-            firstName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,15}")]],
-            lastName: ['', [Validators.required,Validators.pattern("[a-zA-Z ]{2,15}")]],
-            phone:    ['', [Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{9,11}$")]],
-            gender:    ['',[ Validators.required]],
-            email:    ['',[Validators.required,Validators.email]],
-            address: ['',[Validators.required]],
-            birthdate: ['',[Validators.required]]
+          lastName: ['',[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
+          firstName:['',[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
+          gender: ['',[Validators.required]],
+          birthdate: ['',[Validators.required]],
+          phone:    ['',[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+          email:    ['',[Validators.required,Validators.email]],
+          address: ['',[Validators.required, Validators.maxLength(20)]],
+          locationName: ['',[Validators.required, Validators.maxLength(20)]]
           }),
-        }),
+        // }),
       });
+
       
-        // this.formUser.get('FK_LocationID').valueChanges.subscribe(value =>{
-        //   this.estates = this.locations.filter(x => x.locationID === value);
-        // } );
+       this.formUser.get('FK_LocationID').valueChanges.subscribe(value =>{
+         this.estates = this.locations.filter(x => x.locationID === value);
+         return console.log('Sucursales => ', this.estates);
+       } );
     }
 
     // Es un getter conveniente para facilitar el acceso a los campos del formulario
     get f() { return this.registerForm.controls; }
-    get formUser () { return this.registerForm.get('users');}
-    get formPerson () { return this.registerForm.get('users.persons');}
-     get estate(){
-       const estate = this.locations.filter(x => x.locationCityName === this.currentUser.estates.locationCityName);
-       return estate
-      }
-  
+    get formUser () { return this.registerForm;}
+    get formPerson () { return this.registerForm.get('persons');}
+    get isVoluntario() {return this.formUser.get('FK_RoleID').value == 5;}
     private getDateValidations(){
       const currentYear = new Date().getFullYear();
       const currentMonth = new Date().getMonth();
@@ -113,16 +114,26 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
 
   private register(){
+    if(this.isVoluntario){
+      this.registerForm.addControl('volunteers', this.formBuilder.group({
+        volunteerDescription: [null],
+        volunteerAvatar: [null]}));
+    }
+    else if(this.registerForm.get('volunteers')){
+      this.registerForm.removeControl('volunteers');
+    }
 
       this.registerHandler = this.userService.register(this.registerForm.value)
       .pipe(first())
       .subscribe(
           data => {
               this.alertService.success('Registro exitoso :)', { autoClose: true });
-             // this.router.navigate(['/'], { relativeTo: this.route });
-             // this.tableService.uploadTable();
-              this.loading = false;
+              // this.router.navigate(['/'], { relativeTo: this.route });
+              //this.tableService._setEmployee();
+                this.loading = false;
+                this.stepper.reset();
 
+              
           },
           error => {
               this.error = error;
@@ -131,11 +142,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
           });
     }
-    private getLocations(){
-      this.userService.getLocations().subscribe(
+    private getLocations(patch){
+      this.userService.getLocations(patch).subscribe(
         data => {
           this.locations = data;
           console.log(data);
+          console.log(this.estates);
+
         },
         error => {
           console.log(error);

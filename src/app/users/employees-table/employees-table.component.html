@@ -34,7 +34,7 @@
       </td>
       <td><ngb-highlight [result]="empleado.users.persons.lastName | titlecase" [term]="service.searchTerm"></ngb-highlight></td>
       <td><ngb-highlight [result]="empleado.users.roleName | titlecase" [term]="service.searchTerm"></ngb-highlight></td>
-      <td><ngb-highlight [result]="empleado.users.estates.address + '&nbsp;' + empleado.users.estates.numberAddress" [term]="service.searchTerm"></ngb-highlight></td>
+      <td><ngb-highlight [result]="empleado.users.estates.address" [term]="service.searchTerm"></ngb-highlight></td>
       <td><span for="status" *ngIf="empleado.users.persons.status"><i [class.text-success]="empleado.users.persons.status" class="fas fa-circle"></i>      Disponible</span>
         <span *ngIf="!empleado.users.persons.status"><i [class.text-danger]="!empleado.users.persons.status"class="fas fa-circle"></i>      No disponible</span></td>
 

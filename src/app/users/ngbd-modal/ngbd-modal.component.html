@@ -26,7 +26,7 @@
           </button>
         </ng-template>
     
-        <div *ngIf="isAdmin">
+        <div *ngIf="isAdmin || isCGeneral">
         <button  mat-icon-button type="button" class="btn btn-outline-secondary"
         [ngbPopover]="popMenu" popoverClass="option" container="body">
                 <mat-icon>more_vert</mat-icon>
@@ -74,7 +74,7 @@
   <div class="form-row">
     <div class="form-group col">
       <label for="dni" class="first"><strong class="info" >Documento</strong></label>
-      <p class="form-control">{{user.users.userDni}}</p>
+      <p readonly class="form-control">{{user.users.userDni}}</p>
   </div>
   </div>
   
@@ -137,14 +137,25 @@
   
     <div class="form-row">
       <div class="form-group col">
-        <label for="address" class="first"><strong class="info" for="address">Domicilio</strong></label>
-        <input formControlName="address" required class="form-control direccionInput info" name="address" type="text" placeholder="Domicilio" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.phone').errors }"/>
-        <div *ngIf="submitted && f.get('users.persons.address').errors" class="invalid-feedback">
-          <div *ngIf="f.get('users.persons.address').errors.required"><small>*Campo requerido</small></div>
+        <label for="address" class="first"><strong class="info" for="address">Ciudad de residencia</strong></label>
+        <input formControlName="locationName" required class="form-control direccionInput info" name="locationName" type="text" placeholder="Ciudad de residencia" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.locationName').errors }"/>
+        <div *ngIf="submitted && f.get('users.persons.locationName').errors" class="invalid-feedback">
+          <div *ngIf="f.get('users.persons.locationName').errors.required"><small>*Campo requerido</small></div>
+          <div *ngIf="f.get('users.persons.locationName').errors.maxlength"><small>*Ha superado el maximo de 25 caracteres permitidos</small> </div> 
       </div>     
       </div>
     </div>
   
+    <div class="form-row">
+      <div class="form-group col">
+        <label for="address" class="first"><strong class="info" for="address">Domicilio</strong></label>
+        <input formControlName="address" required class="form-control direccionInput info" name="address" type="text" placeholder="Domicilio" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.address').errors }"/>
+        <div *ngIf="submitted && f.get('users.persons.address').errors" class="invalid-feedback">
+          <div *ngIf="f.get('users.persons.address').errors.maxlength"><small>*Ha superado el maximo de 20 caracteres permitidos</small> </div> 
+          <div *ngIf="f.get('users.persons.address').errors.required"><small>*Campo requerido</small></div>
+      </div>     
+      </div>
+    </div>
   </div>
   <!-- Informacion de Trabajo -->
   <div class="work col-sm">
@@ -164,33 +175,35 @@
 
     <div class="form-row" formGroupName="estates">  
       <div class="form-group col">
-   <label for="workAddress" class="first"> <strong class="info">Direccion de trabajo</strong></label>
+   <label for="workAddress" class="first"> <strong class="info">Direccion de trabajo  y Tipo de sucursal</strong></label>
    <div class="input-group">
-     <input type="text"  class="form-control info" id="address" required formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.numberAddress').errors || submitted && f.get('users.estates.address').errors }">
-      <input type="text"   class="form-control info" id="numberAddress"  required formControlName="numberAddress" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.numberAddress').errors || submitted && f.get('users.estates.address').errors }" >
-      <div *ngIf="submitted && (f.get('users.estates.address').errors || f.get('users.estates.numberAddress').errors)" class="invalid-feedback">
-        <div *ngIf="f.get('users.estates.address').errors.required || f.get('users.estates.numberAddress').errors.required"><small>*Campo requerido</small></div>
-      </div>
+     <input type="text"  class="form-control info" id="address" required formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.address').errors }">
+     <input type="text" readonly class="form-control info"  id="estateTypes"required formControlName="estateTypes" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.estateTypes').errors }">
+
+     <div *ngIf="submitted && f.get('users.estates.address').errors" class="invalid-feedback">
+        <div *ngIf="f.get('users.estates.address').errors.required"><small>*Campo requerido</small></div>
+      <div *ngIf="f.get('users.estates.address').errors.maxlength"><small>*Ha superado el maximo de 20 caracteres permitidos</small> </div> 
+    </div>
   </div>
   </div>
 </div>
 
-<div class="form-row" >
-  <div class="form-group col">
-  <label for="estateType" class="first"><strong>Ciudad y Tipo de sucursal</strong></label>
-  <div class="input-group"  >
-  <p class="form-control info" id="address">{{user.users.estates.locationCityName}}</p>
-
-  <p class="form-control info"  id="numberAddress">{{user.users.estates.estateTypes}}</p>
-    
- </div>
-</div>
+  
+<div class="form-row" formGroupName="estates">  
+  <div class="form-group col ">
+    <label for="estateType" class="first"><strong class="info" for="estateType">Ciudad</strong></label>
+    <input formControlName="locationCityName" required class="form-control direccionInput info" name="locationCityName" type="text" placeholder="Ciudad" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.locationCityName').errors }"/>
+    <div *ngIf="submitted && f.get('users.estates.locationCityName').errors" class="invalid-feedback">
+      <div *ngIf="f.get('users.estates.locationCityName').errors.required"><small>*Campo requerido</small></div>
+      <div *ngIf="f.get('users.estates.locationCityName').errors.maxlength"><small>*Ha superado el maximo de 20 caracteres permitidos</small> </div> 
+  </div>     
+  </div>
 </div>
 
 <div class="form-row">
   <div class="form-group col" formGroupName="estates">
   <label for="workPhone" class="first"><strong>Telefono de la Filial</strong></label>
-  <p class="form-control">{{user.users.estates.estatePhone}}</p>
+  <p readonly class="form-control">{{user.users.estates.estatePhone}}</p>
 </div>
 </div>
 
@@ -200,7 +213,9 @@
     <label for="times" class="first"><strong class="info">Horarios</strong></label>
     <ul *ngFor="let times of model['users']['estates']['estatesTimes']; let i = index;">
       <li style="list-style: none;" >
+        <span>
       {{times['scheduleDate']}} {{times['times']}}
+        </span>
 <!-- ******************* Form Array ********************* -->
         <!-- <div  *ngFor="let times of estates.controls; index as i" >
           <div [formGroupName]="i">
@@ -247,7 +262,7 @@
   <div class="form-row">
     <div class="form-group col">
       <label for="" class="first"><strong class="info">Fecha de alta</strong></label>
-      <p class="form-control">{{user.employeeCreatedate}}</p>
+      <p readonly class="form-control">{{user.employeeCreatedate}}</p>
     </div>
   </div>
 <div class="form-row" style="margin-top: 15px;">

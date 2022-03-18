@@ -38,19 +38,18 @@ return this._employeeForm.group({
         birthdate: [{},[Validators.required]],
         phone:    [{},[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         email:    [{},[Validators.required,Validators.email]],
-        address: [{},[Validators.required,Validators.pattern, Validators.maxLength(25)]],
-        status: [{},[Validators.required]]
+        address: [{},[Validators.required, Validators.maxLength(20)]],
+        status: [{},[Validators.required]],
+        locationName: [{},[Validators.required, Validators.maxLength(20)]]
       }),
       estates: this._employeeForm.group({
-        estateID: [],
+        // estateID: [],
         estatePhone: [],
         estateTypes: [],
-        locationAddressID: [],
         postalCode: [],
-        address: [],
-        numberAddress: [],
-        locationsID: [],
-        locationCityName: [],
+        address: [{},[Validators.maxLength(20)]],
+        // locationsID: [],
+        locationCityName: [{},[Validators.maxLength(20)]],
          estatesTimes: this._employeeForm.array([
            this._employeeForm.group({
             
@@ -58,11 +57,7 @@ return this._employeeForm.group({
               scheduleDate:[]
               })
             ]),
-      // }),
-      // locations: this._employeeForm.group({
-      //   locationCityName: [],
-      //   locationDepartmentName: [],
-      //   locationMunicipalityName: []
+
       }),
       userDni: [{},[Validators.required]],
       FK_RoleID:[{},[Validators.required]],
@@ -75,10 +70,10 @@ return this._employeeForm.group({
     });
 }
 
-getLocations(): Observable<any> {
+getLocations(patch: string): Observable<any> {
   const arrayEmergencies: Input[] = [];
 
-    return this.http.get<any>(environment.URL + 'estates');
+    return this.http.get<any>(environment.URL + patch);
   //   .pipe(map( data => {
   //     data.forEach(e => {
   //       const location: Group = {

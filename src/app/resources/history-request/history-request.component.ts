@@ -44,7 +44,7 @@ getRequest(condition){
     console.log('x => ', x);
   },
 e => {
-  this.alertService.error('Error, usuario no inicializado :(');
+  this.alertService.error('Ups..! error inesperado, vuelva a intentar mas tarde', {autoClose: true});
 
 } );
 }

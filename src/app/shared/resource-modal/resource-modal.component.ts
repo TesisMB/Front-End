@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./resource-modal.component.css']
 })
 export class ResourceModalComponent implements OnInit, OnDestroy {
-@Input() resources: RequestGet;
+@Input() show: boolean; resources: RequestGet;
 status: boolean = false;
 form: FormGroup;
 handle: Subscription;
@@ -31,11 +31,16 @@ handleDelete: Subscription;
       userRequest: [null],
       status:[false, [Validators.required]]
     });
+
+    if(!this.getCondition){
+    this.form.get('Reason').patchValue(this.resources.reason);
+  }
   }
   get isLogistica(){return this.authService.currentUserValue.roleName == 'Encargado de Logistica';}
-  get f (){ return this.form.controls}
+  get f(){ return this.form.controls}
   get reasonError(){return this.form.get('Reason').getError('required');}
   get getCondition(){return this.resources.condition === 'Pendiente';}
+  get isMy(){return this.resources.users.userID === this.authService.currentUserValue.userID;}
   changeStatus(condition:boolean){this.status = condition;}
 
 

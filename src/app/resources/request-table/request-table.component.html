@@ -1,18 +1,22 @@
 <form>
-  <div class="mb-3 row">
-    <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Busqueda:</label>
-    <div class="col-xs-3 col-sm-auto">
-      <div class="d-flex align-items-center ml-auto bd-highlight mr-3" id="search"> 
-      <input class="form-control" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
+  <div class="mb-3 row justify-content-between">
+    
+    <div class="col-xs-4 col-sm-auto">
+      <div class="d-flex form-control align-items-center ml-auto bd-highlight mr-3" id="search"> 
+      <label for="table-filtering-search" class="mr-3 col-form-label">Busqueda</label>
+      <input class="input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
       <span class="ml-3 text-center" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
-
+</div>
     </div>
-    <div class="bd-highlight ml-3" *ngIf="isAdmin">  
+
+  <div class="col-xs-4 col-sm-auto">
+
+    <div class="bd-highlight ml-3" *ngIf="isAdmin || isCG">  
       <mat-slide-toggle color="warn" (change)="onShow($event)">Mostrar mis solicitudes</mat-slide-toggle>
   </div>
   </div>
+</div>
 
-  </div>
 </form>
 
 <table class="table table-striped">

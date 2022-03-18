@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="form-center">
     <form [formGroup]="registerForm" id="form">
-      <mat-horizontal-stepper linear #stepper formGroupName="users">
+      <mat-horizontal-stepper linear #stepper>
         <mat-step
           [stepControl]="formPerson"
           formGroupName="persons"
@@ -9,7 +9,7 @@
         >
           <ng-template matStepLabel>Datos personales</ng-template>
 
-          <mat-grid-list cols="4" rowHeight="80px">
+          <mat-grid-list cols="4" rowHeight="100px">
             <mat-grid-tile>
               <mat-form-field appearance="outline">
                 <mat-label>Nombre</mat-label>
@@ -66,12 +66,20 @@
                 <input
                   matInput
                   placeholder="Ex. Córdoba"
+                  formControlName="locationName"
+                  required
                 />
-                <!-- <mat-error
-                  *ngIf="formPerson.get('address').hasError('required')"
+                <mat-error
+                  *ngIf="formPerson.get('locationName').hasError('required')"
                 >
                   La ciudad es <strong>requerida</strong>
-                </mat-error> -->
+                </mat-error>
+                <mat-error
+                *ngIf="formPerson.get('locationName').hasError('maxlength') &&
+                !formPerson.get('locationName').hasError('required')"
+              >
+                Ha superado los 20 caracteres permitidos
+              </mat-error>
               </mat-form-field>
               </mat-grid-tile>
               <br />
@@ -89,6 +97,12 @@
                 >
                   La dirección es <strong>requerida</strong>
                 </mat-error>
+                <mat-error
+                *ngIf="formPerson.get('address').hasError('maxlength') &&
+                !formPerson.get('address').hasError('required')"
+              >
+                Ha superado los 20 caracteres permitidos
+              </mat-error>
               </mat-form-field>
             </mat-grid-tile>
             <br />
@@ -146,11 +160,12 @@
                 <mat-select
                   [formControl]="formPerson.get('gender')"
                   name="gender"
+                  required
+
                 >
                   <mat-option
                     *ngFor="let gender of genre"
                     [value]="gender.value"
-                    required
                   >
                     {{ gender.viewValue }}
                   </mat-option>
@@ -168,6 +183,7 @@
                 <mat-label>Fecha de nacimiento</mat-label>
                 <input
                   matInput
+                  required
                   [formControl]="formPerson.get('birthdate')"
                   [min]="minDate"
                   [max]="maxDate"
@@ -198,7 +214,7 @@
           errorMessage="Todos los datos son requeridos"
         >
           <ng-template matStepLabel>Datos laborales</ng-template>
-          <mat-grid-list cols="3" rowHeight="80px">
+          <mat-grid-list cols="4" rowHeight="100px">
             <mat-grid-tile>
               <mat-form-field appearance="outline">
                 <mat-label>Documento</mat-label>
@@ -262,41 +278,28 @@
                 </mat-form-field>
               </mat-grid-tile>
               <br />
-            <mat-grid-tile >
-              <!-- <mat-form-field appearance="outline">
-                              
-                              <mat-label>Lugar de trabajo</mat-label>
-                              <mat-select [formControl]="formUser.get('FK_EstateID')" name="FK_EstateID">
-                                <mat-option *ngFor="let estates of estate" [value]="estates.value" required>
-                                  {{estates.viewValue}}
-                                </mat-option>
-                              </mat-select>
-                              <mat-error *ngIf="formUser.get('FK_EstateID').hasError('required')">
-                               La filial es <strong>requerida</strong>
-                              </mat-error>
-                            </mat-form-field> -->
-
+            <mat-grid-tile  >
               <mat-form-field  appearance="outline">
+                <mat-label>Sucursal</mat-label>
                 <mat-select
-                  matInput
+                  
                   [formControl]="formUser.get('FK_EstateID')"
                   name="FK_EstateID"
                 >
                   <mat-option>-- Seleccione su lugar de trabajo --</mat-option>
                   <mat-optgroup
-                    *ngFor="let locations of estate"
+                    *ngFor="let locations of estates"
                     [label]="locations.locationCityName"
                   >
                     <mat-option
-                      *ngFor="let estates of locations['estates']"
-                      [value]="estates.estateID"
+                      *ngFor="let estate of locations['estates']"
+                      [value]="estate.estateID"
                       required
                     >
-                      {{ estates.estateTypes }}
+                      {{ estate.estateTypes}} 
                     </mat-option>
                   </mat-optgroup>
                 </mat-select>
-                <mat-label>Sucursal</mat-label>
                 <mat-error
                   *ngIf="formUser.get('FK_EstateID').hasError('required')"
                 >

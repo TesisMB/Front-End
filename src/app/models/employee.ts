@@ -21,6 +21,7 @@ export interface Employee {
     locations: Location;
     estates?: Estates;
     roleName: RoleName;
+    FK_RoleID?: number;
     userID?: number;
     token?: string;
     UserPassword?: string;

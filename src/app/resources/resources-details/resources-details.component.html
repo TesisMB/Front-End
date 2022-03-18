@@ -51,13 +51,24 @@
           <span>
             <h2 class="title">Especialidades</h2>
           </span>
-          <span> Aqui van las skills </span>
+            <ng-container *ngIf="item.volunteers.volunteersSkills.length; then hasSkills else notSkills"></ng-container>
+          <ng-template #hasSkills>
+           <ol class="m-3 text-justify">
+              <li class="m-3 text-justify" *ngFor="let skills of item.volunteers.volunteersSkills">
+                  {{skills.skillName}}
+              </li>
+          </ol> 
+        </ng-template>
+          <ng-template #notSkills><p class="p-3 text-center">No hay skills</p> </ng-template>
+
         </div>
         <div class="descripcion">
           <span>
             <h3 class="title">Descripción</h3>
           </span>
-          <span> {{ item.description }} </span>
+          <ng-container *ngIf="item.description; then hasDescription else notDescription"></ng-container>
+          <ng-template #hasDescription> <p class="p-3 text-justify">{{item.description}}</p> </ng-template>
+          <ng-template #notDescription><p class="p-3 text-center">No hay descripción</p> </ng-template>
         </div>
       </aside>
     </section>
@@ -147,11 +158,6 @@
                     }}
                   </td>
                 </tr>
-
-                <tr>
-                  <th scope="row">Dias laborales</th>
-                  <td></td>
-                </tr>
                 <tr>
                   <th scope="row">Disponibilidad</th>
                   <td>
@@ -196,10 +202,10 @@
                     {{ item.vehicles.vehiclePatent| uppercase }}
                   </td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <th scope="row">Utilidad</th>
                   <td></td>
-                </tr>
+                </tr> -->
               </ng-container>
               <ng-container *ngIf="!item.volunteers">
                 <tr>

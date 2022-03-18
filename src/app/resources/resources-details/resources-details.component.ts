@@ -90,6 +90,7 @@ export class ResourcesDetails implements OnInit {
     this.handler = this.service.getById(this.id, this.type).subscribe(
       (data) => {
         this.item = data;
+        console.log('Item => ',data);
         this.getQuantity();
         this.form.controls.quantity.setValidators([
           Validators.required,

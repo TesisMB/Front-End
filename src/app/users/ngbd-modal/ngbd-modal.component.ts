@@ -66,16 +66,18 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
       staffs.removeAt(0);
     }
     console.log('Datos de usuario: ', this.user);
-
+    //Se obtiene el role y se le asigna al formulario el ID de dicho rol.
+    let id =(this.roles.find(name => name.RoleName === this.user.users.roleName));
+    // inserto el FK_RoleID en el objeto user
+    this.user.users.FK_RoleID = id.roleID;
     // inserto los valores del usuario al formulario
     this.f.patchValue(this.user);
+
     // agrego los horarios al formArray
     this.user.users.estates.estatesTimes.forEach(times => staffs.push(this.userService._employeeForm.group(times)));
     //clono al usuario original
     this.model = _.cloneDeep(this.user);
-    //Se obtiene el role y se le asigna al formulario el ID de dicho rol.
-    let id =(this.roles.find(name => name.RoleName === this.user.users.roleName));
-    this.roleID.patchValue(id.roleID)
+
     // Se deshabilita el formulario
      this.f.disable();
   }
@@ -90,9 +92,11 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   get roleName(){ return this.form.get('users.roleName') }
 
   get isAdmin(){
-    return (this.authenticationService.currentUserValue.roleName === 'Admin' || this.authenticationService.currentUserValue.roleName ===  'Coordinador General') ? true : false;
+    return this.authenticationService.currentUserValue.roleName ===  'Admin';
   }
-
+  get isCGeneral(){
+    return  this.authenticationService.currentUserValue.roleName ===  'Coordinador General';
+  }
 
   setRole(){
   let role = (this.roles.find(name => name.RoleName === this.roleName.value));

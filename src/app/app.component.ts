@@ -14,7 +14,8 @@ interface FoodNode {
   patch?: any,
   icon: string,
   children?: FoodNode[],
-  role: any[]
+  role: any[],
+  disabled?: boolean
 }
 
 
@@ -64,15 +65,28 @@ const TREE_DATA: FoodNode[] = [
   },
   {
     name: 'Usuarios',
-    patch:'/empleados',
+    patch:'empleados',
     icon:'fas fa-users' ,
-    role:['Admin','Coordinador General'],
+    role:['Admin','Coordinador General', ,'Coordinador de Emergencias y Desastres'],
+    disabled: true,
     children: [
-      {name: 'Registrar usuario',
-      patch:'/empleados/registrar',
+      {name: 'Lista de empleados',
+      patch:'/empleados',
       icon:'fas fa-user-plus',
       role:['Admin','Coordinador General']
-    },]
+    },
+    {
+      name: 'Lista de voluntarios',
+      patch:'/recursos/lista/voluntarios',
+      icon:'fas fa-hands-helping',
+      role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
+    },
+    {name: 'Registrar usuario',
+    patch:'/empleados/registrar',
+    icon:'fas fa-user-plus',
+    role:['Admin','Coordinador General']
+  },
+  ]
   },
   {
     name: 'Gestión de recursos',
@@ -81,11 +95,6 @@ const TREE_DATA: FoodNode[] = [
     role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres'],
     children: [
       {
-        name: 'Voluntarios',
-        patch:'/recursos/lista/voluntarios',
-        icon:'fas fa-hands-helping',
-        role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
-      }, {
         name: 'Medicamentos',
         patch:'/recursos/lista/medicamentos',
         icon:'fas fa-capsules',
