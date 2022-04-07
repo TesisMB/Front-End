@@ -70,6 +70,8 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     let id =(this.roles.find(name => name.RoleName === this.user.users.roleName));
     // inserto el FK_RoleID en el objeto user
     this.user.users.FK_RoleID = id.roleID;
+    this.user.users.FK_EstateID = this.user.users.estates.estateID;
+
     // inserto los valores del usuario al formulario
     this.f.patchValue(this.user);
 
@@ -96,6 +98,10 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   get isCGeneral(){
     return  this.authenticationService.currentUserValue.roleName ===  'Coordinador General';
+  }
+
+  get isMe(){
+    return  this.authenticationService.currentUserValue.userID ===  this.user.users.userID;
   }
 
   setRole(){

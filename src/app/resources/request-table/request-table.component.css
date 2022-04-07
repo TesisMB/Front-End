@@ -2,3 +2,6 @@ input{
     border: none;
 
 }
+textarea:focus, input:focus{
+    outline: none;
+  }

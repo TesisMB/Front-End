@@ -37,6 +37,7 @@
     "jquery": "^3.5.1",
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
+    "moment": "^2.29.2",
     "ngx-filesaver": "^12.0.0",
     "normalize.css": "^8.0.1",
     "popper.js": "^1.16.1",

@@ -27,7 +27,9 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private route: ActivatedRoute,
     public service: ResourcesService,
+    private location: Location
   ) {
+
     //this.tipo = this.route.snapshot.params.tipo;
     //console.log('Tipo constructor: ',this.tipo);
     this.data = this.service.resources$;
@@ -69,9 +71,9 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
       console.log('Tipo getParams: ',this.tipo);
     });
   }
-  // onBack() {
-  //   this.location.back();
-  // }
+  onBack() {
+    this.location.back();
+  }
 
   // onSort({column, direction}: SortEvent) {
   //   // resetting other headers

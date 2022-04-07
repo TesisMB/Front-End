@@ -43,7 +43,7 @@ return this._employeeForm.group({
         locationName: [{},[Validators.required, Validators.maxLength(20)]]
       }),
       estates: this._employeeForm.group({
-        // estateID: [],
+         estateID: [],
         estatePhone: [],
         estateTypes: [],
         postalCode: [],
@@ -63,8 +63,8 @@ return this._employeeForm.group({
       FK_RoleID:[{},[Validators.required]],
       roleName: [],
       userAvailability: [{},[Validators.required]],
-      userID: [{},[Validators.required]]
-
+      userID: [{},[Validators.required]],
+      FK_EstateID: []
     })
 
     });

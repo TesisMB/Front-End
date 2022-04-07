@@ -112,6 +112,12 @@ const TREE_DATA: FoodNode[] = [
         icon:'fas fa-ambulance',
         role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
       },
+      {
+        name: 'Stock',
+        patch:'/recursos/stock',
+        icon:'',
+        role:['Admin','Coordinador General','Encargado de Logistica']
+      },
  
     ]
   },

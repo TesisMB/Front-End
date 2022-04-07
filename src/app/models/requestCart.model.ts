@@ -33,7 +33,7 @@ emergenciesDisasters: EmergencyDisaster
     condition: string,
     emergenciesDisasters: EmergencyDisaster,
     id: number,
-    reason?: string,
+    reason: string,
     description: string,
     requestDate: string,
     resources_RequestResources_Materials_Medicines_Vehicles: ResourcesRequestGet[],

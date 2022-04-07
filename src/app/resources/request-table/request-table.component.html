@@ -1,22 +1,28 @@
 <form>
   <div class="mb-3 row justify-content-between">
+    <div *ngIf="isAdmin || isCG" class="col-xs-4 col-sm-auto">
+      <div class="bd-highlight ml-3" >  
+        <mat-slide-toggle color="warn" (change)="onShow($event)">Mostrar mis solicitudes</mat-slide-toggle>
+    </div>
+    </div>
     
     <div class="col-xs-4 col-sm-auto">
-      <div class="d-flex form-control align-items-center ml-auto bd-highlight mr-3" id="search"> 
+      
+      <mat-form-field appearance="fill">
+      <mat-label>Busqueda por fecha</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</div>
+    <div class="col-xs-4 col-sm-auto">
+  <div class="d-flex form-control align-items-center ml-auto bd-highlight mr-3" id="search"> 
       <label for="table-filtering-search" class="mr-3 col-form-label">Busqueda</label>
-      <input class="input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
-      <span class="ml-3 text-center" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
+      <input class="input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">  
 </div>
-    </div>
-
-  <div class="col-xs-4 col-sm-auto">
-
-    <div class="bd-highlight ml-3" *ngIf="isAdmin || isCG">  
-      <mat-slide-toggle color="warn" (change)="onShow($event)">Mostrar mis solicitudes</mat-slide-toggle>
-  </div>
-  </div>
 </div>
 
+</div>
 </form>
 
 <table class="table table-striped">
@@ -26,15 +32,12 @@
       <th scope="col">#Legajo</th>
       <th scope="col">Numero de emergencia</th>
       <th scope="col">Tipo de emergencia</th>
-      <th scope="col">Municipalidad</th>
-      <th scope="col">Departamento</th>
       <th scope="col">Ciudad</th>
-      <th scope="col">Razón</th>
-      <th scope="col">Estado</th>
       <th scope="col">Encargado</th>
       <th scope="col">Solicitante</th>
       <th scope="col">Fecha de creación</th>
-      <th scope="col">i</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Más</th>
 
 
 
@@ -58,23 +61,10 @@
             [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="request.emergenciesDisasters.locations.locationMunicipalityName"
-            [term]="service.searchTerm"></ngb-highlight>
-        </td>
-        <td>
-          <ngb-highlight [result]="request.emergenciesDisasters.locations.locationDepartmentName" [term]="service.searchTerm">
-          </ngb-highlight>
-        </td>
-        <td>
           <ngb-highlight [result]="request.emergenciesDisasters.locations.locationCityName" [term]="service.searchTerm">
           </ngb-highlight>
         </td>
-        <td>
-          <ngb-highlight [result]="request.description | titlecase" [term]="service.searchTerm"></ngb-highlight>
-        </td>
-        <td>
-          <ngb-highlight [result]="request.condition | titlecase" [term]="service.searchTerm"></ngb-highlight>
-        </td>
+
         <td><a matTooltip="Información del encargado" matTooltipPosition="above" color="warn"
             (click)="openModal('employee',request.users.userID)" aria-label="Información del encargado">
 
@@ -86,6 +76,9 @@
         <td>
           <ngb-highlight [result]="request.requestDate" [term]="service.searchTerm"></ngb-highlight>
         </td>
+        <td>
+          <ngb-highlight [result]="request.condition | titlecase" [term]="service.searchTerm"></ngb-highlight>
+        </td>
         <td  ><button mat-icon-button matTooltip="Ver más" matTooltipPosition="right" color="warn"
             (click)="openModal('info', i)" aria-label="Ver más">
             <mat-icon>info</mat-icon>
@@ -96,7 +89,7 @@
       <td *ngIf="(loading$ | async)" colspan="13" class="text-center" >
         <span class="spinner-border spinner-border-lg align-center"></span>
       </td>
-      <td *ngIf="!(request$ | async).length" colspan="13" class="text-center">
+      <td *ngIf="!(request$ | async).length && !(loading$ | async)" colspan="13" class="text-center">
         <p class="align-center">No hay solicitudes.</p>
       </td>
     </tr>

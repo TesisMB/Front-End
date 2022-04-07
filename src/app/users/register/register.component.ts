@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         // users: this.formBuilder.group({
           userDni:      ['', [Validators.required,Validators.pattern("[0-9]{7,9}[a-zA-Z ]{0,2}")]],
           FK_RoleID:    ['', [Validators.required]],
-          FK_EstateID:    [4],
+          FK_EstateID:    ['', [Validators.required]],
           FK_LocationID: ['', [Validators.required]],
         persons: this.formBuilder.group({
           lastName: ['',[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],

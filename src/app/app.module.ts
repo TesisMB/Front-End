@@ -24,6 +24,7 @@ import { AppComponent } from './app.component';
 import { ErrorInterceptor, JwtInterceptor} from './_helpers';
 import { AddEmergencyDisasterComponent } from './emergency-disaster/add-emergency-disaster/add-emergency-disaster.component';
 import { DeploymentComponent } from './emergency-disaster/deployment/deployment.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +48,8 @@ import { DeploymentComponent } from './emergency-disaster/deployment/deployment.
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+
     AuthenticationService
 
 

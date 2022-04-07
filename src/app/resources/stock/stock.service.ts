@@ -2,33 +2,33 @@ import { AuthenticationService } from 'src/app/services';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, PipeTransform } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Resource } from '../models';
-import { pipe } from 'rxjs';
-import { debounceTime, delay, filter, map, switchMap, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { Resource } from '../../models';
+import { debounceTime, delay, filter, map, switchMap, tap ,catchError, concatMap, scan, shareReplay} from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject, combineLatest, merge, throwError } from 'rxjs';
 import { SearchResult, State } from 'src/app/models';
-import {SortColumn, SortDirection} from '../directives/sorteable.directive';
+import {SortColumn, SortDirection} from '../../directives/sorteable.directive';
 import { DecimalPipe } from '@angular/common';
-import {compare, Operation } from 'fast-json-patch';
-import * as _ from 'lodash';
-import { constants } from 'buffer';
+
+import {  HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Action } from '../../shared/crud-action';
+
 
 function matches(resource: Resource, term: string, pipe: PipeTransform) {
-  return (resource.name).toLowerCase().includes(term.toLowerCase())
-  || pipe.transform(resource.id).includes(term)
-  || pipe.transform(resource.quantity).includes(term)
-  || (resource.locationCityName).toLowerCase().includes(term.toLowerCase())
-  || (resource.estates.address).toLowerCase().includes(term.toLowerCase())
-  || (resource.estates.estateTypes).toLowerCase().includes(term.toLowerCase())
- ;}
-    const compares = (v1: string | number | any, v2: string | number | any) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+  return resource.name.toLowerCase().includes(term.toLowerCase())
+     || pipe.transform(resource.id).includes(term)
+     || pipe.transform(resource.quantity).includes(term)
+     || (resource.locationCityName).toLowerCase().includes(term.toLowerCase())
+     || (resource.estates.address).toLowerCase().includes(term.toLowerCase())
+     || (resource.estates.estateTypes).toLowerCase().includes(term.toLowerCase())
+    ;}
+    const compare = (v1: string | number | any, v2: string | number | any) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
     function sort(resource: Resource[], column: SortColumn, direction: string): Resource[] {
       if (direction === '' || column === '') {
         return resource;
       } else {
         return [...resource].sort((a, b) => {
-          const res = compares(a[column], b[column]);
+          const res = compare(a[column], b[column]);
           return direction === 'asc' ? res : -res;
         });
       }
@@ -36,12 +36,18 @@ function matches(resource: Resource, term: string, pipe: PipeTransform) {
 
 
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ResourcesService {
+@Injectable()
+export class StockService {
  private _resources$ = new BehaviorSubject<Resource[]>([]);
- protected _type$ = new BehaviorSubject<string>('');
+
+
+ private _type$ = new BehaviorSubject<string>('materiales');
+
+ resource$ = this.http.get<Resource[]>(environment.URL + this._type$.value)
+ .pipe(
+   tap(data => console.log('Products: ', JSON.stringify(data))),
+   catchError(this.handleError)
+ );
  private _loading$ = new BehaviorSubject<boolean>(true);
  private _search$ = new Subject<void>();
  private _total$ = new BehaviorSubject<number>(0);
@@ -55,10 +61,9 @@ export class ResourcesService {
    sortColumn: '',
    sortDirection: ''
  };
-  public vehiclesTypes$ : Observable<any>;
   constructor(
     protected http: HttpClient,
-    private pipe?: DecimalPipe
+    private pipe: DecimalPipe
   ) {
 
     this._search$.pipe(
@@ -73,8 +78,6 @@ export class ResourcesService {
     });
   
     this._search$.next();
-
-    this.vehiclesTypes$ = this.http.get<any>(environment.URL + 'typesvehicles').pipe(tap(x => console.log('Types of vehicles => ',x)));
   }
 
 get resourcesValue(){  return this._resources$.value; }
@@ -93,15 +96,13 @@ set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
 set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
 set type(type: string) {this._setType(type);}
 set showAvailability(availability: boolean) {this._setAvailability(availability);}
-set loading(load:any){this._setLoading(load);}
+
 
 private _set(patch: Partial<State>) {
   Object.assign(this._state, patch);
   this._search$.next();
 }
-private _setLoading(load){
-  this._loading$.next(load);
-}
+
 public _setType(type:string){
   this._type$.next(type);
   // this._search$.next();
@@ -123,15 +124,6 @@ public _setResources(patch:Resource){
     
   }
 
-public changeStatusItem(id:number){
-  let index = this.resources.findIndex( x => id == x.id);
-  const clone = _.cloneDeep(this.resources[index]);
-  this.resources[index].availability = !this.resources[index].availability;
-  const patch = compare(clone , this.resources[index] );
-  this._search$.next();
-  return patch;
-}
-
 public deleteFromTable(id){
   const index =  this.resources.findIndex(x => x.id == id);
   let deleteUser = this.resources.splice(index, 1);
@@ -148,43 +140,21 @@ public uploadTable(resources: Resource[]) {
 
 
   getAll() {
-    return this.http
-      .get<Resource[]>(environment.URL + this._type$.value)
-       .pipe(map((resources: Resource[]) => {
-          if(resources.length){
-            this._resources$.next(resources);
-            this.resources = resources;
-            this._search$.next();
-
-          }
-          else{
-            this._resources$.next(null);
-          }
-          return resources;
-       }
-       ));
+    return 
   }
 
   getById(id: number, patch: string) {
     return this.http.get<any>(environment.URL + patch + '/' + id);
   }
   register(resource, patch: string) {
-    return this.http.post(environment.URL + patch, resource);
+    return this.http.post(environment.URL + patch, JSON.stringify(resource));
   }
-  update(patch ,id, operations?: Operation[]) {
-    return this.http.patch(environment.URL + patch+ '/' + id, operations)
-    .pipe(map( x => {    
-    return x
-    }));
+  update(resource, patch: string) {
+    return this.http.put(environment.URL + patch, JSON.stringify(resource));
   }
-
 
   delete(id, patch: string) {
-    return this.http.delete(environment.URL + patch + '/' + id)
-    .pipe(map( x => {
-      this.deleteFromTable(id);
-      return x
-    }));
+    return this.http.delete(environment.URL + patch + '/' + id);
   }
 
 
@@ -195,7 +165,7 @@ public uploadTable(resources: Resource[]) {
      const resources = this.resources.filter(x => x.availability !== this._showAvailability$.value);
     
     // 1. sort
-    let data = sort(this.resources, sortColumn, sortDirection);
+    let data = sort(resources, sortColumn, sortDirection);
   
     // 2. filter
     data = data.filter(employee => matches(employee, searchTerm, this.pipe));
@@ -206,4 +176,21 @@ public uploadTable(resources: Resource[]) {
     data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
     return of({data, total});
    }
+
+   
+  private handleError(err: HttpErrorResponse): Observable<never> {
+    // in a real world app, we may send the server to some remote logging infrastructure
+    // instead of just logging it to the console
+    let errorMessage: string;
+    if (err.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      errorMessage = `An error occurred: ${err.error.message}`;
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      errorMessage = `Backend returned code ${err.status}: ${err.message}`;
+    }
+    console.error(err);
+    return throwError(() => errorMessage);
+  }
 }

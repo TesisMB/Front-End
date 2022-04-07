@@ -265,7 +265,7 @@
       <p readonly class="form-control">{{user.employeeCreatedate}}</p>
     </div>
   </div>
-<div class="form-row" style="margin-top: 15px;">
+<div *ngIf="isAdmin || isCGeneral" class="form-row" style="margin-top: 15px;">
     <div class="form-group col">
       <div class="bd-highlight" >
       <button mat-flat-button popoverClass="resetPassword" [disabled]="canReset" (click)="resetPassword()" type="button" name="canReset" ngbPopover="Se le enviara un email con la nueva contraseña" triggers="mouseenter:mouseleave" placement="bottom-right" color="warn" aria-label="Resetear contraseña">

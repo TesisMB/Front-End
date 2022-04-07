@@ -1,30 +1,26 @@
 <section class="row head ">
-
-  <div class="col-2">
-    <a class="btn btn-secondary" routerLink="/recursos">Atrás</a>
-  </div>
-
-  <div class="col-8 title">
+  <div class="col-12 title">
     <h1>Lista de {{ tipo | lowercase }}</h1>
   </div>
-
-  <div class="d-flex align-items-center ml-auto bd-highlight mr-3" id="search"> 
-    <span class="mr-3 text-center" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
-    <input class="form-control ml-3" type="text" name="searchTerm" [(ngModel)]="service.searchTerm" placeholder="Busca {{tipo}}" />
-</div>
+  <div class="col">
+  <button mat-raised-button (click)="onBack()">Atrás</button>
+  </div>
 </section>
 
 
 <div class="row justify-content-around" id="row-aside">
+
+
   <section  class="col-12 col-body">
-    <!--     <div class="row row-cols-md-4">
- -->
- <div class="bd-highlight">
-  <a mat-fab matTooltip="Agregar un producto nuevo" matTooltipPosition="above" color="warn" 
-  [routerLink]="['/recursos','agregar-recurso', tipo ]" aria-label="Agregar nuevos productos">
-    <mat-icon>add</mat-icon>
-  </a>
-</div>
+
+
+    <div class="pt-4 col-3 align-self-end">
+      <div class="d-flex form-control align-items-center bd-highlight pr-3" id="search"> 
+      <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
+      <input class="col-4 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
+      <span class="col-4 text-center" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
+  </div>
+    </div>
 
     <div *ngIf="(data | async).length" class="campus-col">
       <ul *ngFor="let item of data | async; let i = index;">
@@ -180,7 +176,7 @@
     
     <div *ngIf="!(data | async).length">
       <!-- ******************* Spinner - se debe refactorizar  **************************-->
-      <div *ngIf="(service.loading$ | async) || !(data | async)" colspan="7" class="text-center" >
+      <div *ngIf="(service.loading$ | async) || !(data | async).length" colspan="7" class="text-center" >
         <span class="spinner-border spinner-border-lg align-center"></span>
       </div>
 
@@ -193,15 +189,16 @@
       </div>
 
       <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-        <option [ngValue]="4">4 {{tipo}} por pagina</option>
-        <option [ngValue]="6">6 {{tipo}} por pagina</option>
-        <option [ngValue]="10">10 {{tipo}} por pagina</option>
+        <option [ngValue]="5">5 items por pagina</option>
+        <option [ngValue]="15">15 items por pagina</option>
+        <option [ngValue]="25">25 items por pagina</option>
+        <option [ngValue]="(total$ | async)">Todos los items</option>
       </select>
     </div>
 
   </section>
 
-  <ng-template #popMenu>
+  <!-- <ng-template #popMenu>
     <button type="button" class="btn btn-option  btn-sm">
       <mat-icon class="icon">mode_edit</mat-icon><span class="option-text">Actualizar datos</span>
     </button>
@@ -222,5 +219,5 @@
       <mat-icon class="icon">delete</mat-icon>
       <span class="option-text">Eliminar usuario</span>
     </button>
-  </ng-template>
+  </ng-template> -->
 </div>

@@ -13,7 +13,7 @@
 }
 .bd-highlight{
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 #search {
   margin-right: 3em;
@@ -120,7 +120,15 @@ a {
   font-size: 35px;
 }
 
-button {
+textarea:focus, input:focus{
+  outline: none;
+}
+input{
+  outline: none;
+  border: none;
+}
+
+span button {
   font-weight: 700;
   color: #fff;
   font-size: 15px;

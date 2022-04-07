@@ -13,10 +13,12 @@ import { LayoutResourcesComponent } from './layout/layout-resources.component';
 import { ResourcesListComponent } from './resources-list/resources-list.component';
 import { CartComponent } from './cart/cart.component';
 import { RequestTableComponent } from './request-table/request-table.component';
+import { StockComponent } from './stock/stock.component';
+import { StockTableComponent } from './stock/stock-table/stock-table.component';
 
 
 @NgModule({
-  declarations: [ResourcesComponent, HistoryRequestComponent, RequestComponent, addEditResourcesComponent, ResourcesDetails, StatesComponent, LayoutResourcesComponent, ResourcesListComponent, CartComponent, RequestTableComponent],
+  declarations: [ResourcesComponent, HistoryRequestComponent, RequestComponent, addEditResourcesComponent, ResourcesDetails, StatesComponent, LayoutResourcesComponent, ResourcesListComponent, CartComponent, RequestTableComponent, StockComponent, StockTableComponent],
   imports: [
     SharedModule,
     ResourcesRoutingModule

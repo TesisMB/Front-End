@@ -1,7 +1,7 @@
 <div class="d-flex flex-sm-column">
   <section class="head row">
     <div class="col-4">
-      <button (click)="onBack()" class="btn btn-secondary">Atrás</button>
+      <button mat-raised-button (click)="onBack()">Atrás</button>
     </div>
     <div class="col-4">
       <h1 class="title">Detalle del producto</h1>
@@ -112,10 +112,6 @@
                     {{ item.medicines.medicineWeight | number }}
                     {{ item.medicines.medicineUnits }}
                   </td>
-                </tr>
-                <tr>
-                  <th scope="row">Utilidad</th>
-                  <td></td>
                 </tr>
               </ng-container>
 

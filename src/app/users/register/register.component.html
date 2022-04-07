@@ -1,5 +1,10 @@
-<div class="container-fluid">
-  <div class="form-center">
+<header>
+  <div class="col-12 title">
+    <h2>Registro de personal</h2>
+</div>
+</header>
+<div class="row justify-content-around" id="row-aside">
+  <section  class="col-12 col-body">
     <form [formGroup]="registerForm" id="form">
       <mat-horizontal-stepper linear #stepper>
         <mat-step
@@ -316,8 +321,10 @@
           </div>
         </mat-step>
         <mat-step>
-          <ng-template matStepLabel>Finalizar</ng-template>
-          <p>¿Todo OK?</p>
+          <ng-template matStepLabel>Ultimo paso</ng-template>
+          <div>
+            <p>Le recomendamos que revise los datos antes de finalizar</p>
+          </div>
           <div class="">
             <button mat-button matStepperPrevious type="button">Atras</button>
             <button mat-button (click)="stepper.reset()">Resetear</button>
@@ -331,11 +338,11 @@
               <span class="text-center" *ngIf="loading">
                 <i class="fas fa-spinner fa-lg fa-spin"> </i>
               </span>
-              <span *ngIf="!loading">Enviar</span>
+              <span *ngIf="!loading">Finalizar</span>
             </button>
           </div>
         </mat-step>
       </mat-horizontal-stepper>
     </form>
-  </div>
+  </section>
 </div>

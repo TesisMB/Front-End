@@ -8,16 +8,24 @@
 <form [formGroup]="form" (ngSubmit)="requestResponse()">
 
 <div class="modal-body">
+  <ng-container *ngIf="resources.description">
+    <mat-form-field class="input-form-cart mt-4" appearance="outline">
+      <mat-label>Razón de la solicitud</mat-label>
+      <textarea formControlName="description" readonly matInput #textarea
+        ></textarea>
+      <mat-hint align="end">{{textarea.value.length}}</mat-hint>
+    </mat-form-field>
+  </ng-container>
   <ng-container *ngIf="resources">
     <!-- <p class="text-center">{{res.name}}</p>
    -->
     <list-resources [resources]="resources.resources_RequestResources_Materials_Medicines_Vehicles"></list-resources>
   </ng-container>
-  <ng-container *ngIf="isLogistica">
+  <ng-container>
     <mat-form-field class="input-form-cart mt-4" appearance="outline">
-      <mat-label>Razón de rechazo</mat-label>
-      <textarea formControlName="Reason" [disabled]="!getCondition" required maxLength="153" matInput #textarea
-        placeholder="Explique la razón por la cual rechaza la solicitud..."></textarea>
+      <mat-label>Descripción</mat-label>
+      <textarea formControlName="reason" [readonly]="!getCondition" [required]="getCondition" maxLength="153" matInput #textarea
+        placeholder="Explique la razón por la cual rechaza o acepta la solicitud..."></textarea>
       <mat-hint align="end">{{textarea.value.length}} / 153</mat-hint>
       <mat-error *ngIf="reasonError">Dato obligatorio.</mat-error>
 
