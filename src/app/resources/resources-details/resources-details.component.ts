@@ -31,10 +31,12 @@ export class ResourcesDetails implements OnInit {
     private requestService: ResourcesDetailsService,
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder
-  ) {}
-
-  ngOnInit(): void {
-    this.id = +this.route.snapshot.params.id;
+    ) {
+      
+    }
+    
+    ngOnInit(): void {
+      this.id = +this.route.snapshot.params.id;
     this.type = this.route.snapshot.params.tipo;
     this.getParams();
     this.getItems();

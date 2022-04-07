@@ -53,7 +53,6 @@ return this._employeeForm.group({
         locationCityName: [],
          estatesTimes: this._employeeForm.array([
            this._employeeForm.group({
-            
               times: [],
               scheduleDate:[]
               })

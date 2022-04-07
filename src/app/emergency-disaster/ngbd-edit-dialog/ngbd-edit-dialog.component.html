@@ -1,28 +1,135 @@
-<form class="example-form" (ngSubmit)="onSubmit()" [formGroup]="emergencyDisasterForm">
+<div class="title">
+    <h2>Informacion de la Emergencia y Desastre</h2>
 
-    <div>
-        <mat-icon mat-raised-button #tooltip="matTooltip" matTooltip="Cambiar estado de alerta"
-            matTooltipPosition="right"
-            aria-tooltip="Button that displays and hides a tooltip triggered by other buttons"
-            [ngStyle]="{color: alertColor(emergencyDisaster.alerts.alertDegree)}">notifications</mat-icon>
+    <div class="icon">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+                <mat-icon>check_box</mat-icon>
+                <span>Finalizar emergencia y desastre</span>
+            </button>
+        </mat-menu>
+    </div>
+</div>
+
+
+<form class="example-form" [formGroup]="emergencyDisasterForm"  (ngSubmit)="onSubmit()">
+
+    <div class="form">
+
+        <div class="col-6 rigth">
+            <!-- <mat-icon mat-raised-button #tooltip="matTooltip" matTooltip="Cambiar estado de alerta"
+                matTooltipPosition="right"
+                aria-tooltip="Button that displays and hides a tooltip triggered by other buttons"
+                [ngStyle]="{color: alertColor(emergencyDisaster.alerts.alertDegree)}">notifications</mat-icon> -->
+
+
+            <!--  <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Estado: </mat-label>
+
+                <mat-select formControlName="FK_AlertID" (change)="setRole()">
+
+                    <mat-option *ngFor="let item of alerts" [value]="item.iD">
+                        {{item.AlertDegree}}
+                    </mat-option>
+
+                </mat-select>
+            </mat-form-field> -->
+
+            <div class="form-row" formGroupName="alerts">
+                <div class="form-group col">
+                    <label for="alert" class="first"><strong class="info">Estado: </strong></label>
+                    <select formControlName="alertDegree" (change)="setRole()" class="form-control info">
+                        <option *ngFor="let item of alerts" [ngValue]="item.alertDegree">
+                            {{item.alertDegree}}
+                        </option>
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="Fk_EmplooyeeID" class="first"><strong class="info">Responsable: </strong></label>
+                    <select formControlName="Fk_EmplooyeeID" (change)="changeEmployeedID()" class="form-control info">
+                        <option *ngFor=" let item of user" [ngValue]="item.employeeID">
+                            {{item.users.userDni}} -
+                            {{item.users.persons.firstName}}
+                            {{item.users.persons.lastName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+
+
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label for="emergencyDisasterInstruction">Instrucciones: </mat-label>
+                <textarea matInput id="emergencyDisasterInstruction" name="emergencyDisasterInstruction"
+                    formControlName="emergencyDisasterInstruction"
+                    [(ngModel)]="emergencyDisaster.emergencyDisasterInstruction"></textarea>
+            </mat-form-field>
+        </div>
+
+
+        <div class="col-6">
+            <mat-form-field appearance="fill" class="example">
+                <mat-label>Localidades afectadas</mat-label>
+                <input matInput type="number" placeholder="Ex. 12" min="10">
+            </mat-form-field>
+
+
+            <mat-form-field appearance="fill" class="example">
+                <mat-label>barrios afectadas</mat-label>
+                <input matInput type="number" placeholder="Ex. 12" min="10">
+            </mat-form-field>
+
+
+            <mat-form-field appearance="fill" class="example">
+                <mat-label>Personas asisitidas</mat-label>
+                <input matInput type="number" placeholder="Ex. 12" min="10">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="example">
+                <mat-label>Personas evacuadas</mat-label>
+                <input matInput type="number" placeholder="Ex. 12" min="10">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="example">
+                <mat-label>Cantidad de afectados</mat-label>
+                <input matInput type="number" placeholder="Ex. 12" min="10">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="example">
+                <mat-label>Personas fallecidas</mat-label>
+                <input matInput type="number" placeholder="Ex. 12" min="10">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="example">
+                <mat-label>Familias afectadas</mat-label>
+                <input matInput type="number" placeholder="Ex. 12" min="10">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="example">
+                <mat-label>Personas recuperadas</mat-label>
+                <input matInput type="number" placeholder="Ex. 12" min="10">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" floatLabel="always" class="example">
+                <mat-label>Daños materiales</mat-label>
+                <input matInput type="number" class="example-right-align" placeholder="0">
+                <span matPrefix>$&nbsp;</span>
+            </mat-form-field>
+        </div>
     </div>
 
 
-    <div>
-        <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label for="name">Responsable: </mat-label>
-            <input matInput id="name" name="name" formControlName="name" [(ngModel)]="emergencyDisaster.employees.name">
-        </mat-form-field>
 
-        <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label for="instruction">Instrucciones: </mat-label>
-            <textarea matInput id="instruction" name="instruction" formControlName="instruction"
-                [(ngModel)]="emergencyDisaster.emergencyDisasterInstruction"></textarea>
-        </mat-form-field>
 
-    </div>
-
-    <div mat-dialog-actions>
+    <div mat-dialog-actions class="buttons">
         <button mat-button (click)="onNoClick()">Cancelar</button>
         <button mat-button cdkFocusInitial (click)="updateEmergency(emergencyDisaster)">Guardar cambios</button>
     </div>

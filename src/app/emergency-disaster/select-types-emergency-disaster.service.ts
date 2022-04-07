@@ -1,4 +1,4 @@
-import { switchMap, delay, debounceTime } from 'rxjs/operators';
+import { switchMap, delay, debounceTime, tap } from 'rxjs/operators';
 import { EmergencyDisaster } from './../models/emergencyDisaster';
 import { TypesEmergencyDisaster } from './../models/typeEmergencyDisaster';
 import { Observable, BehaviorSubject, of, Subject } from 'rxjs';
@@ -32,6 +32,8 @@ export class SelectTypesEmergencyDisasterService extends DataService{
   @Output() TypesEventBoolean: EventEmitter<boolean> = new EventEmitter(true);
 
 
+  private _loading$ = new BehaviorSubject<boolean>(true);
+
   private selectTypes$: BehaviorSubject<number> = new BehaviorSubject<number>(8); 
 
   private emergencyDisaster$: BehaviorSubject<EmergencyDisaster[]> = new BehaviorSubject<EmergencyDisaster[]>(null); 
@@ -57,15 +59,19 @@ export class SelectTypesEmergencyDisasterService extends DataService{
     super(http, 'typesEmergenciesDisasters');
 
     this._search$.pipe(
+      tap(() => this._loading$.next(true)),
       debounceTime(200),
       switchMap(()=> this.filterTypes()),
-      delay(200)
+      delay(200),
+      tap(() => this._loading$.next(false))
     ).subscribe(result => {
       this.emergencyDisaster$.next(result._emergencyDisaster)
     });
 
     this._search$.next();
   }
+
+  get loading$() { return this._loading$.asObservable(); }
 
 
   get selectTypesEmergencyDisaster$(){

@@ -1,6 +1,5 @@
 .example-form {
-    min-width: 150px;
-    max-width: 500px;
+    min-width: 600px;
     width: 100%;
 }
 
@@ -27,4 +26,35 @@
 
 textarea {
     height: 250px;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+    display: none !important;
+}
+
+.form {
+    display: flex;
+}
+
+.example {
+    width: 47%;
+    margin-left: 13px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 12px;
+}
+
+
+.title h2 {
+    flex: 2;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
 }

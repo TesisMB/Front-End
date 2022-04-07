@@ -1,11 +1,13 @@
 <!-- Card -->
+
+
 <div class="card" *ngFor="let emergency of emergencyDisasterObservable | async index as i"
   [ngStyle]="{backgroundColor: getCardColor(emergency.alerts.alertDegree)}">
 
   <div class="content-left" (click)="openVerticallyCentered(i)">
     <div [ngClass]="{'cuadrado': emergency.alerts.alertDegree === 'Moderado',
-                'triangulo': emergency.alerts.alertDegree === 'Controlado',
-              'circulo': emergency.alerts.alertDegree === 'Extremo'}">
+    'triangulo': emergency.alerts.alertDegree === 'Controlado',
+    'circulo': emergency.alerts.alertDegree === 'Extremo'}">
       <img
         src="../../../assets/icons - Resources - EmergDesas/{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterIcon}}.svg"
         alt="" class="img">
@@ -15,7 +17,7 @@
 
 
   <!-- <li [ngStyle]="{'color': 'white',
-                  'background-color': city === 'Madrid' ? 'blue' : 'gray'}">{{city}}</li> -->
+  'background-color': city === 'Madrid' ? 'blue' : 'gray'}">{{city}}</li> -->
 
   <div class="content-center" (click)="openVerticallyCentered(i)">
     <div class="child">
@@ -41,12 +43,6 @@
           <span>Eliminar</span>
         </button>
       </mat-menu>
-
-
-
-      <!--  <button mat-menu-item>
-          <span>Redial</span>
-        </button> -->
 
       <div class="child-2p">
         <p *ngIf="!emergency.emergencyDisasterEndDate">Activo</p>

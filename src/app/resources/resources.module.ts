@@ -21,7 +21,7 @@ import { RequestTableComponent } from './request-table/request-table.component';
     SharedModule,
     ResourcesRoutingModule
   ],
-  exports: [CartComponent],
+  exports: [CartComponent, ResourcesListComponent],
   // providers: [ResourcesService]
 })
 export class ResourcesModule { }

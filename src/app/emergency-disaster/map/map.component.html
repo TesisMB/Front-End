@@ -1,0 +1,8 @@
+<loading *ngIf="!isUserLocationReady; else mapReady"></loading>
+
+<ng-template #mapReady>
+    <map-view></map-view>
+    <search-bar></search-bar>
+
+
+</ng-template>

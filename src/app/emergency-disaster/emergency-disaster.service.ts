@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { DataService } from '../services/data.service';
 import { environment } from 'src/environments/environment';
 import { Operation } from 'fast-json-patch';
+import { AlertDegree, Alerts } from '../models/alerts';
+import { Alert } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,17 @@ export class EmergencyDisasterService extends DataService {
   constructor(http: HttpClient) {
     super(http, 'EmergenciesDisasters');
 
+  }
+
+  public get ListarAlertas(): Alerts[]{
+    
+    const array = Object.values(AlertDegree);
+
+    let alerts: Alerts[] ;
+    
+    alerts = array.map((alert,i) => {  return new Alerts(i+1, alert, alert);});
+
+    return alerts;
   }
 
 
@@ -45,6 +58,11 @@ export class EmergencyDisasterService extends DataService {
   getAllWithoutFilter(): Observable<any> {
     return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter');
 
+
+}
+
+getByIdWithoutFilter(id: number): Observable<any> {
+  return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter/' + id);
 }
 
   patchEmergencyDisaster(emergencyDisaster: EmergencyDisaster, operations: Operation[],): Observable<any> {

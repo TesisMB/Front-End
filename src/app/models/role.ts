@@ -4,10 +4,8 @@ export class Role {
 constructor(_roleID: number, _RoleName:RoleName){
   this.roleID = _roleID;
   this.RoleName = _RoleName;
-
 }  
 }
-
 
 
 export enum RoleName {

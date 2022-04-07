@@ -12,10 +12,21 @@ import { NgbdDeleteModalComponent } from '../ngbd-delete-modal/ngbd-delete-modal
 import { AddEmergencyDisasterComponent } from '../add-emergency-disaster/add-emergency-disaster.component';
 import { DeploymentComponent } from '../deployment/deployment.component';
 import { EmergencyDisasterComponent } from '../emergency-disaster/emergency-disaster.component';
-
+import { MapComponent } from '..//map/map.component';
+import { LoadingComponent } from '../loading/loading.component';
+import { MapViewComponent } from '../map-view/map-view.component';
+import { BtnMyLocationComponent } from '../btn-my-location/btn-my-location.component';
+import { AngularLogoComponent } from '../angular-logo/angular-logo.component';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
+import { SearchResultComponent } from '../search-result/search-result.component';
 @NgModule({
-  declarations: [LayoutEmergencyDisasterComponent, ListComponent, NgbdModalComponent, NgbdEditDialogComponent,TableComponent, NgbdDeleteModalComponent,
-    AddEmergencyDisasterComponent, DeploymentComponent, EmergencyDisasterComponent],
+  declarations: [LayoutEmergencyDisasterComponent, ListComponent, NgbdModalComponent, 
+    NgbdEditDialogComponent,TableComponent, 
+    NgbdDeleteModalComponent, MapComponent,
+    AddEmergencyDisasterComponent, DeploymentComponent, 
+    EmergencyDisasterComponent, LoadingComponent, MapViewComponent,
+    AngularLogoComponent, BtnMyLocationComponent,
+    SearchBarComponent, SearchResultComponent],
   imports: [
     SharedModule,
     EmergencyDisasterRoutingModule

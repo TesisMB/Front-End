@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { EmergencyDisaster } from './../../models/emergencyDisaster';
 import { SelectTypesEmergencyDisasterService } from './../select-types-emergency-disaster.service';
 import { TypesEmergencyDisaster } from './../../models/typeEmergencyDisaster';
@@ -33,6 +34,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   constructor(
     private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
+    private router: Router
     ) {
   }
 
@@ -124,6 +126,11 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
     const value = event.value;
 
     console.log(typeof value);
+  }
+
+
+  create(){
+    this.router.navigate(['emergencias/agregar-emergencia-desastre']);
   }
 
   ngOnDestroy(): void {

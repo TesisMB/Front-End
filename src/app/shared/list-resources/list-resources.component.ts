@@ -24,7 +24,6 @@ vehicles = [];
     console.log('Lista de materiales => ',this.materials);
     console.log('Lista de medicinas => ',this.medicines);
     console.log('Lista de vehiculos => ',this.vehicles);
-
   }
 
 

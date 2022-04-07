@@ -1,4 +1,9 @@
+import { Victim } from './victim';
+import { Material } from './material';
+import { Medicine } from './medicine';
 import { TypesEmergencyDisaster } from './typeEmergencyDisaster';
+import { Vehicle } from './vehicle.model';
+import { Alerts } from './alerts';
 
 
 export interface EmergencyDisaster {
@@ -7,7 +12,10 @@ export interface EmergencyDisaster {
     emergencyDisasterStartDate: string;
     emergencyDisasterEndDate: string;
     emergencyDisasterInstruction: string;
-
+    Fk_EmplooyeeID: number;
+    FK_TypeEmergencyID: number,
+    FK_AlertID: number,
+    Fk_LocationID: number,
     locations: {
         locationDepartmentName: string;
         locationCityName: string;
@@ -19,11 +27,7 @@ export interface EmergencyDisaster {
 
     typesEmergenciesDisasters: TypesEmergencyDisaster;
     
-    alerts: {
-        alertID: number;
-        alertMessage: string;
-        alertDegree: string;
-    }
+    alerts: Alerts
 
     employees:{
       employeeID: number;
@@ -33,6 +37,19 @@ export interface EmergencyDisaster {
           userDni: string;
           name: string;
         }
+
+     chatRooms:{
+         id:number;
+         FK_TypeChatRoomID: number;
+         usersChatRooms:[
+         {
+             userID: number;
+             name: string;
+             userDni: string;
+             roleName: string;
+         }
+        ]
+     }
 
     resources_Requests: [
             {
@@ -44,12 +61,11 @@ export interface EmergencyDisaster {
                     id: number;
                     fk_Resource_RequestID: number;
                 
-                    materials:{
-                        id: number;
-                        quantity: number;
-                        name: string;
-                        brand: string;
-            }
+                    materials: Material,
+                    medicines:Medicine,
+                    vehicles: Vehicle
         }]
     }]
+
+    victims: Victim;
 }

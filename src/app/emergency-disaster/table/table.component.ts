@@ -4,6 +4,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
+import { RequestTableService } from 'src/app/resources/request-table/request-table.service';
 import { EmergencyDisasterService } from '../emergency-disaster.service';
 import { NgbdDeleteModalComponent } from '../ngbd-delete-modal/ngbd-delete-modal.component';
 import { NgbdEditDialogComponent } from '../ngbd-edit-dialog/ngbd-edit-dialog.component';
@@ -11,7 +12,7 @@ import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
 import { SelectTypesEmergencyDisasterService } from '../select-types-emergency-disaster.service';
 
 @Component({
-  selector: 'table',
+  selector: 'table-emergency-Disaster',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css']
 })
@@ -23,15 +24,18 @@ export class TableComponent implements OnInit {
   array= [];
   typesid: number;
   types$: Observable<number>;
+  loading$: Observable<boolean>;
 
   constructor(private emergencyDisasterService: EmergencyDisasterService,
     private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private modalService: NgbModal,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    public service: RequestTableService) {
 
       
     }
   ngOnInit(): void {
+    this.loading$ = this.service.loading$;
     this.emergencyDisasterObservable = this.selectTypesEmergencyDisasterService.emergencyDisasterObservable$;
   }
 

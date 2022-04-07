@@ -31,7 +31,7 @@ export class ListComponent implements OnInit {
 
 
   constructor(private emergencyDisasterService: EmergencyDisasterService,
-    private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
+    public selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private modalService: NgbModal,
     public dialog: MatDialog,
     private router: Router) {
@@ -41,7 +41,7 @@ export class ListComponent implements OnInit {
     
     ngOnInit(): void {
     this.emergencyDisasterObservable = this.selectTypesEmergencyDisasterService.emergencyDisasterObservable$;
-      
+    
      /*  this.selectTypesEmergencyDisasterService.TypesEvent.subscribe(data =>{
         this.typesid = data;
         this.emergencyDisaster = this.selectTypesEmergencyDisasterService.filterTypes(this.emergencyDisasterClone);
@@ -77,7 +77,7 @@ openVerticallyCentered(i) {
 }
 
 deployment(){
-  this.router.navigate(['emergencias/detalles']);
+  this.router.navigate(['emergencias/despliegue']);
 }
 
 openDialog(i){
@@ -95,5 +95,7 @@ deleteModal(i, reason: string){
   dialogRef.componentInstance.emergencyDisaster = this.selectTypesEmergencyDisasterService.emergencyDisasterObservableValue$[i];
   dialogRef.componentInstance.titulo = reason;
 }
+
+
 
 }

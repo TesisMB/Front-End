@@ -84,7 +84,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loading = true;
 
     const patch = compare(this.originalUser, this.model);  
-    console.log('Patch: '+patch.length);
+    console.log('Patch: '+patch);
     if(this.passwordMatchValidator() && patch.length !== 0){
            this.updateUser(patch);
 

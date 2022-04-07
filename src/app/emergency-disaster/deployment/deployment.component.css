@@ -1,0 +1,157 @@
+::ng-deep .mat-horizontal-stepper-header-container {
+    display: none !important;
+}
+
+table {
+    width: 100%;
+}
+
+.col-body {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px 0;
+}
+
+#row-aside {
+    max-width: 100%;
+    margin: .5em 3.5em;
+}
+
+.modo {
+    text-align: center;
+}
+
+.modo h1 {
+    margin: 40px 0;
+    width: 100%;
+    font-size: 35px;
+}
+
+.modo h4 {
+    font-size: 20px;
+    margin: 2rem 0;
+
+}
+
+.date {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.date p:nth-child(1) {
+    text-align: left;
+}
+
+.date p:nth-child(2) {
+    text-align: left;
+}
+
+.date p span {
+    font-size: 16px;
+}
+
+mat-icon {
+    font-size: 20px;
+}
+
+
+.location {
+    border: 1px solid #ccc;
+    height: 300px;
+    grid-template-columns: 1fr;
+}
+
+.location:nth-child(1) {
+    margin-left: 20px;
+}
+
+.instruction {
+    overflow-y: auto;
+    margin: 0 20px;
+}
+
+
+.date .calendar,
+.date .person {
+    margin-left: 20px;
+}
+
+.date .calendar-end {
+    margin-right: 20px;
+}
+
+#map {
+    height: 100%;
+}
+
+
+
+
+table {
+    width: 100%;
+}
+
+tr.example-detail-row {
+    height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    display: flex;
+}
+
+.example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+}
+
+.example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+}
+
+.example-element-description {
+    padding: 16px;
+}
+
+.example-element-description-attribution {
+    opacity: 0.5;
+}
+
+.victim-img, .img {
+    background: rgba(225, 35, 35, 0.549);
+}
+
+.victim .img {
+    width: 10%;
+}
+
+.victim-img {
+    width: 5%;
+}
+
+.victim {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.users {
+    margin-top: 5rem;
+}

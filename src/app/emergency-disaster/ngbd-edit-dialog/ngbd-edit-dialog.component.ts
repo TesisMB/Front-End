@@ -1,3 +1,5 @@
+import { Alerts } from './../../models/alerts';
+import { Employee } from './../../models/employee';
 import { EmergencyDisasterService } from './../emergency-disaster.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
@@ -6,6 +8,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import {compare} from 'fast-json-patch';
 import { _deepClone } from 'fast-json-patch/module/helpers';
 import * as _ from 'lodash';
+import { UserService } from 'src/app/users';
 
 @Component({
   selector: 'ngbd-edit-dialog',
@@ -17,27 +20,63 @@ export class NgbdEditDialogComponent implements OnInit {
   @Input() emergencyDisaster: EmergencyDisaster;
 
   model : EmergencyDisaster;
-
+  user: Employee [];
+  employeeSelected: number;
+  alerts: Alerts[];
   emergencyDisasterForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<NgbdEditDialogComponent>,
     private fb: FormBuilder,
-    private emergencyDisasterService : EmergencyDisasterService
+    private emergencyDisasterService : EmergencyDisasterService,
+    private userService : UserService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+
+    this.getUser();
     this.emergencyDisasterForm = this.initForm();
-    this.onatchValue();
+    this.alerts = this.emergencyDisasterService.ListarAlertas;
+    this.f.patchValue(this.emergencyDisaster);
+    
+    this.model = _.cloneDeep(this.emergencyDisaster);
+    
+    let id = this.alerts.find(alertDegree => alertDegree.alertDegree === this.emergencyDisaster.alerts.alertDegree);
+    this.alertID.patchValue(id.alertID);
+
+    let employee =  this.emergencyDisaster.employees.employeeID;
+    this.EmplooyeeID.patchValue(employee);
+
+    
+}
+
+public get f() { return this.emergencyDisasterForm }
+
+get alertID(){ return this.emergencyDisasterForm.get('FK_AlertID') }
+
+get alertName(){ return this.emergencyDisasterForm.get('alerts.alertDegree') }
+
+get EmplooyeeID(){ return this.emergencyDisasterForm.get('Fk_EmplooyeeID') }
 
 
-     this.model = _.cloneDeep(this.emergencyDisaster);
+changeEmployeedID(){
+  let employee =  (this.user.find(user => user.employeeID == this.EmplooyeeID.value));
+  this.emergencyDisaster.Fk_EmplooyeeID = employee.employeeID;
+  this.EmplooyeeID.patchValue(employee.employeeID);
 
-    console.log("Model =>", this.model);
-    console.log("originalEmergencyDisaster =>", this.emergencyDisaster); 
-  
-  
-  }
+  console.log(this.emergencyDisaster);
+
+  //this.emergencyDisaster.Fk_EmplooyeeID = this.emergencyDisasterForm.value.Fk_EmplooyeeID;
+}
+
+setRole(){
+  let alert = (this.alerts.find(alertDegree => alertDegree.alertDegree === this.alertName.value));
+  this.emergencyDisaster.FK_AlertID = alert.alertID;
+  this.alertID.patchValue(alert.alertID);
+
+  console.log(this.emergencyDisaster);
+}
+
 
 
   alertColor(alert: string){
@@ -53,16 +92,11 @@ export class NgbdEditDialogComponent implements OnInit {
       }
   }
 
+
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  onatchValue(){
-    this.emergencyDisasterForm.patchValue({
-      'name': this.emergencyDisaster.employees.name,
-      'instruction': this.emergencyDisaster.emergencyDisasterInstruction
-    });
-  }
 
   updateEmergency(EmergencyDisaster: EmergencyDisaster){
     console.log("Model", EmergencyDisaster);
@@ -78,14 +112,28 @@ export class NgbdEditDialogComponent implements OnInit {
 
   initForm(): FormGroup{
     return this.fb.group({
-      name: ['', [Validators.required]],
-      instruction:['', [Validators.required]]
-    });
+      emergencyDisasterInstruction:['', [Validators.required]],
+      Fk_EmplooyeeID: ['', [Validators.required]],
+      FK_AlertID:['', [Validators.required]],
+      alerts: this.fb.group({
+        alertDegree: [],
+      })
+      })
+  }
+
+  getUser(){
+    this.userService.getAll().subscribe(data => {
+      this.user = data;
+
+      this.user = this.user.filter(a => a.users.roleName == "Coordinador de Emergencias y Desastres");
+    }, error =>{
+      console.log(error);
+    })
   }
 
   patch(value){
     this.emergencyDisasterService.patchEmergencyDisaster(this.emergencyDisaster, value).subscribe(data =>{
-      console.log("Actualizado correctamente!!");
+      console.log("Actualizado correctamente!!", this.emergencyDisasterForm.value);
     }, error => {
       console.log("Error", error);
     })

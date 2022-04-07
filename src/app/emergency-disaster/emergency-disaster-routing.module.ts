@@ -1,3 +1,5 @@
+import { MapComponent } from './map/map.component';
+import { AddEmergencyDisasterComponent } from './add-emergency-disaster/add-emergency-disaster.component';
 import { EmergencyDisasterComponent } from './emergency-disaster/emergency-disaster.component';
 import { DeploymentComponent } from './deployment/deployment.component';
 import { NgModule } from '@angular/core';
@@ -17,8 +19,16 @@ const routes: Routes = [
         component: EmergencyDisasterComponent,
       },
       {
-        path: 'detalles',
+        path: 'despliegue/:id',
         component: DeploymentComponent
+      },
+      {
+        path: 'agregar-emergencia-desastre',
+        component: AddEmergencyDisasterComponent
+      },
+      {
+        path: 'ubicacion',
+        component: MapComponent
       }
     ]
   }

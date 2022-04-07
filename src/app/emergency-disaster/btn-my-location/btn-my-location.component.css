@@ -1,0 +1,6 @@
+mat-icon {
+    position: relative;
+    /* bottom: -8rem; */
+    cursor: pointer;
+    margin: 0 1rem;
+}

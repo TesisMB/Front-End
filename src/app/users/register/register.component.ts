@@ -47,7 +47,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
       this.getDateValidations();
-      this.getLocations()
       this.roles = this.userService.listarRoles;
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       
@@ -131,17 +130,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
           });
     }
-    private getLocations(){
-      this.userService.getLocations().subscribe(
-        data => {
-          this.locations = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        }
-      )
-    }
+    
+     
         
     // onSelectFile(event) {
     //   if (event.target.files && event.target.files[0]) {

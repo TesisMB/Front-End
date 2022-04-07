@@ -1,0 +1,17 @@
+.pointer {
+    cursor: pointer;
+}
+
+h6 {
+    font-size: 13px;
+}
+
+p {
+    font-size: 15px;
+}
+
+ul {
+    overflow: auto;
+    max-height: 270px;
+    height: 100%;
+}

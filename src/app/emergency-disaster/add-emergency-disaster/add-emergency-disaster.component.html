@@ -1,1 +1,47 @@
-<p>add-emergency-disaster works!</p>
+<form [formGroup]="addEmergencyDisaster" (ngSubmit)="addEmergencyDisasterFunction()">
+
+    <section class="col-body" id="row-aside">
+
+        <div class="row justify-content-around">
+
+            <mat-form-field appearance="fill">
+                <mat-label>Tipo de Emergencia</mat-label>
+                <mat-select formControlName="FK_TypeEmergencyID">
+                    <mat-option id="FK_TypeEmergencyID" *ngFor="let emergency of arraytypeEmergencyDisaster"
+                        [value]="emergency.id">
+                        {{emergency.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Estado</mat-label>
+                <mat-select formControlName="FK_AlertID">
+                    <mat-option *ngFor="let item of alerts" [value]="item.alertID">
+                        {{item.alertDegree}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+
+        <!--    acceso al mapa-->
+        <div class="row justify-content-center">
+
+            <h3 class="mt-2">Ubicación: </h3>
+            <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
+                <mat-icon> location_on</mat-icon>
+            </button>
+        </div>
+
+
+        <map></map>
+
+        <div class="row justify-content-center area">
+            <button class="btn btn-danger">Guardar</button>
+        </div>
+
+
+    </section>
+</form>

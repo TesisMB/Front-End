@@ -69,6 +69,9 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // inserto los valores del usuario al formulario
     this.f.patchValue(this.user);
+
+
+
     // agrego los horarios al formArray
     this.user.users.estates.estatesTimes.forEach(times => staffs.push(this.userService._employeeForm.group(times)));
     //clono al usuario original
@@ -78,6 +81,9 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.roleID.patchValue(id.roleID)
     // Se deshabilita el formulario
      this.f.disable();
+
+     console.log('Datos de usuario: ', this.user);
+
   }
 
   // getter para acortar el acceso a la variable
@@ -95,8 +101,9 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   setRole(){
-  let role = (this.roles.find(name => name.RoleName === this.roleName.value));
-  this.roleID.patchValue(role.roleID);
+    let role = (this.roles.find(name => name.RoleName === this.roleName.value));
+    this.roleID.patchValue(role.roleID);
+    console.log(this.user);
 
   }
 
@@ -181,6 +188,10 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   patch(){
+
+    console.log(this.model);
+    console.log(this.user);
+
     let patch = compare(this.model, this.user);
 
     patch = patch.filter( obj => obj.path !== "/users/roleName");

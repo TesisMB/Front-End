@@ -1,12 +1,17 @@
 <!-- Card -->
+<span class="mr-3 text-center" *ngIf="selectTypesEmergencyDisasterService.loading$ | async"><i
+        class="fas fa-spinner fa-lg fa-spin"></i></span>
+
+
 <div class="card" *ngFor="let emergency of emergencyDisasterObservable | async index as i"
     [ngStyle]="{backgroundColor: getCardColor(emergency.alerts.alertDegree)}" #tooltip="matTooltip"
     matTooltip="Ver más información" matTooltipPosition="above"
     aria-tooltip="Button that displays and hides a tooltip triggered by other buttons">
 
 
-    <div class="content-left" routerLink='detalles'>
 
+
+    <div class="content-left">
         <div [ngClass]="{'cuadrado': emergency.alerts.alertDegree === 'Moderado',
                 'triangulo': emergency.alerts.alertDegree === 'Controlado',
               'circulo': emergency.alerts.alertDegree === 'Extremo'}">
@@ -17,7 +22,7 @@
         <p>{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
     </div>
 
-    <div class="content-center" (click)="openVerticallyCentered(i)">
+    <div class="content-center" [routerLink]="['despliegue', emergency.emergencyDisasterID]">
         <div class="child">
             <p>{{emergency.locations.locationCityName}}</p>
 
@@ -48,4 +53,8 @@
             </div>
         </div>
     </div>
+</div>
+
+<div *ngIf="(emergencyDisasterObservable | async).length == 0" class="text-center">
+    <p class="align-center">No hay Emergencias y Desastres</p>
 </div>
