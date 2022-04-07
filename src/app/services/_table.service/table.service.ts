@@ -27,9 +27,7 @@ function matches(employee: Employee, term: string, pipe: PipeTransform) {
     || employee.users.persons.lastName.toLowerCase().includes(term.toLowerCase())
     || (employee.users.persons.firstName).toLowerCase().includes(term.toLowerCase())
     || (employee.users.roleName).toLowerCase().includes(term.toLowerCase())
-    || (employee.users.estates.address).toLowerCase().includes(term.toLowerCase())
-    || pipe.transform(employee.users.estates.numberAddress).includes(term);
-
+    || (employee.users.estates.address).toLowerCase().includes(term.toLowerCase());
 
 }
 
@@ -94,7 +92,7 @@ private _setAvailability(availability:boolean){
 /**Se debe realizar una funcion para la cual se actualice la tabla despues de cambiar datos de usuario */
 public _setEmployee(patch:Employee){
   let index = this.EMPLEADOS.findIndex( x => patch.employeeID == x.employeeID);
-  this.EMPLEADOS[index] = patch;
+  index ? this.EMPLEADOS[index] = patch : this.EMPLEADOS.push(patch);
   this._search$.next();
 }
 
@@ -116,7 +114,7 @@ private _search(): Observable<SearchResult> {
   const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
   // 1. filtrado por disponibilidad
-  const empleados = this.EMPLEADOS.filter(x => x.users.userAvailability !== this._showAvailability$.value);
+  const empleados = this.EMPLEADOS.filter(x =>( x.users.userAvailability !== this._showAvailability$.value) && x.users.roleName !== 'Voluntario');
   
   // 1. sort
   let data = sort(empleados, sortColumn, sortDirection);

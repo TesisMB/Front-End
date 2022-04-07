@@ -3,7 +3,7 @@ import { RequestService } from './../request/request.service';
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RequestTableService } from '../request-table/request-table.service';
-
+const TABS = ['Aceptada', 'Rechazada'];
 @Component({
   selector: 'history-request',
   templateUrl: './history-request.component.html',
@@ -11,7 +11,7 @@ import { RequestTableService } from '../request-table/request-table.service';
 })
 export class HistoryRequestComponent implements OnInit, OnDestroy {
   //condition: string  = 'Pendiente';
-  tabs = ['Pendiente', 'Aceptada', 'Rechazada'];
+  tabs = TABS;
   handleRequest: Subscription;
   constructor(
     public service: RequestTableService,
@@ -21,7 +21,7 @@ export class HistoryRequestComponent implements OnInit, OnDestroy {
      }
 
   ngOnInit(): void {
-    this.getRequest('Pendiente');
+    this.getRequest(this.tabs[0]);
   }
 
 // get pendiente(){ this.condition = 'Pendiente'; return this.condition}
@@ -44,13 +44,13 @@ getRequest(condition){
     console.log('x => ', x);
   },
 e => {
-  this.alertService.error('Error, usuario no inicializado :(');
+  this.alertService.error('Ups..! error inesperado, vuelva a intentar mas tarde', {autoClose: true});
 
 } );
 }
 
 ngOnDestroy(): void {
- // this.handleRequest.unsubscribe();
+  this.handleRequest.unsubscribe();
 }
   }
 

@@ -1,4 +1,4 @@
-import { StatesComponent } from './states/states.component';
+import { StockComponent } from './stock/stock.component';
 import { ResourcesListComponent } from './resources-list/resources-list.component';
 import { LayoutResourcesComponent } from './layout/layout-resources.component';
 import { addEditResourcesComponent } from './add-edit-resources/add-edit-resources.component';
@@ -28,7 +28,7 @@ const routes: Routes = [
         path: 'lista/:tipo/:id',
         component: ResourcesDetails,
       },
-      { path: 'agregar-recurso/:tipo',
+      { path: ':action/:tipo',
         component: addEditResourcesComponent },
     ],
      
@@ -37,22 +37,12 @@ const routes: Routes = [
   { 
     path: 'solicitudes',
     component: RequestComponent,
-    // children:[
-    //     {
-    //     path: 'solicitudes',
-    //     component: RequestComponent,
-    //     canActivate: [AuthGuard],
-    //     data: { roles: [RoleName.CoordinadorGeneral, RoleName.Admin] },
-    //   },
-    //   {
-    //     path: 'historial-de-solicitudes',
-    //     component: HistoryRequestComponent,
-    //   }
-    // ],
     },
 
       { path: 'historial',
        component: HistoryRequestComponent },
+       { path: 'stock',
+       component: StockComponent }
 
 ];
 

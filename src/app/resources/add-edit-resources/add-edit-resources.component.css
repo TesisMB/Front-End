@@ -1,0 +1,48 @@
+.col-body {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px 0;
+  }
+  
+  #row-aside {
+    max-width: 100%;
+    margin: 1em 3.5em;
+  }
+  input{
+    border: none;
+
+}
+  textarea:focus, input:focus{
+    outline: none;
+  }
+  
+  .title {
+    text-align: center;
+    margin: 40px 0;
+  }
+  
+  .title h1 {
+    font-size: 35px !important;
+  }
+
+  .col-head{
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  form{
+    padding:10px; 
+    margin: 20px 15px;
+    border: 3px solid rgba(230, 28, 28, 0.406);
+    border-radius: 10px;
+  }
+
+  mat-form-field{
+    padding:7px 20px 0 20px;  
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+  }

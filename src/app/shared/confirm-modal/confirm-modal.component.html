@@ -1,11 +1,13 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">{{action}} Perfil</h3>
+    <h3 class="modal-title" id="modal-title">{{action | uppercase}}</h3>
     <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p><strong>¿Está seguro que quiere {{action | lowercase}} a <span class="text-primary">"{{user.persons.firstName | titlecase}} {{user.persons.lastName | titlecase}}"</span> ?</strong></p>
+    <ng-container *ngIf="user then withUser; else withoutUser"></ng-container>
+    <ng-template #withUser>
+      <p><strong>¿Está seguro que quiere {{action | lowercase}} a <span class="text-primary">"{{user.persons.firstName | titlecase}} {{user.persons.lastName | titlecase}}"</span> ?</strong></p>
     <p *ngIf="action ==='Eliminar'">Toda información asociada a este perfil será eliminada permanentemente.
     <span class="text-danger">Esta operación es irreversible.</span>
     </p>
@@ -15,6 +17,19 @@
       <p *ngIf="action ==='Habilitar'">El usuario tendra acceso a la plataforma.
         <span class="text-info">Esta operación es reversible.</span>
         </p>
+      </ng-template>
+      <p><strong>¿Está seguro que quiere {{action | lowercase}}?</strong></p>
+      <p *ngIf="action ==='Eliminar'">Toda información asociada será eliminada permanentemente.
+      <span class="text-danger">Esta operación es irreversible.</span>
+      </p>
+      <p *ngIf="action ==='Deshabilitar'"><span class="text-warning">Esta operación es reversible.</span>
+        </p>
+        <p *ngIf="action ==='Habilitar'"><span class="text-info">Esta operación es reversible.</span>
+          </p>
+    <ng-template #withoutUser>
+
+    </ng-template>
+    
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancelar</button>

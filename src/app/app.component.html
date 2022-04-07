@@ -78,12 +78,14 @@
           <!-- This is the tree node template for leaf nodes -->
           <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
             <li>
-              <div>
+              <div >
               <!-- use a disabled button to provide padding for tree leaf -->
               <button  mat-icon-button disabled></button>
-              <a [routerLink]="[node.patch]" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
+              
+                <a [routerLink]="[node.patch]" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
                 {{node.name}}
               </a>
+
               <button mat-icon-button disabled></button>
             </div>
             </li>
@@ -93,14 +95,14 @@
           <mat-nested-tree-node  *matTreeNodeDef="let node; when: hasChild">
             <li  class="listado">
               <div  class="listado-interno">
-                <button mat-icon-button  matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+                <!-- <button *ngIf="treeControl.isExpanded(node)" mat-icon-button disabled></button> -->
+                <button mat-icon-button  matTreeNodeToggle  [attr.aria-label]="'toggle ' + node.name">
                   <mat-icon class="mat-icon-rtl-mirror">
                     {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                   </mat-icon>
                 </button>
-                <a [routerLink]="[node.patch]" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
-                  {{node.name}}
-                </a>
+                <a   *ngIf="node.disabled"><i class="mr-2 {{node.icon}}"></i>{{node.name}}</a>
+                <a  *ngIf="!node.disabled" [routerLink]="[node.patch]" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>{{node.name}}</a>
               </div>
               <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
                 <ng-container matTreeNodeOutlet></ng-container>

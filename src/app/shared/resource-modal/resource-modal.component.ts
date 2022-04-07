@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./resource-modal.component.css']
 })
 export class ResourceModalComponent implements OnInit, OnDestroy {
-@Input() resources: RequestGet;
+@Input() show: boolean; resources: RequestGet;
 status: boolean = false;
 form: FormGroup;
 handle: Subscription;
@@ -24,18 +24,24 @@ handleDelete: Subscription;
     ,private authService: AuthenticationService, private service: RequestTableService) { }
 
   ngOnInit(): void {
-    console.log('resources =>', this.resources);
     this.form = this.formBuilder.group({
       FK_EmergencyDisasterID: [null],
-      Reason: [null, [Validators.maxLength(153), Validators.required]],
+      reason: [null, [Validators.maxLength(153)]],
+      description: [''],
       userRequest: [null],
       status:[false, [Validators.required]]
     });
+
+  this.form.patchValue(this.resources);
+    if(!this.getCondition){
+    this.form.get('reason').patchValue(this.resources.reason);
+  }
   }
   get isLogistica(){return this.authService.currentUserValue.roleName == 'Encargado de Logistica';}
-  get f (){ return this.form.controls}
-  get reasonError(){return this.form.get('Reason').getError('required');}
+  get f(){ return this.form.controls}
+  get reasonError(){return this.form.get('reason').getError('required');}
   get getCondition(){return this.resources.condition === 'Pendiente';}
+  get isMy(){return this.resources.users.userID === this.authService.currentUserValue.userID;}
   changeStatus(condition:boolean){this.status = condition;}
 
 
@@ -60,6 +66,9 @@ handleDelete: Subscription;
       }});
     
     this.modal.close();
+   }
+   else{
+     console.log('Error => Form invalid');
    }
 
 }

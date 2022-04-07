@@ -176,6 +176,11 @@
       text-decoration: none;
     }
 
+    a.disabled {
+      color: gray;
+      cursor: none;
+  }
+
     /* --------------------------------------Nav user-------------------------------------- */
 
     #perfil {

@@ -1,4 +1,4 @@
-.container{
+/* .container{
   display: flex;
   flex-direction: column-reverse;
   justify-content: center;
@@ -7,16 +7,34 @@
   z-index: -1;
   left: 6%;
 
+} */
+.title h1 {
+  margin-top: 2rem;
+  font-size: 35px;
+}
+
+#row-aside {
+  max-width: 100%;
+  margin: 1em 3.5em;
+}
+.col-body, .col-aside {
+
+  background-color: white;
+  border-radius: 10px;
 }
 
 .row {
   display: flex;
   justify-content: center;
   align-items: center;
-   width: 100%;
   /* box-shadow: 0px 25px 36px 12px rgba(0, 0, 0, 0.10); */
 }
 
+@media screen and (max-width: 738px) {
+  .row {
+    justify-content: center;
+  }
+}
 .container-fluid {
   z-index: -1 !important; 
 
@@ -44,7 +62,7 @@ th {
 }
 .table {
   width: 100%;
-  margin: 0 20px 0 20px;
+  padding: 10px;
 }
 
 .mat-form-field {

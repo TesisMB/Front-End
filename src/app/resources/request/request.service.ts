@@ -25,7 +25,7 @@ export class RequestService extends DataService {
   }
 
   rejectRequest(response){
-  return  this.http.post<any>(environment.URL +  this.patch, response);
+  return  this.http.post<any>(environment.URL +  this.patch+'/acceptRejectRequest' , response);
   }
 
   delete(id) {

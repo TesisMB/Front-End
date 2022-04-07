@@ -1,3 +1,4 @@
+import { AuthenticationService } from 'src/app/services';
 import { Injectable, PipeTransform } from '@angular/core';
 
 
@@ -11,8 +12,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 
-
-
+const ROLES = ['Encargado de Logistica', 'Admin', 'Coordinador General'];
 const compare = (v1: string | number | any, v2: string | number | any) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
 function sort(request: RequestGet[], column: SortColumn, direction: string): RequestGet[] {
@@ -48,6 +48,7 @@ export class RequestTableService {
   private request: RequestGet[]= [];
   private _condition$ = new BehaviorSubject<string>('Pendiente');
   private _filter$ = new BehaviorSubject<boolean>(false);
+  private currentUser = this.authService.currentUserValue;
   private _state: State = {
     page: 1,
     pageSize: 4,
@@ -55,7 +56,8 @@ export class RequestTableService {
     sortColumn: '',
     sortDirection: ''
   };
-  constructor(private pipe: DecimalPipe) {    
+
+  constructor(private pipe: DecimalPipe, private authService: AuthenticationService) {    
     this._search$.pipe(
     tap(() => this._loading$.next(true)),
     debounceTime(200),
@@ -126,9 +128,8 @@ private _search(): Observable<SearchResult> {
 
   // 1. filtrado por usuario
   let req = this.request;
-  if(this._filter$.value){
-    const user : User = JSON.parse(localStorage.getItem('currentUser'));
-    req = this.request.filter(x => x.users.userID === user.userID);
+  if(this._filter$.value || !ROLES.includes(this.currentUser.roleName)){
+    req = this.request.filter(x => x.users.userID === this.currentUser.userID);
   }
   
   // 1. sort

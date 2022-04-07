@@ -22,6 +22,7 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
   request$: Observable<RequestGet[]>;
   total$: Observable<number>;
   loading$: Observable<boolean>;
+  currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
 
   request: RequestGet[];
   handleRequest: Subscription;
@@ -42,11 +43,13 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.request = this.service.requestValue;
   }
 
-    get isAdmin(){
-       const user : User = JSON.parse(localStorage.getItem('currentUser'));
-       
-       return (user.roleName === 'Admin' || user.roleName ===  'Coordinador General') ? true : false;
+    get isAdmin(){       
+       return this.currentUser.roleName === 'Admin';
       }
+      get isCG(){
+        
+        return this.currentUser.roleName ===  'Coordinador General';
+       }
 
   ngAfterViewInit(){}
 
@@ -72,7 +75,7 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
         modalRef.componentInstance.user = x;
         }, 
          e => {
-           this.alertService.error('Error, usuario no inicializado :(');
+           this.alertService.error('Error, usuario no inicializado :(', {autoClose: true});
 
         } );
     }

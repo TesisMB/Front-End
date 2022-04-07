@@ -1,0 +1,54 @@
+input{
+    border: none;
+
+}
+textarea:focus, input:focus{
+    outline: none;
+  }
+.table td, .table th{
+    vertical-align: middle;
+    height: 100px;
+    font-size: larger;
+}
+
+.option {
+  /* padding: 8px 16px; */
+  background-color: #424242;
+}
+.option .arrow::after{
+  border-bottom-color: #424242 !important;
+
+}
+.btn-option, .btn-option-warning, .btn-option-success{
+  width: 100%;
+  background-color: #424242;
+  outline: none;
+  /* padding: 5px 0px; */
+  display: block;
+  position: relative;
+  height: 48px;
+  /* text-align: left; */
+  border:none;
+  color: white;
+}
+.btn-option-warning:hover {
+  background:red;
+  color:white;
+}
+.btn-option-success:hover {
+  background: green;
+  color:white;
+}
+.btn-option:hover{
+  background:rgba(255,255,255,.04);
+  color:white;
+}
+
+.icon{
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.option .popover-body{
+  /* padding: 8px 0 !important; */
+}
