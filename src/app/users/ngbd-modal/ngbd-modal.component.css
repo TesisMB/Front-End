@@ -21,15 +21,15 @@
     font-weight: 500; 
     
   }
-  .option {
+  .options {
     padding: 8px 0px;
     background-color: #424242;
   }
-  .option .arrow::after{
+  .options .arrow::after{
     border-bottom-color: #424242 !important;
 
   }
-  .btn-option, .btn-option-warning, .btn-option-success{
+  .btn-options, .btn-options-warning, .btn-options-success{
     width: 100%;
     background-color: #424242;
     outline: none;
@@ -41,15 +41,15 @@
     border:none;
     color: white;
   }
-  .btn-option-warning:hover {
+  .btn-options-warning:hover {
     background:red;
     color:white;
   }
-  .btn-option-success:hover {
+  .btn-options-success:hover {
     background: green;
     color:white;
   }
-  .btn-option:hover{
+  .btn-options:hover{
     background:rgba(255,255,255,.04);
     color:white;
   }
@@ -59,7 +59,7 @@
     margin-right: 16px;
   }
 
-  .option .popover-body{
+  .options .popover-body{
     padding: 8px 0 !important;
   }
 

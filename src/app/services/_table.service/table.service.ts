@@ -91,13 +91,13 @@ private _setAvailability(availability:boolean){
 }
 /**Se debe realizar una funcion para la cual se actualice la tabla despues de cambiar datos de usuario */
 public _setEmployee(patch:Employee){
-  let index = this.EMPLEADOS.findIndex( x => patch.employeeID == x.employeeID);
-  index ? this.EMPLEADOS[index] = patch : this.EMPLEADOS.push(patch);
+  let index = this.EMPLEADOS.findIndex( x => patch.users.userID == x.users.userID);
+  (index === -1) ? this.EMPLEADOS.push(patch) : this.EMPLEADOS[index] = patch;
   this._search$.next();
 }
 
 public deleteFromTable(id){
-  const index =  this.EMPLEADOS.findIndex(x => x.employeeID == id);
+  const index =  this.EMPLEADOS.findIndex(x => x.users.userID == id);
   let deleteUser = this.EMPLEADOS.splice(index, 1);
   console.log("deleteUser =>", deleteUser);
   this.uploadTable(this.EMPLEADOS);

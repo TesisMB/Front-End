@@ -175,7 +175,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     modalRef.result.then(
       ()=> {
         if (reason ==='Eliminar'){
-            this.deleteUser(this.model.employeeID);
+            this.deleteUser(this.model.users.userID);
   }
     else {
     (this.model.users.userAvailability) ? this.f.get('users.userAvailability').setValue(false) : this.f.get('users.userAvailability').setValue(true);

@@ -10,21 +10,21 @@
     <div id="perfil">
       <ng-container *ngIf="!isLogistica">
       <div *ngIf="isRequest; else isNotRequest">
-        <button [ngbPopover]="popCart" [autoClose]="'outside'" popoverClass="option" container="body" mat-icon-button>
+        <button [ngbPopover]="popCart" [autoClose]="'outside'" popoverClass="popCart" container="body" mat-icon-button>
           <mat-icon matBadge="{{isRequest}}" matBadgeColor="warn">shopping_cart</mat-icon>
         </button>
       </div>
 </ng-container>
-      <ng-template #isNotRequest><button [ngbPopover]="popCart" [autoClose]="'outside'" popoverClass="option"
+      <ng-template #isNotRequest><button [ngbPopover]="popCart" [autoClose]="'outside'" popoverClass="popCart"
           container="body" mat-icon-button class="mr-4">
           <mat-icon>shopping_cart</mat-icon>
         </button></ng-template>
 
       <div *ngIf="notifications.hasNotifications; else isNot"><button [autoClose]="'outside'" [ngbPopover]="popNotify"
-          popoverClass="option" container="body" mat-icon-button>
+          popoverClass="notifications" container="body" mat-icon-button>
           <mat-icon matBadge="{{notifications.number}}" matBadgeColor="warn">notifications_active</mat-icon>
         </button></div>
-      <ng-template #isNot><button [ngbPopover]="popNotify" [autoClose]="'outside'" popoverClass="option"
+      <ng-template #isNot><button [ngbPopover]="popNotify" [autoClose]="'outside'" popoverClass="notifications"
           container="body" mat-icon-button class="mr-4">
           <mat-icon>notifications</mat-icon>
         </button></ng-template>

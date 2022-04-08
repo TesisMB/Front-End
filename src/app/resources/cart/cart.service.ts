@@ -86,8 +86,10 @@ export class ResourcesDetailsService extends DataService {
   }
 
   deleteFromCart(index: number){
-    let cart = this.requestSubject.value;
-   cart.request.splice(index,1);
+//*************NO FUNCIONA- REFACTORIZAAR */
+
+  let cart: Cart  = this.requestSubject.value;
+  //cart.request.splice(index,1);
   this.updateCart(cart);
   }
 
