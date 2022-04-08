@@ -5,8 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticationService } from '../services';
 import { Group, Role, RoleName, Input } from '../models';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, pipe } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
 
 
 @Injectable({ providedIn: 'root' })
@@ -73,17 +73,9 @@ return this._employeeForm.group({
 getLocations(patch: string): Observable<any> {
   const arrayEmergencies: Input[] = [];
 
-    return this.http.get<any>(environment.URL + patch);
-  //   .pipe(map( data => {
-  //     data.forEach(e => {
-  //       const location: Group = {
-  //         name: e.locationCityName,
-  //         data: e.estates,
-  //         id: e.locationID
-  //       };
-  //     });
-  //   return data;
-  // }));
-}
+    return this.http.get<any>(environment.URL + patch)
+    .pipe(map( data => {
+     return data.filter(e => e.locationCityName === this.authenticateService.currentUserValue.estates.locationCityName)
+  }));}
 
 }

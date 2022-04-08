@@ -20,8 +20,14 @@ form: FormGroup;
 handle: Subscription;
 handleDelete: Subscription;
 
-  constructor(public modal: NgbActiveModal, private formBuilder: FormBuilder, private requestService: RequestService, private alertService: AlertService
-    ,private authService: AuthenticationService, private service: RequestTableService) { }
+  constructor(
+     public modal: NgbActiveModal,
+     private formBuilder: FormBuilder,
+     private requestService: RequestService,
+     private alertService: AlertService,
+     private authService: AuthenticationService,
+     private service: RequestTableService
+     ) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({

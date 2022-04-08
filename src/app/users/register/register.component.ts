@@ -8,7 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { first } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { MatStepper } from '@angular/material/stepper';
-
+const PATCH_LOCATIONS = 'estates';
 @Component({
 selector: 'register',
 templateUrl: './register.component.html',
@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     roles: Role[];
     minDate: Date;
     maxDate: Date;
+    patch = PATCH_LOCATIONS;
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
@@ -49,7 +50,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
       this.getDateValidations();
-      this.getLocations('estates');
+      this.getLocations(this.patch);
       this.roles = this.userService.listarRoles;
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       

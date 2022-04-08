@@ -8,19 +8,19 @@
 
       
         <ng-template   #popMenu >
-          <button type="button" class="btn btn-option  btn-sm" (click)="onClick()"><mat-icon class="icon">mode_edit</mat-icon><span class="option-text">Actualizar datos</span> </button>
+          <button type="button" class="btn btn-options  btn-sm" (click)="onClick()"><mat-icon class="icon">mode_edit</mat-icon><span class="option-text">Actualizar datos</span> </button>
           
-          <button type="button" class="btn btn-option  btn-sm" (click)="generatePDF()"><mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span></button>
+          <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF()"><mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span></button>
 
-          <button *ngIf="user.users.userAvailability" type="button " class="btn btn-option-warning  btn-sm" (click)="changeStatus('Deshabilitar')">
+          <button *ngIf="user.users.userAvailability" type="button " class="btn btn-options-warning  btn-sm" (click)="changeStatus('Deshabilitar')">
             <mat-icon class="icon">person_remove</mat-icon>
             <span class="option-text">Deshabilitar usuario</span>
           </button>
-          <button *ngIf="!user.users.userAvailability" type="button " class="btn btn-option-success  btn-sm" (click)="changeStatus('Habilitar')">
+          <button *ngIf="!user.users.userAvailability" type="button " class="btn btn-options-success  btn-sm" (click)="changeStatus('Habilitar')">
             <mat-icon class="icon">person_add</mat-icon>
             <span class="option-text">Habilitar usuario</span>
           </button>
-          <button type="button " class="btn btn-option-warning  btn-sm" (click)="changeStatus('Eliminar')">
+          <button type="button " class="btn btn-options-warning  btn-sm" (click)="changeStatus('Eliminar')">
             <mat-icon class="icon">delete</mat-icon>
             <span class="option-text">Eliminar usuario</span>
           </button>
@@ -28,7 +28,7 @@
     
         <div *ngIf="isAdmin || isCGeneral">
         <button  mat-icon-button type="button" class="btn btn-outline-secondary"
-        [ngbPopover]="popMenu" popoverClass="option" container="body">
+        [ngbPopover]="popMenu" popoverClass="options" container="body">
                 <mat-icon>more_vert</mat-icon>
         </button>
       </div>

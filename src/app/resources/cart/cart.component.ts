@@ -113,8 +113,9 @@ createForm() {
       }
 
   deleteFromCart(index:number){
-  this.requestService.deleteFromCart(index);
-  let arrayDelete = this.array.removeAt(index);
+    //*************NO FUNCIONA- REFACTORIZAAR */
+ // this.requestService.deleteFromCart(index);
+  this.array.removeAt(index);
 
 }
 
