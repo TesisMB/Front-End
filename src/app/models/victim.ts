@@ -4,7 +4,7 @@ export interface Victim{
     affectedNeighborhoods: number;
     assistedPeople: number;
     evacuatedPeople: number;
-    materialDamage: number;
+    materialsDamage: number;
     numberAffected: number;
     numberDeaths: number;
     numberFamiliesAffected: number;

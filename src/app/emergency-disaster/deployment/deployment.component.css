@@ -1,7 +1,3 @@
-::ng-deep .mat-horizontal-stepper-header-container {
-    display: none !important;
-}
-
 table {
     width: 100%;
 }
@@ -13,8 +9,8 @@ table {
 }
 
 #row-aside {
-    max-width: 100%;
-    margin: .5em 3.5em;
+    max-width: 92%;
+    margin: 1em 3.5em;
 }
 
 .modo {
@@ -58,12 +54,11 @@ mat-icon {
 .location {
     border: 1px solid #ccc;
     height: 300px;
-    grid-template-columns: 1fr;
 }
 
-.location:nth-child(1) {
+/* .location:nth-child(1) {
     margin-left: 20px;
-}
+} */
 
 .instruction {
     overflow-y: auto;
@@ -84,8 +79,18 @@ mat-icon {
     height: 100%;
 }
 
+.map-container {
+    width: 80%;
+}
+
+.instructionMap {
+    display: flex;
+}
 
 
+.instruction {
+    width: 80%;
+}
 
 table {
     width: 100%;
@@ -153,5 +158,19 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .users {
-    margin-top: 5rem;
+    margin-top: 2rem;
+}
+
+.titulo {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.titulo2 {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.tabla {
+    margin-top: 3rem;
 }

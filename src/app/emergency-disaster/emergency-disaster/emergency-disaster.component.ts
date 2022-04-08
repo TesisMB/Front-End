@@ -32,7 +32,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   serializedDate = new FormControl(new Date().toISOString());
 
   constructor(
-    private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
+    public selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
     private router: Router
     ) {

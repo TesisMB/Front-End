@@ -15,6 +15,6 @@ export class Alerts{
 export enum AlertDegree{
     Controlado = 'Controlado',
     Moderado = 'Moderado',
-    Extremo = 'Extremo'
+    Urgente = 'Urgente'
 }
 

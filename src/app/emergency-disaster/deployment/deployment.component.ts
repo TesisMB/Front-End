@@ -105,16 +105,18 @@ var popup = L.popup()
     (data =>{
       this.emergencyDisaster = data;
 
-      this.emergencyDisaster.chatRooms.usersChatRooms.forEach(element => {
-        const user = {
-          id: element.userID,
-          legajo: element.userDni,
-          roleName: element.roleName,
-          name: element.name,
-        }
-
-        this.users.push(user);
-      });
+      if(this.emergencyDisaster.chatRooms != null){
+        this.emergencyDisaster.chatRooms.usersChatRooms.forEach(element => {
+          const user = {
+            id: element.userID,
+            legajo: element.userDni,
+            roleName: element.roleName,
+            name: element.name,
+          }
+  
+          this.users.push(user);
+        });
+      }
 
       console.log("Usuarios involucrados", this.users);
 
@@ -129,8 +131,8 @@ var popup = L.popup()
       console.log("Vehicles =>", this.vehicles);
 
 
-      this.initMap();
       console.log("Emergencia ID" ,data);
+      this.initMap();
     }, error =>{
       console.log(error);
     })

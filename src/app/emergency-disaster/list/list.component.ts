@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { SelectTypesEmergencyDisasterService } from './../select-types-emergency-disaster.service';
 import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
 import { EmergencyDisasterService } from './../emergency-disaster.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map, filter } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { NgbdEditDialogComponent } from '../ngbd-edit-dialog/ngbd-edit-dialog.component';
 import { NgbdDeleteModalComponent } from '../ngbd-delete-modal/ngbd-delete-modal.component';
+import {SorteableDirective, SortEvent} from '../../directives/sorteable.directive';
 
 @Component({
   selector: 'list',
@@ -20,6 +21,7 @@ import { NgbdDeleteModalComponent } from '../ngbd-delete-modal/ngbd-delete-modal
 })
 export class ListComponent implements OnInit {
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+  @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
 
   emergencyDisaster: EmergencyDisaster[];
   emergencyDisasterObservable: Observable<EmergencyDisaster[]>;
@@ -27,6 +29,7 @@ export class ListComponent implements OnInit {
   array= [];
   typesid: number;
   types$: Observable<number>;
+  total$: Observable<number>;
 
 
 
@@ -41,7 +44,7 @@ export class ListComponent implements OnInit {
     
     ngOnInit(): void {
     this.emergencyDisasterObservable = this.selectTypesEmergencyDisasterService.emergencyDisasterObservable$;
-    
+    this.total$ = this.selectTypesEmergencyDisasterService.total$;
      /*  this.selectTypesEmergencyDisasterService.TypesEvent.subscribe(data =>{
         this.typesid = data;
         this.emergencyDisaster = this.selectTypesEmergencyDisasterService.filterTypes(this.emergencyDisasterClone);
@@ -53,10 +56,22 @@ export class ListComponent implements OnInit {
 
   }
 
+  onSort({column, direction}: SortEvent) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    this.selectTypesEmergencyDisasterService.sortColumn = column;
+    this.selectTypesEmergencyDisasterService.sortDirection = direction;
+  }
+
 
 
 getCardColor(state: string){
-  if(state === 'Extremo'){
+  if(state === 'Urgente'){
     return '#FADBD8';
   }
   else if(state === 'Moderado'){

@@ -1,7 +1,7 @@
 import { MapService } from './map.service';
 import { PlacesApiClient } from './placesApiClient';
 import { Places, Feature } from './../models/places';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, QueryList } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -9,6 +9,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PlacesService {
+
+  private options = { headers: new HttpHeaders().set('Content-Type', 'application/json'),
+  params: new HttpParams() };
 
   public userLocation?: [number, number];
   public isLoadingPlaces: boolean = false;

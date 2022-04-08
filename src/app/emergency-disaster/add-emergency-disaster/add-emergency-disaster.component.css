@@ -22,3 +22,22 @@ h3 {
 .example-full-width {
     width: 95%;
 }
+
+textarea {
+    height: 250px;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.Step2 {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+.example {
+    width: 47%;
+    margin-left: 13px;
+}

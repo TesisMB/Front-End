@@ -66,24 +66,22 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
       staffs.removeAt(0);
     }
     console.log('Datos de usuario: ', this.user);
+    //Se obtiene el role y se le asigna al formulario el ID de dicho rol.
+    let id =(this.roles.find(name => name.RoleName === this.user.users.roleName));
+    // inserto el FK_RoleID en el objeto user
+    this.user.users.FK_RoleID = id.roleID;
+    this.user.users.FK_EstateID = this.user.users.estates.estateID;
 
     // inserto los valores del usuario al formulario
     this.f.patchValue(this.user);
-
-
 
     // agrego los horarios al formArray
     this.user.users.estates.estatesTimes.forEach(times => staffs.push(this.userService._employeeForm.group(times)));
     //clono al usuario original
     this.model = _.cloneDeep(this.user);
-    //Se obtiene el role y se le asigna al formulario el ID de dicho rol.
-    let id =(this.roles.find(name => name.RoleName === this.user.users.roleName));
-    this.roleID.patchValue(id.roleID)
+
     // Se deshabilita el formulario
      this.f.disable();
-
-     console.log('Datos de usuario: ', this.user);
-
   }
 
   // getter para acortar el acceso a la variable
@@ -96,14 +94,19 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   get roleName(){ return this.form.get('users.roleName') }
 
   get isAdmin(){
-    return (this.authenticationService.currentUserValue.roleName === 'Admin' || this.authenticationService.currentUserValue.roleName ===  'Coordinador General') ? true : false;
+    return this.authenticationService.currentUserValue.roleName ===  'Admin';
+  }
+  get isCGeneral(){
+    return  this.authenticationService.currentUserValue.roleName ===  'Coordinador General';
   }
 
+  get isMe(){
+    return  this.authenticationService.currentUserValue.userID ===  this.user.users.userID;
+  }
 
   setRole(){
-    let role = (this.roles.find(name => name.RoleName === this.roleName.value));
-    this.roleID.patchValue(role.roleID);
-    console.log(this.user);
+  let role = (this.roles.find(name => name.RoleName === this.roleName.value));
+  this.roleID.patchValue(role.roleID);
 
   }
 
@@ -188,10 +191,6 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   patch(){
-
-    console.log(this.model);
-    console.log(this.user);
-
     let patch = compare(this.model, this.user);
 
     patch = patch.filter( obj => obj.path !== "/users/roleName");

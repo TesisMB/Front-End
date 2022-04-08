@@ -1,47 +1,189 @@
-<form [formGroup]="addEmergencyDisaster" (ngSubmit)="addEmergencyDisasterFunction()">
+<form [formGroup]="addEmergencyDisaster">
 
     <section class="col-body" id="row-aside">
 
-        <div class="row justify-content-around">
+        <mat-horizontal-stepper linear #stepper>
+            <mat-step [stepControl]="formEmergency" errorMessage="Datos son requeridos.">
+                <div class="row justify-content-around">
 
-            <mat-form-field appearance="fill">
-                <mat-label>Tipo de Emergencia</mat-label>
-                <mat-select formControlName="FK_TypeEmergencyID">
-                    <mat-option id="FK_TypeEmergencyID" *ngFor="let emergency of arraytypeEmergencyDisaster"
-                        [value]="emergency.id">
-                        {{emergency.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Tipo de Emergencia</mat-label>
+                        <mat-select formControlName="FK_TypeEmergencyID">
+                            <mat-option id="FK_TypeEmergencyID" *ngFor="let emergency of arraytypeEmergencyDisaster"
+                                [value]="emergency.id">
+                                {{emergency.name}}
+                            </mat-option>
+                        </mat-select>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Estado</mat-label>
-                <mat-select formControlName="FK_AlertID">
-                    <mat-option *ngFor="let item of alerts" [value]="item.alertID">
-                        {{item.alertDegree}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+                        <mat-error *ngIf="formEmergency.get('FK_TypeEmergencyID').hasError('required')">
+                            El responsable es<strong> requerida</strong>
+                        </mat-error>
+                    </mat-form-field>
 
+                    <mat-form-field appearance="fill">
+                        <mat-label>Estado</mat-label>
+                        <mat-select formControlName="FK_AlertID">
+                            <mat-option *ngFor="let item of alerts" [value]="item.alertID">
+                                {{item.alertDegree}}
+                            </mat-option>
+                        </mat-select>
 
-
-        <!--    acceso al mapa-->
-        <div class="row justify-content-center">
-
-            <h3 class="mt-2">Ubicación: </h3>
-            <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
-                <mat-icon> location_on</mat-icon>
-            </button>
-        </div>
+                        <mat-error *ngIf="formEmergency.get('FK_AlertID').hasError('required')">
+                            El responsable es<strong> requerida</strong>
+                        </mat-error>
+                    </mat-form-field>
 
 
-        <map></map>
+                    <mat-form-field appearance="fill">
+                        <mat-label for="Fk_EmplooyeeID">Responsable</mat-label>
+                        <mat-select formControlName="Fk_EmplooyeeID">
+                            <mat-option *ngFor=" let item of user" [value]="item.employeeID">
+                                {{item.users.userDni}} -
+                                {{item.users.persons.firstName}}
+                                {{item.users.persons.lastName}}
+                            </mat-option>
+                        </mat-select>
 
-        <div class="row justify-content-center area">
-            <button class="btn btn-danger">Guardar</button>
-        </div>
+                        <mat-error *ngIf="formEmergency.get('Fk_EmplooyeeID').hasError('required')">
+                            El responsable es<strong> requerida</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
 
 
+
+                <!--    acceso al mapa-->
+                <div class="row justify-content-center">
+
+                    <h3 class="mt-2">Ubicación: </h3>
+                    <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
+                        <mat-icon> location_on</mat-icon>
+                    </button>
+                </div>
+
+                <map></map>
+
+
+                <button mat-button routerLink="/" type="button">Cancelar</button>
+                <button mat-button matStepperNext>Siguiente</button>
+
+
+            </mat-step>
+
+
+            <mat-step [stepControl]="formVictims" errorMessage="Datos son requeridos.">
+
+                <div class="Step2">
+
+                    <div class="col-6">
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label for="emergencyDisasterInstruction">Descripción: </mat-label>
+                            <textarea matInput id="emergencyDisasterInstruction" name="emergencyDisasterInstruction"
+                                formControlName="emergencyDisasterInstruction"></textarea>
+                            <mat-error *ngIf="formEmergency.get('emergencyDisasterInstruction').hasError('required')">
+                                La descripción <strong> requerida</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-6" formGroupName="victims">
+                        <mat-form-field appearance="fill" class="example">
+                            <mat-label for="affectedLocalities">Localidades afectadas</mat-label>
+                            <input formControlName="affectedLocalities" matInput type="number" min="0">
+                            <mat-error *ngIf="formVictims.get('numberAffected').hasError('required')">
+                                Numero de afectados <strong>requerida</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+
+                        <mat-form-field appearance="fill" class="example">
+                            <mat-label>barrios afectadas</mat-label>
+                            <input value="0" formControlName="affectedNeighborhoods" matInput type="number" min="0">
+
+                            <mat-error *ngIf="formVictims.get('affectedNeighborhoods').hasError('required')">
+                                Barrios afectados es<strong>requerida</strong>
+                            </mat-error>
+
+                        </mat-form-field>
+
+
+                        <mat-form-field appearance="fill" class="example">
+                            <mat-label>Personas asisitidas</mat-label>
+                            <input formControlName="assistedPeople" matInput type="number" min="0">
+
+                            <mat-error *ngIf="formVictims.get('assistedPeople').hasError('required')">
+                                Personas asisitidas es<strong>requerida</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" class="example">
+                            <mat-label>Personas evacuadas</mat-label>
+                            <input formControlName="evacuatedPeople" matInput type="number" min="0">
+
+                            <mat-error *ngIf="formVictims.get('evacuatedPeople').hasError('required')">
+                                Personas evacuadas es<strong>requerida</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" class="example">
+                            <mat-label>Cantidad de afectados</mat-label>
+                            <input formControlName="numberAffected" matInput type="number" min="0">
+
+                            <mat-error *ngIf="formVictims.get('numberAffected').hasError('required')">
+                                Cantidad de afectados es<strong>requerida</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" class="example">
+                            <mat-label>Personas fallecidas</mat-label>
+                            <input formControlName="numberDeaths" matInput type="number" min="0">
+
+                            <mat-error *ngIf="formVictims.get('numberDeaths').hasError('required')">
+                                Personas fallecidas es<strong>requerida</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" class="example">
+                            <mat-label>Familias afectadas</mat-label>
+                            <input formControlName="numberFamiliesAffected" matInput type="number" min="0">
+
+                            <mat-error *ngIf="formVictims.get('numberFamiliesAffected').hasError('required')">
+                                Familias afectada es<strong>requerida</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" class="example">
+                            <mat-label>Personas recuperadas</mat-label>
+                            <input formControlName="recoveryPeople" matInput type="number" min="0">
+
+                            <mat-error *ngIf="formVictims.get('recoveryPeople').hasError('required')">
+                                Personas recuperadas es<strong>requerida</strong>
+                            </mat-error>
+
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" floatLabel="always" class="example">
+                            <mat-label>Daños materiales</mat-label>
+                            <input formControlName="materialsDamage" matInput type="number" class="example-right-align">
+                            <span matPrefix>$&nbsp;</span>
+
+                            <mat-error *ngIf="formVictims.get('materialsDamage').hasError('required')">
+                                Daños materiales es<strong>requerida</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <button mat-button matStepperPrevious type="button">Atras</button>
+
+
+                <div class="row justify-content-center">
+                    <button class="btn btn-danger" (click)="addEmergencyDisasterFunction()">Finalizar</button>
+                </div>
+            </mat-step>
+
+
+        </mat-horizontal-stepper>
     </section>
 </form>

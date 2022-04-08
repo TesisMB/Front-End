@@ -26,7 +26,7 @@ export class NgbdDeleteModalComponent implements OnInit {
 
   deletEmergencyDisaster(id : number){
     this.emergencyDisasterService.deleteEmergencyDisaster(id).subscribe(data =>{
-      this.alertService.success('Emergencia y/o desastre eliminado exitosamente', { autoClose: true });
+      this.alertService.success('Emergencia eliminada exitosamente', { autoClose: true });
       this.selectTypesEmergencyDisasterService.deleteFromTable(id);
       this.modal.close();
       console.log("EmergencyDisaster - Deleted", data);

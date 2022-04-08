@@ -14,7 +14,7 @@
     <div class="content-left">
         <div [ngClass]="{'cuadrado': emergency.alerts.alertDegree === 'Moderado',
                 'triangulo': emergency.alerts.alertDegree === 'Controlado',
-              'circulo': emergency.alerts.alertDegree === 'Extremo'}">
+              'circulo': emergency.alerts.alertDegree === 'Urgente'}">
 
             <img src="../../../assets/icons - Resources - EmergDesas/{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterIcon}}.svg"
                 alt="" class="img">
@@ -45,6 +45,11 @@
                     <mat-icon>delete</mat-icon>
                     <span>Eliminar</span>
                 </button>
+
+                <button mat-menu-item>
+                    <mat-icon>check_box</mat-icon>
+                    <span>Finalizar emergencia</span>
+                </button>
             </mat-menu>
 
             <div class="child-2p">
@@ -56,5 +61,19 @@
 </div>
 
 <div *ngIf="(emergencyDisasterObservable | async).length == 0" class="text-center">
-    <p class="align-center">No hay Emergencias y Desastres</p>
+    <p class="align-center">No hay emergencias</p>
+</div>
+
+
+<div class="d-flex justify-content-between p-2 mt-4">
+    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="selectTypesEmergencyDisasterService.page"
+        [pageSize]="selectTypesEmergencyDisasterService.pageSize">
+    </ngb-pagination>
+
+    <select class="form-select" style="width: auto" name="pageSize"
+        [(ngModel)]="selectTypesEmergencyDisasterService.pageSize">
+        <option [ngValue]="4">4 emergencias por pagina</option>
+        <option [ngValue]="6">6 emergencias por pagina</option>
+        <option [ngValue]="10">10 emergencias por pagina</option>
+    </select>
 </div>

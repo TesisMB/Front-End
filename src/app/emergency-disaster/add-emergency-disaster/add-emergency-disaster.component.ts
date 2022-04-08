@@ -4,8 +4,8 @@ import { PlacesService } from './../places.service';
 import { Alerts } from './../../models/alerts';
 import { Alert } from './../../models/alert';
 import { EmergencyDisasterService } from './../emergency-disaster.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { TypesEmergencyDisaster } from 'src/app/models/typeEmergencyDisaster';
@@ -13,6 +13,9 @@ import { SelectTypesEmergencyDisasterService } from '../select-types-emergency-d
 import { Observable } from 'rxjs';
 import { Feature } from 'src/app/models/places';
 import { Ubicacion } from 'src/app/models/Parametros';
+import { Employee } from 'src/app/models';
+import { MatStepper } from '@angular/material/stepper';
+import { AlertService } from 'src/app/services';
 
 @Component({
   selector: 'add-emergency-disaster',
@@ -20,6 +23,8 @@ import { Ubicacion } from 'src/app/models/Parametros';
   styleUrls: ['./add-emergency-disaster.component.css']
 })
 export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
+  @ViewChild('stepper',{read:MatStepper}) stepper:MatStepper;
+
   arraytypeEmergencyDisaster = [];
   typeEmergencyDisaster: TypesEmergencyDisaster[];
   location: boolean = false;
@@ -30,21 +35,24 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   coordinates: Ubicacion;
   handler: any;
   currentUser: number;
+  user: Employee [];
+
 
   constructor(    private router: Router,
     private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
     private fb: FormBuilder,
     private placesService: PlacesService,
-    private authenticationService: AuthenticationService
-    
+    private authenticationService: AuthenticationService,
+    private userService : UserService,
+    private alertService: AlertService
     ) {
 
       this.addEmergencyDisaster = this.fb.group({
         FK_TypeEmergencyID: ["", Validators.required],
         FK_AlertID: ["", Validators.required],
         Fk_EmplooyeeID: ["", Validators.required],
-        emergencyDisasterInstruction: [""],
+        emergencyDisasterInstruction: [" ", Validators.required],
         locations: this.fb.group({
           locationCityName: [],
           locationDepartmentName: [],
@@ -54,10 +62,26 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
         }),
         chatRooms: this.fb.group({
           FK_TypeChatRoomID: [1]
+        }),
+        victims: this.fb.group({
+          numberDeaths: [0, [Validators.required, Validators.min(0)]],
+          numberAffected: [0, [Validators.required, Validators.min(0)]],
+          numberFamiliesAffected: [0, [Validators.required, Validators.min(0)]],
+          materialsDamage: [0,  [Validators.required, Validators.min(0)]],
+          affectedLocalities: [0,  [Validators.required, Validators.min(0)]],
+          evacuatedPeople: [0,  [Validators.required, Validators.min(0)]],
+          affectedNeighborhoods: [0,  [Validators.required, Validators.min(0)]],
+          assistedPeople: [0,  [Validators.required, Validators.min(0)]],
+          recoveryPeople: [0,  [Validators.required,Validators.min(0)]],
         })
       })
 
      }
+
+     get formEmergency () { return this.addEmergencyDisaster;}
+
+     get formVictims() { return this.addEmergencyDisaster.get('victims');}
+
 
   ngOnInit(): void {
     this.authenticationService.currentUser.subscribe(data => {
@@ -71,14 +95,27 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
     this.alerts = this.emergencyDisasterService.ListarAlertas;
     this.getTypeEmergencyDisaster();
+    this.getUser();
   }
 
+
+  getUser(){
+    this.userService.getAll().subscribe(data => {
+      this.user = data;
+
+      this.user = this.user.filter(a => a.users.roleName == "Coordinador de Emergencias y Desastres");
+    }, error =>{
+      console.log(error);
+    })
+  }
 
   addEmergencyDisasterFunction(){
 
     this.currentPlaceHandler = this.placesService.placeSubject$.subscribe(resp => {
       this.placeObservable = resp;
       console.log(this.placeObservable);
+
+      this.router
     }, err => {
       console.log(err);
     });
@@ -94,8 +131,6 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   
     console.log(this.coordinates);
 
-    this.addEmergencyDisaster.get('Fk_EmplooyeeID').patchValue(this.currentUser);
-    
     this.addEmergencyDisaster.get('locations.locationCityName').patchValue(this.coordinates.municipio.nombre);
     this.addEmergencyDisaster.get('locations.locationDepartmentName').patchValue(this.coordinates.departamento.nombre);
     this.addEmergencyDisaster.get('locations.locationMunicipalityName').patchValue(this.coordinates.municipio.nombre);
@@ -108,7 +143,10 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
     console.log('Formulario =>', emergency);
 
     this.emergencyDisasterService.register(emergency).subscribe( () =>{
-      console.log("Formulario enviado correctamente!!!!");
+      this.alertService.success('Registro exitoso :)', { autoClose: true });
+      // this.router.navigate(['/'], { relativeTo: this.route });
+      //this.tableService._setEmployee();
+        this.stepper.reset();
     }, error =>{
       console.log("Error en el formulario!!!", error);
     }) 
@@ -148,8 +186,8 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
  
   ngOnDestroy(): void {
-    this.handler.unsubscribe();
-    this.currentPlaceHandler.unsubscribe();
+   /*  this.handler.unsubscribe();
+    this.currentPlaceHandler.unsubscribe(); */
   }
 
 }

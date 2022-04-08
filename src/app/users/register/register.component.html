@@ -74,9 +74,7 @@
                   formControlName="locationName"
                   required
                 />
-                <mat-error
-                  *ngIf="formPerson.get('locationName').hasError('required')"
-                >
+                <mat-error *ngIf="formPerson.get('locationName').hasError('required')">
                   La ciudad es <strong>requerida</strong>
                 </mat-error>
                 <mat-error
@@ -214,6 +212,7 @@
             <button mat-button matStepperNext type="button">Siguiente</button>
           </div>
         </mat-step>
+        
         <mat-step
           [stepControl]="formUser"
           errorMessage="Todos los datos son requeridos"

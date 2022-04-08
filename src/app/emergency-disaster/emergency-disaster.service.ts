@@ -16,6 +16,8 @@ import { Alert } from '../models';
 export class EmergencyDisasterService extends DataService {
 
   private _EmergencyDisasterSubject: BehaviorSubject<EmergencyDisaster> = new BehaviorSubject<EmergencyDisaster>(null);
+
+  
 /*   private _EmergencyDisaster: BehaviorSubject<number> = new BehaviorSubject<number>(4);
  */  handler: any;
   constructor(http: HttpClient) {
@@ -33,6 +35,8 @@ export class EmergencyDisasterService extends DataService {
 
     return alerts;
   }
+
+
 
 
   deleteEmergencyDisaster(id: number){

@@ -9,6 +9,8 @@ import {compare} from 'fast-json-patch';
 import { _deepClone } from 'fast-json-patch/module/helpers';
 import * as _ from 'lodash';
 import { UserService } from 'src/app/users';
+import { AlertService } from 'src/app/services';
+import { SelectTypesEmergencyDisasterService } from '../select-types-emergency-disaster.service';
 
 @Component({
   selector: 'ngbd-edit-dialog',
@@ -29,7 +31,10 @@ export class NgbdEditDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<NgbdEditDialogComponent>,
     private fb: FormBuilder,
     private emergencyDisasterService : EmergencyDisasterService,
-    private userService : UserService
+    private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
+    private userService : UserService,
+    private alertService: AlertService
+
   ) {}
 
   ngOnInit() {
@@ -117,6 +122,17 @@ setRole(){
       FK_AlertID:['', [Validators.required]],
       alerts: this.fb.group({
         alertDegree: [],
+      }),
+      victims: this.fb.group({
+        numberDeaths: [],
+        numberAffected: [],
+        numberFamiliesAffected: [],
+        materialsDamage: [],
+        affectedLocalities: [],
+        evacuatedPeople: [],
+        affectedNeighborhoods: [],
+        assistedPeople: [],
+        recoveryPeople: [],
       })
       })
   }
@@ -133,6 +149,11 @@ setRole(){
 
   patch(value){
     this.emergencyDisasterService.patchEmergencyDisaster(this.emergencyDisaster, value).subscribe(data =>{
+      this.alertService.success('Actualizado correctamente :)', { autoClose: true });
+     
+     // this.selectTypesEmergencyDisasterService._setEmployee(this.emergencyDisaster);
+
+      this.model = _.cloneDeep(this.emergencyDisaster);
       console.log("Actualizado correctamente!!", this.emergencyDisasterForm.value);
     }, error => {
       console.log("Error", error);
