@@ -1,5 +1,5 @@
 import { AuthenticationService } from 'src/app/services';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable, PipeTransform } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Resource } from '../models';
@@ -176,6 +176,19 @@ public uploadTable(resources: Resource[]) {
     .pipe(map( x => {    
     return x
     }));
+  }
+
+  upload(file: File): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    const req = new HttpRequest('POST', `${environment.URL}upload`, formData, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+    return this.http.request(req);
+  }
+  getFiles(): Observable<any> {
+    return this.http.get(`${environment.URL}files`);
   }
 
 

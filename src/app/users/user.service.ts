@@ -63,7 +63,7 @@ return this._employeeForm.group({
       roleName: [],
       userAvailability: [{},[Validators.required]],
       userID: [{},[Validators.required]],
-      FK_EstateID: []
+      FK_EstateID: ['',[Validators.required]],
     })
 
     });

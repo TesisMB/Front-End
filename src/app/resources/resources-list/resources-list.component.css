@@ -235,8 +235,11 @@ span button {
 }
 
 img {
-  width: 100%;
-  background-size: cover;
+  border-radius: 10px;
+  height: 305px;
+/*   width: 305px;
+ */
+  object-fit: cover;
 }
 
 @media screen and (max-width: 1200px) {

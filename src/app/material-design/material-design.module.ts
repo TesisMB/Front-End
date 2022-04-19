@@ -1,10 +1,9 @@
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NgModule,  } from '@angular/core';
+import { NgModule  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-
 
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -33,7 +32,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
-import {MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE} from '@angular/material/core';
+import {DateAdapter, MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatRadioModule} from '@angular/material/radio';
@@ -104,8 +103,21 @@ import {OverlayModule} from '@angular/cdk/overlay';
     OverlayModule,
     PortalModule,
     ScrollingModule,
+   // MatMomentDateModule
     
     ],
-    providers:[{ provide: MAT_DATE_LOCALE, useValue: 'es-ES' }]
+    providers:[
+    // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
+    // `MatMomentDateModule` in your applications root module. We provide it at the component level
+    // here, due to limitations of our example generation script.
+  //    {
+  //      provide: DateAdapter,
+  //      useClass: MomentDateAdapter,
+  //      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+  //  },
+    //  {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  
+      // { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
+    ]
 })
 export class MaterialDesignModule { }

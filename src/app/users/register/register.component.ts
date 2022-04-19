@@ -118,7 +118,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if(this.isVoluntario){
       this.registerForm.addControl('volunteers', this.formBuilder.group({
         volunteerDescription: [null],
-        volunteerAvatar: [null]}));
+        ImageFile: [null]}));
     }
     else if(this.registerForm.get('volunteers')){
       this.registerForm.removeControl('volunteers');

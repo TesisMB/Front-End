@@ -22,10 +22,12 @@ import { AppComponent } from './app.component';
 
 //***************SERVICES*********** */
 import { ErrorInterceptor, JwtInterceptor} from './_helpers';
+import { FileValueAccessorDirective } from './directives/file-value-accessor.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
+    FileValueAccessorDirective,
 
 
 
