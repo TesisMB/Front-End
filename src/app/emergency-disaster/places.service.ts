@@ -33,7 +33,7 @@ export class PlacesService {
 
   
   
-  getLocation(lat: number, lon: number): Observable<any> {
+  getLocation(lat: number, lon: number){
     return this.http.get<any>(`https://apis.datos.gob.ar/georef/api/ubicacion?lat=${lat}&lon=${lon}`);
 }
 

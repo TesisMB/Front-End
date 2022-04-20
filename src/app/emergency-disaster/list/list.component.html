@@ -37,7 +37,7 @@
             </button>
 
             <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="openDialog(i)">
+                <button mat-menu-item (click)="openDialog(i, 'Editar')" *ngIf="!emergency.emergencyDisasterEndDate">
                     <mat-icon>edit</mat-icon>
                     <span>Editar</span>
                 </button>
@@ -46,7 +46,7 @@
                     <span>Eliminar</span>
                 </button>
 
-                <button mat-menu-item>
+                <button mat-menu-item (click)="openDialog(i, 'Finalizar')" *ngIf="!emergency.emergencyDisasterEndDate">
                     <mat-icon>check_box</mat-icon>
                     <span>Finalizar emergencia</span>
                 </button>

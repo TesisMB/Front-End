@@ -28,7 +28,6 @@ export class ListComponent implements OnInit {
   handler: any;
   array= [];
   typesid: number;
-  types$: Observable<number>;
   total$: Observable<number>;
 
 
@@ -57,7 +56,6 @@ export class ListComponent implements OnInit {
   }
 
   onSort({column, direction}: SortEvent) {
-    // resetting other headers
     this.headers.forEach(header => {
       if (header.sortable !== column) {
         header.direction = '';
@@ -95,13 +93,13 @@ deployment(){
   this.router.navigate(['emergencias/despliegue']);
 }
 
-openDialog(i){
-
+openDialog(i, tipo: string){
   const emergency = this.emergencyDisasterObservable[i];
   const dialogRef = this.dialog.open(NgbdEditDialogComponent);
   dialogRef.componentInstance.emergencyDisaster = this.selectTypesEmergencyDisasterService.emergencyDisasterObservableValue$[i];
-}
+  dialogRef.componentInstance.tipo = tipo;
 
+}
 
 
 deleteModal(i, reason: string){

@@ -113,17 +113,13 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
     this.currentPlaceHandler = this.placesService.placeSubject$.subscribe(resp => {
       this.placeObservable = resp;
-      console.log(this.placeObservable);
-
-      this.router
     }, err => {
       console.log(err);
     });
 
-
   
    this.handler = this.placesService.getLocation(this.placeObservable.center[1], this.placeObservable.center[0]).subscribe(resp =>{
-     this.coordinates = resp.ubicacion;
+     this.coordinates = resp.Ubicacion;
     }, error=>{
       console.log("Error", error);
     });

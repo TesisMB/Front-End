@@ -7,11 +7,13 @@
     </button>
 </div>
 <div class="modal-body">
-    <p><strong>¿Está seguro que quiere {{titulo | lowercase}} <span
+    <p><strong>¿Está seguro que quiere {{titulo | lowercase}}
+         <span
                 class="text-primary">"{{emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName |
                 titlecase}} en {{emergencyDisaster.locations.locationDepartmentName | titlecase}}"</span> ?</strong>
     </p>
-    <p>Toda información asociada a esta emergencia y/o desastre será eliminada permanentemente.
+    <p *ngIf="titulo === 'Eliminar'">Toda información asociada a esta emergencia y/o desastre será elimnada
+        permanentemente.
         <span class="text-danger">Esta operación es irreversible.</span>
     </p>
 </div>

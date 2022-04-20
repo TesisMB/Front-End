@@ -58,7 +58,7 @@ export class SelectTypesEmergencyDisasterService extends DataService{
 
   private selectTypes$: BehaviorSubject<number> = new BehaviorSubject<number>(8); 
 
-  private emergencyDisaster$: BehaviorSubject<EmergencyDisaster[]> = new BehaviorSubject<EmergencyDisaster[]>(null); 
+  private emergencyDisaster$: BehaviorSubject<EmergencyDisaster[]> = new BehaviorSubject<EmergencyDisaster[]>([]); 
   
   private status$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); 
   
@@ -112,14 +112,6 @@ export class SelectTypesEmergencyDisasterService extends DataService{
 
 
 
-  /**Se debe realizar una funcion para la cual se actualice la tabla despues de cambiar datos de usuario */
-public _setEmployee(patch:EmergencyDisaster){
-  let index = this.emergencyDisaster.findIndex( x => patch.emergencyDisasterID == x.emergencyDisasterID);
-  (index === -1) ? this.emergencyDisaster.push(patch) : this.emergencyDisaster[index] = patch;
-  this._search$.next();
-}
-
-
   private _set(patch: Partial<State>) {
     Object.assign(this._state, patch);
     this._search$.next();
@@ -166,11 +158,29 @@ public _setEmployee(patch:EmergencyDisaster){
 
   public deleteFromTable(id){
     const index =  this.emergencyDisaster.findIndex(x => x.emergencyDisasterID == id);
+
     let deleteEmergencyDisaster = this.emergencyDisaster.splice(index, 1);
+
     console.log("deleteUser =>", deleteEmergencyDisaster);
+
     this.uploadTable(this.emergencyDisaster);
   }
   
+
+  
+  /**Se debe realizar una funcion para la cual se actualice la tabla despues de cambiar datos de usuario */
+/* public _setEmployee(patch:EmergencyDisaster){
+
+  let index = this.emergencyDisaster.findIndex( x => patch.emergencyDisasterID == x.emergencyDisasterID);
+  
+  (index === -1) ? this.emergencyDisaster.push(patch) : this.emergencyDisaster[index] = patch;
+  this._search$.next();
+}
+
+ */
+
+
+
   
   updateEmergencyDisaster(emergency: EmergencyDisaster[]){
     this.emergencyDisaster = emergency;
@@ -195,10 +205,6 @@ public _setEmployee(patch:EmergencyDisaster){
       EmergencyDisasterClone = EmergencyDisasterClone.filter(data => data.emergencyDisasterEndDate === null)
     }
     
-    
-    console.log('datos filtrados boolean => ', EmergencyDisasterClone);
-    
-    
     return  EmergencyDisasterClone;
     
   }
@@ -210,8 +216,6 @@ public _setEmployee(patch:EmergencyDisaster){
       let emergency = this.status(this.emergencyDisaster);
       emergency = this.selectType(emergency)
   
-      /* this.emergencyDisaster.filter(data => data.typesEmergenciesDisasters['typeEmergencyDisasterID'] == this.selectTypes$.value); */
-    
   
       let data = sort(emergency, sortColumn, sortDirection);
   
@@ -219,7 +223,6 @@ public _setEmployee(patch:EmergencyDisaster){
 
       const total = data.length;
   
-      // 3. paginate
       data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
   
       return of({data, total});
@@ -233,9 +236,6 @@ public _setEmployee(patch:EmergencyDisaster){
     if(this.selectTypes$.value != 8){
       EmergencyDisasterClone = EmergencyDisasterClone.filter(data => data.typesEmergenciesDisasters['typeEmergencyDisasterID'] === this.selectTypes$.value)
     }
-    
-    
-    console.log('datos filtrados boolean => ', EmergencyDisasterClone);
     
     
     return  EmergencyDisasterClone;
