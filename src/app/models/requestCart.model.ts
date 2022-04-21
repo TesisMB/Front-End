@@ -25,8 +25,7 @@ description: string,
 status: string,
 condition: string,
 users:UserRequest,
-emergenciesDisasters: EmergencyDisaster
-
+emergenciesDisasters: EmergencyDisaster,
   }
 
   export interface RequestGet {

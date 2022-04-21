@@ -16,11 +16,20 @@ export class NgbdDeleteModalComponent implements OnInit {
   
   titulo: string;
 
+  tipo: string;
+
   constructor(public modal: NgbActiveModal,
               private emergencyDisasterService: EmergencyDisasterService,
               private alertService: AlertService,
               private selectTypesEmergencyDisasterService: SelectTypesEmergencyDisasterService){}
-              ngOnInit(): void {
+           
+           
+  ngOnInit(): void {
+    if(this.titulo === 'Finalizar'){
+      this.tipo = 'finalizada';
+    }else{
+      this.tipo = 'eliminada';
+    }
   }
 
 

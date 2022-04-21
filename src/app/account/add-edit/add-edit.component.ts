@@ -28,6 +28,7 @@ export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
   model: Employee;
   originalUser: Employee;
 
+
   constructor(
       private formBuilder: FormBuilder,
       public UserService: UserService,

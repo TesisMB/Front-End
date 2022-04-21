@@ -3,7 +3,7 @@
 </div>
 
 
-<form class="example-form" [formGroup]="emergencyDisasterForm" (ngSubmit)="onSubmit()">
+<form class="example-form" [formGroup]="emergencyDisasterForm">
 
     <div class="form">
 
@@ -127,6 +127,6 @@
 
     <div mat-dialog-actions class="buttons">
         <button mat-button (click)="onNoClick()">Cancelar</button>
-        <button mat-button cdkFocusInitial (click)="updateEmergency(emergencyDisaster)">Guardar cambios</button>
+        <button mat-button cdkFocusInitial (click)="status(tipo)">{{tipo}}</button>
     </div>
 </form>
