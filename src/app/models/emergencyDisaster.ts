@@ -10,7 +10,7 @@ export interface EmergencyDisaster {
 
     emergencyDisasterID: number;
     emergencyDisasterStartDate: string;
-    emergencyDisasterEndDate: string;
+    emergencyDisasterEndDate: Date;
     emergencyDisasterInstruction: string;
     Fk_EmplooyeeID: number;
     FK_TypeEmergencyID: number,

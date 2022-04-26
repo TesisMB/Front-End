@@ -8,8 +8,7 @@
 </div>
 <div class="modal-body">
     <p><strong>¿Está seguro que quiere {{titulo | lowercase}}
-         <span
-                class="text-primary">"{{emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName |
+            <span class="text-primary">"{{emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName |
                 titlecase}} en {{emergencyDisaster.locations.locationDepartmentName | titlecase}}"</span> ?</strong>
     </p>
     <p *ngIf="titulo === 'Eliminar'">Toda información asociada a esta emergencia y/o desastre será elimnada
@@ -17,7 +16,12 @@
         <span class="text-danger">Esta operación es irreversible.</span>
     </p>
 </div>
+
+
 <div class="modal-footer">
     <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+    
+
     <button type="button" ngbAutofocus class="btn btn-danger"
-        (click)="deletEmergencyDisaster(emergencyDisaster.emergencyDisasterID)">Ok</button>
+        (click)="deletEmergencyDisaster(emergencyDisaster.emergencyDisasterID)"
+        *ngIf="titulo === 'Eliminar'">Ok</button>

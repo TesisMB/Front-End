@@ -112,43 +112,42 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   addEmergencyDisasterFunction(){
 
     this.currentPlaceHandler = this.placesService.placeSubject$.subscribe(resp => {
-      this.placeObservable = resp;
+      this.getLocation(resp);
     }, err => {
       console.log(err);
     });
+    }
 
-  
-   this.handler = this.placesService.getLocation(this.placeObservable.center[1], this.placeObservable.center[0]).subscribe(resp =>{
-     this.coordinates = resp.Ubicacion;
+  getLocation(placeObservable){
+   this.handler = this.placesService.getLocation(placeObservable.center[1], placeObservable.center[0]).subscribe(resp =>{
+    this.addEmergencyDisaster.get('locations.locationLongitude').patchValue(placeObservable.center[0]);
+    this.addEmergencyDisaster.get('locations.LocationLatitude').patchValue(placeObservable.center[1]);
+    this.postEmergencyDisaster(resp.ubicacion);
+     
     }, error=>{
       console.log("Error", error);
-    });
-
+    });  
+  }
+    
   
-    console.log(this.coordinates);
 
-    this.addEmergencyDisaster.get('locations.locationCityName').patchValue(this.coordinates.municipio.nombre);
-    this.addEmergencyDisaster.get('locations.locationDepartmentName').patchValue(this.coordinates.departamento.nombre);
-    this.addEmergencyDisaster.get('locations.locationMunicipalityName').patchValue(this.coordinates.municipio.nombre);
-    this.addEmergencyDisaster.get('locations.locationLongitude').patchValue(this.placeObservable.center[0]);
-    this.addEmergencyDisaster.get('locations.LocationLatitude').patchValue(this.placeObservable.center[1]);
-
-
-
+  postEmergencyDisaster(ubication){
+    this.addEmergencyDisaster.get('locations.locationCityName').patchValue(ubication.municipio.nombre);
+    this.addEmergencyDisaster.get('locations.locationDepartmentName').patchValue(ubication.departamento.nombre);
+    this.addEmergencyDisaster.get('locations.locationMunicipalityName').patchValue(ubication.municipio.nombre);
+    
+   
+  
     const emergency = this.addEmergencyDisaster.value;
     console.log('Formulario =>', emergency);
 
     this.emergencyDisasterService.register(emergency).subscribe( () =>{
       this.alertService.success('Registro exitoso :)', { autoClose: true });
-      // this.router.navigate(['/'], { relativeTo: this.route });
-      //this.tableService._setEmployee();
-        this.stepper.reset();
+      
     }, error =>{
       console.log("Error en el formulario!!!", error);
-    }) 
+    });
   }
-
-
 
 
   getTypeEmergencyDisaster(){
