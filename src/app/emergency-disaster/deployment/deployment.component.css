@@ -1,3 +1,8 @@
+:host ::ng-deep .mat-horizontal-stepper-header-container {
+    display: none;
+}
+
+
 table {
     width: 100%;
 }
@@ -17,30 +22,38 @@ table {
     text-align: center;
 }
 
-.modo h1 {
+.emergencia {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 61% 1fr;
+    justify-items: end;
+}
+
+h1 {
     margin: 40px 0;
     width: 100%;
     font-size: 35px;
 }
 
-.modo h4 {
-    font-size: 20px;
-    margin: 2rem 0;
+h4 {
+    font-size: 25px;
+    margin: 3rem 0;
 
 }
 
-.date {
+/* .date {
     display: grid;
     grid-template-columns: 1fr 1fr;
-}
+    justify-items: center;
+} */
 
-.date p:nth-child(1) {
+/* .date p:nth-child(1) {
     text-align: left;
 }
 
 .date p:nth-child(2) {
     text-align: left;
-}
+} */
 
 .date p span {
     font-size: 16px;
@@ -62,14 +75,14 @@ mat-icon {
 
 .instruction {
     overflow-y: auto;
-    margin: 0 20px;
+    width: 50%;
 }
 
 
-.date .calendar,
+/* .date .calendar,
 .date .person {
     margin-left: 20px;
-}
+} */
 
 .date .calendar-end {
     margin-right: 20px;
@@ -80,16 +93,21 @@ mat-icon {
 }
 
 .map-container {
-    width: 80%;
+    width: 36%;
 }
 
 .instructionMap {
+    margin-top: 3rem;
     display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 
+
 .instruction {
-    width: 80%;
+    width: 500px;
 }
 
 table {
@@ -154,7 +172,8 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .victim {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
 }
 
 .users {
@@ -174,3 +193,29 @@ tr.example-element-row:not(.example-expanded-row):active {
 .tabla {
     margin-top: 3rem;
 }
+
+.example-card {
+    width: 200px;
+    max-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.075);
+    margin: 1rem;
+}
+
+.example-card p {
+    text-transform: capitalize;
+}
+
+.example-card p span {
+    display: block;
+    font-size: 30px;
+    margin-top: 1rem;
+}
+
+/* .employees {
+    grid-template-columns: 1fr;
+    justify-self: start;
+    align-self: start;
+} */

@@ -19,6 +19,4 @@
     roleName: string,
     name: string,
     statis: boolean
-
-
  }

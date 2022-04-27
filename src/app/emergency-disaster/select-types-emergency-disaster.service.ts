@@ -111,7 +111,6 @@ export class SelectTypesEmergencyDisasterService extends DataService{
   get loading$() { return this._loading$.asObservable(); }
 
 
-
   private _set(patch: Partial<State>) {
     Object.assign(this._state, patch);
     this._search$.next();
@@ -166,22 +165,6 @@ export class SelectTypesEmergencyDisasterService extends DataService{
     this.uploadTable(this.emergencyDisaster);
   }
   
-
-  
-  /**Se debe realizar una funcion para la cual se actualice la tabla despues de cambiar datos de usuario */
-/* public _setEmployee(patch:EmergencyDisaster){
-
-  let index = this.emergencyDisaster.findIndex( x => patch.emergencyDisasterID == x.emergencyDisasterID);
-  
-  (index === -1) ? this.emergencyDisaster.push(patch) : this.emergencyDisaster[index] = patch;
-  this._search$.next();
-}
-
- */
-
-
-
-  
   updateEmergencyDisaster(emergency: EmergencyDisaster[]){
     this.emergencyDisaster = emergency;
     console.log("SERVICIO", this.emergencyDisaster);
@@ -229,19 +212,13 @@ export class SelectTypesEmergencyDisasterService extends DataService{
     }
   
   
-  
   selectType(EmergencyDisasterClone: EmergencyDisaster[]){
-
-    
     if(this.selectTypes$.value != 8){
       EmergencyDisasterClone = EmergencyDisasterClone.filter(data => data.typesEmergenciesDisasters['typeEmergencyDisasterID'] === this.selectTypes$.value)
     }
-    
-    
     return  EmergencyDisasterClone;
     
   }
-
 
 }
 

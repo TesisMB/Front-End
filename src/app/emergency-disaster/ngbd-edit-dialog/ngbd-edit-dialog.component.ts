@@ -117,7 +117,11 @@ setRole(){
       this.updateEmergency(this.emergencyDisaster);
       this.onSubmit();
     }else{
-      this.openEndEmergency(tipo);
+      const fecha = new Date();
+
+      this.emergencyDisaster.emergencyDisasterEndDate = fecha;
+      this.updateEmergency(this.emergencyDisaster);
+      this.onSubmit();
     }
   }
 

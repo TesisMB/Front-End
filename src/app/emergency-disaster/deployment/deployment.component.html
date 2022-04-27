@@ -1,278 +1,311 @@
 <section class="modo">
-  <h1>Informe de Emergencia y Desastre</h1>
+  <h1>Informe de Emergencia</h1>
+  
+
+
+ 
 </section>
 
 <div class="col justify-content-around col-body" id="row-aside">
   <mat-horizontal-stepper linear #stepper>
     <mat-step>
 
-  <section *ngIf="emergencyDisaster">
+      <section *ngIf="emergencyDisaster">
+
+        <div class="col-12 emergencia">
+          <h4>
+            #{{emergencyDisaster.emergencyDisasterID}}
+            {{emergencyDisaster.locationsEmergenciesDisasters.locationCityName}} 
+            {{emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName}}
+          </h4>
+          
+            <button mat-fab color="warn" aria-label="Example icon button with a home icon">
+              <mat-icon class="icon">picture_as_pdf</mat-icon>
+            </button>
+        </div>
 
 
-    <div *ngIf="!emergencyDisaster.victims">
-      <p>No hay victimas por el momento</p>
-    </div>
+        <div class="date row justify-content-around" *ngIf="emergencyDisaster">
 
-    <div class="victim text-center" *ngIf="emergencyDisaster.victims">
-
-<!--       <img class="img" src="https://i.imgur.com/T0kb0Pg.png" alt="">
- -->      <p>{{emergencyDisaster.victims.assistedPeople}} personas asisitidas: </p>
-
-<!--       <img class="victim-img" src="https://i.imgur.com/3Be1a0G.png" alt="">
- -->      <p>{{emergencyDisaster.victims.numberDeaths}} personas fallecidas: </p>
-
-
-<!--       <img class="victim-img" src="https://i.imgur.com/NYvTDQx.png" alt="">
- -->      <p>{{emergencyDisaster.victims.affectedNeighborhoods}} barrios afectados: </p>
-
-
-<!--       <img class="victim-img" src="https://i.imgur.com/rKcm84M.png" alt="">
- -->      <p>{{emergencyDisaster.victims.affectedLocalities}} localidades afectadas: </p>
-
-<!--       <img class="victim-img" src="https://i.imgur.com/TMTKyr8.png" alt="">
- -->      <p>{{emergencyDisaster.victims.affectedLocalities}} localidades afectadas: </p>
-
-<!--       <img class="victim-img" src="https://i.imgur.com/hjeMdVV.png" alt="">
- -->      <p>{{emergencyDisaster.victims.affectedLocalities}} localidades afectadas: </p>
-
-<!--       <img class="victim-img" src="https://i.imgur.com/8HxeKk6.png" alt="">
- -->      <p>{{emergencyDisaster.victims.affectedLocalities}} localidades afectadas: </p>
-
-    </div>
-
-
-
-    <div class="col-12 modo">
-      <h4 *ngIf="emergencyDisaster">
-        {{emergencyDisaster.locations.locationCityName}} -
-        {{emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName}}
-      </h4>
-
-      <div class="date" *ngIf="emergencyDisaster">
-
-        <p>
+          <div class="col-4 align-self-end">
+            <div class="justify-content-end mb-3">
+               <p>
           <mat-icon class="calendar">calendar_today</mat-icon>
-          <span>Fecha de inicio: {{emergencyDisaster.emergencyDisasterStartDate | date: 'dd/MM/yyyyhh:mm:ss a'}}</span>
+          <span>Fecha de inicio: {{emergencyDisaster.emergencyDisasterStartDate | date: 'dd/MM/yyyy hh:mm a'}}</span>
         </p>
+            </div>
+       
+        <div class="justify-content-end">  <p>
+              <mat-icon class="person">person</mat-icon>
+              <span>Responsable:
+                {{emergencyDisaster.employees.name}}
+              </span>
+            </p>
+          </div>
 
-        <p>
+      </div>
+          <div class="date employees col-4 align-self-start" *ngIf="emergencyDisaster">
+
+            <div class="justify-content-end">
+          <p class="text-right">
           <mat-icon>calendar_today</mat-icon>
           <span class="calendar-end" *ngIf="!emergencyDisaster.emergencyDisasterEndDate">
-            Esta emergencia y/o desastre no
+            Esta emergencia no
             ha sido finalizada</span>
 
           <span class="calendar-end" *ngIf="emergencyDisaster.emergencyDisasterEndDate">Fecha final:
             {{emergencyDisaster.emergencyDisasterEndDate}}</span>
         </p>
+          </div>
       </div>
+</div>
 
-      <div class="date" *ngIf="emergencyDisaster">
-        <p>
-          <mat-icon class="person">person</mat-icon>
-          <span>Responsable:
-            {{emergencyDisaster.employees.name}}
-          </span>
-        </p>
-      </div>
-      <div>
-      </div>
-    </div>
-  </section>
-
-  <section class="instructionMap">
-    <div *ngIf="emergencyDisaster" class="instruction">
-
-      <div class="instruction location" *ngIf="!emergencyDisaster.emergencyDisasterInstruction">
-        <p>No hay ninguna descripción por el momento</p>
-      </div>
-
-      <div class="instruction location" *ngIf="emergencyDisaster.emergencyDisasterInstruction">
-        {{emergencyDisaster.emergencyDisasterInstruction}}
-      </div>
-      <!-- <div class="instruction location" *ngIf="!emergencyDisaster.emergencyDisasterInstruction">
-        <p>No hay ninguna descripción</p>
-      </div> -->
-    </div>
+    
+      </section>
 
 
-    <div class="map-container">
-      <div class="location map-frame">
-        <div id="map">
+
+        <section class="instructionMap">
+
+          <div class="map-container">
+            <div class="location map-frame">
+              <div id="map">
+              </div>
+            </div>
+          </div>
+
+
+        <div *ngIf="emergencyDisaster" class="instruction">
+
+          <div class="instruction location" *ngIf="!emergencyDisaster.emergencyDisasterInstruction">
+            <p>No hay ninguna descripción por el momento</p>
+          </div>
+
+          <div class="instruction location" *ngIf="emergencyDisaster.emergencyDisasterInstruction">
+            {{emergencyDisaster.emergencyDisasterInstruction}}
+          </div>
         </div>
+
+        <div class="users col-10">
+        <div class="titulo">
+          <h2>Personas confirmadas</h2>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Legajo</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Rol</th>
+            </tr>
+          </thead>
+      
+          <tbody>
+            <tr *ngFor="let user of users; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+      
+              <td>
+                {{ user.legajo }}
+              </td>
+              <td>
+                {{ user.name }}
+              </td>
+              <td>
+                {{ user.roleName }}
+              </td>
+            </tr>
+      
+            <tr>
+              <td *ngIf="users.length == 0" colspan="7" class="text-center">
+                <p class="align-center">No hay usarios en esta emergencia.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
+
+        
   </section>
   <button mat-button routerLink="/emergencias" type="button">Salir</button>
   <button mat-button matStepperNext>Siguiente</button>
 
 
-</mat-step>
-
-
-
-<section>
-  <div class="users col-12">
-    <mat-step>
-        <div class="titulo">
-          <h2>Personas confirmadas</h2>
-        </div>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Legajo</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Rol</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr *ngFor="let user of users; index as i">
-            <th scope="row">{{ i + 1 }}</th>
-
-            <td>
-              {{ user.legajo }}
-            </td>
-            <td>
-              {{ user.name }}
-            </td>
-            <td>
-              {{ user.roleName }}
-            </td>
-          </tr>
-
-          <tr>
-            <td *ngIf="users.length == 0" colspan="7" class="text-center">
-              <p class="align-center">No hay usarios en esta emergencia.</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button mat-button matStepperPrevious type="button">Atras</button>
-      <button mat-button matStepperNext>Siguiente</button>
-  
     </mat-step>
-    </div>
 
-<mat-step>
-
-  
-    <div class="titulo2">
-      <h2>Recursos utilizados</h2>
-    </div>
-    <div class="users col-12" *ngIf="materials">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Marca</th>
-            <th scope="col">Cantidad</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of materials; index as i">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>
-              {{ item.materials.name }}
-            </td>
-            <td>
-              {{ item.materials.brand }}
-            </td>
-            <td>
-              {{ item.materials.quantity }}
-            </td>
-          </tr>
-          <tr>
-            <td *ngIf="materials.length == 0" colspan="7" class="text-center">
-              <p class="align-center">No hay materiales solicitados para esta emergencia.</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <mat-step>
+        <div class="titulo2">
+          <h2>Recursos utilizados</h2>
+        </div>
+        <div class="users col-12" *ngIf="materials">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Cantidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of materials; index as i">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>
+                  {{ item.materials.name }}
+                </td>
+                <td>
+                  {{ item.materials.brand }}
+                </td>
+                <td>
+                  {{ item.materials.quantity }}
+                </td>
+              </tr>
+              <tr>
+                <td *ngIf="materials.length == 0" colspan="7" class="text-center">
+                  <p class="align-center">No hay materiales solicitados para esta emergencia.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
 
-    <div class="users col-12" *ngIf="medicines">
-      <table class="table table-striped tabla">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Farmaco</th>
-            <th scope="col">Laboratorio</th>
-            <th scope="col">Peso/Volumen</th>
-            <th scope="col">Cantidad usada</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of medicines; index as i">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>
-              {{ item.medicines.name }}
-            </td>
-            <td>
-              {{ item.medicines.medicineDrug }}
-            </td>
-            <td>
-              {{ item.medicines.medicineLab }}
-            </td>
-            <td>
-              {{item.medicines.medicineWeight}} {{ item.medicines.medicineUnits }}
-            </td>
-            <td>
-              {{ item.medicines.quantity }}
-            </td>
-          </tr>
-          <tr>
-            <td *ngIf="medicines.length == 0" colspan="7" class="text-center">
-              <p class="align-center">No hay medicamentos solicitados para esta emergencia.</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        <div class="users col-12" *ngIf="medicines">
+          <table class="table table-striped tabla">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Farmaco</th>
+                <th scope="col">Laboratorio</th>
+                <th scope="col">Peso/Volumen</th>
+                <th scope="col">Cantidad usada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of medicines; index as i">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>
+                  {{ item.medicines.name }}
+                </td>
+                <td>
+                  {{ item.medicines.medicineDrug }}
+                </td>
+                <td>
+                  {{ item.medicines.medicineLab }}
+                </td>
+                <td>
+                  {{item.medicines.medicineWeight}} {{ item.medicines.medicineUnits }}
+                </td>
+                <td>
+                  {{ item.medicines.quantity }}
+                </td>
+              </tr>
+              <tr>
+                <td *ngIf="medicines.length == 0" colspan="7" class="text-center">
+                  <p class="align-center">No hay medicamentos solicitados para esta emergencia.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-    <div class="users col-12" *ngIf="vehicles">
-      <table class="table table-striped tabla">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Patente</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Tipo</th>
-            <th scope="col">Año</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of vehicles; index as i">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>
-              {{ item.vehicles.vehiclePatent }}
-            </td>
-            <td>
-              {{ item.vehicles.name }}
-            </td>
-            <td>
-              {{ item.vehicles.type }}
-            </td>
-            <td>
-              {{ item.vehicles.vehicleYear }}
-            </td>
-          </tr>
+        <div class="users col-12" *ngIf="vehicles">
+          <table class="table table-striped tabla">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Patente</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Año</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of vehicles; index as i">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>
+                  {{ item.vehicles.vehiclePatent }}
+                </td>
+                <td>
+                  {{ item.vehicles.name }}
+                </td>
+                <td>
+                  {{ item.vehicles.type }}
+                </td>
+                <td>
+                  {{ item.vehicles.vehicleYear }}
+                </td>
+              </tr>
 
-          <tr>
-            <td *ngIf="vehicles.length == 0" colspan="7" class="text-center">
-              <p class="align-center">No hay vehiclos solicitados para esta emergencia.</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <button mat-button matStepperPrevious type="button">Atras</button>
-  </mat-step>
-  </section>
-</mat-horizontal-stepper>
+              <tr>
+                <td *ngIf="vehicles.length == 0" colspan="7" class="text-center">
+                  <p class="align-center">No hay vehiclos solicitados para esta emergencia.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button mat-button matStepperPrevious type="button">Atras</button>
+        <button mat-button matStepperNext>Siguiente</button>
+
+      </mat-step>
+
+
+    <section>
+
+      <mat-step>
+
+        <section *ngIf="emergencyDisaster">
+
+
+        <div class="victim text-center">
+
+          <mat-card class="example-card">
+            <p> personas asisitidas: <span>{{emergencyDisaster.victims.assistedPeople}}</span></p>
+          </mat-card>
+
+
+          <mat-card class="example-card">
+            <p>personas fallecidas: <span>{{emergencyDisaster.victims.numberDeaths}}</span></p>
+          </mat-card>
+
+          <mat-card class="example-card">
+            <p>barrios afectados: <span>{{emergencyDisaster.victims.affectedNeighborhoods}}</span></p>
+          </mat-card>
+
+          <mat-card class="example-card">
+            <p>localidades afectadas: <span>{{emergencyDisaster.victims.affectedLocalities}}</span></p>
+          </mat-card>
+
+
+
+          <mat-card class="example-card">
+            <p>familias afectadas: <span>{{emergencyDisaster.victims.numberFamiliesAffected}}</span></p>
+          </mat-card>
+
+
+          <mat-card class="example-card">
+            <p>personas evacuadas: <span>{{emergencyDisaster.victims. evacuatedPeople}}</span></p>
+          </mat-card>
+
+          <mat-card class="example-card">
+            <p>daños materiales:<span>${{emergencyDisaster.victims.affectedNeighborhoods}}</span></p>
+          </mat-card>
+
+          <mat-card class="example-card">
+            <p>personas afectadas: <span>{{emergencyDisaster.victims.numberAffected}}</span></p>
+          </mat-card>
+
+          <mat-card class="example-card">
+            <p>personas recuperadas: <span>{{emergencyDisaster.victims.recoveryPeople}}</span></p>
+          </mat-card>
+
+
+        </div> 
+      </section>
+        <button mat-button matStepperPrevious type="button">Atras</button>
+      </mat-step>
+    </section>
+  </mat-horizontal-stepper>
 </div>
-
-

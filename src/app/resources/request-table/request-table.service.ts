@@ -30,8 +30,8 @@ function search(request: RequestGet, term: string, pipe: PipeTransform): Request
   return  request.users.name.toLowerCase().includes(term)
         || request.condition.toLowerCase().includes(term)
         || request.emergenciesDisasters.typesEmergenciesDisasters.typeEmergencyDisasterName.toLowerCase().includes(term)
-        || request.emergenciesDisasters.locations.locationMunicipalityName.toLowerCase().includes(term)
-        || request.emergenciesDisasters.locations.locationDepartmentName.toLowerCase().includes(term)
+        || request.emergenciesDisasters.locationsEmergenciesDisasters.locationMunicipalityName.toLowerCase().includes(term)
+        || request.emergenciesDisasters.locationsEmergenciesDisasters.locationDepartmentName.toLowerCase().includes(term)
         || pipe.transform(request.id).includes(term);
   }
 

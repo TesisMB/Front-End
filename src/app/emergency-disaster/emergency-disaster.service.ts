@@ -39,7 +39,6 @@ export class EmergencyDisasterService extends DataService {
 
 
 
-
   deleteEmergencyDisaster(id: number){
     return this.http
     .delete(environment.URL + this.patch + '/' + id);

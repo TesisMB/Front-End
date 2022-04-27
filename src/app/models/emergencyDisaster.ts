@@ -10,13 +10,15 @@ export interface EmergencyDisaster {
 
     emergencyDisasterID: number;
     emergencyDisasterStartDate: string;
-    emergencyDisasterEndDate: string;
+    emergencyDisasterEndDate: Date;
     emergencyDisasterInstruction: string;
     Fk_EmplooyeeID: number;
     FK_TypeEmergencyID: number,
     FK_AlertID: number,
     Fk_LocationID: number,
-    locations: {
+    FK_EstateID: number,
+    
+    locationsEmergenciesDisasters: {
         locationDepartmentName: string;
         locationCityName: string;
         locationMunicipalityName: string;
