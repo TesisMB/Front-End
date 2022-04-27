@@ -14,6 +14,7 @@ export class Resource {
   vehicles: Vehicle;
   volunteers: Volunteer;
   estates: Estates;
+  donation: boolean;
 
   constructor(
     _id: number,
@@ -27,7 +28,9 @@ export class Resource {
     _vehicles: Vehicle,
     _volunteers: Volunteer,
     _estates: Estates,
-    _locationCityName?:string
+    _donation: boolean,
+    _locationCityName?:string,
+  
 
   ) {
     this.id = _id;
@@ -41,6 +44,7 @@ export class Resource {
     this.vehicles = _vehicles;
     this.volunteers = _volunteers;
     this.estates = _estates;
+    this.donation = _donation;
     this.locationCityName = _locationCityName;
   }
 }

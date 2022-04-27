@@ -15,7 +15,11 @@
   textarea:focus, input:focus{
     outline: none;
   }
-  
+  .footer-form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
   .title {
     text-align: center;
     margin: 40px 0;

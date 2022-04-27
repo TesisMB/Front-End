@@ -242,6 +242,10 @@ img {
   object-fit: cover;
 }
 
+#search{
+  max-width: 343px;
+}
+
 @media screen and (max-width: 1200px) {
 
   .campus-col {

@@ -41,7 +41,11 @@ strong {
   font-size: 14px;
 }
 
-
+.tab-options{
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 3;
+}
 
 .title {
   text-transform: uppercase;
@@ -66,7 +70,7 @@ strong {
 .passwordInput,
 .statusInput{
   width:50%;
-  padding: 4px 0 ;
+  padding: 4px 6px ;
  margin-bottom: 1rem;
 }
 .statusInput{
@@ -84,7 +88,9 @@ strong {
   box-shadow: 0px 0px 30px -7px rgba(0, 0, 0, 0.75);
 
 }
-
+.tab-content{
+  border-radius: 10px;
+} 
 .ngContainer {
   transition: 1s linear;
 }
@@ -116,4 +122,8 @@ strong {
 
 .form-group {
   margin: 0;
+}
+
+.row{
+  margin-left: 0;
 }

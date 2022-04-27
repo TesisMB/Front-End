@@ -19,7 +19,7 @@
           container="body" mat-icon-button class="mr-4">
           <mat-icon>shopping_cart</mat-icon>
         </button></ng-template>
-
+<!-- 
       <div *ngIf="notifications.hasNotifications; else isNot"><button [autoClose]="'outside'" [ngbPopover]="popNotify"
           popoverClass="notifications" container="body" mat-icon-button>
           <mat-icon matBadge="{{notifications.number}}" matBadgeColor="warn">notifications_active</mat-icon>
@@ -27,7 +27,7 @@
       <ng-template #isNot><button [ngbPopover]="popNotify" [autoClose]="'outside'" popoverClass="notifications"
           container="body" mat-icon-button class="mr-4">
           <mat-icon>notifications</mat-icon>
-        </button></ng-template>
+        </button></ng-template> -->
 
       <a class="fas fa-user-circle fa-2x" id="user" data-toggle="dropdown"></a>
 
@@ -76,16 +76,14 @@
 
         <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
           <!-- This is the tree node template for leaf nodes -->
-          <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+          <mat-tree-node *matTreeNodeDef="let node; index as i" matTreeNodeToggle>
             <li>
               <div >
               <!-- use a disabled button to provide padding for tree leaf -->
               <button  mat-icon-button disabled></button>
               
-                <a [routerLink]="[node.patch]" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>
-                {{node.name}}
-              </a>
-
+              <a   *ngIf="node.disabled"><i class="mr-2 {{node.icon}}"></i>{{node.name}}</a>
+                <a  *ngIf="!node.disabled" [routerLink]="[node.patch]" routerLinkActive="active"><i class="mr-2 {{node.icon}}"></i>{{node.name}}</a>
               <button mat-icon-button disabled></button>
             </div>
             </li>

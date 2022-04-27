@@ -58,7 +58,7 @@ export class ResourcesDetails implements OnInit {
   
     get f(){ return this.form.controls;}
     get checkStock(){ return (!this.item.availability || (this.item.quantity <= 0 && this.item.quantity != null));}
-  
+    get isLogistica(){return this.authenticationService.currentUserValue.roleName === 'Encargado de Logistica'}
     getParams() {
     this.route.params.subscribe((params: Params) => {
       this.id = +params.id;

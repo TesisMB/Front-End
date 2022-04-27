@@ -27,6 +27,7 @@
         </div>
 
         <hr *ngIf="item.materials || item.medicines" />
+      <div *ngIf="!isLogistica" class="solicitud">
         <div *ngIf="!item.volunteers && !item.vehicles">
           <form class="cantidad" [formGroup]="form" (ngSubmit)="onSubmit()">
             <mat-form-field appearance="outline">
@@ -47,6 +48,7 @@
           <hr />
 
         </div>
+      </div>
         <div *ngIf="item.volunteers" class="skills">
           <span>
             <h2 class="title">Especialidades</h2>
@@ -154,8 +156,9 @@
                     }}
                   </td>
                 </tr>
-                <tr>
-                  <th scope="row">Disponibilidad</th>
+
+                <!-- <tr>
+                  <th scope="row">Acceso al sistema</th>
                   <td>
                     <span for="availability" *ngIf="item.volunteers.status"><i
                         [class.text-success]="item.volunteers.status" class="fas fa-circle"></i>
@@ -164,9 +167,9 @@
                         class="fas fa-circle"></i>
                       No disponible</span>
                   </td>
-                </tr>
+                </tr> -->
                 <tr>
-                  <th scope="row">Acceso al sistema</th>
+                  <th scope="row">Disponibilidad ante emergencia</th>
                   <td>
                     <span for="status" *ngIf="item.availability"><i [class.text-success]="item.availability"
                         class="fas fa-circle"></i>
@@ -204,6 +207,13 @@
                 </tr> -->
               </ng-container>
               <ng-container *ngIf="!item.volunteers">
+                <tr >
+                  <th scope="row">Donación</th>
+                  <td>
+                    <span *ngIf="!item.donation">Esto <strong>no</strong> sido una donacíon</span>
+                    <span *ngIf="item.donation">Esto <strong>si</strong> ha sido una donacíon</span>                  
+                  </td>
+                </tr>
                 <tr>
                   <th scope="row">Disponibilidad</th>
 

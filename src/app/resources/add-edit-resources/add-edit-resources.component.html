@@ -54,8 +54,9 @@
                   matInput
                   placeholder="Ex. AG 759 LH / NVZ-087"
                   formControlName="vehiclePatent"
-                  [readonly]="isEdit"
                   required
+                  [readonly]="isEdit"
+
                 />
                 <mat-error
                   *ngIf="
@@ -189,6 +190,7 @@
                   formControlName="medicineDrug"
                   required
                   [readonly]="isEdit"
+
                 />
                 <mat-error
                   *ngIf="
@@ -214,7 +216,8 @@
                   formControlName="medicineLab"
                   required
                   [readonly]="isEdit"
-                />
+
+                                  />
                 <mat-error
                   *ngIf="
                     medicineForm.get('medicineLab').hasError('pattern') &&
@@ -238,7 +241,7 @@
                   formControlName="medicineWeight"
                   required
                   [readonly]="isEdit"
-                />
+                                  />
                 <mat-error
                   *ngIf="
                     medicineForm.get('medicineWeight').hasError('pattern') &&
@@ -263,6 +266,7 @@
                   name="medicineUnits"
                   required
                   [disabled]="isEdit"
+
                 >
                     <mat-option
                     *ngFor="let u of units"
@@ -289,6 +293,7 @@
                 formControlName="brand"
                 required
                 [readonly]="isEdit"
+
               />
               <mat-error
                 *ngIf="materialForm.get('brand').hasError('required')"
@@ -344,7 +349,7 @@
         </mat-grid-tile>
             <br /> 
             <mat-grid-tile *ngIf="medicineForm"  [formGroup]="medicineForm">
-              <mat-form-field class="example-full-width" appearance="outline">
+              <mat-form-field class="example-full-width"  appearance="outline">
                 <mat-label>Fecha de vencimiento</mat-label>
                 <input
                 matInput
@@ -352,7 +357,8 @@
                 formControlName='medicineExpirationDate'
                 required
                 [readonly]="isEdit"
-              />
+                
+                />
               <mat-error
                 *ngIf="medicineForm.get('medicineExpirationDate').hasError('required')"
               >
@@ -463,7 +469,6 @@
               <mat-form-field appearance="outline">
                 <mat-label>Utilidad</mat-label>
                 <mat-select
-                [disabled]="isEdit"
               formControlName="vehicleUtility"
                 name="vehicleUtility"
                 required
@@ -493,10 +498,11 @@
                 <mat-form-field  appearance="outline">
                   <mat-label>Tipo de Rodado</mat-label>
                   <mat-select
-                    [disabled]="isEdit"
                   formControlName="Fk_TypeVehicleID"
                     name="Fk_TypeVehicleID"
                     required
+                    [disabled]="isEdit"
+
                   >
                       <mat-option
                       *ngFor="let u of vehiclesTypes"
@@ -520,18 +526,18 @@
                       <input
                       matInput
                       placeholder="Ex. FIAT, PEUGEOT, etc"
-                      formControlName="Fk_BrandID"
+                      formControlName="brandName"
                       required
                       [readonly]="isEdit"
                     />
                     <mat-error
-                      *ngIf="vehicleForm.get('Fk_BrandID').hasError('required')"
+                      *ngIf="vehicleForm.get('brandName').hasError('required')"
                     >
                       La marca es <strong>requerida</strong>
                     </mat-error>
                     <mat-error
-                    *ngIf="vehicleForm.get('Fk_BrandID').hasError('maxlength') &&
-                    !vehicleForm.get('Fk_BrandID').hasError('required')"
+                    *ngIf="vehicleForm.get('brandName').hasError('maxlength') &&
+                    !vehicleForm.get('brandName').hasError('required')"
                   >
                     Ha superado los 15 caracteres permitidos
                   </mat-error>
@@ -566,18 +572,18 @@
                           <input
                           matInput
                           placeholder="Ex. FIESTA, 207, etc"
-                          formControlName="Fk_ModelID"
+                          formControlName="modelName"
                           required
                           [readonly]="isEdit"
                         />
                         <mat-error
-                          *ngIf="vehicleForm.get('Fk_ModelID').hasError('required')"
+                          *ngIf="vehicleForm.get('modelName').hasError('required')"
                         >
-                          La marca es <strong>requerida</strong>
+                          El modelo es <strong>requerido</strong>
                         </mat-error>
                         <mat-error
-                        *ngIf="vehicleForm.get('Fk_ModelID').hasError('maxlength') &&
-                        !vehicleForm.get('Fk_ModelID').hasError('required')"
+                        *ngIf="vehicleForm.get('modelName').hasError('maxlength') &&
+                        !vehicleForm.get('modelName').hasError('required')"
                       >
                         Ha superado los 15 caracteres permitidos
                       </mat-error>
@@ -605,7 +611,7 @@
                           <br />
                           <mat-grid-tile >
                                 
-                            <mat-checkbox [disabled]="isEdit" formControlName="donation"
+                            <mat-checkbox formControlName="donation" [disabled]="isEdit"
                             >¿Es donación?</mat-checkbox>
                             <!-- <mat-error
                               *ngIf="form.get('picture').hasError('required')"
@@ -637,16 +643,8 @@
                             </mat-grid-tile>
                             <br />
                             
-                              <!-- <div *ngFor="let progressInfo of progressInfos">
-                                <span>{{ progressInfo.fileName }}</span>
-                                <mat-toolbar class="progress-bar">
-                                  <mat-progress-bar
-                                    color="accent"
-                                    [value]="progressInfo.value"
-                                  ></mat-progress-bar>
-                                  <span class="progress">{{ progressInfo.value }}%</span>
-                                </mat-toolbar>
-                              </div>
+                
+                              <mat-grid-tile colspan="1">
                               <mat-form-field >
                                 <div>
                                   <mat-toolbar>
@@ -656,7 +654,6 @@
                                       color="primary"
                                       [disabled]="!selectedFiles"
                                       (click)="uploadFiles()"
-                                      formControlName="imageFile"
                                     >
                                       Upload
                                     </button>
@@ -670,6 +667,11 @@
                                   />
                                 </div>
                               </mat-form-field>
+                            </mat-grid-tile>
+
+                              <mat-grid-tile colspan="2">
+   
+
                               <div>
                                 <img *ngFor='let preview of previews' [src]="preview" class="preview">
                               </div>
@@ -678,7 +680,17 @@
                                   <li>{{ msg }}</li>
                                 </ul>
                               </div>
-                             -->
+                              <div *ngFor="let progressInfo of progressInfos">
+                                <span>{{ progressInfo.fileName }}</span>
+                                <mat-toolbar class="progress-bar">
+                                  <mat-progress-bar
+                                    color="accent"
+                                    [value]="progressInfo.value"
+                                  ></mat-progress-bar>
+                                  <span class="progress">{{ progressInfo.value }}%</span>
+                                </mat-toolbar>
+                              </div>
+                            </mat-grid-tile>
                
           </mat-grid-list>
 
@@ -690,6 +702,7 @@
               type="submit"
               [disabled]="loading"
               (click)="onSubmit()"
+              color="primary"
             >
               <span class="text-center" *ngIf="loading">
                 <i class="fas fa-spinner fa-lg fa-spin"> </i>

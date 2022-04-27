@@ -1,39 +1,21 @@
-import { BrandsModels } from './../../models/vehicle.model';
+import { Vehicle } from './../../models/vehicle.model';
 import { AlertService } from 'src/app/services';
-import { User, Employee, Resource } from 'src/app/models';
-import { filter, first, map, tap } from 'rxjs/operators';
+import {  Employee } from 'src/app/models';
+import {  first, map, tap } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { ResourcesService } from './../resources.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { UserService } from 'src/app/users';
 import { StatesService } from '../states/states.service';
 import * as _ from 'lodash';
 import { compare } from 'fast-json-patch';
-import * as _moment from 'moment';
-import {default as _rollupMoment, Moment} from 'moment';
 
-import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-
-const moment =  _rollupMoment || _moment;
 
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { MatDatepicker } from '@angular/material/datepicker';
 
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'L',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 const TYPES = [
   {value: 'materiales', viewValue:'Instrumental'},
@@ -41,13 +23,13 @@ const TYPES = [
   {value: 'vehiculos', viewValue:'Rodado'}
   ];
 
-  const VEHICLES_UTILITYS =['TRANSPORTE','USO PARTICULAR','CARGA', 'EMERGENCIAS'];
+  const VEHICLES_UTILITYS =['Transporte','Uso particular','Carga', 'Emergencias'];
   const VEHICLES_TYPES = [
-  {value: '1', viewValue:'MOTOCICLETA'},
-  {value: '0', viewValue:'AUTO'},
-  {value: '2', viewValue:'CAMIONETA'},
-  {value: '3', viewValue:'CAMION'},
-  {value: '4', viewValue:'AMBULANCIA'}
+  {value: 2, viewValue:'MOTOCICLETA'},
+  {value: 1, viewValue:'AUTO'},
+  {value: 3, viewValue:'CAMIONETA'},
+  {value: 4, viewValue:'CAMION'},
+  {value: 5, viewValue:'AMBULANCIA'}
   ];
 
   const UNITS = [
@@ -73,18 +55,6 @@ const TYPES = [
   selector: 'add-edit-resources',
   templateUrl: './add-edit-resources.component.html',
   styleUrls: ['./add-edit-resources.component.css'],
-  providers: [
-    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-    // application's root module. We provide it at the component level here, due to limitations of
-    // our example generation script.
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-
-    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-  ],
 })
 export class addEditResourcesComponent implements OnInit {
 
@@ -107,9 +77,8 @@ vehiclesUtilitys = VEHICLES_UTILITYS;
 loading : boolean = false;
 minDate;
 maxDate;
-// vehiclesTypes$: Observable<any>;
-// vehiclesTypes: any[] = [];
-// vehiclesBrands: any[] = [];
+vehicles: Vehicle = null;
+
 vehicleYear: number;
 
 selectedFiles?: FileList;
@@ -138,10 +107,6 @@ imageInfos?: Observable<any>;
     this.getLocations();
     this.getUsers();
     this.getDateValidations();
-    this.imageInfos = this.service.getFiles();
-    // this.vehiclesTypes$ = this.service.vehiclesTypes$;
-    // this.getVehiclesTypes();
-
     this.formType.statusChanges.subscribe(
       () =>
       {
@@ -152,38 +117,21 @@ imageInfos?: Observable<any>;
         this.getForm(this.formType.value);
 
       });
-    // this.form.get('FK_LocationID').valueChanges.subscribe(value =>{
-    //   this.estates = this.locations.filter(x => x.locationID === value);
-    //   return console.log('Sucursales => ', this.estates);
-    // } );
-
   }
 
   get getData(){
     return console.log('Form => ',this.form.value);
   }
-  // get typeVehicle(){
-  //   const value = this.vehicleForm.get('Fk_TypeVehicleID').value || 0;
-  //   const index = this.vehiclesTypes.findIndex(x => x.Fk_TypeVehicleID == value);
-  //   if(index == -1){
-  //     return 0;
-  //   } else {
-  //   return index; 
-  // }
-  // }
 
   get materialForm(){ return this.form.get('materials');}
   get medicineForm(){ return this.form.get('medicines');}
   get vehicleForm(){ return this.form.get('vehicles');}
-  get isEdit(){
+  get isEdit(){return this.action === 'editar'}
 
-    return this.action === 'editar'}
-
-  setPicklist(vehicles){ 
-   // this.vehicleForm.get('brandsModels.Fk_ModelID').patchValue(vehicles.Fk_ModelID);
-    this.vehicleForm.get('fK_EmployeeID').patchValue(vehicles.fK_EmployeeID);
-    //this.vehicleForm.get('brandsModels.Fk_BrandID').patchValue(vehicles.Fk_BrandID);
-    //this.vehicleForm.get('Fk_TypeVehicleID').patchValue(vehicles.typeID);
+  setPicklist(){ 
+    this.vehicleForm.get('fK_EmployeeID').patchValue(this.vehicles.fK_EmployeeID);
+    console.log('Ingreso a picklist');
+    this.vehicleForm.get('Fk_TypeVehicleID').patchValue(this.vehicles.fk_TypeVehicleID);
 }
 
   private getParams(){
@@ -192,8 +140,9 @@ imageInfos?: Observable<any>;
         this.action = params.get('action');
         this.type = params.get('tipo');
         this.createForm();
-        this.form.disable();
+        
         this.getForm(this.type);
+        this.form.disable();
       });
     }
 
@@ -217,7 +166,8 @@ imageInfos?: Observable<any>;
       description: ['',[Validators.maxLength(254)]],
       fk_EstateID: [,[Validators.required]],
       donation: [false],
-      imageFile:[]
+      imageFile:[],
+     // changeBy: []
     });
 
     if(this.isEdit){
@@ -250,8 +200,8 @@ imageInfos?: Observable<any>;
           vehicleUtility: ['',[Validators.maxLength(254)]],
           fK_EmployeeID: ['',[Validators.required]],
           Fk_TypeVehicleID: ['',[Validators.required]],
-          Fk_BrandID: ['',[Validators.required, Validators.maxLength(15)]],
-          Fk_ModelID: ['',[Validators.required, Validators.maxLength(15)]]
+          brandName: ['',[Validators.required, Validators.maxLength(15)]],
+          modelName: ['',[Validators.required, Validators.maxLength(15)]]
         }),);
           
 
@@ -278,9 +228,7 @@ imageInfos?: Observable<any>;
                            if(this.isEdit){
                            this.form.get('fk_EstateID').patchValue(data.estates.estateID);
                            this.cloneForm = this.form.value;
-                           if(this.type == 'vehiculos'){
-                            this.setPicklist(data.vehicles);
-                          }
+                           this.vehicles = data.vehicles;
                         }
                           });
   }
@@ -344,6 +292,9 @@ imageInfos?: Observable<any>;
     .subscribe(
       data => {
         this.userList = data;
+        if(this.type == 'vehiculos' && this.isEdit){
+          this.setPicklist();
+        }
       },
       error => {
         console.log(error);
@@ -402,16 +353,7 @@ error => {
         });
     }
 
-    // getVehiclesTypes(){
-    //   this.vehiclesTypes$.subscribe(data => this.vehiclesTypes = data); 
-    // }
-    // handleChangeTypes(index){
-    //   console.log('change => ',this.vehiclesTypes[index].brandModels);
-    //   this.vehiclesBrands = this.vehiclesTypes[index].brandModels;
-    // }
-
-
-  public onBack(){
+ public onBack(){
     this.location.back();
   }
 
@@ -422,23 +364,7 @@ error => {
 
     this.minDate = new Date(currentYear,currentMonth+1, currentDate);
     this.maxDate = new Date(currentYear + 10, currentMonth, currentDate);
-   // const max = this.maxDate.;
-   // console.log(max);
-   // console.log(this.minDate);
   }
-
-  chosenYearHandler(normalizedYear: Moment) {
-    const ctrlValue = this.medicineForm.get('medicineExpirationDate').value;
-    ctrlValue.year(normalizedYear.year());
-    this.medicineForm.get('medicineExpirationDate').patchValue(ctrlValue);  }
-
-  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    const ctrlValue = this.medicineForm.get('medicineExpirationDate').value;
-    ctrlValue.month(normalizedMonth.month());
-    this.medicineForm.get('medicineExpirationDate').patchValue(ctrlValue);  
-    datepicker.close();
-  }
-
 
     selectFiles(event: any): void {
       this.message = [];
@@ -472,20 +398,21 @@ error => {
     upload(idx: number, file: File): void {
       this.progressInfos[idx] = { value: 0, fileName: file.name };
       if (file) {
-        this.service.upload(file).subscribe(
+        this.service.upload(file)
+        .subscribe(
           (event: any) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
-            } else if (event instanceof HttpResponse) {
-           //   this.form.get('imageFile').patchValue(file.name);
-              const msg = 'Uploaded the file successfully: ' + file.name;
+           if (event.type === HttpEventType.UploadProgress) {
+             this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+           } else if (event instanceof HttpResponse) {
+           this.form.get('imageFile').patchValue(event.body.fileName);
+              const msg = 'Se cargó la imagen exitosamente!: ' + file.name;
               this.message.push(msg);
-              this.imageInfos = this.service.getFiles();
-            }
+             this.imageInfos = this.service.getFiles();
+             }
           },
           (err: any) => {
             this.progressInfos[idx].value = 0;
-            const msg = 'Could not upload the file: ' + file.name;
+            const msg = 'No se ha podido cargar la imagen: ' + file.name;
             this.message.push(msg);
           });
       }

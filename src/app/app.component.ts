@@ -115,7 +115,7 @@ const TREE_DATA: FoodNode[] = [
       {
         name: 'Stock',
         patch:'/recursos/stock',
-        icon:'',
+        icon:'fas fa-list-alt',
         role:['Admin','Coordinador General','Encargado de Logistica']
       },
  
@@ -139,7 +139,7 @@ const TREE_DATA: FoodNode[] = [
     icon:'fas fa-briefcase-medical' ,
     role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres'],
     children: [
-      {name: 'Registrar emergencia o desastre',
+      {name: 'Registrar emergencia',
       patch:'/emergencias/agregar-emergencia-desastre',
       icon:'fas fa-user-plus',
       role:['Admin','Coordinador General']
@@ -151,12 +151,12 @@ const TREE_DATA: FoodNode[] = [
     icon:'fas fa-tv' ,
     role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
   },
-  {
-    name: 'Estadisticas',
-    patch:'/statistics',
-    icon:'fas fa-chart-pie' ,
-    role:['Admin']
-  },
+  // {
+  //   name: 'Estadisticas',
+  //   patch:'/statistics',
+  //   icon:'fas fa-chart-pie' ,
+  //   role:['Admin']
+  // },
 
 ];
 

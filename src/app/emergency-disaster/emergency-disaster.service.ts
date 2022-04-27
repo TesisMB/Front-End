@@ -1,3 +1,4 @@
+import { filter, map } from 'rxjs/operators';
 import { EmergencyDisaster } from '../models/emergencyDisaster';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -61,6 +62,10 @@ export class EmergencyDisasterService extends DataService {
 
   getAllWithoutFilter(): Observable<any> {
     return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter');
+    // .pipe(map(x => { 
+    //   const items = x.filter(f => f.alerts.alertDegree != 'Controlado');
+    //    return items;
+    // }));
 
 
 }

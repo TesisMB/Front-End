@@ -1,43 +1,39 @@
 <form>
-  <div class="mb-3 row">
-    <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Busqueda:</label>
-    <div class="col-xs-3 col-sm-auto">
-      <div class="d-flex align-items-center ml-auto bd-highlight mr-3" id="search"> 
-      <input class="form-control" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
-      <span class="ml-3 text-center" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
-
+  <div class="mb-3 row justify-content-between">
+      <div class="pt-4 col-xs-3 col-sm-auto col-3 align-self-end">
+        <div class="d-flex form-control align-items-center bd-highlight pr-3" id="search"> 
+        <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
+        <input class="col-6 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
+        <span class="col-2 text-center" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
     </div>
-    <div class="bd-highlight ml-3" *ngIf="isAdmin">  
+      </div>
+
+    <div class="bd-highlight ml-3 col-xs-3 col-sm-auto col-3 align-self-end" *ngIf="isAdmin">  
       <mat-slide-toggle color="warn" (change)="onShow($event)">Mostrar mis solicitudes</mat-slide-toggle>
   </div>
-  </div>
-
   </div>
 </form>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <!-- <th scope="col">#</th> -->
       <th scope="col">#Legajo</th>
       <th scope="col">Numero de emergencia</th>
       <th scope="col">Tipo de emergencia</th>
-      <th scope="col">Municipalidad</th>
-      <th scope="col">Departamento</th>
       <th scope="col">Ciudad</th>
-      <th scope="col">Razón</th>
       <th scope="col">Estado</th>
-      <th scope="col">Encargado</th>
       <th scope="col">Solicitante</th>
+      <th scope="col">Encargado</th>
       <th scope="col">Fecha de creación</th>
-      <th scope="col">i</th>
+      <th scope="col"><mat-icon >info</mat-icon></th>
     </tr>
   </thead>
   <tbody>
     <ng-container *ngIf="(request$ | async).length && !(loading$ | async)">
       <tr *ngFor="let request of request$ | async; index as i">
         
-        <th scope="row">{{ i + 1 }}</th>
+        <!-- <th scope="row">{{ i + 1 }}</th> -->
         <td>
           <ngb-highlight [result]="request.id" [term]="service.searchTerm"></ngb-highlight>
         </td>
@@ -51,19 +47,8 @@
             [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
-          <ngb-highlight [result]="request.emergenciesDisasters.locations.locationMunicipalityName"
-            [term]="service.searchTerm"></ngb-highlight>
-        </td>
-        <td>
-          <ngb-highlight [result]="request.emergenciesDisasters.locations.locationDepartmentName" [term]="service.searchTerm">
-          </ngb-highlight>
-        </td>
-        <td>
           <ngb-highlight [result]="request.emergenciesDisasters.locations.locationCityName" [term]="service.searchTerm">
           </ngb-highlight>
-        </td>
-        <td>
-          <ngb-highlight [result]="request.description | titlecase" [term]="service.searchTerm"></ngb-highlight>
         </td>
         <td>
           <ngb-highlight [result]="request.condition | titlecase" [term]="service.searchTerm"></ngb-highlight>
@@ -86,10 +71,10 @@
       </tr>
     </ng-container>
     <tr *ngIf="!(request$ | async).length || (loading$ | async)">
-      <td *ngIf="(loading$ | async)" colspan="13" class="text-center" >
+      <td *ngIf="(loading$ | async)" colspan="9" class="text-center" >
         <span class="spinner-border spinner-border-lg align-center"></span>
       </td>
-      <td *ngIf="!(request$ | async).length" colspan="13" class="text-center">
+      <td *ngIf="!(request$ | async).length && !(loading$ | async)" colspan="9" class="text-center">
         <p class="align-center">No hay solicitudes.</p>
       </td>
     </tr>

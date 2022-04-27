@@ -49,6 +49,9 @@ textarea:focus, input:focus{
   
   
   .child-toggle {
-    margin-top: 25px;
+    margin-bottom: 25px;
   }
   
+#search{
+  max-width: 343px;
+}
