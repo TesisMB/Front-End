@@ -16,7 +16,9 @@ export interface EmergencyDisaster {
     FK_TypeEmergencyID: number,
     FK_AlertID: number,
     Fk_LocationID: number,
-    locations: {
+    FK_EstateID: number,
+    
+    locationsEmergenciesDisasters: {
         locationDepartmentName: string;
         locationCityName: string;
         locationMunicipalityName: string;

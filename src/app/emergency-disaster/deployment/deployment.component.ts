@@ -1,8 +1,8 @@
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { EmergencyDisasterService } from './../emergency-disaster.service';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
-import { Component, Input, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import {FormGroup } from '@angular/forms';
 import * as L from  'Leaflet';
 import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import { environment } from 'src/environments/environment';
@@ -18,8 +18,6 @@ export class DeploymentComponent implements OnInit, AfterViewInit{
   mapDivElement !: ElementRef;
  
 emergencyDisaster: EmergencyDisaster;
-/*  public dataObservable : Observable<number>;
- */
 firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   id: number;
@@ -30,8 +28,6 @@ firstFormGroup: FormGroup;
 
 
   constructor(private emergencyDisasterService: EmergencyDisasterService,
-    private _formBuilder: FormBuilder,
-    private router: Router,
     private route: ActivatedRoute
     ) {
 
@@ -53,7 +49,7 @@ firstFormGroup: FormGroup;
   
 
 var map = L.map('map')
-.setView([this.emergencyDisaster.locations.locationLatitude, this.emergencyDisaster.locations.locationLongitude], 14);
+.setView([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude], 14);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -64,12 +60,12 @@ zoomOffset: -1,
 accessToken: 'pk.eyJ1IjoieW9lbHNvbGNhIiwiYSI6ImNrenpxZ2Z6bzBjcGgzY3F4NnJwYjJoODEifQ.tB-AizTwtOQLC3BA_5FiMw'
 }).addTo(map);
 
-var marker = L.marker([this.emergencyDisaster.locations.locationLatitude, this.emergencyDisaster.locations.locationLongitude],{
+var marker = L.marker([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude],{
   fillColor: '#ccc'
 })
 .addTo(map);
 
-var circle = L.circle([this.emergencyDisaster.locations.locationLatitude, this.emergencyDisaster.locations.locationLongitude], {
+var circle = L.circle([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude], {
   color: 'red',
   fillColor: '#f03',
   fillOpacity: 0.3,
@@ -78,7 +74,7 @@ var circle = L.circle([this.emergencyDisaster.locations.locationLatitude, this.e
 }).addTo(map);
 
 var popup = L.popup()
-    .setLatLng([this.emergencyDisaster.locations.locationLatitude, this.emergencyDisaster.locations.locationLongitude])
+    .setLatLng([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude])
 
     function onMapClick(e) {
       popup
@@ -131,7 +127,8 @@ var popup = L.popup()
       console.log("Vehicles =>", this.vehicles);
 
 
-      console.log("Emergencia ID" ,data);
+      console.log("Emergencia ID" ,data.victims);
+
       this.initMap();
     }, error =>{
       console.log(error);

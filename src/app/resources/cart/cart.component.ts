@@ -216,7 +216,7 @@ createForm() {
       x.forEach(e => {
       const emergency: any = {};
       emergency.value = e.emergencyDisasterID;
-      emergency.viewValue = e.locations.locationMunicipalityName + ' - '+ e.locations.locationDepartmentName;
+      emergency.viewValue = e.locationsEmergenciesDisasters.locationMunicipalityName + ' - '+ e.locationsEmergenciesDisasters.locationDepartmentName;
       emergency.date = e.emergencyDisasterStartDate;
       const index = arrayEmergencies.findIndex(x =>
         x.name === e.typesEmergenciesDisasters.typeEmergencyDisasterName

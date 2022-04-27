@@ -33,7 +33,7 @@ firstFormGroup: FormGroup;
 
   initMap(){
     var map = L.map('map')
-    .setView([this.emergencyDisaster.locations.locationLatitude, this.emergencyDisaster.locations.locationLongitude], 14);
+    .setView([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude], 14);
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -44,12 +44,12 @@ firstFormGroup: FormGroup;
     accessToken: 'pk.eyJ1IjoieW9lbHNvbGNhIiwiYSI6ImNrenpxZ2Z6bzBjcGgzY3F4NnJwYjJoODEifQ.tB-AizTwtOQLC3BA_5FiMw'
 }).addTo(map);
 
-var marker = L.marker([this.emergencyDisaster.locations.locationLatitude, this.emergencyDisaster.locations.locationLongitude],{
+var marker = L.marker([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude],{
   fillColor: '#ccc'
 })
 .addTo(map);
 
-var circle = L.circle([this.emergencyDisaster.locations.locationLatitude, this.emergencyDisaster.locations.locationLongitude], {
+var circle = L.circle([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude], {
   color: 'red',
   fillColor: '#f03',
   fillOpacity: 0.3,
@@ -58,7 +58,7 @@ var circle = L.circle([this.emergencyDisaster.locations.locationLatitude, this.e
 }).addTo(map);
 
 var popup = L.popup()
-    .setLatLng([this.emergencyDisaster.locations.locationLatitude, this.emergencyDisaster.locations.locationLongitude])
+    .setLatLng([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude])
 
     function onMapClick(e) {
       popup

@@ -22,13 +22,20 @@ table {
     text-align: center;
 }
 
-.modo h1 {
+.emergencia {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 61% 1fr;
+    justify-items: end;
+}
+
+h1 {
     margin: 40px 0;
     width: 100%;
     font-size: 35px;
 }
 
-.modo h4 {
+h4 {
     font-size: 25px;
     margin: 3rem 0;
 
@@ -94,6 +101,7 @@ mat-icon {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 

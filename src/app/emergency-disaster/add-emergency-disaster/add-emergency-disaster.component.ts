@@ -5,15 +5,14 @@ import { Alerts } from './../../models/alerts';
 import { Alert } from './../../models/alert';
 import { EmergencyDisasterService } from './../emergency-disaster.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { TypesEmergencyDisaster } from 'src/app/models/typeEmergencyDisaster';
 import { SelectTypesEmergencyDisasterService } from '../select-types-emergency-disaster.service';
 import { Observable } from 'rxjs';
 import { Feature } from 'src/app/models/places';
 import { Ubicacion } from 'src/app/models/Parametros';
-import { Employee } from 'src/app/models';
+import { Employee, User } from 'src/app/models';
 import { MatStepper } from '@angular/material/stepper';
 import { AlertService } from 'src/app/services';
 
@@ -34,12 +33,11 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   currentPlaceHandler: any;
   coordinates: Ubicacion;
   handler: any;
-  currentUser: number;
+  currentUser: User;
   user: Employee [];
 
 
-  constructor(    private router: Router,
-    private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
+  constructor(    private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
     private fb: FormBuilder,
     private placesService: PlacesService,
@@ -52,8 +50,8 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
         FK_TypeEmergencyID: ["", Validators.required],
         FK_AlertID: ["", Validators.required],
         Fk_EmplooyeeID: ["", Validators.required],
-        emergencyDisasterInstruction: [" ", Validators.required],
-        locations: this.fb.group({
+        emergencyDisasterInstruction: [" ", Validators.required],        
+        locationsEmergenciesDisasters: this.fb.group({
           locationCityName: [],
           locationDepartmentName: [],
           locationMunicipalityName: [],
@@ -73,8 +71,9 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
           affectedNeighborhoods: [0,  [Validators.required, Validators.min(0)]],
           assistedPeople: [0,  [Validators.required, Validators.min(0)]],
           recoveryPeople: [0,  [Validators.required,Validators.min(0)]],
-        })
-      })
+        }),
+         FK_EstateID: [""]
+    })
 
      }
 
@@ -85,7 +84,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authenticationService.currentUser.subscribe(data => {
-      this.currentUser = data.userID;
+      this.currentUser = data;
       console.log("Data", data);
     }, error => {
       console.log("Error", error);
@@ -120,8 +119,8 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
   getLocation(placeObservable){
    this.handler = this.placesService.getLocation(placeObservable.center[1], placeObservable.center[0]).subscribe(resp =>{
-    this.addEmergencyDisaster.get('locations.locationLongitude').patchValue(placeObservable.center[0]);
-    this.addEmergencyDisaster.get('locations.LocationLatitude').patchValue(placeObservable.center[1]);
+    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationLongitude').patchValue(placeObservable.center[0]);
+    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.LocationLatitude').patchValue(placeObservable.center[1]);
     this.postEmergencyDisaster(resp.ubicacion);
      
     }, error=>{
@@ -132,12 +131,12 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   
 
   postEmergencyDisaster(ubication){
-    this.addEmergencyDisaster.get('locations.locationCityName').patchValue(ubication.municipio.nombre);
-    this.addEmergencyDisaster.get('locations.locationDepartmentName').patchValue(ubication.departamento.nombre);
-    this.addEmergencyDisaster.get('locations.locationMunicipalityName').patchValue(ubication.municipio.nombre);
-    
-   
-  
+    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(ubication.municipio.nombre);
+    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationDepartmentName').patchValue(ubication.departamento.nombre);
+    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationMunicipalityName').patchValue(ubication.municipio.nombre);
+
+     this.addEmergencyDisaster.get('FK_EstateID').patchValue(this.currentUser.estates.estateID);
+ 
     const emergency = this.addEmergencyDisaster.value;
     console.log('Formulario =>', emergency);
 

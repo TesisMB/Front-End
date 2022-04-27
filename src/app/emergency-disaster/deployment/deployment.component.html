@@ -1,5 +1,9 @@
 <section class="modo">
   <h1>Informe de Emergencia</h1>
+  
+
+
+ 
 </section>
 
 <div class="col justify-content-around col-body" id="row-aside">
@@ -8,13 +12,18 @@
 
       <section *ngIf="emergencyDisaster">
 
-        <div class="col-12 modo">
-          <h4 *ngIf="emergencyDisaster">
+        <div class="col-12 emergencia">
+          <h4>
             #{{emergencyDisaster.emergencyDisasterID}}
-            {{emergencyDisaster.locations.locationCityName}} 
+            {{emergencyDisaster.locationsEmergenciesDisasters.locationCityName}} 
             {{emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName}}
           </h4>
+          
+            <button mat-fab color="warn" aria-label="Example icon button with a home icon">
+              <mat-icon class="icon">picture_as_pdf</mat-icon>
+            </button>
         </div>
+
 
         <div class="date row justify-content-around" *ngIf="emergencyDisaster">
 
@@ -50,57 +59,8 @@
           </div>
       </div>
 </div>
-        <div *ngIf="!emergencyDisaster.victims">
-          <p>No hay victimas por el momento</p>
-        </div>
 
-
-
-        <div class="victim text-center" *ngIf="emergencyDisaster.victims">
-
-          <mat-card class="example-card">
-            <p> personas asisitidas: <span>{{emergencyDisaster.victims.assistedPeople}}</span></p>
-          </mat-card>
-
-
-          <mat-card class="example-card">
-            <p>personas fallecidas: <span>{{emergencyDisaster.victims.numberDeaths}}</span></p>
-          </mat-card>
-
-          <mat-card class="example-card">
-            <p>barrios afectados: <span>{{emergencyDisaster.victims.affectedNeighborhoods}}</span></p>
-          </mat-card>
-
-          <mat-card class="example-card">
-            <p>localidades afectadas: <span>{{emergencyDisaster.victims.affectedLocalities}}</span></p>
-          </mat-card>
-
-
-
-          <mat-card class="example-card">
-            <p>familias afectadas: <span>{{emergencyDisaster.victims.numberFamiliesAffected}}</span></p>
-          </mat-card>
-
-
-          <mat-card class="example-card">
-            <p>personas evacuadas: <span>{{emergencyDisaster.victims.evacuatedPeople}}</span></p>
-          </mat-card>
-
-          <mat-card class="example-card">
-            <p>daños materiales:<span>${{emergencyDisaster.victims.affectedNeighborhoods}}</span></p>
-          </mat-card>
-
-          <mat-card class="example-card">
-            <p>personas afectadas: <span>{{emergencyDisaster.victims.numberAffected}}</span></p>
-          </mat-card>
-
-          <mat-card class="example-card">
-            <p>personas recuperadas: <span>{{emergencyDisaster.victims.recoveryPeople}}</span></p>
-          </mat-card>
-
-
-
-        </div>
+    
       </section>
 
 
@@ -125,6 +85,46 @@
             {{emergencyDisaster.emergencyDisasterInstruction}}
           </div>
         </div>
+
+        <div class="users col-10">
+        <div class="titulo">
+          <h2>Personas confirmadas</h2>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Legajo</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Rol</th>
+            </tr>
+          </thead>
+      
+          <tbody>
+            <tr *ngFor="let user of users; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+      
+              <td>
+                {{ user.legajo }}
+              </td>
+              <td>
+                {{ user.name }}
+              </td>
+              <td>
+                {{ user.roleName }}
+              </td>
+            </tr>
+      
+            <tr>
+              <td *ngIf="users.length == 0" colspan="7" class="text-center">
+                <p class="align-center">No hay usarios en esta emergencia.</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+        
   </section>
   <button mat-button routerLink="/emergencias" type="button">Salir</button>
   <button mat-button matStepperNext>Siguiente</button>
@@ -132,55 +132,7 @@
 
     </mat-step>
 
-
-
-    <section>
-      <div class="users col-12">
-        <mat-step>
-          <div class="titulo">
-            <h2>Personas confirmadas</h2>
-          </div>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Legajo</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Rol</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr *ngFor="let user of users; index as i">
-                <th scope="row">{{ i + 1 }}</th>
-
-                <td>
-                  {{ user.legajo }}
-                </td>
-                <td>
-                  {{ user.name }}
-                </td>
-                <td>
-                  {{ user.roleName }}
-                </td>
-              </tr>
-
-              <tr>
-                <td *ngIf="users.length == 0" colspan="7" class="text-center">
-                  <p class="align-center">No hay usarios en esta emergencia.</p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <button mat-button matStepperPrevious type="button">Atras</button>
-          <button mat-button matStepperNext>Siguiente</button>
-
-        </mat-step>
-      </div>
-
       <mat-step>
-
-
         <div class="titulo2">
           <h2>Recursos utilizados</h2>
         </div>
@@ -293,6 +245,65 @@
             </tbody>
           </table>
         </div>
+
+        <button mat-button matStepperPrevious type="button">Atras</button>
+        <button mat-button matStepperNext>Siguiente</button>
+
+      </mat-step>
+
+
+    <section>
+
+      <mat-step>
+
+        <section *ngIf="emergencyDisaster">
+
+
+        <div class="victim text-center">
+
+          <mat-card class="example-card">
+            <p> personas asisitidas: <span>{{emergencyDisaster.victims.assistedPeople}}</span></p>
+          </mat-card>
+
+
+          <mat-card class="example-card">
+            <p>personas fallecidas: <span>{{emergencyDisaster.victims.numberDeaths}}</span></p>
+          </mat-card>
+
+          <mat-card class="example-card">
+            <p>barrios afectados: <span>{{emergencyDisaster.victims.affectedNeighborhoods}}</span></p>
+          </mat-card>
+
+          <mat-card class="example-card">
+            <p>localidades afectadas: <span>{{emergencyDisaster.victims.affectedLocalities}}</span></p>
+          </mat-card>
+
+
+
+          <mat-card class="example-card">
+            <p>familias afectadas: <span>{{emergencyDisaster.victims.numberFamiliesAffected}}</span></p>
+          </mat-card>
+
+
+          <mat-card class="example-card">
+            <p>personas evacuadas: <span>{{emergencyDisaster.victims. evacuatedPeople}}</span></p>
+          </mat-card>
+
+          <mat-card class="example-card">
+            <p>daños materiales:<span>${{emergencyDisaster.victims.affectedNeighborhoods}}</span></p>
+          </mat-card>
+
+          <mat-card class="example-card">
+            <p>personas afectadas: <span>{{emergencyDisaster.victims.numberAffected}}</span></p>
+          </mat-card>
+
+          <mat-card class="example-card">
+            <p>personas recuperadas: <span>{{emergencyDisaster.victims.recoveryPeople}}</span></p>
+          </mat-card>
+
+
+        </div> 
+      </section>
         <button mat-button matStepperPrevious type="button">Atras</button>
       </mat-step>
     </section>
