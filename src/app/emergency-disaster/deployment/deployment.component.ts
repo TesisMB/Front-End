@@ -25,7 +25,7 @@ firstFormGroup: FormGroup;
   materials = [];
   medicines = [];
   vehicles = [];
-
+  resourcesRequest = [];
 
   constructor(private emergencyDisasterService: EmergencyDisasterService,
     private route: ActivatedRoute
@@ -101,6 +101,8 @@ var popup = L.popup()
     (data =>{
       this.emergencyDisaster = data;
 
+
+
       if(this.emergencyDisaster.chatRooms != null){
         this.emergencyDisaster.chatRooms.usersChatRooms.forEach(element => {
           const user = {
@@ -116,7 +118,11 @@ var popup = L.popup()
 
       console.log("Usuarios involucrados", this.users);
 
-      this.emergencyDisaster.resources_Requests.forEach(element => {
+      this.resourcesRequest = this.emergencyDisaster.resources_Requests.filter(a => a.condition === 'Aceptada');
+      
+      console.log('Recursos', this.resourcesRequest);
+
+      this.resourcesRequest.forEach(element => {
           this.materials = element.resources_RequestResources_Materials_Medicines_Vehicles.filter(a => a.materials);
           this.medicines = element.resources_RequestResources_Materials_Medicines_Vehicles.filter(a => a.medicines);
           this.vehicles = element.resources_RequestResources_Materials_Medicines_Vehicles.filter(a => a.vehicles);
