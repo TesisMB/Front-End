@@ -5,3 +5,7 @@ input{
 textarea:focus, input:focus{
     outline: none;
   }
+
+  #search{
+      max-width: 343px;
+  }

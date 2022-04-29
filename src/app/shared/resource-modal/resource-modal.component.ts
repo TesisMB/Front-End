@@ -60,6 +60,7 @@ handleDelete: Subscription;
     this.handle = this.requestService.rejectRequest(this.form.value).subscribe(
       data => {
         this.status ? this.resources.condition = 'Aceptada': this.resources.condition = 'Rechazada';
+        this.service.deleteFromTable(this.resources.id);
         this.alertService.success(`Petición ${this.resources.condition.toLowerCase()} con exito!`, {autoClose: true});
 
       },

@@ -1,28 +1,35 @@
+import { Vehicle } from './../../models/vehicle.model';
 import { AlertService } from 'src/app/services';
-import { User, Employee, Resource } from 'src/app/models';
-import { filter, first, map, tap } from 'rxjs/operators';
+import {  Employee } from 'src/app/models';
+import {  first, map, tap } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { ResourcesService } from './../resources.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { UserService } from 'src/app/users';
 import { StatesService } from '../states/states.service';
-import { MatStepper } from '@angular/material/stepper';
 import * as _ from 'lodash';
 import { compare } from 'fast-json-patch';
-// import {
-//   MAT_MOMENT_DATE_FORMATS,
-//   MomentDateAdapter,
-//   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-// } from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+
+
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+
 
 const TYPES = [
   {value: 'materiales', viewValue:'Instrumental'},
   {value: 'medicamentos', viewValue:'Farmacia'},
   {value: 'vehiculos', viewValue:'Rodado'}
+  ];
+
+  const VEHICLES_UTILITYS =['Transporte','Uso particular','Carga', 'Emergencias'];
+  const VEHICLES_TYPES = [
+  {value: 2, viewValue:'MOTOCICLETA'},
+  {value: 1, viewValue:'AUTO'},
+  {value: 3, viewValue:'CAMIONETA'},
+  {value: 4, viewValue:'CAMION'},
+  {value: 5, viewValue:'AMBULANCIA'}
   ];
 
   const UNITS = [
@@ -48,21 +55,6 @@ const TYPES = [
   selector: 'add-edit-resources',
   templateUrl: './add-edit-resources.component.html',
   styleUrls: ['./add-edit-resources.component.css'],
-  // providers: [
-    // The locale would typically be provided on the root module of your application. We do it at
-    // the component level here, due to limitations of our example generation script.
-    // {provide: MAT_DATE_LOCALE, useValue: 'ja-JP'},
-
-    // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
-    // `MatMomentDateModule` in your applications root module. We provide it at the component level
-    // here, due to limitations of our example generation script.
-  //   {
-  //     provide: DateAdapter,
-  //     useClass: MomentDateAdapter,
-  //     deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-  //   },
-  //   {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-  // ],
 })
 export class addEditResourcesComponent implements OnInit {
 
@@ -80,11 +72,22 @@ currentUser = JSON.parse(localStorage.getItem('currentUser'));
 formType : FormControl = new FormControl('',[Validators.required]);
 types = TYPES;
 units = UNITS;
+vehiclesTypes = VEHICLES_TYPES;
+vehiclesUtilitys = VEHICLES_UTILITYS;
 loading : boolean = false;
 minDate;
 maxDate;
-vehiclesTypes$: Observable<any>;
+vehicles: Vehicle = null;
+
 vehicleYear: number;
+
+selectedFiles?: FileList;
+selectedFileNames: string= "";
+progressInfos: any[] = [];
+message: string = "";
+previews: string = "";
+imageInfos?: Observable<any>;
+
   constructor(
     private activatedRoute:ActivatedRoute,
     private location: Location,
@@ -104,20 +107,16 @@ vehicleYear: number;
     this.getLocations();
     this.getUsers();
     this.getDateValidations();
-
     this.formType.statusChanges.subscribe(
       () =>
       {
+        this.form.enable();
         this.changeType();
         this.type = this.formType.value;
+        this.createForm();
         this.getForm(this.formType.value);
 
       });
-    // this.form.get('FK_LocationID').valueChanges.subscribe(value =>{
-    //   this.estates = this.locations.filter(x => x.locationID === value);
-    //   return console.log('Sucursales => ', this.estates);
-    // } );
-
   }
 
   get getData(){
@@ -128,13 +127,22 @@ vehicleYear: number;
   get medicineForm(){ return this.form.get('medicines');}
   get vehicleForm(){ return this.form.get('vehicles');}
   get isEdit(){return this.action === 'editar'}
+
+  setPicklist(){ 
+    this.vehicleForm.get('fK_EmployeeID').patchValue(this.vehicles.fK_EmployeeID);
+    console.log('Ingreso a picklist');
+    this.vehicleForm.get('Fk_TypeVehicleID').patchValue(this.vehicles.fk_TypeVehicleID);
+}
+
   private getParams(){
       this.activatedRoute.paramMap
       .subscribe( params => {
         this.action = params.get('action');
         this.type = params.get('tipo');
         this.createForm();
+        
         this.getForm(this.type);
+        this.form.disable();
       });
     }
 
@@ -156,15 +164,16 @@ vehicleYear: number;
       name: ['',[Validators.required, Validators.pattern("[a-zA-Z ]{2,35}"), Validators.maxLength(35)]],
       quantity: ['',[Validators.required, Validators.max(9999), Validators.min(1)]],
       description: ['',[Validators.maxLength(254)]],
-      fk_EstateID: ['',[Validators.required]],
-      // picture:['']
+      fk_EstateID: [,[Validators.required]],
+      donation: [false],
+      picture:[]
     });
 
     if(this.isEdit){
       this.form.get('fk_EstateID').clearValidators();
       this.formType.clearValidators();
-
     }
+
   }
 
   private getForm(type: string){
@@ -175,37 +184,37 @@ vehicleYear: number;
         }));
       } else if(type === 'medicamentos'){
         this.form.addControl('medicines', this.formGroup.group({
-          medicineExpirationDate: ['11/11/2023',[Validators.required]],
+          medicineExpirationDate: ['',[Validators.required ,Validators.pattern('^[0-9]{2}[\/][0-9]{4}$') ]],
           medicineLab: ['',[Validators.required ]],
           medicineDrug: ['',[Validators.required]],
-          medicineWeight: ['',[Validators.required]],
+          medicineWeight: ['',[Validators.required,Validators.pattern('^[0-9]{3}$'), Validators.min(1), Validators.max(999)]],
           medicineUnits: ['',[Validators.required]],
           
         }));
       } else if(type ==='vehiculos'){
         this.form.addControl('vehicles', this.formGroup.group({
           vehiclePatent: ['',[Validators.required, Validators.pattern('^[A-Z]{2,3}[ -][0-9]{3}(?: [A-Z]{2})?$')]],
-          vehicleYear: [2022,[Validators.required]],
+          vehicleYear: ['',[Validators.required, Validators.pattern('^[0-9]{4}$'), Validators.min(1970), Validators.max(2022)]],
           vehicleUtility: ['',[Validators.maxLength(254)]],
-          Fk_EmployeeID: ['',[Validators.required]],
+          fK_EmployeeID: ['',[Validators.required]],
           Fk_TypeVehicleID: ['',[Validators.required]],
-          brandsModels: this.formGroup.group({
-          Fk_BrandID: ['',[Validators.required]],
-          Fk_ModelID: ['',[Validators.required]]
-        }),}));
+          brandName: ['',[Validators.required, Validators.maxLength(15)]],
+          modelName: ['',[Validators.required, Validators.maxLength(15)]]
+        }),);
           
-        this.vehiclesTypes$ = this.service.vehiclesTypes$;   
 
-        if(!this.isEdit){
-        this.form.get('quantity').patchValue(1);
-      } 
-      
+        this.form.removeControl('name');
+          
       }
       if(this.isEdit){
         this.formType.setValue(this.type);
+        this.form.enable();
         this.form.get('fk_EstateID').clearValidators();
         this.formType.clearValidators();
       }
+        if(!this.isEdit){
+        this.form.get('quantity').patchValue(1);
+      } 
   } 
 
   private getItem(id){
@@ -213,11 +222,15 @@ vehicleYear: number;
                         .pipe(tap(data => console.log('Item => ', data)))
                         .subscribe(data =>{
                            this.form.patchValue(data);
+
                            if(this.isEdit){
                            this.form.get('fk_EstateID').patchValue(data.estates.estateID);
                            this.cloneForm = this.form.value;
+                           this.vehicles = data.vehicles;
+                           this.previews = data.picture;
+                           this.form.enable();
 
-                          }
+                        }
                           });
   }
   private getLocations(){
@@ -280,6 +293,9 @@ vehicleYear: number;
     .subscribe(
       data => {
         this.userList = data;
+        if(this.type == 'vehiculos' && this.isEdit){
+          this.setPicklist();
+        }
       },
       error => {
         console.log(error);
@@ -310,6 +326,7 @@ data => {
   this.loading = false;
   this.alertService.success(`Recurso registrado con exito!`, {autoClose: true});
   this.form.reset();
+  this.form.clearValidators();
 
 },
 error => {
@@ -337,7 +354,7 @@ error => {
         });
     }
 
-  public onBack(){
+ public onBack(){
     this.location.back();
   }
 
@@ -346,28 +363,62 @@ error => {
     const currentMonth = new Date().getMonth();
     const currentDate = new Date().getDate();
 
-    this.minDate = new Date(currentYear,currentMonth, currentDate);
+    this.minDate = new Date(currentYear,currentMonth+1, currentDate);
     this.maxDate = new Date(currentYear + 10, currentMonth, currentDate);
-   // const max = this.maxDate.;
-   // console.log(max);
-   // console.log(this.minDate);
   }
 
-  dateYear(e, p){
-  //  const year2 = +year.substring(12,16);
-    // this.vehicleForm.get('vehicleYear').patchValue();
-  //  let event = e.toString();
-  //  let picker = p;
-  //  console.log('Year Date => ', year2);
-  //  console.log('Form Date => ',);
+    selectFiles(event: any): void {
+      this.message = "";
+      this.progressInfos = [];
+      this.selectedFileNames = "";
+      this.selectedFiles = event.target.files;
+    //  this.previews = "";
+      if (this.selectedFiles && this.selectedFiles[0]) {
+        
+        const numberOfFiles = this.selectedFiles.length;
+        for (let i = 0; i < numberOfFiles; i++) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            console.log(e.target.result);
+            this.previews = e.target.result;
+          };
+          reader.readAsDataURL(this.selectedFiles[i]);
+          this.selectedFileNames = this.selectedFiles[i].name;
+        }
+         this.uploadFiles();
+      }
+    }
 
-  }
-  dateChange(e, p){
-      let event = e.toString();
-      let picker = p;
-      console.log('Event Date => ', event);
-      console.log('Picker Date => ', picker);
-  
+    uploadFiles(): void {
+      this.message = "";
+      if (this.selectedFiles) {
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+          this.upload(i, this.selectedFiles[i]);
+        }
+      }
+    }
+
+    upload(idx: number, file: File): void {
+      this.progressInfos[idx] = { value: 0, fileName: file.name };
+      if (file) {
+        this.service.upload(file)
+        .subscribe(
+          (event: any) => {
+           if (event.type === HttpEventType.UploadProgress) {
+             this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+           } else if (event instanceof HttpResponse) {
+           this.form.get('picture').patchValue(event.body.fileName);
+              const msg = 'Se cargó la imagen exitosamente!: ' + file.name;
+              this.message = msg;
+             this.imageInfos = this.service.getFiles();
+             }
+          },
+          (err: any) => {
+            this.progressInfos[idx].value = 0;
+            const msg = 'No se ha podido cargar la imagen: ' + file.name;
+            this.message = msg;
+          });
+      }
     }
 
 }

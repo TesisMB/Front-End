@@ -1,7 +1,7 @@
   <section class="container" >
   <ng-container *ngIf="originalUser">
-    <div class="col-3" style="background-color: #fff; padding: 3;">
-      <h2 class="Name-Lastname">{{originalUser.users.persons.firstName  }} {{originalUser.users.persons.lastName}}</h2>
+    <div class="tab-options col-3">
+       <h2 class="Name-Lastname">{{originalUser.users.persons.firstName  }} {{originalUser.users.persons.lastName}}</h2>
       <p class="Email">{{originalUser.users.persons.email}}</p>
       <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
@@ -13,9 +13,9 @@
       </div>
     </div>
 
-    <div  class="col-10" style="background-color: #fff!Important; margin-left: 20px;  padding: 0;">
-      <div class="tab-content" id="v-pills-tabContent" style="background-color: #fff;">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()"  style="background-color: #fff!Important;" style="display: flex; flex-direction: column; background: #fff;">
+    <div  class="tab-options col-10" style="background-color: #fff!Important; margin-left: 20px;  padding: 0; border-radius: 10px;">
+      <div class="tab-content" id="v-pills-tabContent" style="background-color: #fff; border-radius: 10px;">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()"  style="background-color: #fff!Important; border-radius: 10px;" style="display: flex; flex-direction: column; background: #fff;">
 
         <!-- Informacion General -->
 

@@ -29,7 +29,9 @@ const routes: Routes = [
         component: ResourcesDetails,
       },
       { path: ':action/:tipo',
-        component: addEditResourcesComponent },
+        component: addEditResourcesComponent,
+        canActivate: [AuthGuard],
+        data:{ roles: [RoleName.Admin, RoleName.Logistica, RoleName.CoordinadorGeneral]} },
     ],
      
     
@@ -37,13 +39,16 @@ const routes: Routes = [
   { 
     path: 'solicitudes',
     component: RequestComponent,
+    canActivate: [AuthGuard],
+    data:{ roles: [RoleName.Admin, RoleName.Logistica, RoleName.CoordinadorGeneral]}
     },
 
       { path: 'historial',
        component: HistoryRequestComponent },
        { path: 'stock',
-       component: StockComponent }
-
+       component: StockComponent,
+       canActivate: [AuthGuard],
+        data:{ roles: [RoleName.Admin, RoleName.Logistica, RoleName.CoordinadorGeneral]} }
 ];
 
 @NgModule({

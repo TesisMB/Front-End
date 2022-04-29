@@ -44,12 +44,8 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
     get isAdmin(){       
-       return this.currentUser.roleName === 'Admin';
+       return this.currentUser.roleName === 'Admin' || this.currentUser.roleName ===  'Coordinador General';
       }
-      get isCG(){
-        
-        return this.currentUser.roleName ===  'Coordinador General';
-       }
 
   ngAfterViewInit(){}
 

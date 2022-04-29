@@ -1,25 +1,45 @@
 import { Employee } from '.';
 export class Vehicle {
   vehiclePatent: string;
-  vehicleYear: number;
+  vehicleYear: string;
   employeeName: string;
   type: string;
-  brandsModels: BrandsModels;
-  id: number;
-  name: string;
+  brandName: string;
+  fK_BrandID: number;
+  fK_EmployeeID: number;
+  fK_ModelID: number;
+  fk_TypeVehicleID: number;
+  modelName: string;
+  vehicleUtility: string;
+  name?: string;
+
   constructor(
     _vehiclePatent: string,
-    _vehicleYear: number,
+    _vehicleYear: string,
     _type: string,
-    _employees: string,
-    _brandsModels: BrandsModels
-
+    _employeeName: string,
+    _brandName: string,
+    _fK_BrandID: number,
+    _fK_EmployeeID: number,
+    _fK_ModelID: number,
+    _fk_TypeVehicleID: number,
+    _modelName: string,
+    _vehicleUtility: string,
+    _name?: string,
+  
   ) {
     this.vehiclePatent = _vehiclePatent;
     this.vehicleYear = _vehicleYear;
-    this.employeeName = _employees;
+    this.employeeName = _employeeName;
     this.type = _type;
-    this.brandsModels = _brandsModels;
+    this.brandName = _brandName;
+    this.fK_BrandID = _fK_BrandID;
+    this.fK_EmployeeID =  _fK_EmployeeID;
+    this.fK_ModelID =  _fK_ModelID;
+    this.fk_TypeVehicleID =  _fk_TypeVehicleID;
+    this.modelName = _modelName;
+    this.vehicleUtility = _vehicleUtility;
+    this.name = _name;
   }
 }
 

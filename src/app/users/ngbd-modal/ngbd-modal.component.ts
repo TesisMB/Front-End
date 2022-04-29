@@ -11,6 +11,19 @@ import {compare } from 'fast-json-patch';
 import * as _ from 'lodash';
 import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
 import { saveAs } from 'file-saver';
+import { StatesService } from 'src/app/resources/states/states.service';
+import { map } from 'rxjs/operators';
+
+interface UsersInput {
+  value: number;
+  viewValue: string;
+}
+
+interface UsersGroup {
+  disabled?: boolean;
+  id: number;
+  users: Employee[];
+}
 
 @Component({
   selector: 'ngbd-modal-component',
@@ -33,6 +46,8 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   model : Employee;
   roles: Role[];
+  locations = [];
+  estates = [];
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -40,6 +55,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     private tableService: TableService,
     private userService: UserService,
     private alertService: AlertService,
+    private stateService: StatesService,
     private authenticationService: AuthenticationService ) {
     }
   
@@ -60,12 +76,12 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     //Se le asigna el modelo de formulario.
     this.form = this.userService.EmployeeForm;
 
-    const staffs = this.estates;
+    const staffs = this.estate;
     // vacio el formArray
     while (staffs.length) {
       staffs.removeAt(0);
     }
-    console.log('Datos de usuario: ', this.user);
+    console.log('Datos de usuario => ', this.user);
     //Se obtiene el role y se le asigna al formulario el ID de dicho rol.
     let id =(this.roles.find(name => name.RoleName === this.user.users.roleName));
     // inserto el FK_RoleID en el objeto user
@@ -74,6 +90,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // inserto los valores del usuario al formulario
     this.f.patchValue(this.user);
+    console.log('Datos de form => ', this.f);
 
     // agrego los horarios al formArray
     this.user.users.estates.estatesTimes.forEach(times => staffs.push(this.userService._employeeForm.group(times)));
@@ -83,12 +100,14 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Se deshabilita el formulario
      this.f.disable();
+    //Subscriber a localidades y sucursales.
+     this.getLocations();
   }
 
   // getter para acortar el acceso a la variable
   public get f() { return this.form }
  //getter para acortar acceso a horarios laborales
-  get estates(): FormArray { return this.form.get('users.estates.estatesTimes') as FormArray; }
+  get estate(): FormArray { return this.form.get('users.estates.estatesTimes') as FormArray; }
 
   get roleID(){ return this.form.get('users.FK_RoleID') }
 
@@ -148,7 +167,8 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onClick(){
     //metodo que habilita y deshabilita el formulario, se ejecuta al clickear en el boton Actualizar Datos
-    (this.form.disabled)?this.form.enable():this.form.disable(); 
+    (this.form.disabled)?this.form.enable():this.form.disable();
+     
   }
 
   private updateUser(patch) {
@@ -237,6 +257,28 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
                           error => {this.error = error;
                                     this.alertService.error('Ha ocurrido un error, porfavor intentar más tarde.',{autoClose: true});}
                           );}
+
+
+   private getLocations(){
+     this.stateService.getAll()
+     .pipe(map(x => 
+     x.filter( estates => this.user.users.estates.locationCityName == estates.locationCityName)))
+     .subscribe(
+       data => {
+         this.locations = data;
+         data.forEach(e => {
+           this.estates.push(e.estates);
+         });
+         console.log(data);
+         console.log(this.estates);
+  
+       },
+       error => {
+         console.log(error);
+       }
+     )
+   }
+
 ngOnDestroy(){
   this.formHandler.unsubscribe();
   if(this.updateHandler){

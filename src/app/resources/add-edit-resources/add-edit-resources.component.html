@@ -11,7 +11,31 @@
         <button mat-raised-button (click)="onBack()">Atras</button>
 </div>
 <div class="col col-head">
-    <button mat-raised-button color="accent" (click)="getData">Imprimir datos por consola</button>
+  <form >
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de recurso</mat-label>
+        <mat-select
+          [formControl]="formType"
+          name="type"
+          [required]="!isEdit"
+          [disabled]="isEdit"
+          
+        >
+          <mat-option
+            *ngFor="let type of types"
+            [value]="type.value"
+          >
+            {{ type.viewValue }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="formType.hasError('required')"
+        >
+          El tipo de recurso es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+    </form>
+    <!-- <button mat-raised-button color="accent" (click)="getData">Imprimir datos por consola</button> -->
 </div>
  
 <div class="col-12">
@@ -23,7 +47,32 @@
           <ng-template matStepLabel>Primeros datos</ng-template> -->
 
           <mat-grid-list cols="4" rowHeight="100px">
-            <mat-grid-tile>
+            <mat-grid-tile *ngIf="vehicleForm"  [formGroup]="vehicleForm">
+              <mat-form-field appearance="outline">
+                <mat-label>Patente</mat-label>
+                <input
+                  matInput
+                  placeholder="Ex. AG 759 LH / NVZ-087"
+                  formControlName="vehiclePatent"
+                  required
+                  [readonly]="isEdit"
+
+                />
+                <mat-error
+                  *ngIf="
+                  vehicleForm.get('vehiclePatent').hasError('pattern') &&
+                    !vehicleForm.get('vehiclePatent').hasError('required')
+                  "
+                >
+                  Por favor ingresar una patente valido
+                </mat-error>
+                <mat-error *ngIf="vehicleForm.get('vehiclePatent').hasError('required')">
+                  La patente es <strong>requerida</strong>
+                </mat-error>
+              </mat-form-field>
+            </mat-grid-tile>
+            <br />
+            <mat-grid-tile *ngIf="!vehicleForm">
               <mat-form-field color="white" appearance="outline">
                 <mat-label>Nombre</mat-label>
                 <input
@@ -48,8 +97,7 @@
               </mat-form-field>
             </mat-grid-tile>
             <br />
-            <mat-grid-tile>
-              
+            <mat-grid-tile *ngIf="!vehicleForm">
               <mat-form-field appearance="outline">
                 <mat-label>Cantidad</mat-label>
                 <input
@@ -58,6 +106,8 @@
                   formControlName="quantity"
                   required
                   type="number"
+                  min="0"
+                  max="9999"
                 />
                 <mat-error
                   *ngIf="
@@ -83,23 +133,6 @@
               </mat-form-field>
             </mat-grid-tile>
             <br />
-            <mat-grid-tile *ngIf="form.get('picture')">
-              <mat-form-field appearance="outline">
-                <mat-label>Imagen</mat-label>
-                <input
-                  matInput
-                  placeholder="Ex. Bayern, Conicet, etc>"
-                  formControlName="picture"
-                  required
-                />
-                <!-- <mat-error
-                  *ngIf="form.get('picture').hasError('required')"
-                >
-                  La marca es <strong>requerida</strong>
-                </mat-error> -->
-              </mat-form-field>
-            </mat-grid-tile>
-          <br/>
             <mat-grid-tile  >
               <mat-form-field  appearance="outline">
                 <mat-label>Sucursal</mat-label>
@@ -131,64 +164,7 @@
               </mat-form-field>
             </mat-grid-tile>
             <br />
-            <mat-grid-tile >
-            <mat-form-field appearance="outline">
-              <mat-label>Tipo de recurso</mat-label>
-              <mat-select
-                [formControl]="formType"
-                name="type"
-                [required]="!isEdit"
-                [disabled]="isEdit"
-                
-              >
-                <mat-option
-                  *ngFor="let type of types"
-                  [value]="type.value"
-                >
-                  {{ type.viewValue }}
-                </mat-option>
-              </mat-select>
-              <mat-error
-                *ngIf="formType.hasError('required')"
-              >
-                El tipo de recurso es <strong>requerido</strong>
-              </mat-error>
-            </mat-form-field>
-          </mat-grid-tile>
-          <br />
-          <mat-grid-tile>
-            <mat-form-field appearance="outline">
-              <mat-label>Descripción</mat-label>
-              <textarea
-                matInput
-                placeholder="Texto ejemplo va aquí"
-                formControlName="description"
-                 >
-              </textarea>
-              <!-- <mat-error
-                *ngIf="form.get('description').hasError('pattern')"
-              >
-                Formato <strong>invalido</strong>
-              </mat-error> -->
-              <mat-error
-              *ngIf="form.get('description').hasError('maxlength')"
-            >
-              Ha superado los 254 caracteres permitidos
-            </mat-error>
-            </mat-form-field>
-            </mat-grid-tile>
-            <br />
-            <mat-grid-tile>
-                
-                <mat-checkbox [disabled]="isEdit" >¿Es donación?</mat-checkbox>
-                <!-- <mat-error
-                  *ngIf="form.get('picture').hasError('required')"
-                >
-                  La marca es <strong>requerida</strong>
-                </mat-error> -->
-            </mat-grid-tile>
-            <br/>
-            <mat-grid-tile  *ngIf="medicineForm" [formGroup]="medicineForm">
+             <mat-grid-tile  *ngIf="medicineForm" [formGroup]="medicineForm">
               <mat-form-field appearance="outline">
                 <mat-label>Farmaco</mat-label>
                 <input
@@ -197,6 +173,7 @@
                   formControlName="medicineDrug"
                   required
                   [readonly]="isEdit"
+
                 />
                 <mat-error
                   *ngIf="
@@ -222,7 +199,8 @@
                   formControlName="medicineLab"
                   required
                   [readonly]="isEdit"
-                />
+
+                                  />
                 <mat-error
                   *ngIf="
                     medicineForm.get('medicineLab').hasError('pattern') &&
@@ -246,7 +224,7 @@
                   formControlName="medicineWeight"
                   required
                   [readonly]="isEdit"
-                />
+                                  />
                 <mat-error
                   *ngIf="
                     medicineForm.get('medicineWeight').hasError('pattern') &&
@@ -271,6 +249,7 @@
                   name="medicineUnits"
                   required
                   [disabled]="isEdit"
+
                 >
                     <mat-option
                     *ngFor="let u of units"
@@ -293,10 +272,11 @@
               <mat-label>Marca</mat-label>
               <input
                 matInput
-                placeholder="Ex. Bayern, Conicet, etc>"
+                placeholder="Ex. Bayern, Conicet, etc"
                 formControlName="brand"
                 required
                 [readonly]="isEdit"
+
               />
               <mat-error
                 *ngIf="materialForm.get('brand').hasError('required')"
@@ -319,37 +299,14 @@
             </mat-form-field>
           </mat-grid-tile>
           <br />
-          <mat-grid-tile *ngIf="vehicleForm"  [formGroup]="vehicleForm">
-            <mat-form-field appearance="outline">
-              <mat-label>Patente</mat-label>
-              <input
-                matInput
-                placeholder="Ex. AG 759 LH / NVZ-087"
-                formControlName="vehiclePatent"
-                [readonly]="isEdit"
-                required
-              />
-              <mat-error
-                *ngIf="
-                vehicleForm.get('vehiclePatent').hasError('pattern') &&
-                  !vehicleForm.get('vehiclePatent').hasError('required')
-                "
-              >
-                Por favor ingresar un documento valido
-              </mat-error>
-              <mat-error *ngIf="vehicleForm.get('vehiclePatent').hasError('required')">
-                El documento es <strong>requerido</strong>
-              </mat-error>
-            </mat-form-field>
-          </mat-grid-tile>
-          <br />
+
          <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm">
           <mat-form-field  appearance="outline">
             <mat-label>Responsable</mat-label>
             <mat-select
               
-            formControlName="Fk_EmployeeID"
-              name="Fk_EmployeeID"
+            formControlName="fK_EmployeeID"
+              name="fK_EmployeeID"
               required
             >
               <mat-option>-- Seleccione al responsable del vehiculo --</mat-option>
@@ -375,55 +332,94 @@
         </mat-grid-tile>
             <br /> 
             <mat-grid-tile *ngIf="medicineForm"  [formGroup]="medicineForm">
-              <mat-form-field class="example-full-width" appearance="outline">
+              <mat-form-field class="example-full-width"  appearance="outline">
                 <mat-label>Fecha de vencimiento</mat-label>
                 <input
-                  matInput
-                  required
-                  [disabled]="isEdit"
-                  [formControl]="medicineForm.get('medicineExpirationDate')"
-                  [min]="minDate"
-                  [max]="maxDate"
-                  [matDatepicker]="picker"
-                  (dateChange)="dateChange($event.value, picker)"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-                <mat-error
-                  *ngIf="medicineForm.get('medicineExpirationDate').hasError('required')"
-                >
-                  La fecha es <strong>requerida</strong>
-                </mat-error>
+                matInput
+                placeholder="Ex. 12/2022 o 12-2023"
+                formControlName='medicineExpirationDate'
+                required
+                [readonly]="isEdit"
                 
-              </mat-form-field>
+                />
+              <mat-error
+                *ngIf="medicineForm.get('medicineExpirationDate').hasError('required')"
+              >
+                La fecha es <strong>requerida</strong>
+              </mat-error>
+
+            <mat-error
+              *ngIf="medicineForm.get('medicineExpirationDate').hasError('pattern') &&
+              !medicineForm.get('medicineExpirationDate').hasError('required')"
+            >
+              Ingrese un formato <strong>valido </strong>
+            </mat-error> 
+          
+             </mat-form-field>
             </mat-grid-tile>
             <br />
             <mat-grid-tile *ngIf="vehicleForm"  [formGroup]="vehicleForm">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Año</mat-label>
-                <input
-                [disabled]="isEdit"
-                  matInput
-                  required
-                  [formControl]="vehicleForm.get('vehicleYear')"
-                  [min]="minDate"
-                  [max]="maxDate"
-                  [matDatepicker]="picker"
-                  
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker startView="multi-year" (yearSelected)="dateYear($event, picker)" #picker></mat-datepicker>
+
+                  <input
+                    matInput
+                    placeholder="Ex. 2021"
+                    formControlName='vehicleYear'
+                    required
+                    [readonly]="isEdit"
+                    [max]="2022"
+                    [min]="1970"
+                  />
+                  <mat-error
+                    *ngIf="vehicleForm.get('vehicleYear').hasError('required')"
+                  >
+                    La marca es <strong>requerida</strong>
+                  </mat-error>
+ 
                 <mat-error
+                  *ngIf="vehicleForm.get('vehicleYear').hasError('pattern') &&
+                  !vehicleForm.get('vehicleYear').hasError('required')"
+                >
+                  Ingrese un formato <strong>valido </strong>
+                </mat-error> 
+                <mat-error
+                  *ngIf="vehicleForm.get('vehicleYear').hasError('max') &&
+                  !vehicleForm.get('vehicleYear').hasError('required') &&
+                  !vehicleForm.get('vehicleYear').hasError('pattern')"
+                  
+                >
+                  Introduzca un año posterior al actual
+                </mat-error>
+                <mat-error
+                *ngIf="vehicleForm.get('vehicleYear').hasError('min') &&
+                !vehicleForm.get('vehicleYear').hasError('required') &&
+                !vehicleForm.get('vehicleYear').hasError('pattern') &&
+                !vehicleForm.get('vehicleYear').hasError('max')"
+              >
+              
+                Introduzca un año posterior al actual
+              </mat-error>
+<!--                 
+              <input matInput [matDatepicker]="dp"
+              [disabled]="isEdit"
+              required
+              [formControl]="vehicleForm.get('vehicleYear')"
+              [max]="2022"
+              [min]="2022-50"
+
+              >
+              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+              <mat-datepicker #dp
+                              startView="multi-year"
+                              (yearSelected)="chosenYearHandler($event, dp)"
+                              panelClass="example-month-picker">
+              </mat-datepicker>
+              <mat-error
                   *ngIf="vehicleForm.get('vehicleYear').hasError('required')"
                 >
                   La fecha es <strong>requerida</strong>
-                </mat-error>
+                </mat-error> -->
                 
               </mat-form-field>
             </mat-grid-tile>
@@ -431,12 +427,19 @@
             <mat-grid-tile *ngIf="vehicleForm"  [formGroup]="vehicleForm">
               <mat-form-field appearance="outline">
                 <mat-label>Utilidad</mat-label>
-                <textarea
-                  matInput
-                  placeholder="Descripcion del uso habitual del vehiculo"
-                  formControlName="vehicleUtility"
-                   >
-                </textarea>
+                <mat-select
+              formControlName="vehicleUtility"
+                name="vehicleUtility"
+                required
+              >
+                  <mat-option
+                  *ngFor="let u of vehiclesUtilitys"
+                  [value]="u"                    
+                  >
+                   {{u | uppercase}}
+                  </mat-option>
+              </mat-select> 
+
                 <!-- <mat-error
                   *ngIf="form.get('description').hasError('pattern')"
                 >
@@ -454,17 +457,18 @@
                 <mat-form-field  appearance="outline">
                   <mat-label>Tipo de Rodado</mat-label>
                   <mat-select
-                    [disabled]="isEdit"
                   formControlName="Fk_TypeVehicleID"
                     name="Fk_TypeVehicleID"
                     required
+                    [disabled]="isEdit"
+
                   >
                       <mat-option
-                      *ngFor="let u of (vehiclesTypes$ | async)"
-                        [value]="u.typeID"
+                      *ngFor="let u of vehiclesTypes"
+                        [value]="u.value"
                         
                       >
-                       {{u.type | uppercase}}
+                       {{u.viewValue | uppercase}}
                       </mat-option>
                   </mat-select> 
                   <!-- <mat-error
@@ -475,23 +479,44 @@
               </mat-form-field>
               </mat-grid-tile>
                   <br /> 
-                  <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm.get('brandsModels')">
+                  <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm">
                     <mat-form-field  appearance="outline">
                       <mat-label>Marca</mat-label>
-                      <mat-select
+                      <input
+                      matInput
+                      placeholder="Ex. FIAT, PEUGEOT, etc"
+                      formControlName="brandName"
+                      required
+                      [readonly]="isEdit"
+                    />
+                    <mat-error
+                      *ngIf="vehicleForm.get('brandName').hasError('required')"
+                    >
+                      La marca es <strong>requerida</strong>
+                    </mat-error>
+                    <mat-error
+                    *ngIf="vehicleForm.get('brandName').hasError('maxlength') &&
+                    !vehicleForm.get('brandName').hasError('required')"
+                  >
+                    Ha superado los 15 caracteres permitidos
+                  </mat-error>
+
+                      <!-- <mat-select
                         [disabled]="isEdit"
                       formControlName="Fk_BrandID"
+                      
                         name="Fk_BrandID"
                         required
                       >
                           <mat-option
-                          *ngFor="let u of (vehiclesTypes$ | async)"
-                            [value]="u.brandID"
+                          *ngFor="let u of vehiclesBrands; index as i"
+                          (onSelectionChange)="handleChangeTypes(i)"
+                            [value]="u.fK_BrandID"
                             
                           >
                            {{u.brandsName | uppercase}}
                           </mat-option>
-                      </mat-select> 
+                      </mat-select>  -->
                       <!-- <mat-error
                         *ngIf="form.get('Fk_EmployeeID').hasError('required')"
                       >
@@ -500,23 +525,41 @@
                   </mat-form-field>
                   </mat-grid-tile>
                       <br /> 
-                      <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm.get('brandsModels')">
+                      <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm">
                         <mat-form-field  appearance="outline">
                           <mat-label>Modelo</mat-label>
-                          <mat-select
+                          <input
+                          matInput
+                          placeholder="Ex. FIESTA, 207, etc"
+                          formControlName="modelName"
+                          required
+                          [readonly]="isEdit"
+                        />
+                        <mat-error
+                          *ngIf="vehicleForm.get('modelName').hasError('required')"
+                        >
+                          El modelo es <strong>requerido</strong>
+                        </mat-error>
+                        <mat-error
+                        *ngIf="vehicleForm.get('modelName').hasError('maxlength') &&
+                        !vehicleForm.get('modelName').hasError('required')"
+                      >
+                        Ha superado los 15 caracteres permitidos
+                      </mat-error>
+                          <!-- <mat-select
                             [disabled]="isEdit"
                           formControlName="Fk_ModelID"
                             name="Fk_ModelID"
                             required
                           >
                               <mat-option
-                              *ngFor="let u of (vehiclesTypes$ | async)"
-                                [value]="u.modelID"
+                              *ngFor="let u of vehiclesBrands"
+                                [value]="u.fK_ModelID"
                                 
                               >
                                {{u.modelName | uppercase}}
                               </mat-option>
-                          </mat-select> 
+                          </mat-select>  -->
                           <!-- <mat-error
                             *ngIf="form.get('Fk_EmployeeID').hasError('required')"
                           >
@@ -524,23 +567,84 @@
                           </mat-error> -->
                       </mat-form-field>
                       </mat-grid-tile>
-                          <br /> 
+                          <br />
+              
+                          <mat-grid-tile colspan = "2" rowspan="2">
+                            <mat-form-field class="description-field" appearance="outline">
+                              <mat-label>Descripción</mat-label>
+                              <textarea
+                                matInput
+                                placeholder="Texto ejemplo va aquí"
+                                formControlName="description"
+                                 >
+                              </textarea>
+                              <!-- <mat-error
+                                *ngIf="form.get('description').hasError('pattern')"
+                              >
+                                Formato <strong>invalido</strong>
+                              </mat-error> -->
+                              <mat-error
+                              *ngIf="form.get('description').hasError('maxlength')"
+                            >
+                              Ha superado los 254 caracteres permitidos
+                            </mat-error>
+                            </mat-form-field>
+                            </mat-grid-tile>
+                            <br />
+                            <mat-grid-tile >
+                                
+                              <mat-checkbox formControlName="donation" [disabled]="isEdit"
+                              >¿Es donación?</mat-checkbox>
+
+                          </mat-grid-tile>
+                          <br/> 
+                               <mat-grid-tile colspan="1" rowspan="3">
+                                <div class="imagen-class row ">
+                                <div class="custom-file fileInputProfileWrap col-12">
+                                  <input type="file" (change)="selectFiles($event)" class="fileInputProfile">
+                                  <div class="img-space">
+              
+                                      <ng-container *ngIf="previews else elseTemplate">
+                                        <img [src]="previews" class="img-responsive">
+                                      </ng-container>
+                                      <ng-template #elseTemplate>
+                                          <img src="https://i.imgur.com/S9HJEwF.png" class="img-responsive">
+                                      </ng-template>
+                                  </div>
+                              </div>
+
+                               <div *ngFor="let progressInfo of progressInfos" class="col-12 mt-2">
+                                 <span *ngIf="message.length">{{ message }} </span>                                
+                                 <mat-toolbar class="progress-bar">
+                                   <mat-progress-bar
+                                     color="accent"
+                                     [value]="progressInfo.value"
+                                   ></mat-progress-bar>
+                                   <span class="progress">{{ progressInfo.value }}%</span>
+                                 </mat-toolbar>
+                               </div>
+       
+                              </div>
+
+                            </mat-grid-tile>
+               
           </mat-grid-list>
 
           <div class="footer-form">
-            <button *ngIf="!isEdit" mat-raised-button (click)="form.reset()">Resetear</button>
 
             <button
               mat-raised-button
               type="submit"
               [disabled]="loading"
               (click)="onSubmit()"
+              color="primary"
             >
               <span class="text-center" *ngIf="loading">
                 <i class="fas fa-spinner fa-lg fa-spin"> </i>
               </span>
               <span *ngIf="!loading">Finalizar</span>
             </button>
+            <button *ngIf="!isEdit" mat-raised-button (click)="form.reset()">Resetear</button>
           </div>
         <!-- </mat-step> -->
 

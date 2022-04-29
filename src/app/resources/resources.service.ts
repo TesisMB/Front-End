@@ -1,5 +1,5 @@
 import { AuthenticationService } from 'src/app/services';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable, PipeTransform } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Resource } from '../models';
@@ -47,6 +47,7 @@ export class ResourcesService {
  private _total$ = new BehaviorSubject<number>(0);
  private resources: Resource[]= [];
  private _item$ = new BehaviorSubject<Resource>(null);
+ private _imgFile$ = new BehaviorSubject<File>(null);
  private _showAvailability$ = new BehaviorSubject<boolean>(false);
  private _state: State = {
    page: 1,
@@ -82,6 +83,7 @@ get resources$(){return this._resources$.asObservable();}
 get item$() { return this._item$.asObservable(); }
 get total$() { return this._total$.asObservable(); }
 get loading$() { return this._loading$.asObservable(); }
+get imgFile$() { return this._imgFile$.asObservable(); }
 get page() { return this._state.page; }
 get pageSize() { return this._state.pageSize; }
 get searchTerm() { return this._state.searchTerm; }
@@ -168,6 +170,7 @@ public uploadTable(resources: Resource[]) {
     return this.http.get<any>(environment.URL + patch + '/' + id);
   }
   register(resource, patch: string) {
+
     return this.http.post(environment.URL + patch, resource);
   }
   update(patch ,id, operations?: Operation[]) {
@@ -175,6 +178,21 @@ public uploadTable(resources: Resource[]) {
     .pipe(map( x => {    
     return x
     }));
+  }
+
+  upload(file: File ){
+    const ImageFile: FormData = new FormData();
+    ImageFile.append('file', file);
+  //  this._imgFile$.next(file);
+   // resource.imageFile = ImageFile;
+    const req = new HttpRequest('POST', `${environment.URL}upload`, ImageFile , {
+      reportProgress: true,
+      responseType: 'json'
+    });
+    return this.http.request(req);
+  }
+  getFiles(): Observable<any> {
+     return this.http.get(`${environment.URL}files`);
   }
 
 

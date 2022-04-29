@@ -104,9 +104,10 @@ public _setCondition(condition:string){
 }
 /**Se debe realizar una funcion para la cual se actualice la tabla despues de cambiar datos de usuario */
 public _updateRequest(patch:RequestGet){
-  let index = this.request.findIndex( x => patch.id == x.id);
+  const index = this.request.findIndex( x => patch.id == x.id);
   this.request[index] = patch;
-  this._search$.next();
+  this._uploadTable(this.request);
+
 }
 public deleteFromTable(id){
   const index =  this.request.findIndex(x => x.id == id);

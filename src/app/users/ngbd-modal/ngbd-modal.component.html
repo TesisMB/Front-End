@@ -173,33 +173,57 @@
 </div>
 
 
-    <div class="form-row" formGroupName="estates">  
-      <div class="form-group col">
-   <label for="workAddress" class="first"> <strong class="info">Direccion de trabajo  y Tipo de sucursal</strong></label>
-   <div class="input-group">
-     <input type="text"  class="form-control info" id="address" required formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.address').errors }">
-     <input type="text" readonly class="form-control info"  id="estateTypes"required formControlName="estateTypes" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.estateTypes').errors }">
+  <mat-form-field  appearance="legacy">
+    <mat-label>Sucursal</mat-label>
+    <mat-select
+      
+    formControlName="FK_EstateID"
+      name="FK_EstateID"
+    > 
+    <!-- [required]="!isEdit" -->
+      <mat-optgroup
+        *ngFor="let locations of locations"
+        [label]="locations.locationCityName"
+      >
+        <mat-option
+          *ngFor="let estate of locations['estates']"
+          [value]="estate.estateID"
+          
+        >
+         {{estate.address | titlecase}} &nbsp;  &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+    <mat-error
+      *ngIf="f.get('users.FK_EstateID').hasError('required')"
+    >
+      La filial es <strong>requerida</strong>
+    </mat-error>
+  </mat-form-field>
 
-     <div *ngIf="submitted && f.get('users.estates.address').errors" class="invalid-feedback">
-        <div *ngIf="f.get('users.estates.address').errors.required"><small>*Campo requerido</small></div>
-      <div *ngIf="f.get('users.estates.address').errors.maxlength"><small>*Ha superado el maximo de 20 caracteres permitidos</small> </div> 
-    </div>
-  </div>
-  </div>
-</div>
-
-  
-<div class="form-row" formGroupName="estates">  
-  <div class="form-group col ">
-    <label for="estateType" class="first"><strong class="info" for="estateType">Ciudad</strong></label>
-    <input formControlName="locationCityName" required class="form-control direccionInput info" name="locationCityName" type="text" placeholder="Ciudad" [ngClass]="{ 'is-invalid': submitted && f.get('users.estates.locationCityName').errors }"/>
-    <div *ngIf="submitted && f.get('users.estates.locationCityName').errors" class="invalid-feedback">
-      <div *ngIf="f.get('users.estates.locationCityName').errors.required"><small>*Campo requerido</small></div>
-      <div *ngIf="f.get('users.estates.locationCityName').errors.maxlength"><small>*Ha superado el maximo de 20 caracteres permitidos</small> </div> 
-  </div>     
-  </div>
-</div>
-
+ <mat-form-field  appearance="legacy" formGroupName="estates">
+    <mat-label>Ciudad</mat-label>
+    <mat-select
+      
+    formControlName="locationCityName"
+      name="FK_EstateID"
+    > 
+    <!-- [required]="!isEdit" -->
+ 
+        <mat-option
+          *ngFor="let locations of locations"
+          [value]="locations.locationCityName"
+          
+        >
+         {{locations.locationCityName | titlecase}}
+        </mat-option>
+    </mat-select>
+    <mat-error
+      *ngIf="f.get('users.FK_EstateID').hasError('required')"
+    >
+      La filial es <strong>requerida</strong>
+    </mat-error>
+  </mat-form-field>
 <div class="form-row">
   <div class="form-group col" formGroupName="estates">
   <label for="workPhone" class="first"><strong>Telefono de la Filial</strong></label>

@@ -15,7 +15,11 @@
   textarea:focus, input:focus{
     outline: none;
   }
-  
+  .footer-form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
   .title {
     text-align: center;
     margin: 40px 0;
@@ -24,7 +28,10 @@
   .title h1 {
     font-size: 35px !important;
   }
-
+  .description-field{
+    width: 85%;
+    height: 100%;
+  }
   .col-head{
     display: flex;
     flex-direction: column;
@@ -33,7 +40,7 @@
     align-items: flex-end;
   }
 
-  form{
+  #form{
     padding:10px; 
     margin: 20px 15px;
     border: 3px solid rgba(230, 28, 28, 0.406);
@@ -46,3 +53,104 @@
     border: 1px solid white;
     border-radius: 10px;
   }
+  
+  .progress-bar {
+    padding: 0;
+  }
+  .imagen-class{
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start !important;
+    align-content: center;
+    justify-content: center;
+  }
+  .progress {
+    width: 50px;
+    color: black;
+    line-height: normal !important;
+  }
+  .mat-input-element {
+    font-size: medium;
+    font-weight: 200;
+  }
+  #fileInput {
+    position: absolute;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+  }
+  .mat-toolbar-single-row {
+    height: auto !important;
+    background: transparent;
+    padding: 0;
+  }
+  .mat-toolbar-single-row button {
+    width: 100px;
+  }
+  .mat-form-field {
+    width: 100%;
+  }
+  .message {
+    background-color: #ddd;
+    padding: 15px;
+    color: #333;
+    border: #aaa solid 1px;
+    border-radius: 4px;
+    margin: 15px 0;
+  }
+  .preview {
+    max-width: 200px;
+    vertical-align: middle;
+  }
+  .list-card {
+    margin-top: 20px;
+  }
+  .list-item {
+    margin-bottom: 20px;
+  }
+  .image-wrap {
+    padding: 10px;
+    border: solid 1px #e0e0e0;
+    display: inline-block;
+}
+
+.img-space {
+    background-color: white;
+    height: 200px;
+    width: 250px;
+    padding: 10px;
+    min-height:175px;
+}
+
+.img-space img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    cursor: pointer;
+    border-radius: 15px;
+
+}
+
+.fileInputProfileWrap {
+    width: 100%;
+    height: auto;
+}
+
+.fileInputProfile {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 99;
+    opacity: 0;
+}
+.fileInputProfile[disabled] + .img-space{
+    pointer-events: none;
+    cursor: not-allowed!important;
+}
+

@@ -3,7 +3,7 @@ import { RequestService } from './../request/request.service';
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RequestTableService } from '../request-table/request-table.service';
-const TABS = ['Aceptada', 'Rechazada'];
+const TABS = ['Pendiente','Aceptada', 'Rechazada'];
 @Component({
   selector: 'history-request',
   templateUrl: './history-request.component.html',

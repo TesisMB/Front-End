@@ -14,7 +14,12 @@ module.exports = {
             {
                 test: /\.(html|css)$/,
                 use: 'raw-loader'
-            }
+            },
+            {
+                test: /\.mjs$/,
+                include: /node_modules/,
+                type: "javascript/auto"
+              }
         ]
     },
     plugins: [
