@@ -107,6 +107,7 @@
       width: 200px;
       padding-bottom: 5px;
       padding-left: 16px;
+      margin-left: 160px;
     }
 
     .logo img {
@@ -179,7 +180,7 @@
     a.disabled {
       color: gray;
       cursor: none;
-  }
+    }
 
     /* --------------------------------------Nav user-------------------------------------- */
 
@@ -201,7 +202,7 @@
       left: -15px !important;
     }
 
-    .dropdown-menu ul{
+    .dropdown-menu ul {
       margin-bottom: 0;
     }
 
@@ -291,4 +292,3 @@
     .mat-icon {
       width: 44px;
     }
-

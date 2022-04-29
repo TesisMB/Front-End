@@ -7,6 +7,7 @@
 #row-aside {
     max-width: 100%;
     margin: 1em 3.5em;
+    height: 88vh;
 }
 
 h3 {
@@ -40,4 +41,14 @@ textarea {
 .example {
     width: 47%;
     margin-left: 13px;
+}
+
+.btn-button {
+    z-index: 10000;
+    position: relative;
+    text-align: right;
+}
+
+.btn2 {
+    margin-right: 30px !important;
 }

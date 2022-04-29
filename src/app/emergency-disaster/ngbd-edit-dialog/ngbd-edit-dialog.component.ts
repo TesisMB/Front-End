@@ -79,7 +79,7 @@ export class NgbdEditDialogComponent implements OnInit {
     this.EmplooyeeID.patchValue(employee);
 
     
-    let id = this.alerts.find(alertDegree => alertDegree.alertDegree === this.emergencyDisaster.alerts.alertDegree);
+    let id = this.alerts.find(alertDegree => alertDegree.alertID === this.emergencyDisaster.alerts.alertID);
     this.emergencyDisaster.alerts.alertID = id.alertID;
     this.alertID.patchValue(id.alertID);
 
@@ -93,7 +93,7 @@ export class NgbdEditDialogComponent implements OnInit {
 
     if(this.tipo === 'Finalizar' ){
       this.f.controls['Fk_EmplooyeeID'].disable();
-      this.f.controls['alerts'].disable();
+      this.f.controls['FK_AlertID'].disable();
     }
 
 }
@@ -115,6 +115,8 @@ get alertID(){ return this.emergencyDisasterForm.get('FK_AlertID') }
 get alertName(){ return this.emergencyDisasterForm.get('alerts.alertDegree') }
 
 get EmplooyeeID(){ return this.emergencyDisasterForm.get('Fk_EmplooyeeID') }
+
+get EndDate(){ return this.emergencyDisasterForm.get('emergencyDisasterEndDate') }
 
 
 changeEmployeedID(){
@@ -157,6 +159,7 @@ setRole(){
       const fecha = new Date();
 
       this.emergencyDisaster.emergencyDisasterEndDate = fecha;
+      this.EndDate.patchValue(fecha);
       this.updateEmergency(this.emergencyDisaster);
       this.onSubmit();
     }
@@ -180,6 +183,9 @@ setRole(){
       //let patch = compare(this.model, this.emergencyDisaster);
 
       patch = patch.filter( obj => obj.op !== 'add');
+      patch = patch.filter( obj => obj.op !== 'remove');
+      //patch = patch.filter( obj => obj.path !== "/alerts");
+
     
       console.log("Patch =>", patch);
 

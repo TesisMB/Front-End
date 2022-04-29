@@ -3,7 +3,7 @@
     <span>Espere por favor...</span>
 </div>
 
-<ul class="list-group mt-2" *ngIf="places.length > 0">
+<div class="list-group mt-2" *ngIf="places.length > 0" id="style-2">
     <li *ngFor="let place of places" class="list-group-item item-group-item-action pointer"
         [class.active]="place.id === selectedId" (click)="flyTo(place)">
         <h6>{{place.text_es}}</h6>
@@ -22,4 +22,4 @@
         </button> -->
 
     </li>
-</ul>
+</div>

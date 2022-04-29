@@ -100,6 +100,7 @@ openDialog(i, tipo: string){
   dialogRef.componentInstance.emergencyDisaster = this.selectTypesEmergencyDisasterService.emergencyDisasterObservableValue$[i];
   dialogRef.componentInstance.tipo = tipo;
 
+
 }
 
 
@@ -109,7 +110,5 @@ deleteModal(i, reason: string){
   dialogRef.componentInstance.emergencyDisaster = this.selectTypesEmergencyDisasterService.emergencyDisasterObservableValue$[i];
   dialogRef.componentInstance.titulo = reason;
 }
-
-
 
 }

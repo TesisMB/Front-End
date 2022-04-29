@@ -127,12 +127,6 @@ export interface FoodNode {
       patch:'/emergencias',
       icon:'fas fa-briefcase-medical' ,
       role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres'],
-      children: [
-        {name: 'Registrar emergencia',
-        patch:'/emergencias/agregar-emergencia-desastre',
-        icon:'fas fa-user-plus',
-        role:['Admin','Coordinador General']
-      },]
     },
     {
       name: 'Monitoreo',

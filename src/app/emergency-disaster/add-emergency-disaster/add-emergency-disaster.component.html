@@ -4,7 +4,7 @@
 
         <mat-horizontal-stepper linear #stepper>
             <mat-step [stepControl]="formEmergency" errorMessage="Datos son requeridos.">
-                <div class="row justify-content-around">
+                <div class="row justify-content-around input">
 
                     <mat-form-field appearance="fill">
                         <mat-label>Tipo de Emergencia</mat-label>
@@ -63,9 +63,10 @@
 
                 <map></map>
 
-
-                <button mat-button routerLink="/" type="button">Cancelar</button>
-                <button mat-button matStepperNext>Siguiente</button>
+                <div class="btn-button">
+                    <button mat-button routerLink="/" type="button">Cancelar</button>
+                    <button mat-button matStepperNext>Siguiente</button>
+                </div>
 
 
             </mat-step>
@@ -175,11 +176,12 @@
                     </div>
                 </div>
 
-                <button mat-button matStepperPrevious type="button">Atras</button>
 
 
-                <div class="row justify-content-center">
-                    <button class="btn btn-danger" (click)="postEmergencyDisaster()">Finalizar</button>
+                <div class="btn-button btn2">
+                    <button mat-button matStepperPrevious type="button">Atras</button>
+                    <button mat-raised-button type="submit" color="primary"
+                        (click)="postEmergencyDisaster()">Finalizar</button>
                 </div>
             </mat-step>
 

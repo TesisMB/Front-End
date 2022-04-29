@@ -161,7 +161,12 @@ export class SelectTypesEmergencyDisasterService extends DataService{
     if(index === -1) {
      this.emergencyDisaster.push(patch);
     } else {
-      patch.alerts.alertID = patch.FK_AlertID;
+      if(patch.FK_AlertID){
+        patch.alerts.alertID = patch.FK_AlertID;
+
+      }else{
+         patch.FK_AlertID = patch.alerts.alertID;
+      }
       this.emergencyDisaster[index] = patch;
     }
     this._search$.next();

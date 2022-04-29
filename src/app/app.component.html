@@ -8,6 +8,7 @@
       <img src="assets/img-home-users/Logo.png" alt="">
     </div>
     <div id="perfil">
+     
       <ng-container *ngIf="!isLogistica">
       <div *ngIf="isRequest; else isNotRequest">
         <button [ngbPopover]="popCart" [autoClose]="'outside'" popoverClass="popCart" container="body" mat-icon-button>
