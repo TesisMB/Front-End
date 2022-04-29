@@ -23,7 +23,7 @@ const routes: Routes = [
         component: DeploymentComponent
       },
       {
-        path: 'agregar-emergencia-desastre',
+        path: 'agregar',
         component: AddEmergencyDisasterComponent
       },
       {

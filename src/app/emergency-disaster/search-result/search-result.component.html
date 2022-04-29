@@ -11,7 +11,7 @@
             {{place.place_name}}
         </p>
 
-        <button (click)="getLugar(place)" class="btn btn-sm"
+        <button (click)="getLugar(place)" class="btn btn-sm" type="button"
             [ngClass]="(place.id === selectedId) ? 'btn-outline-light': 'btn-outline-primary'">
             Seleccionar
         </button>

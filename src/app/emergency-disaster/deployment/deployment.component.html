@@ -63,8 +63,6 @@
     
       </section>
 
-
-
         <section class="instructionMap">
 
           <div class="map-container">
@@ -117,7 +115,7 @@
       
             <tr>
               <td *ngIf="users.length == 0" colspan="7" class="text-center">
-                <p class="align-center">No hay usarios en esta emergencia.</p>
+                <p class="align-center">No hay usuarios en esta emergencia.</p>
               </td>
             </tr>
           </tbody>
@@ -133,10 +131,12 @@
     </mat-step>
 
       <mat-step>
+        <section class="instructionMap resources">
+
         <div class="titulo2">
           <h2>Recursos utilizados</h2>
         </div>
-        <div class="users col-12" *ngIf="materials">
+        <div class="users col-10" *ngIf="materials">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -169,7 +169,7 @@
         </div>
 
 
-        <div class="users col-12" *ngIf="medicines">
+        <div class="users col-10" *ngIf="medicines">
           <table class="table table-striped tabla">
             <thead>
               <tr>
@@ -209,7 +209,7 @@
           </table>
         </div>
 
-        <div class="users col-12" *ngIf="vehicles">
+        <div class="users col-10" *ngIf="vehicles">
           <table class="table table-striped tabla">
             <thead>
               <tr>
@@ -245,10 +245,10 @@
             </tbody>
           </table>
         </div>
+      </section>
 
         <button mat-button matStepperPrevious type="button">Atras</button>
         <button mat-button matStepperNext>Siguiente</button>
-
       </mat-step>
 
 

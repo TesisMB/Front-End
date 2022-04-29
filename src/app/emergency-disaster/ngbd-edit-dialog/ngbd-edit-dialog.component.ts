@@ -1,7 +1,7 @@
 import { Alerts } from './../../models/alerts';
 import { Employee } from './../../models/employee';
 import { EmergencyDisasterService } from './../emergency-disaster.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -23,12 +23,16 @@ export class NgbdEditDialogComponent implements OnInit {
 
   @Input() emergencyDisaster: EmergencyDisaster;
 
-  model : EmergencyDisaster;
+  model : any;
   user: Employee [];
   employeeSelected: number;
   alerts: Alerts[];
   emergencyDisasterForm: FormGroup;
   tipo: string;
+  cloneForm;
+
+
+
 
   constructor(
     public dialogRef: MatDialogRef<NgbdEditDialogComponent>,
@@ -43,27 +47,68 @@ export class NgbdEditDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
     this.getUser();
+
     this.emergencyDisasterForm = this.initForm();
     this.alerts = this.emergencyDisasterService.ListarAlertas;
-    this.f.patchValue(this.emergencyDisaster);
-    
-    this.model = _.cloneDeep(this.emergencyDisaster);
-    
-    let id = this.alerts.find(alertDegree => alertDegree.alertDegree === this.emergencyDisaster.alerts.alertDegree);
-    this.alertID.patchValue(id.alertID);
 
+    const chat = this.chat;
+    const messages = this.messages;
+    const resourcesRequests = this.resourcesRequests;
+    const resources = this.resources;
+
+
+    this.emergencyDisaster.chatRooms.usersChatRooms.forEach(times => chat.push(this.fb.group(times)));
+
+    this.emergencyDisaster.chatRooms.messages.forEach(times => messages.push(this.fb.group(times)));
+
+    this.emergencyDisaster.resources_Requests.forEach(times => resourcesRequests.push(this.fb.group(times)));
+
+
+    
+/*     const emergency = {
+          emergencyDisasterID: this.emergencyDisaster.emergencyDisasterID,
+          emergencyDisasterInstruction: this.emergencyDisaster.emergencyDisasterInstruction,
+          Fk_EmplooyeeID: this.emergencyDisaster.employees.employeeID,
+          FK_AlertID: id.alertID,
+          victims: this.emergencyDisaster.victims
+    }; */
+
+  
     let employee =  this.emergencyDisaster.employees.employeeID;
     this.EmplooyeeID.patchValue(employee);
+
+    
+    let id = this.alerts.find(alertDegree => alertDegree.alertDegree === this.emergencyDisaster.alerts.alertDegree);
+    this.emergencyDisaster.alerts.alertID = id.alertID;
+    this.alertID.patchValue(id.alertID);
+
+
+
+
+  
+    this.emergencyDisasterForm.patchValue(this.emergencyDisaster);
+    this.model = _.cloneDeep(this.emergencyDisaster);
+    //this.cloneForm = this.emergencyDisasterForm.value;
 
     if(this.tipo === 'Finalizar' ){
       this.f.controls['Fk_EmplooyeeID'].disable();
       this.f.controls['alerts'].disable();
     }
+
 }
 
 public get f() { return this.emergencyDisasterForm }
+
+get chat(): FormArray { return this.emergencyDisasterForm.get('chatRooms.usersChatRooms') as FormArray; }
+
+
+get messages(): FormArray { return this.emergencyDisasterForm.get('chatRooms.messages') as FormArray; }
+
+get resourcesRequests(): FormArray { return this.emergencyDisasterForm.get('resources_Requests') as FormArray; }
+
+get resources(): FormArray { return this.emergencyDisasterForm.get('resources_RequestResources_Materials_Medicines_Vehicles') as FormArray; }
+
 
 get alertID(){ return this.emergencyDisasterForm.get('FK_AlertID') }
 
@@ -74,20 +119,12 @@ get EmplooyeeID(){ return this.emergencyDisasterForm.get('Fk_EmplooyeeID') }
 
 changeEmployeedID(){
   let employee =  (this.user.find(user => user.employeeID == this.EmplooyeeID.value));
-  this.emergencyDisaster.Fk_EmplooyeeID = employee.employeeID;
   this.EmplooyeeID.patchValue(employee.employeeID);
-  //this.emergencyDisaster.Fk_EmplooyeeID = this.emergencyDisasterForm.value.Fk_EmplooyeeID;
 }
 
 setRole(){
-  let alert = (this.alerts.find(alertDegree => alertDegree.alertDegree === this.alertName.value));
-
-
-  this.emergencyDisaster.FK_AlertID = alert.alertID;
-
+  let alert = (this.alerts.find(alert => alert.alertID == this.alertID.value));
   this.alertID.patchValue(alert.alertID);
-
-  console.log("Alertas", this.emergencyDisaster.alerts);
 }
 
 
@@ -138,32 +175,120 @@ setRole(){
   }
 
   onSubmit(){
-     let patch = compare(this.model, this.emergencyDisaster,);
-    console.log("Patch =>", patch);
+    if(this.emergencyDisasterForm.valid){
+      let patch = compare(this.model, this.emergencyDisasterForm.value);
+      //let patch = compare(this.model, this.emergencyDisaster);
 
-    this.patch(patch);
-    this.dialogRef.close();
+      patch = patch.filter( obj => obj.op !== 'add');
+    
+      console.log("Patch =>", patch);
+
+   /*    let alert = (this.alerts.find(alertDegree => alertDegree.alertDegree === this.alertName.value));
+      this.emergencyDisaster.alerts = alert;
+      this.alertID.patchValue(alert.alertID);
+
+     let employee =  (this.user.find(user => user.employeeID == this.EmplooyeeID.value));
+      this.emergencyDisaster.employees.employeeID = employee.employeeID; 
+      this.EmplooyeeID.patchValue(employee.employeeID); */
+
+      this.patch(patch);
+      this.dialogRef.close();
+    }
   }
 
   initForm(): FormGroup{
     return this.fb.group({
+      emergencyDisasterID:[],
+      emergencyDisasterStartDate: [],
+      emergencyDisasterEndDate: [],
       emergencyDisasterInstruction:['', [Validators.required]],
       Fk_EmplooyeeID: ['', [Validators.required]],
-      FK_AlertID:['', [Validators.required]],
-      alerts: this.fb.group({
-        alertDegree: [],
+      FK_AlertID: [],
+      employees: this.fb.group({
+        employeeID: [],
+        status: [],
+        userAvailability: [],
+        userID: [],
+        roleName: [],
+        name: [],
+        userDni: []
       }),
       victims: this.fb.group({
-        numberDeaths: [],
-        numberAffected: [],
-        numberFamiliesAffected: [],
-        materialsDamage: [],
-        affectedLocalities: [],
-        evacuatedPeople: [],
-        affectedNeighborhoods: [],
-        assistedPeople: [],
-        recoveryPeople: [],
+        id: [],
+        numberDeaths: ['', [Validators.required, Validators.min(0)]],
+        numberAffected: ['', [Validators.required, Validators.min(0)]],
+        numberFamiliesAffected: ['', [Validators.required, Validators.min(0)]],
+        materialsDamage: ['', [Validators.required, Validators.min(0)]],
+        affectedLocalities: ['', [Validators.required, Validators.min(0)]],
+        evacuatedPeople: ['', [Validators.required, Validators.min(0)]],
+        affectedNeighborhoods: ['', [Validators.required, Validators.min(0)]],
+        assistedPeople: ['', [Validators.required, Validators.min(0)]],
+        recoveryPeople: ['', [Validators.required, Validators.min(0)]],
+      }),
+      alerts: this.fb.group({
+        alertID: [],
+        alertDegree: [],
+        alertMessage: []
+      }),
+
+      typesEmergenciesDisasters: this.fb.group({
+        typeEmergencyDisasterID: [],
+        typeEmergencyDisasterName: [],
+        typeEmergencyDisasterIcon: [],
+        typeEmergencyDisasterDescription: []
+      }),
+
+        locationsEmergenciesDisasters: this.fb.group({
+        locationDepartmentName: [],
+        locationCityName: [],
+        locationMunicipalityName: [],
+        locationLatitude: [],
+        locationLongitude: []
+      }),
+      chatRooms: this.fb.group({
+        id: [],
+        creationDate: [],
+              usersChatRooms: this.fb.array([
+                this.fb.group({
+                  userID: [],
+                  name: [],
+                  userDni: [],
+                  roleName: [],
+              })
+            ]),
+
+              messages: this.fb.array([
+                this.fb.group({
+                    ID: [],
+                    message: [],
+                    messagesState: [],
+                    createdDate: [],
+                    FK_UserID: [],
+                    name: []
+              })
+            ]),
+      }),
+
+
+      resources_Requests: this.fb.array([
+        this.fb.group({
+        id: [],
+        requestDate: [],
+        reason: [],
+        condition: [],
       })
+    ]),
+      resources_RequestResources_Materials_Medicines_Vehicles: this.fb.array([
+        this.fb.group({
+        id: [],
+        fk_Resource_RequestID: [],
+    
+        materials: [],
+        medicines: [],
+        vehicles: []
+
+      })
+    ]),
       })
   }
 
@@ -177,21 +302,17 @@ setRole(){
     })
   }
 
+  //validaciones materialDamage
   patch(value){
     this.emergencyDisasterService.patchEmergencyDisaster(this.emergencyDisaster, value).subscribe(data =>{
-
-      let alert = (this.alerts.find(alertDegree => alertDegree.alertDegree === this.alertName.value));
-      this.emergencyDisaster.alerts = alert;
-
-      let employee =  (this.user.find(user => user.employeeID == this.EmplooyeeID.value));
-      this.emergencyDisaster.employees.employeeID = employee.employeeID;
-
       this.alertService.success('Actualizado correctamente :)', { autoClose: true });
-     
+      
+      this.selectTypesEmergencyDisasterService._setEmployee(this.emergencyDisasterForm.value);
 
       this.model = _.cloneDeep(this.emergencyDisaster);
-      console.log("Actualizado correctamente!!", this.emergencyDisasterForm.value);
+      //console.log("Actualizado correctamente!!", emergencia);
     }, error => {
+      this.alertService.error('Hubo un error :(', { autoClose: true });
       console.log("Error", error);
     })
   }

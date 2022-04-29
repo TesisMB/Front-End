@@ -23,10 +23,15 @@
         </mat-form-field>
 
         <!-- Boton para agregar -->
-
+        <div class="col-4 col-xs-4 col-sm-auto ">
+            <button mat-raised-button color="warn" [routerLink]="['/emergencias','agregar']">
+                <mat-icon>add</mat-icon>
+                Agregar emergencia
+            </button>
+        </div>
     </div>
 
-  
+
     <div class="col-10">
         <list></list>
     </div>

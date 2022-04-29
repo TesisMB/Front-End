@@ -2,12 +2,12 @@
 
 
 <div class="card" *ngFor="let emergency of emergencyDisasterObservable | async index as i"
-  [ngStyle]="{backgroundColor: getCardColor(emergency.alerts.alertDegree)}">
+  [ngStyle]="{backgroundColor: getCardColor(emergency.alertDegree)}">
 
   <div class="content-left" (click)="openVerticallyCentered(i)">
-    <div [ngClass]="{'cuadrado': emergency.alerts.alertDegree === 'Moderado',
-    'triangulo': emergency.alerts.alertDegree === 'Controlado',
-    'circulo': emergency.alerts.alertDegree === 'Extremo'}">
+    <div [ngClass]="{'cuadrado': emergency.alertDegree === 'Moderado',
+    'triangulo': emergency.alertDegree === 'Controlado',
+    'circulo': emergency.alertDegree === 'Extremo'}">
       <img
         src="../../../assets/icons - Resources - EmergDesas/{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterIcon}}.svg"
         alt="" class="img">

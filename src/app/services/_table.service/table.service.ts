@@ -92,6 +92,7 @@ private _setAvailability(availability:boolean){
 /**Se debe realizar una funcion para la cual se actualice la tabla despues de cambiar datos de usuario */
 public _setEmployee(patch:Employee){
   let index = this.EMPLEADOS.findIndex( x => patch.users.userID == x.users.userID);
+  
   (index === -1) ? this.EMPLEADOS.push(patch) : this.EMPLEADOS[index] = patch;
   this._search$.next();
 }

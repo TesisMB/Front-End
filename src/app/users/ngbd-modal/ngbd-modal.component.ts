@@ -77,6 +77,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // agrego los horarios al formArray
     this.user.users.estates.estatesTimes.forEach(times => staffs.push(this.userService._employeeForm.group(times)));
+    
     //clono al usuario original
     this.model = _.cloneDeep(this.user);
 

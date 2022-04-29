@@ -1,5 +1,4 @@
 export interface Victim{
-    id: number;
     affectedLocalities: number;
     affectedNeighborhoods: number;
     assistedPeople: number;

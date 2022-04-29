@@ -24,7 +24,6 @@ export interface EmergencyDisaster {
         locationMunicipalityName: string;
         locationLatitude: number;
         locationLongitude: number;
-
     }
 
     typesEmergenciesDisasters: TypesEmergencyDisaster;
@@ -49,8 +48,16 @@ export interface EmergencyDisaster {
              name: string;
              userDni: string;
              roleName: string;
-         }
+         },
         ]
+        messages: [{
+            ID: number,
+            message: string,
+            messagesState: boolean,
+            createdDate: Date,
+            FK_UserID: number,
+            name: string
+        }]
      }
 
     resources_Requests: [

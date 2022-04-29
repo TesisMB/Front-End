@@ -15,7 +15,7 @@ table {
 
 #row-aside {
     max-width: 92%;
-    margin: 1em 3.5em;
+    margin: 1em 4.5em;
 }
 
 .modo {
@@ -39,6 +39,11 @@ h4 {
     font-size: 25px;
     margin: 3rem 0;
 
+}
+
+.resources {
+    flex-direction: column;
+    margin-top: 1rem !important;
 }
 
 /* .date {

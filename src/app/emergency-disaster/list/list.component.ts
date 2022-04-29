@@ -68,11 +68,11 @@ export class ListComponent implements OnInit {
 
 
 
-getCardColor(state: string){
-  if(state === 'Urgente'){
+getCardColor(state: number){
+  if(state === 3){
     return '#FADBD8';
   }
-  else if(state === 'Moderado'){
+  else if(state === 2){
     return '#FCF3CF';
   }
   else{
@@ -94,6 +94,7 @@ deployment(){
 }
 
 openDialog(i, tipo: string){
+  
   const emergency = this.emergencyDisasterObservable[i];
   const dialogRef = this.dialog.open(NgbdEditDialogComponent);
   dialogRef.componentInstance.emergencyDisaster = this.selectTypesEmergencyDisasterService.emergencyDisasterObservableValue$[i];

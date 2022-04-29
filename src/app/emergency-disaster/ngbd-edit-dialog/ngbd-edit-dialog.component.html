@@ -26,11 +26,11 @@
                 </mat-select>
             </mat-form-field> -->
 
-            <div class="form-row" formGroupName="alerts">
+            <div class="form-row">
                 <div class="form-group col">
-                    <label for="alert" class="first"><strong class="info">Estado: </strong></label>
-                    <select formControlName="alertDegree" (change)="setRole()" class="form-control info">
-                        <option *ngFor="let item of alerts" [ngValue]="item.alertDegree">
+                    <label for="alertID" class="first"><strong class="info">Estado: </strong></label>
+                    <select formControlName="FK_AlertID" (change)="setRole()" class="form-control info">
+                        <option *ngFor="let item of alerts" [value]="item.alertID">
                             {{item.alertDegree}}
                         </option>
                     </select>
@@ -42,7 +42,7 @@
                 <div class="form-group col">
                     <label for="Fk_EmplooyeeID" class="first"><strong class="info">Responsable: </strong></label>
                     <select formControlName="Fk_EmplooyeeID" (change)="changeEmployeedID()" class="form-control info">
-                        <option *ngFor=" let item of user" [ngValue]="item.employeeID">
+                        <option *ngFor=" let item of user" [value]="item.employeeID">
                             {{item.users.userDni}} -
                             {{item.users.persons.firstName}}
                             {{item.users.persons.lastName}}
@@ -56,8 +56,7 @@
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label for="emergencyDisasterInstruction">Descripción: </mat-label>
                 <textarea matInput id="emergencyDisasterInstruction" name="emergencyDisasterInstruction"
-                    formControlName="emergencyDisasterInstruction"
-                    [(ngModel)]="emergencyDisaster.emergencyDisasterInstruction"></textarea>
+                    formControlName="emergencyDisasterInstruction"></textarea>
             </mat-form-field>
         </div>
 
@@ -65,52 +64,113 @@
         <div class="col-6" formGroupName="victims">
             <mat-form-field appearance="fill" class="example">
                 <mat-label for="affectedLocalities">Localidades afectadas</mat-label>
-                <input formControlName="affectedLocalities" matInput type="number" min="10"
-                    [(ngModel)]="emergencyDisaster.victims.affectedLocalities">
+                <input formControlName="affectedLocalities" matInput type="number" min="0">
+
+
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.affectedLocalities').hasError('min')
+                    && !emergencyDisasterForm.get('victims.affectedLocalities').hasError('required')">
+                    Cantidad minima es de 0.
+                </mat-error>
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.affectedLocalities').hasError('required')">
+                    Las localidades afectadas son<strong> requeridos</strong>
+                </mat-error>
             </mat-form-field>
 
 
             <mat-form-field appearance="fill" class="example">
                 <mat-label>barrios afectadas</mat-label>
-                <input formControlName="affectedNeighborhoods" matInput type="number" min="10"
-                    [(ngModel)]="emergencyDisaster.victims.affectedNeighborhoods">
+                <input formControlName="affectedNeighborhoods" matInput type="number" min="0">
+
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.affectedNeighborhoods').hasError('min')
+                    && !emergencyDisasterForm.get('victims.affectedNeighborhoods').hasError('required')">
+                    Cantidad minima es de 0.
+                </mat-error>
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.affectedNeighborhoods').hasError('required')">
+                    Los barrios afectadas son<strong> requeridos</strong>
+                </mat-error>
+
             </mat-form-field>
 
 
             <mat-form-field appearance="fill" class="example">
                 <mat-label>Personas asisitidas</mat-label>
-                <input formControlName="assistedPeople" matInput type="number" min="10"
-                    [(ngModel)]="emergencyDisaster.victims.assistedPeople">
+                <input formControlName="assistedPeople" matInput type="number" min="0">
+
+
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.assistedPeople').hasError('min')
+                    && !emergencyDisasterForm.get('victims.assistedPeople').hasError('required')">
+                    Cantidad minima es de 0.
+                </mat-error>
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.assistedPeople').hasError('required')">
+                    Las personas asisitidas son<strong> requeridos</strong>
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="example">
                 <mat-label>Personas evacuadas</mat-label>
-                <input formControlName="evacuatedPeople" matInput type="number" min="10"
-                    [(ngModel)]="emergencyDisaster.victims.evacuatedPeople">
+                <input formControlName="evacuatedPeople" matInput type="number" min="0">
+
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.evacuatedPeople').hasError('min')
+                    && !emergencyDisasterForm.get('victims.evacuatedPeople').hasError('required')">
+                    Cantidad minima es de 0.
+                </mat-error>
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.evacuatedPeople').hasError('required')">
+                    Las personas evacuadas son<strong> requeridos</strong>
+                </mat-error>
+
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="example">
                 <mat-label>Cantidad de afectados</mat-label>
-                <input formControlName="numberAffected" matInput type="number" min="10"
-                    [(ngModel)]="emergencyDisaster.victims.numberAffected">
+                <input formControlName="numberAffected" matInput type="number" min="0">
+
+
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.numberAffected').hasError('min')
+                    && !emergencyDisasterForm.get('victims.numberAffected').hasError('required')">
+                    Cantidad minima es de 0.
+                </mat-error>
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.numberAffected').hasError('required')">
+                    La cantidad de afectados son<strong> requeridos</strong>
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="example">
                 <mat-label>Personas fallecidas</mat-label>
-                <input formControlName="numberDeaths" matInput type="number" min="10"
-                    [(ngModel)]="emergencyDisaster.victims.numberDeaths">
+                <input formControlName="numberDeaths" matInput type="number" min="0">
+
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.numberDeaths').hasError('min')
+                    && !emergencyDisasterForm.get('victims.numberDeaths').hasError('required')">
+                    Cantidad minima es de 0.
+                </mat-error>
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.numberDeaths').hasError('required')">
+                    Las personas fallecidas son<strong> requeridos</strong>
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="example">
                 <mat-label>Familias afectadas</mat-label>
-                <input formControlName="numberFamiliesAffected" matInput type="number" min="10"
-                    [(ngModel)]="emergencyDisaster.victims.numberFamiliesAffected">
+                <input formControlName="numberFamiliesAffected" matInput type="number" min="0">
+
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.numberFamiliesAffected').hasError('min')
+                    && !emergencyDisasterForm.get('victims.numberFamiliesAffected').hasError('required')">
+                    Cantidad minima es de 0.
+                </mat-error>
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.numberFamiliesAffected').hasError('required')">
+                    Las familias afectadas son<strong> requeridos</strong>
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="example">
                 <mat-label>Personas recuperadas</mat-label>
-                <input formControlName="recoveryPeople" matInput type="number" min="10"
-                    [(ngModel)]="emergencyDisaster.victims.recoveryPeople">
+                <input formControlName="recoveryPeople" matInput type="number" min="0">
+
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.recoveryPeople').hasError('min')
+                    && !emergencyDisasterForm.get('victims.recoveryPeople').hasError('required')">
+                    Cantidad minima es de 0.
+                </mat-error>
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.recoveryPeople').hasError('required')">
+                    Las personas recuperadas son<strong> requeridos</strong>
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" floatLabel="always" class="example">
@@ -118,6 +178,14 @@
                 <input formControlName="materialsDamage" matInput type="number" class="example-right-align"
                     [(ngModel)]="emergencyDisaster.victims.materialsDamage">
                 <span matPrefix>$&nbsp;</span>
+
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.materialsDamage').hasError('min')
+                && !emergencyDisasterForm.get('victims.materialsDamage').hasError('required')">
+                    Cantidad minima es de 0.
+                </mat-error>
+                <mat-error *ngIf="emergencyDisasterForm.get('victims.materialsDamage').hasError('required')">
+                    Los daños materiales son<strong> requeridos</strong>
+                </mat-error>
             </mat-form-field>
         </div>
     </div>

@@ -35,7 +35,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   handler: any;
   currentUser: User;
   user: Employee [];
-
+  ubicacion: any;
 
   constructor(    private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
@@ -72,7 +72,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
           assistedPeople: [0,  [Validators.required, Validators.min(0)]],
           recoveryPeople: [0,  [Validators.required,Validators.min(0)]],
         }),
-         FK_EstateID: [""]
+         FK_EstateID: ['']
     })
 
      }
@@ -88,8 +88,9 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
       console.log("Data", data);
     }, error => {
       console.log("Error", error);
-    })
+    });
 
+    this.addEmergencyDisasterFunction();
 
 
     this.alerts = this.emergencyDisasterService.ListarAlertas;
@@ -101,7 +102,6 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   getUser(){
     this.userService.getAll().subscribe(data => {
       this.user = data;
-
       this.user = this.user.filter(a => a.users.roleName == "Coordinador de Emergencias y Desastres");
     }, error =>{
       console.log(error);
@@ -109,9 +109,10 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
   addEmergencyDisasterFunction(){
-
     this.currentPlaceHandler = this.placesService.placeSubject$.subscribe(resp => {
-      this.getLocation(resp);
+      if(resp){
+        this.getLocation(resp);
+      }
     }, err => {
       console.log(err);
     });
@@ -121,8 +122,9 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
    this.handler = this.placesService.getLocation(placeObservable.center[1], placeObservable.center[0]).subscribe(resp =>{
     this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationLongitude').patchValue(placeObservable.center[0]);
     this.addEmergencyDisaster.get('locationsEmergenciesDisasters.LocationLatitude').patchValue(placeObservable.center[1]);
-    this.postEmergencyDisaster(resp.ubicacion);
-     
+ 
+    this.ubicacion = resp.ubicacion;
+
     }, error=>{
       console.log("Error", error);
     });  
@@ -130,22 +132,27 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
     
   
 
-  postEmergencyDisaster(ubication){
-    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(ubication.municipio.nombre);
-    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationDepartmentName').patchValue(ubication.departamento.nombre);
-    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationMunicipalityName').patchValue(ubication.municipio.nombre);
+  postEmergencyDisaster(){
 
-     this.addEmergencyDisaster.get('FK_EstateID').patchValue(this.currentUser.estates.estateID);
- 
-    const emergency = this.addEmergencyDisaster.value;
-    console.log('Formulario =>', emergency);
+    if(this.addEmergencyDisaster.valid && this.ubicacion){
 
-    this.emergencyDisasterService.register(emergency).subscribe( () =>{
-      this.alertService.success('Registro exitoso :)', { autoClose: true });
+      this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(this.ubicacion.municipio.nombre);
+      this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationDepartmentName').patchValue(this.ubicacion.departamento.nombre);
+      this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationMunicipalityName').patchValue(this.ubicacion.municipio.nombre);
+      this.addEmergencyDisaster.get('FK_EstateID').patchValue(this.currentUser.estates.estateID);
+
       
-    }, error =>{
-      console.log("Error en el formulario!!!", error);
-    });
+      const emergency = this.addEmergencyDisaster.value;
+      console.log('Formulario =>', emergency);
+      
+      this.emergencyDisasterService.register(emergency).subscribe( () =>{
+      this.alertService.success('Registro exitoso :)', { autoClose: true });
+        
+      }, error =>{
+        this.alertService.error('Ocurrio un error :(', { autoClose: true });
+        console.log("Error en el formulario!!!", error);
+      });
+    }
   }
 
 

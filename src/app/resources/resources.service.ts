@@ -143,7 +143,6 @@ public uploadTable(resources: Resource[]) {
   this.resources = resources;
   this._resources$.next(resources);
   this._search$.next();
-
 }
 
 

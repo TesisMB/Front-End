@@ -7,6 +7,8 @@ import { Injectable, Output, EventEmitter, PipeTransform } from '@angular/core';
 import { SortDirection } from '@angular/material/sort';
 import { SortColumn } from '../directives/sorteable.directive';
 import { DecimalPipe } from '@angular/common';
+import _ from 'lodash';
+import {compare, Operation } from 'fast-json-patch';
 
 
 interface SearchResult{
@@ -23,14 +25,14 @@ interface State {
 }
 
   
-const compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+const compares = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
 function sort(emergencyDisaster: EmergencyDisaster[], column: SortColumn, direction: string): EmergencyDisaster[] {
   if (direction === '' || column === '') {
     return emergencyDisaster;
   } else {
     return [...emergencyDisaster].sort((a, b) => {
-      const res = compare(a[column], b[column]);
+      const res = compares(a[column], b[column]);
       return direction === 'asc' ? res : -res;
     });
   }
@@ -68,7 +70,7 @@ export class SelectTypesEmergencyDisasterService extends DataService{
 
 
 
-  emergencyDisaster: EmergencyDisaster [] = [];
+  emergencyDisaster: any [] = [];
   id: number;
   
   statusBoolean: boolean = true;
@@ -140,8 +142,6 @@ export class SelectTypesEmergencyDisasterService extends DataService{
     this._search$.next();
   }
 
-
-
   get  emergencyDisasterObservable$ (){
     return this.emergencyDisaster$.asObservable();
   }
@@ -154,6 +154,20 @@ export class SelectTypesEmergencyDisasterService extends DataService{
   setEmergencyDisaster (emrgencyDisaster: EmergencyDisaster[]){
     this.emergencyDisaster$.next(emrgencyDisaster);
   }
+
+
+  public _setEmployee(patch: any){
+    let index = this.emergencyDisaster.findIndex( x => patch.emergencyDisasterID == x.emergencyDisasterID);
+    if(index === -1) {
+     this.emergencyDisaster.push(patch);
+    } else {
+      patch.alerts.alertID = patch.FK_AlertID;
+      this.emergencyDisaster[index] = patch;
+    }
+    this._search$.next();
+  }
+
+
 
   public deleteFromTable(id){
     const index =  this.emergencyDisaster.findIndex(x => x.emergencyDisasterID == id);
