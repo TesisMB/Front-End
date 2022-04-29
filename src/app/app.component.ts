@@ -1,164 +1,14 @@
 import { Subscription } from 'rxjs';
 import { Cart} from 'src/app/models';
 import { AuthenticationService } from './services';
-import { User, RoleName, Material, Vehicle, Medicine} from './models/index';
+import { User, RoleName} from './models/index';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ChangeDetectorRef ,Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { ResourcesDetailsService } from './resources/cart/cart.service';
-
-interface FoodNode {
-  name: string,
-  patch?: any,
-  icon: string,
-  children?: FoodNode[],
-  role: any[],
-  disabled?: boolean
-}
-
-
-
-interface Notifications{
-  hasNotifications: boolean,
-  number: number
-}
-interface Notifys{
- 
-      id: number,
-      message: string,
-      state: boolean,
-      createDate: string,
-      url: string
-}
-const NOTIFY_DATA: Notifys[] = [
-  {
-    id: 1,
-    message: 'Esta es una notificacion',
-    state: true,
-    createDate: '15-11-2021',
-    url: null
-  },
-  {
-    id: 2,
-    message: 'Esta es la segunda notificacion',
-    state: true,
-    createDate: '14-11-2021',
-    url: null
-  },
-   {
-    id: 3,
-    message: 'Esta es la 3ra notificacion',
-    state: false,
-    createDate: '13-11-2021',
-    url: null
-  }
-];
-
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Inicio',
-    patch:'/',
-    icon:'fas fa-home' ,
-    role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres', 'Encargado de Logistica']
-  },
-  {
-    name: 'Usuarios',
-    patch:'empleados',
-    icon:'fas fa-users' ,
-    role:['Admin','Coordinador General', ,'Coordinador de Emergencias y Desastres'],
-    disabled: true,
-    children: [
-      {name: 'Lista de empleados',
-      patch:'/empleados',
-      icon:'fas fa-user-plus',
-      role:['Admin','Coordinador General']
-    },
-    {
-      name: 'Lista de voluntarios',
-      patch:'/recursos/lista/voluntarios',
-      icon:'fas fa-hands-helping',
-      role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
-    },
-    {name: 'Registrar usuario',
-    patch:'/empleados/registrar',
-    icon:'fas fa-user-plus',
-    role:['Admin','Coordinador General']
-  },
-  ]
-  },
-  {
-    name: 'Gestión de recursos',
-    patch: 'recursos',
-    icon:'fas fa-first-aid',
-    role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres'],
-    children: [
-      {
-        name: 'Medicamentos',
-        patch:'/recursos/lista/medicamentos',
-        icon:'fas fa-capsules',
-        role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
-      },
-      {
-        name: 'Materiales',
-        patch:'/recursos/lista/materiales',
-        icon:'fas fa-thermometer',
-        role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
-      },
-      {
-        name: 'Vehiculos',
-        patch:'/recursos/lista/vehiculos',
-        icon:'fas fa-ambulance',
-        role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
-      },
-      {
-        name: 'Stock',
-        patch:'/recursos/stock',
-        icon:'fas fa-list-alt',
-        role:['Admin','Coordinador General','Encargado de Logistica']
-      },
- 
-    ]
-  },
-  {
-    name: 'Solicitudes',
-    patch:'/recursos/solicitudes',
-    icon:'fas fa-clipboard-list' ,
-    role:['Admin','Coordinador General','Encargado de Logistica']
-  },
-  {
-    name: 'Historial de solicitudes',
-    patch:'/recursos/historial',
-    icon:'fas fa-clipboard-list' ,
-    role:['Admin','Coordinador General','Encargado de Logistica']
-  },
-  {
-    name: 'Emergencias o desastres',
-    patch:'/emergencias',
-    icon:'fas fa-briefcase-medical' ,
-    role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres'],
-    children: [
-      {name: 'Registrar emergencia',
-      patch:'/emergencias/agregar-emergencia-desastre',
-      icon:'fas fa-user-plus',
-      role:['Admin','Coordinador General']
-    },]
-  },
-  {
-    name: 'Monitoreo',
-    patch:'/monitoreo',
-    icon:'fas fa-tv' ,
-    role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
-  },
-  // {
-  //   name: 'Estadisticas',
-  //   patch:'/statistics',
-  //   icon:'fas fa-chart-pie' ,
-  //   role:['Admin']
-  // },
-
-];
+import { FoodNode, Notifications, Notifys, NOTIFY_DATA, TREE_DATA } from './models/navbar.model';
 
 @Component({
 
@@ -183,24 +33,19 @@ private _mobileQueryListener: () => void;
         changeDetectorRef: ChangeDetectorRef,
         media: MediaMatcher,
         private authenticationService: AuthenticationService,
-        private router: Router,
         private cartService: ResourcesDetailsService,
-        private route: ActivatedRoute
     ) {
-   // this.dataSource.data = TREE_DATA;
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
               }
 
               ngOnInit(): void {
-              this.getCurrentUser();
-                  
+              this.getCurrentUser();  
               }
-             
+        
               hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
-                
-
+              
               get isLogistica () {
                 return this.currentUser.roleName === RoleName.Logistica;
                }
@@ -211,10 +56,6 @@ private _mobileQueryListener: () => void;
               get data(){
                 return this.dataSource.data = TREE_DATA.filter(x => x.role.includes(this.currentUser.roleName));
               }
-  
-
-          
-
 
             getCurrentUser(){
               this.handler = this.authenticationService.currentUser

@@ -35,7 +35,7 @@
         </mat-error>
       </mat-form-field>
     </form>
-    <button mat-raised-button color="accent" (click)="getData">Imprimir datos por consola</button>
+    <!-- <button mat-raised-button color="accent" (click)="getData">Imprimir datos por consola</button> -->
 </div>
  
 <div class="col-12">
@@ -133,23 +133,6 @@
               </mat-form-field>
             </mat-grid-tile>
             <br />
-            <mat-grid-tile *ngIf="form.get('picture')">
-              <mat-form-field appearance="outline">
-                <mat-label>Imagen</mat-label>
-                <input
-                  matInput
-                  placeholder="Ex. Bayern, Conicet, etc>"
-                  formControlName="picture"
-                  required
-                />
-                <!-- <mat-error
-                  *ngIf="form.get('picture').hasError('required')"
-                >
-                  La marca es <strong>requerida</strong>
-                </mat-error> -->
-              </mat-form-field>
-            </mat-grid-tile>
-          <br/>
             <mat-grid-tile  >
               <mat-form-field  appearance="outline">
                 <mat-label>Sucursal</mat-label>
@@ -372,31 +355,7 @@
               Ingrese un formato <strong>valido </strong>
             </mat-error> 
           
-                <!-- <input
-                  matInput
-                  required
-                  [disabled]="isEdit"
-                  [formControl]="medicineForm.get('medicineExpirationDate')"
-                  [min]="minDate"
-                  [max]="maxDate"
-                  [matDatepicker]="picker"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker
-                startView="multi-year"
-                (yearSelected)="chosenYearHandler($event)"
-                (monthSelected)="chosenMonthHandler($event, picker)"
-                ></mat-datepicker>
-                <mat-error
-                  *ngIf="medicineForm.get('medicineExpirationDate').hasError('required')"
-                >
-                  La fecha es <strong>requerida</strong>
-                </mat-error> -->
-                
-              </mat-form-field>
+             </mat-form-field>
             </mat-grid-tile>
             <br />
             <mat-grid-tile *ngIf="vehicleForm"  [formGroup]="vehicleForm">
@@ -609,17 +568,7 @@
                       </mat-form-field>
                       </mat-grid-tile>
                           <br />
-                          <mat-grid-tile >
-                                
-                            <mat-checkbox formControlName="donation" [disabled]="isEdit"
-                            >¿Es donación?</mat-checkbox>
-                            <!-- <mat-error
-                              *ngIf="form.get('picture').hasError('required')"
-                            >
-                              La marca es <strong>requerida</strong>
-                            </mat-error> -->
-                        </mat-grid-tile>
-                        <br/> 
+              
                           <mat-grid-tile colspan = "2" rowspan="2">
                             <mat-form-field class="description-field" appearance="outline">
                               <mat-label>Descripción</mat-label>
@@ -642,60 +591,46 @@
                             </mat-form-field>
                             </mat-grid-tile>
                             <br />
-                            
-                
-                              <mat-grid-tile colspan="1">
-                              <mat-form-field >
-                                <div>
-                                  <mat-toolbar>
-                                    <input matInput [value]="selectedFileNames.length ? selectedFileNames : 'Select Images'" />
-                                    <button
-                                      mat-raised-button
-                                      color="primary"
-                                      [disabled]="!selectedFiles"
-                                      (click)="uploadFiles()"
-                                    >
-                                      Upload
-                                    </button>
-                                  </mat-toolbar>
-                                  <input
-                                    type="file"
-                                    id="fileInput"
-                                    name="fileInput"
-                                    accept="image/*"
-                                    (change)="selectFiles($event)"
-                                  />
-                                </div>
-                              </mat-form-field>
-                            </mat-grid-tile>
+                            <mat-grid-tile >
+                                
+                              <mat-checkbox formControlName="donation" [disabled]="isEdit"
+                              >¿Es donación?</mat-checkbox>
 
-                              <mat-grid-tile colspan="2">
-   
+                          </mat-grid-tile>
+                          <br/> 
+                               <mat-grid-tile colspan="1" rowspan="3">
+                                <div class="imagen-class row ">
+                                <div class="custom-file fileInputProfileWrap col-12">
+                                  <input type="file" (change)="selectFiles($event)" class="fileInputProfile">
+                                  <div class="img-space">
+              
+                                      <ng-container *ngIf="previews else elseTemplate">
+                                        <img [src]="previews" class="img-responsive">
+                                      </ng-container>
+                                      <ng-template #elseTemplate>
+                                          <img src="https://i.imgur.com/S9HJEwF.png" class="img-responsive">
+                                      </ng-template>
+                                  </div>
+                              </div>
 
-                              <div>
-                                <img *ngFor='let preview of previews' [src]="preview" class="preview">
+                               <div *ngFor="let progressInfo of progressInfos" class="col-12 mt-2">
+                                 <span *ngIf="message.length">{{ message }} </span>                                
+                                 <mat-toolbar class="progress-bar">
+                                   <mat-progress-bar
+                                     color="accent"
+                                     [value]="progressInfo.value"
+                                   ></mat-progress-bar>
+                                   <span class="progress">{{ progressInfo.value }}%</span>
+                                 </mat-toolbar>
+                               </div>
+       
                               </div>
-                              <div *ngIf="message.length" class="message">
-                                <ul *ngFor="let msg of message; let i = index">
-                                  <li>{{ msg }}</li>
-                                </ul>
-                              </div>
-                              <div *ngFor="let progressInfo of progressInfos">
-                                <span>{{ progressInfo.fileName }}</span>
-                                <mat-toolbar class="progress-bar">
-                                  <mat-progress-bar
-                                    color="accent"
-                                    [value]="progressInfo.value"
-                                  ></mat-progress-bar>
-                                  <span class="progress">{{ progressInfo.value }}%</span>
-                                </mat-toolbar>
-                              </div>
+
                             </mat-grid-tile>
                
           </mat-grid-list>
 
           <div class="footer-form">
-            <button *ngIf="!isEdit" mat-raised-button (click)="form.reset()">Resetear</button>
 
             <button
               mat-raised-button
@@ -709,6 +644,7 @@
               </span>
               <span *ngIf="!loading">Finalizar</span>
             </button>
+            <button *ngIf="!isEdit" mat-raised-button (click)="form.reset()">Resetear</button>
           </div>
         <!-- </mat-step> -->
 
