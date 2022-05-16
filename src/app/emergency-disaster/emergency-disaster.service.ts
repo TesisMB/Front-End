@@ -2,7 +2,7 @@ import { filter, map } from 'rxjs/operators';
 import { EmergencyDisaster } from '../models/emergencyDisaster';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { DataService } from '../services/data.service';
 import { environment } from 'src/environments/environment';
 import { Operation } from 'fast-json-patch';
@@ -23,9 +23,9 @@ export class EmergencyDisasterService extends DataService {
  */  handler: any;
   constructor(http: HttpClient) {
     super(http, 'EmergenciesDisasters');
-
   }
 
+  
   public get ListarAlertas(): Alerts[]{
     
     const array = Object.values(AlertDegree);
@@ -59,8 +59,15 @@ export class EmergencyDisasterService extends DataService {
   }
 
 
-  getAllWithoutFilter(): Observable<any> {
-    return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter');
+  getAllWithoutFilter(params?: string): Observable<any> {
+   if(params) {
+     const options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      params: new HttpParams().set('limit', params) 
+     }
+    return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter', options);
+  }
+  else return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter');
     // .pipe(map(x => { 
     //   const items = x.filter(f => f.alerts.alertDegree != 'Controlado');
     //    return items;

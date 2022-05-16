@@ -50,13 +50,13 @@ export interface FoodNode {
       name: 'Inicio',
       patch:'/',
       icon:'fas fa-home' ,
-      role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres', 'Encargado de Logistica']
+      role:['Admin','Coordinador General','Coord. de Emergencias', 'Encargado de Logistica']
     },
     {
       name: 'Usuarios',
       patch:'empleados',
       icon:'fas fa-users' ,
-      role:['Admin','Coordinador General', ,'Coordinador de Emergencias y Desastres'],
+      role:['Admin','Coordinador General', ,'Coord. de Emergencias'],
       disabled: true,
       children: [
         {name: 'Lista de empleados',
@@ -68,47 +68,41 @@ export interface FoodNode {
         name: 'Lista de voluntarios',
         patch:'/recursos/lista/voluntarios',
         icon:'fas fa-hands-helping',
-        role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
-      },
-      {name: 'Registrar usuario',
-      patch:'/empleados/registrar',
-      icon:'fas fa-user-plus',
-      role:['Admin','Coordinador General']
-    },
+        role:['Admin','Coordinador General','Coord. de Emergencias']
+      }
     ]
     },
     {
       name: 'Gestión de recursos',
       patch: 'recursos',
       icon:'fas fa-first-aid',
-      role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres'],
+      role:['Admin','Coordinador General','Encargado de Logistica','Coord. de Emergencias'],
       children: [
         {
           name: 'Medicamentos',
           patch:'/recursos/lista/medicamentos',
           icon:'fas fa-capsules',
-          role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
+          role:['Admin','Coordinador General','Encargado de Logistica','Coord. de Emergencias']
         },
         {
           name: 'Materiales',
           patch:'/recursos/lista/materiales',
           icon:'fas fa-thermometer',
-          role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
+          role:['Admin','Coordinador General','Encargado de Logistica','Coord. de Emergencias']
         },
         {
           name: 'Vehiculos',
           patch:'/recursos/lista/vehiculos',
           icon:'fas fa-ambulance',
-          role:['Admin','Coordinador General','Encargado de Logistica','Coordinador de Emergencias y Desastres']
+          role:['Admin','Coordinador General','Encargado de Logistica','Coord. de Emergencias']
         },
-        {
-          name: 'Stock',
-          patch:'/recursos/stock',
-          icon:'fas fa-list-alt',
-          role:['Admin','Coordinador General','Encargado de Logistica']
-        },
-   
       ]
+    },
+    {
+      name: 'Stock',
+      patch:'/recursos/stock',
+      icon:'fas fa-list-alt',
+      role:['Admin','Coordinador General','Encargado de Logistica']
     },
     {
       name: 'Solicitudes',
@@ -123,15 +117,15 @@ export interface FoodNode {
       role:['Admin','Coordinador General','Encargado de Logistica']
     },
     {
-      name: 'Emergencias o desastres',
+      name: 'Alertas',
       patch:'/emergencias',
       icon:'fas fa-briefcase-medical' ,
-      role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres'],
+      role:['Admin','Coordinador General','Coord. de Emergencias'],
     },
     {
       name: 'Monitoreo',
       patch:'/monitoreo',
       icon:'fas fa-tv' ,
-      role:['Admin','Coordinador General','Coordinador de Emergencias y Desastres']
+      role:['Admin','Coordinador General','Coord. de Emergencias']
     },
 ];

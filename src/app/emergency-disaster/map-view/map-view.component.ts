@@ -30,8 +30,8 @@ export class MapViewComponent implements OnInit, AfterViewInit {
 
   const popUp = new Popup()
         .setHTML(`
-          <h6>Aqui estoy</h6>
-          <span>Estoy en este lugar del mundo</span>
+          <h5>Ubicaciòn actual</h5>
+          <span>En este punto me encuentro actualmente</span>
         `);
 
   new Marker({color: 'red'})

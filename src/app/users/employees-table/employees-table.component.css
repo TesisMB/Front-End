@@ -21,3 +21,10 @@
     width: 100%;
   }
   
+  textarea:focus, input:focus{
+    outline: none;
+  }
+  input{
+    border: none;
+
+}

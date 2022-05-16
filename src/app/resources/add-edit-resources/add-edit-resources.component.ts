@@ -161,7 +161,7 @@ imageInfos?: Observable<any>;
 
   private createForm(){
     this.form = this.formGroup.group({
-      name: ['',[Validators.required, Validators.pattern("[a-zA-Z ]{2,35}"), Validators.maxLength(35)]],
+      name: ['',[Validators.required, Validators.pattern("^[a-zA-Z ]{2,35}[0-9]$"), Validators.maxLength(35)]],
       quantity: ['',[Validators.required, Validators.max(9999), Validators.min(1)]],
       description: ['',[Validators.maxLength(254)]],
       fk_EstateID: [,[Validators.required]],
@@ -187,7 +187,7 @@ imageInfos?: Observable<any>;
           medicineExpirationDate: ['',[Validators.required ,Validators.pattern('^[0-9]{2}[\/][0-9]{4}$') ]],
           medicineLab: ['',[Validators.required ]],
           medicineDrug: ['',[Validators.required]],
-          medicineWeight: ['',[Validators.required,Validators.pattern('^[0-9]{3}$'), Validators.min(1), Validators.max(999)]],
+          medicineWeight: ['',[Validators.required, Validators.min(1), Validators.max(999)]],
           medicineUnits: ['',[Validators.required]],
           
         }));

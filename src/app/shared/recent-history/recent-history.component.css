@@ -1,0 +1,103 @@
+.header{
+    height: 56px;
+    padding: 20px 20px;
+    color:  #363636 !important ;
+    }
+    .body{
+    padding: 25px 10px;
+    overflow-x: auto;
+    font-size: 15px;
+    
+    }
+    .title h2{
+    margin: 0 !important;
+    }
+    .title2{
+        flex: 1;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    /* .card-content{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        height: 179px;
+        width: 400px;
+        max-width: 400px;
+        margin: auto;
+        flex-direction: column;
+        background-color: #F1F1F1;
+        border-radius: 15px;
+    } */
+    .historys > ::ng-deep figure{
+        justify-content: flex-start !important;
+
+    }
+    /* .mat-grid-tile .mat-figure {
+        justify-content: flex-start !important ;
+        align-items: flex-start !important;
+     } */
+
+    .download{
+        display: flex;
+        justify-content: center;
+        margin: 1em;
+        align-items: center;
+        color: #E4002B;
+    }
+    .download-card{
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    /* Card */
+    .card-c {
+        background-color: #F1F1F1 !important;
+        height: 100%;
+        /* max-width: 400px; */
+      }
+      .example-header-image {
+        background-size: cover;
+        color: red;
+      }
+      ::ng-deep .mat-card-header-text  {
+    width: inherit !important;
+}
+      img {
+          background-size: cover;
+          width: 42px;
+      }
+      .logo-cr{
+        width: 50px;
+        background-size: cover;
+    
+      }
+    span h3 {
+        font-weight: bold;
+        margin: 0 !important;
+    }
+    .pendiente{
+        border: 1px solid white;
+        border-radius: 300px;
+        background-color: rgb(255, 255, 11);
+      padding: 5px 5px;
+      width: fit-content;
+      margin-bottom: 0px !important;
+    }
+  
+    .aceptada{
+      border: 1px solid white;
+      border-radius: 300px;
+      background-color: rgba(103, 223, 147);
+      width: fit-content;
+      padding: 5px 5px;
+      margin-bottom: 0px !important;
+    }
+  
+    .rechazada{
+      border: 1px solid white;
+      border-radius: 300px;
+      background-color: rgb(244, 77, 65);
+      width: fit-content;
+      padding: 5px 5px;
+      margin-bottom: 0px !important;
+    }

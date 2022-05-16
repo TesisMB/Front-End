@@ -10,7 +10,8 @@ import { throwError } from 'rxjs';
 export class DataService {
   protected options = {
     headers: new HttpHeaders().set('Content-Type', 'application/json'),
-    params: new HttpParams() };
+    params: new HttpParams() 
+  };
 
 
   constructor(
@@ -84,11 +85,10 @@ export class DataService {
   }
 
   public generatePDF(id): any {
-    const headers = new HttpHeaders().set('Accept', 'application/pdf');
-    return this.http.get(environment.URL + this.patch + '/pdf/' + id, {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(environment.URL + this.patch + '/pdf/' + id, {
       headers: headers,
-      observe: 'response',
-      responseType: 'blob',
+      responseType: 'arraybuffer',
     });
   }
 

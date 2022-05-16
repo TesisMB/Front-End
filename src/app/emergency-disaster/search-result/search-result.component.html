@@ -1,9 +1,9 @@
-<div *ngIf="isLoadingPLaces" class="alert alert-primary mt-2 text-center">
+<div *ngIf="isLoadingPlaces" class="alert alert-primary mt-2 text-center">
     <h6>Cargando</h6>
     <span>Espere por favor...</span>
 </div>
 
-<div class="list-group mt-2" *ngIf="places.length > 0" id="style-2">
+<div class="list-group mt-2" *ngIf="places.length && !isLoadingPlaces" id="style-2">
     <li *ngFor="let place of places" class="list-group-item item-group-item-action pointer"
         [class.active]="place.id === selectedId" (click)="flyTo(place)">
         <h6>{{place.text_es}}</h6>

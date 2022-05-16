@@ -19,7 +19,7 @@ export class SearchResultComponent implements OnInit {
   }
 
 
-  get isLoadingPLaces(): boolean{
+  get isLoadingPlaces(): boolean{
     return this.placesService.isLoadingPlaces;
   }
 

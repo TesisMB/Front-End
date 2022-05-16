@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './_helpers';
 import { NotFoundComponent } from './shared';
 import { RoleName } from './models/role';
+import { MonitoreoComponent } from './monitoreo/monitoreo/monitoreo.component';
 
 const clientModule = () => import ('./client/client.module').then(x => x.ClientModule);
 const accountModule = () => import ('./account/account.module').then(x => x.AccountModule);
@@ -15,17 +16,18 @@ const emergencyModule = () => import('./emergency-disaster/layout-emergency-disa
 
 export const routes: Routes = [
   {
+    path: 'cliente',
+    loadChildren: clientModule
+
+ },
+  {
     path: '' ,
     loadChildren: accountModule,
      canActivate: [AuthGuard]
 
   },
 
-  {
-     path: 'cliente',
-     loadChildren: clientModule
 
-  },
   {
     path: 'empleados',
     loadChildren: usersModule,
@@ -46,6 +48,12 @@ export const routes: Routes = [
     loadChildren: emergencyModule,
     canActivate: [AuthGuard],
     data:{ roles: [RoleName.Admin, RoleName.CoordinadorGeneral, RoleName.CEyD]}
+   },
+
+   {
+    path: 'monitoreo',
+    component: MonitoreoComponent,
+    canActivate: [AuthGuard]
    },
   // Si se ingresa a una direccion inexistente, redirecciona a 404 not found.-
   {

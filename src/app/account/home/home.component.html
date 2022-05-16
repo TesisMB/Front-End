@@ -1,26 +1,60 @@
 
 
-  <header>
     <!-- Nav 1- Sidebar 2- Logo  3-User -->
-<alert></alert>
 
     <!--******************************* BODY *******************************-->
-    <div class="contenedor1">
-      <section class="contenido-header">
+    <div class="justify-content-center p-5">
+    <div class="col-12 contenedor1 ">
+      <div class="contenido-header">
                 <div class="textos-header">
                     <h1>#ArgentinaNosNecesita</h1>
                 </div>
+                <div class="img">
                 <img src="./../../../assets/img-home-users/img-header.png" alt="">
-                <a href="https://www.cruzroja.org.ar/argentinanosnecesita/">Ver más</a>
-            </section>
+            </div>
+                <a mat-raised-button color="warn" href="https://www.cruzroja.org.ar/argentinanosnecesita/">Ver más</a>
+            </div>
         </div>
-    </header>
+    <div class="col-12 row mt-4" >
+        <div class="col-xl-6 col-lg-12">
+            <div class="col-body">
+                <div class="carnet">
+                    <credential></credential>
+                </div>
+                <div class="carnet" *ngIf="currentUser.roleName != 'Encargado de Logistica'">
+                    <recent-alert></recent-alert>
+                </div>
+                <div class="carnet">
+                    <recent-monitoreo></recent-monitoreo>
+                </div>
+            </div>
+         </div>
+        <div class="col-xl-6 col-lg-12">
+            <div class="col-body">
+                
+                <div *ngIf="condition" class="carnet">
+                    <recent-history  condition = 'Pendiente' title ='Ultimas solicitudes pendientes'></recent-history>
+                    
 
-    <section class="card-min">
+                </div>
+                <div class="carnet" *ngIf="currentUser.roleName != 'Encargado de Logistica'">
+                    <recent-history title ='Historial ultimas solicitudes'></recent-history>
+                </div>
+                <!-- <div class="carnet">
+                    <recent-request></recent-request>
+
+                </div> -->
+            </div> </div>
+
+</div>
+
+</div>
+      
+    <!-- <section class="card-min">
         <div class="contenedor">
             <div class="contenedor-articulo">
                 <div class="articulo">
-                    <h3>Lorem.</h3>
+                    <h3>Información</h3>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing<p>
                             <a href="#">Ver más</a>
                 </div>
@@ -76,5 +110,5 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 

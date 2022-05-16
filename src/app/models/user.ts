@@ -18,5 +18,5 @@
     userDni: string,
     roleName: string,
     name: string,
-    statis: boolean
+    status: boolean
  }

@@ -16,11 +16,17 @@ import { TableService } from '../services/_table.service/table.service';
 import { UserService } from '../users/user.service';
 import { ResourceModalComponent } from './resource-modal/resource-modal.component';
 import { ListResourcesComponent } from './list-resources/list-resources.component';
+import { CredentialComponent } from './credential/credential.component';
+import { RecentRequestComponent } from './recent-request/recent-request.component';
+import { RecentAlertComponent } from './recent-alert/recent-alert.component';
+import { RecentHistoryComponent } from './recent-history/recent-history.component';
+import { RecentMonitoreoComponent } from './recent-monitoreo/recent-monitoreo.component';
+import { RecentNoStockComponent } from './recent-no-stock/recent-no-stock.component';
 
 
 
 @NgModule({
-  declarations: [NavbarComponent, NotFoundComponent, AlertComponent, ConfirmModalComponent, NgbdModalComponent, ResourceModalComponent, ListResourcesComponent],
+  declarations: [NavbarComponent,RecentAlertComponent,RecentMonitoreoComponent,RecentHistoryComponent, NotFoundComponent, AlertComponent, ConfirmModalComponent, NgbdModalComponent, ResourceModalComponent, ListResourcesComponent, CredentialComponent, RecentRequestComponent, RecentAlertComponent, RecentHistoryComponent, RecentMonitoreoComponent, RecentNoStockComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -28,7 +34,7 @@ import { ListResourcesComponent } from './list-resources/list-resources.componen
     MaterialDesignModule,
     NgbModule,
   ],
-  exports: [MaterialDesignModule, NavbarComponent, NgbModule, NotFoundComponent, CommonModule, FormsModule, AlertComponent, ReactiveFormsModule,ResourceModalComponent],
+  exports: [MaterialDesignModule,CredentialComponent,RecentMonitoreoComponent,RecentHistoryComponent,RecentRequestComponent,RecentAlertComponent, NavbarComponent, NgbModule, NotFoundComponent, CommonModule, FormsModule, AlertComponent, ReactiveFormsModule,ResourceModalComponent],
   providers: [TableService, UserService, DecimalPipe,
     {provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true}}
     ]
