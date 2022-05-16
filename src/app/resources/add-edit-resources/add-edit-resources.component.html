@@ -568,6 +568,15 @@
                       </mat-form-field>
                       </mat-grid-tile>
                           <br />
+
+                          <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Codigo</mat-label>
+                            <span matPrefix>MA &nbsp;</span>
+                            <input  matInput
+                            formControlName="id"
+                            required
+                            [readonly]="isEdit">
+                          </mat-form-field>
               
                           <mat-grid-tile colspan = "2" rowspan="2">
                             <mat-form-field class="description-field" appearance="outline">

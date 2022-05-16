@@ -7,6 +7,7 @@ export  interface Cart{
  
     id: any,
     userID: number,
+    createdBy: number,
     request:[{
       resource: Resource,
       quantity: number,
@@ -26,11 +27,18 @@ status: string,
 condition: string,
 users:UserRequest,
 emergenciesDisasters: EmergencyDisaster,
+createdBy: number
   }
 
   export interface RequestGet {
     condition: string,
-    emergenciesDisasters: EmergencyDisaster,
+    createdByEmployee: string;
+    locationDepartmentName: string;
+    locationCityName: string;
+    locationMunicipalityName: string;
+    typeEmergencyDisasterName: string;
+    createdBy: number,
+    emergencyDisasterID: number;
     id: number,
     reason: string,
     description: string,

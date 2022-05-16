@@ -35,7 +35,6 @@ export class StockTableComponent implements OnInit {
     constructor( private alertService: AlertService,
       public service: ResourcesService,
       private modalService: NgbModal,
-      private userService: UserService,
       private authService: AuthenticationService,
       ) {}
 
@@ -56,7 +55,7 @@ export class StockTableComponent implements OnInit {
 
   ngAfterViewInit(){}
 
-  changeStatus(reason: string, event, id:number){ 
+  changeStatus(reason: string, event, id:string){ 
     console.log(event); 
     // this.service.loading(true);
     //Se abre el modal de confirmacion.
@@ -98,6 +97,8 @@ export class StockTableComponent implements OnInit {
 
     //     } );
     // }
+
+
 private deleteItem(id){
   this.handleDelete =  this.service.delete(id,this.type)
   .subscribe(

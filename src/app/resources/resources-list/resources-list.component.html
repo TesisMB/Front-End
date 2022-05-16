@@ -26,7 +26,6 @@
       <ul *ngFor="let item of data | async; let i = index;">
         <li>
           <div class="col mb-3">
-
             <div class="card"
               [ngClass]="[item.availability  || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']">
 

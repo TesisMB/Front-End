@@ -15,7 +15,7 @@ const card = document.querySelector(".content");
   styleUrls: ['./resources-details.component.css'],
 })
 export class ResourcesDetails implements OnInit {
-  id: number = null;
+  id: string = null;
   type: string = null;
   item: Resource = null;
   handler: any;
@@ -36,7 +36,7 @@ export class ResourcesDetails implements OnInit {
     }
     
     ngOnInit(): void {
-      this.id = +this.route.snapshot.params.id;
+      this.id = this.route.snapshot.params.id;
     this.type = this.route.snapshot.params.tipo;
     this.getParams();
     this.getItems();
@@ -61,7 +61,7 @@ export class ResourcesDetails implements OnInit {
     get isLogistica(){return this.authenticationService.currentUserValue.roleName === 'Encargado de Logistica'}
     getParams() {
     this.route.params.subscribe((params: Params) => {
-      this.id = +params.id;
+      this.id = params.id;
       this.type = params.tipo;
 
       if ((params.id || params.tipo) == 'undefined' || null) {
@@ -128,9 +128,11 @@ export class ResourcesDetails implements OnInit {
    const quantity: number = this.form.get('quantity').value || 1;
    this.item.quantity -= quantity;
    const userID = this.authenticationService.currentUserValue.userID;
+   const createdBy = this.authenticationService.currentUserValue.userID;
    const request: Cart = {
     id: this.id,
     userID: userID,
+    createdBy:createdBy,
     createDate: Date.now(),
     state: false,
     request:[{

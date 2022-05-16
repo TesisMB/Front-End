@@ -1,5 +1,5 @@
 import { Vehicle } from './../../models/vehicle.model';
-import { AlertService } from 'src/app/services';
+import { AlertService, AuthenticationService } from 'src/app/services';
 import {  Employee } from 'src/app/models';
 import {  first, map, tap } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
@@ -58,7 +58,7 @@ const TYPES = [
 })
 export class addEditResourcesComponent implements OnInit {
 
-id: number = null;
+id: string = null;
 action: string = null;
 type: string = null;
 form: FormGroup;
@@ -95,7 +95,8 @@ imageInfos?: Observable<any>;
     private service: ResourcesService,
     private stateService: StatesService,
     private userService: UserService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private authenticationService: AuthenticationService
     )
     {
    this.getParams();
@@ -150,7 +151,7 @@ imageInfos?: Observable<any>;
     this.activatedRoute.queryParamMap
     .subscribe( query => {
       if(query.get('id')){
-      this.id = +query.get('id');
+      this.id = query.get('id');
       this.getItem(this.id);
     }
     });
@@ -161,12 +162,15 @@ imageInfos?: Observable<any>;
 
   private createForm(){
     this.form = this.formGroup.group({
+      id:['', [Validators.required]],
       name: ['',[Validators.required, Validators.pattern("[a-zA-Z ]{2,35}"), Validators.maxLength(35)]],
       quantity: ['',[Validators.required, Validators.max(9999), Validators.min(1)]],
       description: ['',[Validators.maxLength(254)]],
       fk_EstateID: [,[Validators.required]],
       donation: [false],
-      picture:[]
+      picture:[],
+      createdBy:[],
+      modifiedBy:[]
     });
 
     if(this.isEdit){
@@ -234,7 +238,7 @@ imageInfos?: Observable<any>;
                           });
   }
   private getLocations(){
-    this.stateService.getAll()
+    this.stateService.getAll(this.currentUser.user.userID)
     .pipe(map(x => 
     x.filter( estates => this.currentUser.estates.locationCityName == estates.locationCityName)))
     .subscribe(
@@ -263,7 +267,7 @@ imageInfos?: Observable<any>;
     const arrayUsers: UsersGroup[] = [];
    
 
-    this.userService.getAll()
+    this.userService.getAll(this.currentUser.user.userID)
     .pipe(
     tap(x => console.log('Usuarios before filter => ', x)),
     map((x:Employee[]) => {
@@ -319,6 +323,7 @@ imageInfos?: Observable<any>;
   }
 
   private postItem(form){
+    this.form.get('createdBy').patchValue(this.authenticationService.currentUserValue.userID);
     this.service.register(form,this.formType.value)
     .subscribe(
 data => {
@@ -339,6 +344,7 @@ error => {
   }
 
   private updateItem(){
+    this.form.get('modifiedBy').patchValue(this.authenticationService.currentUserValue.userID);
     const path = compare(this.cloneForm, this.form.value);
     this.handleUpdate =  this.service.update(this.type, this.id, path )
     .pipe(first())

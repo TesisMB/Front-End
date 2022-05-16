@@ -3,6 +3,7 @@ import { RequestService } from './../request/request.service';
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RequestTableService } from '../request-table/request-table.service';
+import { AuthenticationService } from 'src/app/services';
 const TABS = ['Pendiente','Aceptada', 'Rechazada'];
 @Component({
   selector: 'history-request',
@@ -16,7 +17,8 @@ export class HistoryRequestComponent implements OnInit, OnDestroy {
   constructor(
     public service: RequestTableService,
     private requestService: RequestService,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    private authenticateService: AuthenticationService) {
     
      }
 
@@ -37,7 +39,7 @@ changeCondition(event){
 }
 
 getRequest(condition){
-  this.handleRequest = this.requestService.getAll(condition)
+  this.handleRequest = this.requestService.getAll(this.authenticateService.currentUserValue.userID, condition)
   .subscribe((x: any) =>{
   this.service._uploadTable(x);
   this.service._setCondition(condition);
@@ -52,6 +54,8 @@ e => {
 ngOnDestroy(): void {
   this.handleRequest.unsubscribe();
 }
+
+
   }
 
 

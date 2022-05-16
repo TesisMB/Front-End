@@ -5,7 +5,7 @@ export class Medicine {
   medicineDrug: string;
   medicineWeight: number;
   medicineUnits: string;
-  id: number;
+  id: string;
   name: string;
   quantity: number;
   

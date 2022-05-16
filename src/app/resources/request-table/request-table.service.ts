@@ -9,6 +9,8 @@ import {SortColumn, SortDirection} from '../../directives/sorteable.directive';
 import * as _ from 'lodash';
 import { RequestGet, SearchResult, State, User } from 'src/app/models';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -27,11 +29,11 @@ function sort(request: RequestGet[], column: SortColumn, direction: string): Req
 }
 
 function search(request: RequestGet, term: string, pipe: PipeTransform): RequestGet[] {
-  return  request.users.name.toLowerCase().includes(term)
+  return  request.createdByEmployee.toLowerCase().includes(term)
         || request.condition.toLowerCase().includes(term)
-        || request.emergenciesDisasters.typesEmergenciesDisasters.typeEmergencyDisasterName.toLowerCase().includes(term)
-        || request.emergenciesDisasters.locationsEmergenciesDisasters.locationMunicipalityName.toLowerCase().includes(term)
-        || request.emergenciesDisasters.locationsEmergenciesDisasters.locationDepartmentName.toLowerCase().includes(term)
+        || request.typeEmergencyDisasterName.toLowerCase().includes(term)
+        || request.locationMunicipalityName.toLowerCase().includes(term)
+        || request.locationDepartmentName.toLowerCase().includes(term)
         || pipe.transform(request.id).includes(term);
   }
 
@@ -57,7 +59,8 @@ export class RequestTableService {
     sortDirection: ''
   };
 
-  constructor(private pipe: DecimalPipe, private authService: AuthenticationService) {    
+  constructor(private pipe: DecimalPipe, private authService: AuthenticationService, protected http: HttpClient,
+    ) {    
     this._search$.pipe(
     tap(() => this._loading$.next(true)),
     debounceTime(200),
@@ -124,13 +127,24 @@ public _uploadTable(_request: RequestGet[]) {
 
 }
 
+generatePDF(id): Observable<any> {
+  const headers = new HttpHeaders().set('Accept','application/pdf');
+  return this.http.get(environment.URL + 'resourcesrequest/' + 'pdf/' + id, 
+      {
+        headers: headers,
+        responseType: 'blob'
+      }
+    );
+  }
+
+
 private _search(): Observable<SearchResult> {
   const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
   // 1. filtrado por usuario
   let req = this.request;
   if(this._filter$.value || !ROLES.includes(this.currentUser.roleName)){
-    req = this.request.filter(x => x.users.userID === this.currentUser.userID);
+    req = this.request.filter(x => x.createdBy === this.currentUser.userID);
   }
   
   // 1. sort

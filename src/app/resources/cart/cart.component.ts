@@ -7,6 +7,7 @@ import { Cart } from 'src/app/models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/services';
 
 
 interface EmergenciesInput {
@@ -44,7 +45,9 @@ export class CartComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     private _snackBar: MatSnackBar,
-    private emergenciesService: EmergencyDisasterService
+    private emergenciesService: EmergencyDisasterService,
+    private authService: AuthenticationService,
+
 ) {
   this.getRequest();
   this.getEmergencies();
@@ -75,6 +78,8 @@ export class CartComponent implements OnInit, OnDestroy {
 
   onSubmit(){
     if(this.form.valid){
+   this.form.get('CreatedBy').patchValue(this.authService.currentUserValue.userID);
+   
     const submitData = this.form.value;
     this.isLoading();
     console.log('Datos pre-post: ', submitData);
@@ -85,6 +90,7 @@ export class CartComponent implements OnInit, OnDestroy {
 createForm() {
   this.form = this.formBuilder.group({
     Description: [null, [Validators.maxLength(153)]],
+    CreatedBy: [],
     FK_EmergencyDisasterID: ['Seleccione una emergencia',[Validators.required, Validators.pattern("^[0-9]*$")]],
     resources_RequestResources_Materials_Medicines_Vehicles: this.formBuilder.array(
     this.request.request.map(item => this.createRequest(item)))
@@ -131,7 +137,6 @@ createForm() {
     this.requestService.postRequest(f)
    .subscribe(
      data => {
-
      // this.alertService.success('Solicitud enviada correctamente :)', {autoClose: true });
       this._snackBar.open('Solicitud enviada correctamente :)','Cerrar', {
         horizontalPosition:'center',
@@ -208,7 +213,7 @@ createForm() {
   getEmergencies(){
     const arrayEmergencies: Emergencies[] = [];
 
-    this.handleEmergency = this.emergenciesService.getAll()
+    this.handleEmergency = this.emergenciesService.getAll(this.authService.currentUserValue.userID)
     .pipe(
       map( x =>{
         console.log('Emergencias =>', x)

@@ -1,7 +1,7 @@
 
 export class Material {
   brand: string;
-  id: number;
+  id: string;
   name: string;
   quantity: number;
 
