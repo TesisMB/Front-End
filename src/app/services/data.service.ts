@@ -1,3 +1,4 @@
+import { User } from './../models/user';
 import { AuthenticationService } from './_authentication/authentication.service';
 import { environment } from '../../environments/environment';
 
@@ -5,7 +6,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Operation } from 'fast-json-patch';
 import * as _ from 'lodash';
-import { throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 export class DataService {
   protected options = {
@@ -22,8 +23,13 @@ export class DataService {
 
   //getAll me traera errores si lo utilizo para otro tipo,
   // ya que this.object es utilizado para la tabla empleados.
-  getAll() {
-    return this.http.get<any>(environment.URL + this.patch);
+  getAll(userID: number) {
+    let paramaters = new HttpParams().append('userId', JSON.stringify(userID));
+    this.options.params = paramaters;
+    return this.http.get<any>(
+      environment.URL + this.patch, 
+      this.options
+      );
   }
 
   getById(id: number) {
@@ -84,13 +90,18 @@ export class DataService {
       ); 
   }
 
-  public generatePDF(id): any {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(environment.URL + this.patch + '/pdf/' + id, {
-      headers: headers,
-      responseType: 'arraybuffer',
-    });
-  }
+
+  generatePDF(id): Observable<any> {
+    const headers = new HttpHeaders().set('Accept','application/pdf');
+    return this.http.get(environment.URL + this.patch + '/pdf/' + id, 
+        {
+          headers: headers,
+          responseType: 'blob'
+        }
+      );
+    }
+  
+ 
 
   private handleError(err) {  
     let errorMessage: string;  

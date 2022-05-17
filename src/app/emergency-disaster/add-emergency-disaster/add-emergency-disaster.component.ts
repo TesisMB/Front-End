@@ -108,7 +108,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
 
   getUser(){
-    this.userService.getAll().subscribe(data => {
+    this.userService.getAll(this.authenticationService.currentUserValue.userID).subscribe(data => {
       this.user = data;
       this.user = this.user.filter(a => a.users.roleName == "Coord. de Emergencias");
     }, error =>{
@@ -174,7 +174,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
 
   getTypeEmergencyDisaster(){
-    this.selectTypesEmergencyDisasterService.getAll()
+    this.selectTypesEmergencyDisasterService.getAll(this.authenticationService.currentUserValue.userID)
     .pipe(
       map((x) =>{
         x.forEach(item =>{

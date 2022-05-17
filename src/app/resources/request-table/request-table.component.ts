@@ -34,6 +34,7 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
       public service: RequestTableService,
       private modalService: NgbModal,
       private userService: UserService,
+      private authenticateService: AuthenticationService
       ) {}
 
   ngOnInit(): void {
@@ -75,6 +76,18 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
         } );
     }
+
+    
+generatePDF(){ 
+  //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
+    let fileName = `${this.authenticateService.currentUserValue.persons.firstName} ${this.authenticateService.currentUserValue.persons.lastName}`;
+    this.service.generatePDF(this.authenticateService.currentUserValue.estates.estateID).subscribe(res => {
+      const file = new Blob([<any>res], {type: 'application/pdf'});
+    //  saveAs(file, fileName);
+      const fileURL = window.URL.createObjectURL(file);
+      window.open(fileURL, fileName);
+    });
+  }
 
 
   ngOnDestroy(): void {

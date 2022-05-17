@@ -1,53 +1,58 @@
 <section class="title">
-    <h1>Stock de recursos</h1>
-  </section>
-  
-  
- 
-  
- 
-  <section class="row justify-content-around col-body" id="row-aside">
-    <!-- <div class="row justify-content-between p-3"> -->
-      <form class="col-12">
-        <div class="row justify-content-between p-3">
-          
-          <div class="col-4 col-xs-4 col-sm-auto ">
-            <div class="align-items-center align-self-start ml-auto bd-highlight child-toggle" id="search"> 
-            <mat-slide-toggle (change)="onShow($event)" color="warn">Mostrar recursos sin stock
-            </mat-slide-toggle>
-          </div>
-            <div class="d-flex form-control align-self-end align-items-center bd-highlight pr-3" id="search"> 
-            <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
-            <input class="col-4 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
-            <span class="col-4 text-right" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
-          </div>
-          </div>
-
-    
-          <div class="col-4 col-xs-4 col-sm-auto align-self-end">
-            <button mat-raised-button color="warn" [routerLink]="['/recursos','nuevo',type]"><mat-icon>add</mat-icon>
-               Agregar {{type | lowercase}}
-               </button>
-          </div>
-      </div>
-      
-      </form>
-
-<!-- </div> -->
- <div class="col-12">
-        <mat-tab-group mat-align-tabs="center" (selectedTabChange)="changeCondition($event)" color="warn">
-            <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab | titlecase">
-             <ng-template matTabContent>
-   
-               
-                 <stock-table [type]="type"></stock-table>
-      
-
-              </ng-template>
-            </mat-tab>
-          </mat-tab-group>  
-          
-    </div>
+  <h1>Stock de recursos</h1>
 </section>
-  
-  
+
+
+
+
+
+<section class="row justify-content-around col-body" id="row-aside">
+  <!-- <div class="row justify-content-between p-3"> -->
+  <form class="col-12">
+    <div class="row justify-content-between p-3">
+
+      <div class="col-4 col-xs-4 col-sm-auto ">
+        <div class="align-items-center align-self-start ml-auto bd-highlight child-toggle" id="search">
+          <mat-slide-toggle (change)="onShow($event)" color="warn">Mostrar recursos sin stock
+          </mat-slide-toggle>
+        </div>
+        <div class="d-flex form-control align-self-end align-items-center bd-highlight pr-3" id="search">
+          <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
+          <input class="col-4 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
+          <span class="col-4 text-right" *ngIf="service.loading$ | async"><i
+              class="fas fa-spinner fa-lg fa-spin"></i></span>
+        </div>
+      </div>
+
+
+      <div class="col-4 col-xs-4 col-sm-auto align-self-end">
+        <button mat-raised-button color="warn" [routerLink]="['/recursos','nuevo',type]">
+          <mat-icon>add</mat-icon>
+          Agregar {{type | lowercase}}
+        </button>
+
+        <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF()">
+          <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
+        </button>
+
+      </div>
+    </div>
+
+  </form>
+
+  <!-- </div> -->
+  <div class="col-12">
+    <mat-tab-group mat-align-tabs="center" (selectedTabChange)="changeCondition($event)" color="warn">
+      <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab | titlecase">
+        <ng-template matTabContent>
+
+
+          <stock-table [type]="type"></stock-table>
+
+
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+
+  </div>
+</section>

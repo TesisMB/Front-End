@@ -4,7 +4,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Request, RequestGet } from 'src/app/models/requestCart.model';
 import { filter, map } from 'rxjs/operators';
 import { RequestTableService } from '../request-table/request-table.service';
-import { AlertService } from 'src/app/services';
+import { AlertService, AuthenticationService } from 'src/app/services';
 
 const CONDITION = 'Pendiente';
 @Component({
@@ -17,6 +17,7 @@ export class RequestComponent implements OnInit, OnDestroy {
   constructor(
     public service: RequestTableService,
     private requestService: RequestService,
+    private authService: AuthenticationService,
     private alertService: AlertService) {
     
      }
@@ -26,7 +27,7 @@ export class RequestComponent implements OnInit, OnDestroy {
 
 
   getRequest(){
-    this.handleRequest = this.requestService.getAll(CONDITION)
+    this.handleRequest = this.requestService.getAll(this.authService.currentUserValue.userID,CONDITION)
     .subscribe((x: any) =>{
     this.service._uploadTable(x);
     //this.service._setCondition(this.condition);

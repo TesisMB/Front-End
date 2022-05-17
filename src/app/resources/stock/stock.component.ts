@@ -4,6 +4,8 @@ import { ResourcesService } from './../resources.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { Resource } from 'src/app/models';
+import { AuthenticationService } from 'src/app/services';
+import { UserService } from 'src/app/users';
 const TABS = ['materiales', 'medicamentos', 'vehiculos'];
 
 @Component({
@@ -21,6 +23,9 @@ export class StockComponent implements OnInit, OnDestroy {
   constructor(
     public service: ResourcesService,
     private alertService: AlertService,
+    private authService: AuthenticationService,
+    private userService: UserService,
+
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +42,7 @@ export class StockComponent implements OnInit, OnDestroy {
   }
 
   getResources(){
-    this.handleRequest = this.service.getAll()
+    this.handleRequest = this.service.getAll(this.authService.currentUserValue.userID)
     .subscribe((x: Resource[]) =>{
     const resourcesFilters = x.filter(x => x.availability !== this.condition)
     this.service.uploadTable(resourcesFilters);
@@ -57,4 +62,18 @@ export class StockComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
       this.handleRequest.unsubscribe();
   }
+
+
+
+  generatePDF(){ 
+    //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
+      let fileName = `${this.authService.currentUserValue.persons.firstName} ${this.authService.currentUserValue.persons.lastName}`;
+      this.service.generatePDF(this.authService.currentUserValue.estates.estateID).subscribe(res => {
+        const file = new Blob([<any>res], {type: 'application/pdf'});
+      //  saveAs(file, fileName);
+        const fileURL = window.URL.createObjectURL(file);
+        window.open(fileURL, fileName);
+      });
+    }
+
 }

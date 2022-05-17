@@ -9,6 +9,7 @@ import {Observable, pipe, Subscription} from 'rxjs';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { EmergencyDisasterService } from '../emergency-disaster.service';
 import { FormControl } from '@angular/forms';
+import { AuthenticationService } from 'src/app/services';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   constructor(
     public selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
-    private router: Router
+    private router: Router,
+    private authService: AuthenticationService
     ) {
   }
 
@@ -55,7 +57,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
 
 
   getTypeEmergencyDisaster(){
-    this.selectTypesEmergencyDisasterService.getAll()
+    this.selectTypesEmergencyDisasterService.getAll(this.authService.currentUserValue.userID)
     .pipe(
       map((x) =>{
         x.forEach(item =>{

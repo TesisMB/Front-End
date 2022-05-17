@@ -9,7 +9,7 @@ import {compare} from 'fast-json-patch';
 import { _deepClone } from 'fast-json-patch/module/helpers';
 import * as _ from 'lodash';
 import { UserService } from 'src/app/users';
-import { AlertService } from 'src/app/services';
+import { AlertService, AuthenticationService } from 'src/app/services';
 import { SelectTypesEmergencyDisasterService } from '../select-types-emergency-disaster.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdDeleteModalComponent } from '../ngbd-delete-modal/ngbd-delete-modal.component';
@@ -42,6 +42,7 @@ export class NgbdEditDialogComponent implements OnInit {
     private userService : UserService,
     private alertService: AlertService,
     private modalService: NgbModal,
+    private authService: AuthenticationService
 
 
   ) {}
@@ -299,7 +300,7 @@ setRole(){
   }
 
   getUser(){
-    this.userService.getAll().subscribe(data => {
+    this.userService.getAll(this.authService.currentUserValue.userID).subscribe(data => {
       this.user = data;
 
       this.user = this.user.filter(a => a.users.roleName == "Coord. de Emergencias");

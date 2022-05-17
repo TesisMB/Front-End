@@ -1,3 +1,4 @@
+import { Parametros } from './../../models/Parametros';
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -13,10 +14,19 @@ export class RequestService extends DataService {
     super(http, 'ResourcesRequest')
   }
 
-  getAll(condition?:string): Observable<any> {
+  getAll(userId: number, condition?:string): Observable<any> {
     if(condition){
-      let parametros = new HttpParams().append('Condition', condition);
-      this.options.params = parametros;
+      //parametro = new HttpParams().append('userId', JSON.stringify(userId));
+      
+      const paramsObj = {
+        Condition: condition || undefined,
+        UserId: JSON.stringify(userId) || undefined
+      };
+      
+      let parametro = new HttpParams({fromObject: paramsObj});
+
+      
+      this.options.params = parametro;
       return this.http.get<any>(environment.URL + this.patch, this.options);
     }
     else {

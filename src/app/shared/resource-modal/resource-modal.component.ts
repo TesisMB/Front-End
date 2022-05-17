@@ -36,7 +36,8 @@ handleDelete: Subscription;
       reason: [null, [Validators.maxLength(153)]],
       description: [''],
       userRequest: [null],
-      status:[false, [Validators.required]]
+      status:[false, [Validators.required]],
+      answeredBy:[]
     });
 
   this.form.patchValue(this.resources);
@@ -48,15 +49,16 @@ handleDelete: Subscription;
   get f(){ return this.form.controls}
   get reasonError(){return this.form.get('reason').getError('required');}
   get getCondition(){return this.resources.condition === 'Pendiente';}
-  get isMy(){return this.resources.users.userID === this.authService.currentUserValue.userID;}
+  get isMy(){return this.resources.createdBy === this.authService.currentUserValue.userID;}
   changeStatus(condition:boolean){this.status = condition;}
 
 
   requestResponse(){
      if(this.form.valid){
-    this.form.get('FK_EmergencyDisasterID').patchValue(this.resources.emergenciesDisasters.emergencyDisasterID);
-    this.form.get('userRequest').patchValue(this.resources.users.userID);
+    this.form.get('FK_EmergencyDisasterID').patchValue(this.resources.emergencyDisasterID);
+    this.form.get('userRequest').patchValue(this.resources.createdBy);
     this.form.get('status').patchValue(this.status);
+    this.form.get('answeredBy').patchValue(this.authService.currentUserValue.userID);
 
     this.handle = this.requestService.rejectRequest(this.form.value).subscribe(
       data => {

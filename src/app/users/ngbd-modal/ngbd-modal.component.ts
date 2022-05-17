@@ -238,17 +238,15 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   );}
 
   generatePDF(){ 
-    let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
-    this.userService.generatePDF(this.user.employeeID)
-    .subscribe( res => {
-      console.log('Entro');
-      const file = new Blob([res], { type: 'application/pdf' });
-      // const fileURL = window.URL.createObjectURL(file);
-      // saveAs(file, fileName);
-      // window.open(fileURL);
-    },
-    error => console.log('Error del back => ',error));
-  }
+    //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
+      let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
+      this.userService.generatePDF(this.user.employeeID).subscribe(res => {
+        const file = new Blob([<any>res], {type: 'application/pdf'});
+      //  saveAs(file, fileName);
+        const fileURL = window.URL.createObjectURL(file);
+        window.open(fileURL, fileName);
+      });
+    }
   
   resetPassword(){
     const e = {email: this.user.users.persons.email}
@@ -263,7 +261,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
    private getLocations(){
-     this.stateService.getAll()
+     this.stateService.getAll(this.authenticationService.currentUserValue.userID)
      .pipe(map(x => 
      x.filter( estates => this.user.users.estates.locationCityName == estates.locationCityName)))
      .subscribe(

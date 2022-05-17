@@ -1,5 +1,5 @@
 import { AuthenticationService } from 'src/app/services';
-import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable, PipeTransform } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Resource } from '../models';
@@ -15,7 +15,7 @@ import { constants } from 'buffer';
 
 function matches(resource: Resource, term: string, pipe: PipeTransform) {
   return (resource.name).toLowerCase().includes(term.toLowerCase())
-  || pipe.transform(resource.id).includes(term)
+  || (resource.id).toLowerCase().includes(term.toLowerCase())
   || pipe.transform(resource.quantity).includes(term)
   || (resource.locationCityName).toLowerCase().includes(term.toLowerCase())
   || (resource.estates.address).toLowerCase().includes(term.toLowerCase())
@@ -40,7 +40,11 @@ function matches(resource: Resource, term: string, pipe: PipeTransform) {
   providedIn: 'root'
 })
 export class ResourcesService {
- private _resources$ = new BehaviorSubject<Resource[]>([]);
+  protected options = {
+    headers: new HttpHeaders().set('Content-Type', 'application/json'),
+    params: new HttpParams() };
+ 
+  private _resources$ = new BehaviorSubject<Resource[]>([]);
  protected _type$ = new BehaviorSubject<string>('');
  private _loading$ = new BehaviorSubject<boolean>(true);
  private _search$ = new Subject<void>();
@@ -49,6 +53,7 @@ export class ResourcesService {
  private _item$ = new BehaviorSubject<Resource>(null);
  private _imgFile$ = new BehaviorSubject<File>(null);
  private _showAvailability$ = new BehaviorSubject<boolean>(false);
+
  private _state: State = {
    page: 1,
    pageSize: 5,
@@ -125,7 +130,7 @@ public _setResources(patch:Resource){
     
   }
 
-public changeStatusItem(id:number){
+public changeStatusItem(id:string){
   let index = this.resources.findIndex( x => id == x.id);
   const clone = _.cloneDeep(this.resources[index]);
   this.resources[index].availability = !this.resources[index].availability;
@@ -148,9 +153,12 @@ public uploadTable(resources: Resource[]) {
 }
 
 
-  getAll() {
+  getAll(userID: number) {
+    let paramaters = new HttpParams().append('userId', JSON.stringify(userID));
+    this.options.params = paramaters;
+
     return this.http
-      .get<Resource[]>(environment.URL + this._type$.value)
+      .get<Resource[]>(environment.URL + this._type$.value, this.options)
        .pipe(map((resources: Resource[]) => {
           if(resources.length){
             this._resources$.next(resources);
@@ -166,7 +174,7 @@ public uploadTable(resources: Resource[]) {
        ));
   }
 
-  getById(id: number, patch: string) {
+  getById(id: string, patch: string) {
     return this.http.get<any>(environment.URL + patch + '/' + id);
   }
   register(resource, patch: string) {
@@ -204,6 +212,16 @@ public uploadTable(resources: Resource[]) {
     }));
   }
 
+  
+  generatePDF(id): Observable<any> {
+    const headers = new HttpHeaders().set('Accept','application/pdf');
+    return this.http.get(environment.URL + 'pdf/' + id, 
+        {
+          headers: headers,
+          responseType: 'blob'
+        }
+      );
+    }
 
   private _search(): Observable<SearchResult> {
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;

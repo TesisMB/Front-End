@@ -2,7 +2,7 @@ import { map } from 'rxjs/operators';
 import { Vehicle, Volunteer, Medicine, Material, Estates } from '.';
 
 export class Resource {
-  id: number;
+  id: string;
   name: string;
   quantity: number;
   availability: boolean;
@@ -17,7 +17,7 @@ export class Resource {
   donation: boolean;
 
   constructor(
-    _id: number,
+    _id: string,
     _name: string,
     _quantity: number,
     _availability: boolean,

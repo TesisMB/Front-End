@@ -27,7 +27,8 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private route: ActivatedRoute,
     public service: ResourcesService,
-    private location: Location
+    private location: Location,
+    private authService: AuthenticationService
   ) {
 
     //this.tipo = this.route.snapshot.params.tipo;
@@ -48,7 +49,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
     return;
   }
   getAllItems() {
-    this.handlerGetAll = this.service.getAll()
+    this.handlerGetAll = this.service.getAll(this.authService.currentUserValue.userID)
     .subscribe(
       (data) => {
         console.log('Datos: ',data);   
