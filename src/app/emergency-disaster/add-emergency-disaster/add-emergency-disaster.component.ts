@@ -64,15 +64,15 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
           FK_TypeChatRoomID: [1]
         }),
         victims: this.fb.group({
-          numberDeaths: [0, [Validators.min(0)]],
-          numberAffected: [0, [Validators.min(0)]],
-          numberFamiliesAffected: [0, [Validators.min(0)]],
-          materialsDamage: [0,  [Validators.min(0)]],
-          affectedLocalities: [0,  [Validators.min(0)]],
-          evacuatedPeople: [0,  [Validators.min(0)]],
-          affectedNeighborhoods: [0,  [Validators.min(0)]],
-          assistedPeople: [0,  [Validators.min(0)]],
-          recoveryPeople: [0,  [Validators.min(0)]],
+          numberDeaths: [, [Validators.min(0)]],
+          numberAffected: [, [Validators.min(0)]],
+          numberFamiliesAffected: [, [Validators.min(0)]],
+          materialsDamage: [,  [Validators.min(0)]],
+          affectedLocalities: [,  [Validators.min(0)]],
+          evacuatedPeople: [,  [Validators.min(0)]],
+          affectedNeighborhoods: [,  [Validators.min(0)]],
+          assistedPeople: [,  [Validators.min(0)]],
+          recoveryPeople: [,  [Validators.min(0)]],
         }),
          FK_EstateID: ['']
     })
@@ -168,7 +168,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
       });
     }
     else if(this.addEmergencyDisaster.valid){
-      this.alertService.error('No selecciono ninguna ubicación, por favor selecione una.');
+      this.alertService.error('La API no esta funcionando correctamente, por favor reintentar en un rato.', {autoClose: true});
     }
   }
 

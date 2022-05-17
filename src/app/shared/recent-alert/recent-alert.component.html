@@ -20,7 +20,7 @@
   </mat-card-header>
       <hr/>
       <mat-card-content *ngIf="!isLoading">
-          <ng-container *ngIf="alerts.length; else noData">
+          <ng-container *ngIf="alerts && alerts.length; else noData">
             <mat-card *ngFor="let a of alerts" class="card2 mb-3" 
             [ngStyle]="{backgroundColor: getCardColor(a.alerts.alertID)}">
                <mat-grid-list cols="12" rowHeight="1.5:1">

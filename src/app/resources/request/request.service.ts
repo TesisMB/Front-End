@@ -16,11 +16,11 @@ export class RequestService extends DataService {
 
   getAll(userId: number, condition?:string): Observable<any> {
     if(condition){
-      //parametro = new HttpParams().append('userId', JSON.stringify(userId));
       
       const paramsObj = {
-        Condition: condition || undefined,
-        UserId: JSON.stringify(userId) || undefined
+        userId: JSON.stringify(userId) || undefined,
+        Condition: condition || undefined
+        
       };
       
       let parametro = new HttpParams({fromObject: paramsObj});
@@ -30,7 +30,9 @@ export class RequestService extends DataService {
       return this.http.get<any>(environment.URL + this.patch, this.options);
     }
     else {
-      return this.http.get<any>(environment.URL + this.patch);
+      const parametro = new HttpParams().append('userId', JSON.stringify(userId));
+      this.options.params = parametro;
+      return this.http.get<any>(environment.URL + this.patch, this.options );
     }
   }
 

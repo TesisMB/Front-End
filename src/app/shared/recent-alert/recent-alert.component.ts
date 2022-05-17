@@ -1,6 +1,7 @@
 import { Observable, Subscription } from 'rxjs';
 import { EmergencyDisasterService } from './../../emergency-disaster/emergency-disaster.service';
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/services';
 
 const TITLE = 'Ultimas alertas';
 
@@ -14,11 +15,11 @@ export class RecentAlertComponent implements OnInit {
   alerts = null;
   isLoading = true;
   handle: Subscription;
-  constructor(public service: EmergencyDisasterService) { }
+  constructor(public service: EmergencyDisasterService, private authService: AuthenticationService) { }
 
   ngOnInit(): void {
 
-    this.handle = this.service.getAllWithoutFilter('2')
+    this.handle = this.service.getAllWithoutFilter(this.authService.currentUserValue.userID,'2')
     .subscribe(data => {
       this.alerts = data;
       this.isLoading = false;

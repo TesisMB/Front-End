@@ -89,7 +89,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
 
   
   getEmergencyDisaster() {
-     this.emergencyDisasterService.getAllWithoutFilter()
+     this.emergencyDisasterService.getAllWithoutFilter(this.authService.currentUserValue.userID)
  
         .subscribe(data => {
           this.emergencyDisaster = data;

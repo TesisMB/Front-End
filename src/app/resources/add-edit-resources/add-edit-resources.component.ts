@@ -238,7 +238,7 @@ imageInfos?: Observable<any>;
                           });
   }
   private getLocations(){
-    this.stateService.getAll(this.currentUser.user.userID)
+    this.stateService.getAll(this.currentUser.userID)
     .pipe(map(x => 
     x.filter( estates => this.currentUser.estates.locationCityName == estates.locationCityName)))
     .subscribe(
@@ -267,7 +267,7 @@ imageInfos?: Observable<any>;
     const arrayUsers: UsersGroup[] = [];
    
 
-    this.userService.getAll(this.currentUser.user.userID)
+    this.userService.getAll(this.currentUser.userID)
     .pipe(
     tap(x => console.log('Usuarios before filter => ', x)),
     map((x:Employee[]) => {

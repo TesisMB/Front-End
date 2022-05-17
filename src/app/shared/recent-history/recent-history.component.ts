@@ -17,7 +17,7 @@ import { ResourceModalComponent } from '../resource-modal/resource-modal.compone
 export class RecentHistoryComponent implements OnInit {
   @Input() condition; 
   @Input() title = 'Ultimas solicitudes';
-  data : any;
+  data : any = [];
   handle : Subscription;
   isLoading = true;
   modalRef:any;
@@ -44,7 +44,8 @@ export class RecentHistoryComponent implements OnInit {
 
 
   getLastRequest(){
-    this.handle = this.service.getAll(this.condition)
+  const userID =  this.authService.currentUserValue.userID;
+    this.handle = this.service.getAll(userID, this.condition)
     .pipe(
       tap(data => console.log(data)),
       )

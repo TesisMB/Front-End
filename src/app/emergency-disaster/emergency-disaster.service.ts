@@ -59,15 +59,16 @@ export class EmergencyDisasterService extends DataService {
   }
 
 
-  getAllWithoutFilter(params?: string): Observable<any> {
-   if(params) {
-     const options = {
-      headers: new HttpHeaders().set('Content-Type', 'application/json'),
-      params: new HttpParams().set('limit', params) 
-     }
-    return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter', options);
-  }
-  else return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter');
+  getAllWithoutFilter(userId: number, params?: string): Observable<any> {
+    const paramsObj = {
+      userId: JSON.stringify(userId) || undefined,
+      limit: params || undefined
+    };
+    let parametro = new HttpParams({fromObject: paramsObj});
+    this.options.params = parametro;
+
+    return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter', this.options);
+
     // .pipe(map(x => { 
     //   const items = x.filter(f => f.alerts.alertDegree != 'Controlado');
     //    return items;
