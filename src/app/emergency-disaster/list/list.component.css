@@ -53,17 +53,20 @@
   z-index: 100;
 }
 
-.content-ceneter {
+.content-center {
   position: relative;
+}
+.text-muted{
+  font-size: small;
 }
 
 .child {
-  height: 150px;
-  position: absolute;
-  top: 58%;
-  margin-top: -25px;
-  margin-left: 15px;
-}
+  color: black;
+  padding: 5px 15px;
+  border: 1px solid white;
+  border-radius: 100px;
+  /* background-color: black; */
+ }
 
 .content-right {
   text-align: center;
@@ -113,14 +116,18 @@
   width: 89px;
   z-index: 100;
 }
-
-
-
-
 .cuadrado {
   width: 80px;
   height: 80px;
   border: 1px solid #000;
   margin: 5px 0;
 
+}
+
+input{
+  border: none;
+
+}
+textarea:focus, input:focus{
+  outline: none;
 }

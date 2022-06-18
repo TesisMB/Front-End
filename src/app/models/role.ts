@@ -11,7 +11,7 @@ constructor(_roleID: number, _RoleName:RoleName){
 export enum RoleName {
   Admin = 'Admin',
   CoordinadorGeneral = 'Coordinador General',
-  CEyD = 'Coordinador de Emergencias y Desastres',
+  CEyD = 'Coord. de Emergencias',
   Logistica = 'Encargado de Logistica',
   Voluntario = 'Voluntario' ,
 }

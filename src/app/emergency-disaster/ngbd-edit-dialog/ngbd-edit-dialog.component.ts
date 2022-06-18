@@ -303,7 +303,7 @@ setRole(){
     this.userService.getAll(this.authService.currentUserValue.userID).subscribe(data => {
       this.user = data;
 
-      this.user = this.user.filter(a => a.users.roleName == "Coordinador de Emergencias y Desastres");
+      this.user = this.user.filter(a => a.users.roleName == "Coord. de Emergencias");
     }, error =>{
       console.log(error);
     })

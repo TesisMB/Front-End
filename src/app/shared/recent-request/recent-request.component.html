@@ -1,0 +1,62 @@
+<mat-card class="example-card">
+  <mat-card-header class="d-flex flex-row align-items-center" style="width: 100%;">
+    <!-- <div  > -->
+         <div mat-card-avatar class="example-header-image pr-3">
+      <span class="material-symbols-outlined">
+          receipt_long
+          </span>
+  </div>
+    <mat-card-title style="width: inherit;"><h2>{{title}}</h2></mat-card-title>
+      <div class="d-flex justify-content-end align-items-start"> 
+      <div class="example-header-image pl-3">
+      <button mat-icon-button [routerLink]="['recursos','solicitudes']">
+         <mat-icon>chevron_right</mat-icon> 
+          </button>
+  </div>
+</div>
+    <!-- </div> -->
+   
+   
+    </mat-card-header>
+      <hr/>
+      <mat-card-content *ngIf="!isLoading">
+        <ng-container *ngIf="data.length else noData">
+
+            <mat-card *ngFor="let request of data | async" class="mb-3">
+                <mat-grid-list cols="12" rowHeight="1.5:1">
+                        <mat-grid-tile class="historys"  
+                        colspan="10"
+                        rowspan="2">
+                         <div>
+                             <p>Texto y mas texto</p>
+                             <p class="text-muted">Un poquito mas de texto</p>
+                        </div>
+
+                    </mat-grid-tile>
+                    <mat-grid-tile
+                    colspan="1"
+                    rowspan="2">
+                     <div ><button mat-icon-button><mat-icon>visibility</mat-icon></button></div>
+
+                </mat-grid-tile>
+                <mat-grid-tile
+                colspan="1"
+                rowspan="2">
+                 <div ><button mat-icon-button><mat-icon>delete_forever</mat-icon></button></div>
+
+            </mat-grid-tile>
+                  </mat-grid-list>
+                </mat-card>
+              </ng-container>
+                <ng-template #noData>
+                  <p class="text-center">No hay solicitudes por el momento!</p>
+                </ng-template>
+    </mat-card-content>
+    <mat-card-content *ngIf="isLoading" >
+      <div class="d-flex justify-content-center">
+        <mat-spinner color="warn" diameter="40"></mat-spinner>
+      </div>
+    </mat-card-content>
+
+  </mat-card>
+  

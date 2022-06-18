@@ -191,7 +191,7 @@ imageInfos?: Observable<any>;
           medicineExpirationDate: ['',[Validators.required ,Validators.pattern('^[0-9]{2}[\/][0-9]{4}$') ]],
           medicineLab: ['',[Validators.required ]],
           medicineDrug: ['',[Validators.required]],
-          medicineWeight: ['',[Validators.required,Validators.pattern('^[0-9]{3}$'), Validators.min(1), Validators.max(999)]],
+          medicineWeight: ['',[Validators.required, Validators.min(1), Validators.max(999)]],
           medicineUnits: ['',[Validators.required]],
           
         }));
@@ -238,7 +238,7 @@ imageInfos?: Observable<any>;
                           });
   }
   private getLocations(){
-    this.stateService.getAll(this.currentUser.user.userID)
+    this.stateService.getAll(this.currentUser.userID)
     .pipe(map(x => 
     x.filter( estates => this.currentUser.estates.locationCityName == estates.locationCityName)))
     .subscribe(
@@ -267,7 +267,7 @@ imageInfos?: Observable<any>;
     const arrayUsers: UsersGroup[] = [];
    
 
-    this.userService.getAll(this.currentUser.user.userID)
+    this.userService.getAll(this.currentUser.userID)
     .pipe(
     tap(x => console.log('Usuarios before filter => ', x)),
     map((x:Employee[]) => {

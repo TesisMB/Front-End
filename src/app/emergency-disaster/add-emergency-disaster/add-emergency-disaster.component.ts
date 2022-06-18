@@ -36,8 +36,10 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   currentUser: User;
   user: Employee [];
   ubicacion: any;
+  hasVictims: boolean = false;
 
-  constructor(    private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
+  constructor(    
+    private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
     private fb: FormBuilder,
     private placesService: PlacesService,
@@ -47,10 +49,10 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
     ) {
 
       this.addEmergencyDisaster = this.fb.group({
-        FK_TypeEmergencyID: ["", Validators.required],
-        FK_AlertID: ["", Validators.required],
-        Fk_EmplooyeeID: ["", Validators.required],
-        emergencyDisasterInstruction: [" ", Validators.required],        
+        FK_TypeEmergencyID: ['', Validators.required],
+        FK_AlertID: ['', Validators.required],
+        Fk_EmplooyeeID: ['', Validators.required],
+        emergencyDisasterInstruction: ['', Validators.required],        
         locationsEmergenciesDisasters: this.fb.group({
           locationCityName: [],
           locationDepartmentName: [],
@@ -62,15 +64,15 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
           FK_TypeChatRoomID: [1]
         }),
         victims: this.fb.group({
-          numberDeaths: [0, [Validators.required, Validators.min(0)]],
-          numberAffected: [0, [Validators.required, Validators.min(0)]],
-          numberFamiliesAffected: [0, [Validators.required, Validators.min(0)]],
-          materialsDamage: [0,  [Validators.required, Validators.min(0)]],
-          affectedLocalities: [0,  [Validators.required, Validators.min(0)]],
-          evacuatedPeople: [0,  [Validators.required, Validators.min(0)]],
-          affectedNeighborhoods: [0,  [Validators.required, Validators.min(0)]],
-          assistedPeople: [0,  [Validators.required, Validators.min(0)]],
-          recoveryPeople: [0,  [Validators.required,Validators.min(0)]],
+          numberDeaths: [, [Validators.min(0)]],
+          numberAffected: [, [Validators.min(0)]],
+          numberFamiliesAffected: [, [Validators.min(0)]],
+          materialsDamage: [,  [Validators.min(0)]],
+          affectedLocalities: [,  [Validators.min(0)]],
+          evacuatedPeople: [,  [Validators.min(0)]],
+          affectedNeighborhoods: [,  [Validators.min(0)]],
+          assistedPeople: [,  [Validators.min(0)]],
+          recoveryPeople: [,  [Validators.min(0)]],
         }),
          FK_EstateID: ['']
     })
@@ -80,6 +82,10 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
      get formEmergency () { return this.addEmergencyDisaster;}
 
      get formVictims() { return this.addEmergencyDisaster.get('victims');}
+     get formType() { return this.addEmergencyDisaster.get('FK_TypeEmergencyID');}
+     get formResponsable() { return this.addEmergencyDisaster.get('Fk_EmplooyeeID');}
+     get formPriority() { return this.addEmergencyDisaster.get('FK_AlertID');}
+
 
 
   ngOnInit(): void {
@@ -96,13 +102,15 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
     this.alerts = this.emergencyDisasterService.ListarAlertas;
     this.getTypeEmergencyDisaster();
     this.getUser();
+
+    
   }
 
 
   getUser(){
     this.userService.getAll(this.authenticationService.currentUserValue.userID).subscribe(data => {
       this.user = data;
-      this.user = this.user.filter(a => a.users.roleName == "Coordinador de Emergencias y Desastres");
+      this.user = this.user.filter(a => a.users.roleName == "Coord. de Emergencias");
     }, error =>{
       console.log(error);
     })
@@ -116,6 +124,11 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
     }, err => {
       console.log(err);
     });
+    }
+
+    handleVictims(event){
+      this.hasVictims = event.value;
+      console.log('Evento => ',event.value);
     }
 
   getLocation(placeObservable){
@@ -147,11 +160,15 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
       
       this.emergencyDisasterService.register(emergency).subscribe( () =>{
       this.alertService.success('Registro exitoso :)', { autoClose: true });
+      this.stepper.reset();
         
       }, error =>{
         this.alertService.error('Ocurrio un error :(', { autoClose: true });
         console.log("Error en el formulario!!!", error);
       });
+    }
+    else if(this.addEmergencyDisaster.valid){
+      this.alertService.error('La API no esta funcionando correctamente, por favor reintentar en un rato.', {autoClose: true});
     }
   }
 

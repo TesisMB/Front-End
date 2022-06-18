@@ -19,7 +19,15 @@ nav {
   position: fixed;
   top: 0;
 }
+img {
+  border-radius: 200px;
 
+}
+.img{
+  border-radius: 200px;
+  background-color: white;
+
+}
 .nav {
   display: flex;
   justify-content: space-between;
@@ -85,7 +93,28 @@ label #menu {
   font-weight: 600;
 }
 
-
+.col-body {
+   margin: 15px 0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  /* padding: 20px 0; */
+}
+.carnet{
+  background-color: #fff;
+  box-shadow: 0px 2px 6px rgb(0 0 0 / 4%);
+  height: 100%;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+/* .col-side{
+  background: #fff;
+  padding: ;
+} */
+/* #row-aside {
+  max-width: 100%;
+  margin: 1em 3.5em;
+} */
 
 .Enlaces ul li {
   list-style: none;
@@ -142,10 +171,12 @@ header::before {
 }
 
 .contenedor1 {
-  width: 100%;
-  max-width: 1866px;
-  background: rgb(250, 231, 223);
-  overflow: hidden;
+  /* width: 83.33%; */
+  /* padding: 15px 15px; */
+  /* background: white; */
+  /* overflow: hidden; */
+  border-radius: 15px;
+  /* border: 5px solid rgb(238, 80, 80); */
 }
 
 .contenido-header {
@@ -166,24 +197,24 @@ header::before {
   font-weight: 700;
 }
 
-.contenido-header a {
-  margin: 30px 0 0 0;
-  width: 130px;
-  display: inline-block;
-  background: #b71c1c;
-  text-align: center;
-  color: #fff;
-  padding: 12px 0;
-  text-decoration: none;
+ .contenido-header a {
+  margin: 20px 0 0 0;
+  width: 85px;
+  /* display: inline-block; */
+  /* background: #b71c1c; */
+  /* text-align: center; */
+  /* color: #fff; */
+  padding: 5px 0;
+  /* text-decoration: none; */
   font-weight: 400;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-size: 14px;
-  border-radius: 5px;
-}
+  /* border-radius: 5px; */
+} 
 
 
 .contenido-header a:hover {
-  background: #b71c1ccd;
+  /* background: #b71c1ccd; */
 }
 
 /* --------------------------------------Section Cards-------------------------------------- */

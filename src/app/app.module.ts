@@ -23,11 +23,13 @@ import { AppComponent } from './app.component';
 //***************SERVICES*********** */
 import { ErrorInterceptor, JwtInterceptor} from './_helpers';
 import { FileValueAccessorDirective } from './directives/file-value-accessor.directive';
+import { MonitoreoComponent } from './monitoreo/monitoreo/monitoreo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FileValueAccessorDirective,
+    MonitoreoComponent,
 
 
 

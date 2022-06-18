@@ -8,7 +8,6 @@ import { debounceTime, delay, switchMap, tap, filter, map } from 'rxjs/operators
 import {SortColumn, SortDirection} from '../../directives/sorteable.directive';
 import * as _ from 'lodash';
 import { RequestGet, SearchResult, State, User } from 'src/app/models';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
@@ -50,7 +49,7 @@ export class RequestTableService {
   private request: RequestGet[]= [];
   private _condition$ = new BehaviorSubject<string>('Pendiente');
   private _filter$ = new BehaviorSubject<boolean>(false);
-  private currentUser = this.authService.currentUserValue;
+  private currentUser = null;
   private _state: State = {
     page: 1,
     pageSize: 4,
@@ -73,6 +72,8 @@ export class RequestTableService {
   });
 
   this._search$.next();
+
+  this.authService.currentUser.subscribe(cUser => this.currentUser = cUser);
 }
 get requestValue(){  return this._request$.value; }
 get request$() { return this._request$.asObservable(); }
@@ -142,7 +143,7 @@ private _search(): Observable<SearchResult> {
   const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
   // 1. filtrado por usuario
-  let req = this.request;
+  var req = this.request;
   if(this._filter$.value || !ROLES.includes(this.currentUser.roleName)){
     req = this.request.filter(x => x.createdBy === this.currentUser.userID);
   }

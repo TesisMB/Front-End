@@ -11,7 +11,8 @@ import { Observable, throwError } from 'rxjs';
 export class DataService {
   protected options = {
     headers: new HttpHeaders().set('Content-Type', 'application/json'),
-    params : new HttpParams() };
+    params: new HttpParams() 
+  };
 
 
   constructor(

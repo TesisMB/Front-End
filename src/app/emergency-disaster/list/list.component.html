@@ -22,12 +22,14 @@
         <p>{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
     </div>
 
-    <div class="content-center" [routerLink]="['despliegue', emergency.emergencyDisasterID]">
-        <div class="child">
-            <p>#{{emergency.emergencyDisasterID}}
+    <div class="content-center d-flex flex-column justify-content-center align-items-center" [routerLink]="['despliegue', emergency.emergencyDisasterID]">
+        <div class="child text-center">
+            <p class="font-weight-bold">#{{emergency.emergencyDisasterID}}
                 <span>{{emergency.locationsEmergenciesDisasters.locationCityName}}</span></p>
+                <span class="text-muted mt-2">{{emergency.alerts.alertMessage}}</span>
 
         </div>
+
     </div>
 
     <div class="content-right">
@@ -70,7 +72,7 @@
         [pageSize]="selectTypesEmergencyDisasterService.pageSize">
     </ngb-pagination>
 
-    <select class="form-select" style="width: auto" name="pageSize"
+    <select class="custom-select" style="width: auto" name="pageSize"
         [(ngModel)]="selectTypesEmergencyDisasterService.pageSize">
         <option [ngValue]="4">4 emergencias por pagina</option>
         <option [ngValue]="6">6 emergencias por pagina</option>

@@ -41,6 +41,7 @@ createdBy: number
     emergencyDisasterID: number;
     id: number,
     reason: string,
+    inCharge: any,
     description: string,
     requestDate: string,
     resources_RequestResources_Materials_Medicines_Vehicles: ResourcesRequestGet[],

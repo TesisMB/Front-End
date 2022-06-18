@@ -9,3 +9,20 @@ textarea:focus, input:focus{
   #search{
       max-width: 343px;
   }
+  .pendiente{
+      border: 1px solid white;
+      border-radius: 300px;
+      background-color: rgb(255, 255, 11);
+  }
+
+  .aceptada{
+    border: 1px solid white;
+    border-radius: 300px;
+    background-color: rgba(103, 223, 147);
+  }
+
+  .rechazada{
+    border: 1px solid white;
+    border-radius: 300px;
+    background-color: rgb(244, 77, 65);
+  }

@@ -32,6 +32,15 @@ export class AuthenticationService   {
   
       return this.currentUserSubject.value;
   }
+  public get currentUser2(): Observable<User> {
+    const user : User = (JSON.parse(localStorage.getItem('currentUser')));
+    if(user !== this.currentUserSubject.value){
+          this.currentUserSubject.next(user);
+         }
+
+    return this.currentUserSubject.asObservable();
+}
+
 
   public setCurrentUser(user) {
       this.currentUserSubject.next(user);
