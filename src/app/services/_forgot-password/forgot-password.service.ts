@@ -11,10 +11,10 @@ export class ForgotPasswordService {
   constructor(private http: HttpClient) { }
 
   sendEmail(email: String){
-    return this.http.post<String>(environment.URL+'/Forgot-Password', email);
+    return this.http.post<String>(environment.apiUrl+'/Forgot-Password', email);
   }
 
   changePassword(token, newPassword){
-    return this.http.post<any>(environment.URL+'/reset-password/'+token, newPassword);
+    return this.http.post<any>(environment.apiUrl+'/reset-password/'+token, newPassword);
   }
 }

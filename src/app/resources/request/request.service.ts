@@ -27,21 +27,21 @@ export class RequestService extends DataService {
 
       
       this.options.params = parametro;
-      return this.http.get<any>(environment.URL + this.patch, this.options);
+      return this.http.get<any>(environment.apiUrl + this.patch, this.options);
     }
     else {
       const parametro = new HttpParams().append('userId', JSON.stringify(userId));
       this.options.params = parametro;
-      return this.http.get<any>(environment.URL + this.patch, this.options );
+      return this.http.get<any>(environment.apiUrl + this.patch, this.options );
     }
   }
 
   rejectRequest(response){
-  return  this.http.post<any>(environment.URL +  this.patch+'/acceptRejectRequest' , response);
+  return  this.http.post<any>(environment.apiUrl +  this.patch+'/acceptRejectRequest' , response);
   }
 
   delete(id) {
-    return this.http.delete(environment.URL + this.patch + '/' + id);
+    return this.http.delete(environment.apiUrl + this.patch + '/' + id);
   }
 
 }

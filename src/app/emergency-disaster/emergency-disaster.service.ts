@@ -41,7 +41,7 @@ export class EmergencyDisasterService extends DataService {
 
   deleteEmergencyDisaster(id: number){
     return this.http
-    .delete(environment.URL + this.patch + '/' + id);
+    .delete(environment.apiUrl + this.patch + '/' + id);
   }
 
   get EmergencyDisasterValue(){
@@ -67,7 +67,7 @@ export class EmergencyDisasterService extends DataService {
     let parametro = new HttpParams({fromObject: paramsObj});
     this.options.params = parametro;
 
-    return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter', this.options);
+    return this.http.get<any>(environment.apiUrl + this.patch+'/WithoutFilter', this.options);
 
     // .pipe(map(x => { 
     //   const items = x.filter(f => f.alerts.alertDegree != 'Controlado');
@@ -78,11 +78,11 @@ export class EmergencyDisasterService extends DataService {
 }
 
 getByIdWithoutFilter(id: number): Observable<any> {
-  return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter/' + id);
+  return this.http.get<any>(environment.apiUrl + this.patch+'/WithoutFilter/' + id);
 }
 
   patchEmergencyDisaster(emergencyDisaster: EmergencyDisaster, operations: Operation[],): Observable<any> {
-    return this.http.patch<any>(environment.URL + this.patch+ '/' + emergencyDisaster.emergencyDisasterID, operations);
+    return this.http.patch<any>(environment.apiUrl + this.patch+ '/' + emergencyDisaster.emergencyDisasterID, operations);
 
 }
 

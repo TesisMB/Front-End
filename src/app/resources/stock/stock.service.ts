@@ -43,7 +43,7 @@ export class StockService {
 
  private _type$ = new BehaviorSubject<string>('materiales');
 
- resource$ = this.http.get<Resource[]>(environment.URL + this._type$.value)
+ resource$ = this.http.get<Resource[]>(environment.apiUrl + this._type$.value)
  .pipe(
    tap(data => console.log('Products: ', JSON.stringify(data))),
    catchError(this.handleError)
@@ -144,17 +144,17 @@ public uploadTable(resources: Resource[]) {
   }
 
   getById(id: number, patch: string) {
-    return this.http.get<any>(environment.URL + patch + '/' + id);
+    return this.http.get<any>(environment.apiUrl + patch + '/' + id);
   }
   register(resource, patch: string) {
-    return this.http.post(environment.URL + patch, JSON.stringify(resource));
+    return this.http.post(environment.apiUrl + patch, JSON.stringify(resource));
   }
   update(resource, patch: string) {
-    return this.http.put(environment.URL + patch, JSON.stringify(resource));
+    return this.http.put(environment.apiUrl + patch, JSON.stringify(resource));
   }
 
   delete(id, patch: string) {
-    return this.http.delete(environment.URL + patch + '/' + id);
+    return this.http.delete(environment.apiUrl + patch + '/' + id);
   }
 
 

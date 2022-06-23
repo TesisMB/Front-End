@@ -82,7 +82,7 @@ export class ResourcesDetailsService extends DataService {
 }
 
   postRequest(request){
-    return this.http.post(environment.URL + 'ResourcesRequest', request);
+    return this.http.post(environment.apiUrl + 'ResourcesRequest', request);
   }
 
   deleteFromCart(index: number){
