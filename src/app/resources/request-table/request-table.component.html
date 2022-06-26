@@ -55,13 +55,11 @@
           </ngb-highlight>
         </td>
         <td>
-          <div class="text-center"
-            [ngClass]="{'pendiente':request.condition == 'Pendiente', 'rechazada':request.condition == 'Rechazada', 'aceptada':request.condition == 'Aceptada'}">
-            <ngb-highlight [result]="request.condition | titlecase" [term]="service.searchTerm"></ngb-highlight>
-          </div>
-        </td>
+          <div class="text-center" [ngClass]="{'pendiente':request.condition == 'Pendiente', 'rechazada':request.condition == 'Rechazada', 'aceptada':request.condition == 'Aceptada'}">
+          <ngb-highlight [result]="request.condition | titlecase" [term]="service.searchTerm"></ngb-highlight>
+        </div></td>
         <td><a type="button" matTooltip="Información del solicitante" matTooltipPosition="above" color="warn"
-            (click)="openModal('employee',request.createdBy)" aria-label="Información del solicitante">
+            (click)="openModal('employee',request.users.userID)" aria-label="Información del solicitante">
 
             <ngb-highlight [result]="request.createdByEmployee" [term]="service.searchTerm"></ngb-highlight>
           </a></td>
@@ -69,7 +67,7 @@
           <a type="button" matTooltip="Información del encargado" matTooltipPosition="above" color="warn"
             (click)="openModal('employee',request.createdBy)" aria-label="Información del encargado">
 
-            <ngb-highlight [result]="request.createdByEmployee" [term]="service.searchTerm"></ngb-highlight>
+            <ngb-highlight [result]="request.users.name" [term]="service.searchTerm"></ngb-highlight>
           </a>
         </td>
         <td>
