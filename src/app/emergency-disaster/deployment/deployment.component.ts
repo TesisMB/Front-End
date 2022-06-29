@@ -38,7 +38,7 @@ firstFormGroup: FormGroup;
      (mapboxgl as any).accessToken = environment.key;
     const map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11', // style apiUrl
+      style: 'mapbox://styles/mapbox/streets-v11', // style URL
       center: [-74.5, 40], // starting position [lng, lat]
       zoom: 9 // starting zoom
     });

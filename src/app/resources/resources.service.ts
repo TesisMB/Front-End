@@ -80,7 +80,7 @@ export class ResourcesService {
   
     this._search$.next();
 
-    this.vehiclesTypes$ = this.http.get<any>(environment.apiUrl + 'typesvehicles').pipe(tap(x => console.log('Types of vehicles => ',x)));
+    this.vehiclesTypes$ = this.http.get<any>(environment.URL + 'typesvehicles').pipe(tap(x => console.log('Types of vehicles => ',x)));
   }
 
 get resourcesValue(){  return this._resources$.value; }
@@ -158,7 +158,7 @@ public uploadTable(resources: Resource[]) {
     this.options.params = paramaters;
 
     return this.http
-      .get<Resource[]>(environment.apiUrl + this._type$.value, this.options)
+      .get<Resource[]>(environment.URL + this._type$.value, this.options)
        .pipe(map((resources: Resource[]) => {
           if(resources.length){
             this._resources$.next(resources);
@@ -175,14 +175,14 @@ public uploadTable(resources: Resource[]) {
   }
 
   getById(id: string, patch: string) {
-    return this.http.get<any>(environment.apiUrl + patch + '/' + id);
+    return this.http.get<any>(environment.URL + patch + '/' + id);
   }
   register(resource, patch: string) {
 
-    return this.http.post(environment.apiUrl + patch, resource);
+    return this.http.post(environment.URL + patch, resource);
   }
   update(patch ,id, operations?: Operation[]) {
-    return this.http.patch(environment.apiUrl + patch+ '/' + id, operations)
+    return this.http.patch(environment.URL + patch+ '/' + id, operations)
     .pipe(map( x => {    
     return x
     }));
@@ -193,19 +193,19 @@ public uploadTable(resources: Resource[]) {
     ImageFile.append('file', file);
   //  this._imgFile$.next(file);
    // resource.imageFile = ImageFile;
-    const req = new HttpRequest('POST', `${environment.apiUrl}upload`, ImageFile , {
+    const req = new HttpRequest('POST', `${environment.URL}upload`, ImageFile , {
       reportProgress: true,
       responseType: 'json'
     });
     return this.http.request(req);
   }
   getFiles(): Observable<any> {
-     return this.http.get(`${environment.apiUrl}files`);
+     return this.http.get(`${environment.URL}files`);
   }
 
 
   delete(id, patch: string) {
-    return this.http.delete(environment.apiUrl + patch + '/' + id)
+    return this.http.delete(environment.URL + patch + '/' + id)
     .pipe(map( x => {
       this.deleteFromTable(id);
       return x
@@ -215,7 +215,7 @@ public uploadTable(resources: Resource[]) {
   
   generatePDF(id): Observable<any> {
     const headers = new HttpHeaders().set('Accept','application/pdf');
-    return this.http.get(environment.apiUrl + 'pdf/' + id, 
+    return this.http.get(environment.URL + 'pdf/' + id, 
         {
           headers: headers,
           responseType: 'blob'

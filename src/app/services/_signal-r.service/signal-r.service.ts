@@ -11,7 +11,7 @@ export class SignalRService {
   constructor() { 
 
     let builder = new HubConnectionBuilder();
-    this.hubConnection = builder.withUrl(environment.apiUrl+'notifications').build();
+    this.hubConnection = builder.withUrl(environment.URL+'notifications').build();
 
     this.hubConnection.on("notificar", (mensaje) =>{
       

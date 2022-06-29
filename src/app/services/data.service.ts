@@ -27,17 +27,17 @@ export class DataService {
     let paramaters = new HttpParams().append('userId', JSON.stringify(userID));
     this.options.params = paramaters;
     return this.http.get<any>(
-      environment.apiUrl + this.patch, 
+      environment.URL + this.patch, 
       this.options
       );
   }
 
   getById(id: number) {
-    return this.http.get<any>(environment.apiUrl + this.patch + '/' + id);
+    return this.http.get<any>(environment.URL + this.patch + '/' + id);
   }
   register(resource) {
     return this.http.post(
-      environment.apiUrl + this.patch,
+      environment.URL + this.patch,
       JSON.stringify(resource),
       this.options
     );
@@ -45,14 +45,14 @@ export class DataService {
 
   update(resource) {
     return this.http.put(
-      environment.apiUrl + this.patch,
+      environment.URL + this.patch,
       JSON.stringify(resource),
       this.options
     );
   }
   userUpdate(id, operations: Operation[], params?) {
     return this.http
-      .patch(environment.apiUrl + this.patch + '/' + id, operations, this.options)
+      .patch(environment.URL + this.patch + '/' + id, operations, this.options)
       .pipe(
         map((x) => {
           // update stored user if the logged in user updated their own record
@@ -76,7 +76,7 @@ export class DataService {
 
   delete(id) {
     return this.http
-      .delete(environment.apiUrl + this.patch + '/' + id, this.options)
+      .delete(environment.URL + this.patch + '/' + id, this.options)
    .pipe(
         map((x) => {
           if (id == this.authenticateService.currentUserValue.userID) {
@@ -93,7 +93,7 @@ export class DataService {
 
   generatePDF(id): Observable<any> {
     const headers = new HttpHeaders().set('Accept','application/pdf');
-    return this.http.get(environment.apiUrl + this.patch + '/pdf/' + id, 
+    return this.http.get(environment.URL + this.patch + '/pdf/' + id, 
         {
           headers: headers,
           responseType: 'blob'

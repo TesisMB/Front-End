@@ -47,7 +47,7 @@ export class AuthenticationService   {
   }
 
    login( userDni, userPassword ) {
-       return this.http.post<any>(environment.apiUrl+this.patch, {userDni, userPassword })
+       return this.http.post<any>(environment.URL+this.patch, {userDni, userPassword })
            .pipe(map(user => {
              
             // Logea correctamente si existe un token.
@@ -68,13 +68,13 @@ export class AuthenticationService   {
       this.router.navigate(['/cliente/login']);
     }
     sendEmail(email:any){
-      return this.http.post<any>(environment.apiUrl+'forgot-password', email);
+      return this.http.post<any>(environment.URL+'forgot-password', email);
     }
   
     changePassword(token: string, userPassword: string){
       let parametros = new HttpParams().append('token', token);
       this.options.params = parametros;
-      return this.http.post<any>(environment.apiUrl+'reset-password/', {userPassword}, this.options);
+      return this.http.post<any>(environment.URL+'reset-password/', {userPassword}, this.options);
     }
   }
  

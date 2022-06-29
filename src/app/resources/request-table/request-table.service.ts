@@ -130,7 +130,7 @@ public _uploadTable(_request: RequestGet[]) {
 
 generatePDF(id): Observable<any> {
   const headers = new HttpHeaders().set('Accept','application/pdf');
-  return this.http.get(environment.apiUrl + 'resourcesrequest/' + 'pdf/' + id, 
+  return this.http.get(environment.URL + 'resourcesrequest/' + 'pdf/' + id, 
       {
         headers: headers,
         responseType: 'blob'
