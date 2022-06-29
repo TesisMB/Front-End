@@ -324,6 +324,7 @@ imageInfos?: Observable<any>;
 
   private postItem(form){
     this.form.get('createdBy').patchValue(this.authenticationService.currentUserValue.userID);
+    form.createdBy =  this.form.get('createdBy').value;
     this.service.register(form,this.formType.value)
     .subscribe(
 data => {
@@ -413,7 +414,7 @@ error => {
            if (event.type === HttpEventType.UploadProgress) {
              this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
            } else if (event instanceof HttpResponse) {
-           this.form.get('picture').patchValue(event.body.fileName);
+           this.form.get('picture').patchValue(event.body);
               const msg = 'Se cargó la imagen exitosamente!: ' + file.name;
               this.message = msg;
              this.imageInfos = this.service.getFiles();

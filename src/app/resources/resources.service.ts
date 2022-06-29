@@ -193,12 +193,14 @@ public uploadTable(resources: Resource[]) {
     ImageFile.append('file', file);
   //  this._imgFile$.next(file);
    // resource.imageFile = ImageFile;
-    const req = new HttpRequest('POST', `${environment.URL}upload`, ImageFile , {
+    const req = new HttpRequest('POST', `${environment.URL}upload`, ImageFile, {
       reportProgress: true,
-      responseType: 'json'
+      responseType: 'text'
     });
     return this.http.request(req);
   }
+
+  
   getFiles(): Observable<any> {
      return this.http.get(`${environment.URL}files`);
   }

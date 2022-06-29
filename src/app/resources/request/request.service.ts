@@ -14,13 +14,13 @@ export class RequestService extends DataService {
     super(http, 'ResourcesRequest')
   }
 
-  getAll(userId: number, condition?:string): Observable<any> {
+  getAll(userId: number, condition?:string, state?: string): Observable<any> {
     if(condition){
       
       const paramsObj = {
         userId: JSON.stringify(userId) || undefined,
-        Condition: condition || undefined
-        
+        Condition: condition || undefined,
+        state: state ||undefined
       };
       
       let parametro = new HttpParams({fromObject: paramsObj});
