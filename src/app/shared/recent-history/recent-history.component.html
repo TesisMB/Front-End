@@ -31,10 +31,10 @@
                              <p class="">{{request.requestDate}}</p>
                         </div>
                         <div class="col-6 d-flex flex-column align-items-center">
-                         <p class="pt-1">#{{request.emergenciesDisasters.emergencyDisasterID}}&nbsp;{{request.emergenciesDisasters.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p> 
+                         <p class="pt-1">#{{request.emergencyDisasterID}}&nbsp;{{request.typeEmergencyDisasterName}}</p> 
                          <p class="" [ngClass]="{'pendiente':request.condition == 'Pendiente', 'rechazada':request.condition == 'Rechazada', 'aceptada':request.condition == 'Aceptada'}">{{request.condition}}</p>
                       </div>
-                      <div class="col-2" *ngIf="request.emergenciesDisasters.emergencyDisasterEndDate"><p class="font-weight-bold">Alerta finalizada</p> </div>
+                      <div class="col-2" *ngIf="request.emergencyDisasterEndDate"><p class="font-weight-bold">Alerta finalizada</p> </div>
                     </mat-grid-tile>
                     <mat-grid-tile
                     colspan="1"

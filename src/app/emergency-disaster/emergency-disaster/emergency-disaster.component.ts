@@ -57,7 +57,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
 
 
   getTypeEmergencyDisaster(){
-    this.selectTypesEmergencyDisasterService.getAll(this.authService.currentUserValue.userID)
+    this.selectTypesEmergencyDisasterService.getAll()
     .pipe(
       map((x) =>{
         x.forEach(item =>{

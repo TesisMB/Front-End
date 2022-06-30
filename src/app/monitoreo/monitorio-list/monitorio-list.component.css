@@ -1,0 +1,144 @@
+
+.col-body {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px 0;
+  }
+  
+  
+textarea:focus, input:focus{
+  outline: none;
+}
+input{
+  outline: none;
+  border: none;
+}
+
+  
+  .card {
+    display: grid;
+    grid-template-columns: 2fr 70% 1fr;
+    /*     grid-template-rows: 2rem 20vh 30%;
+   */
+    margin-top: 25px;
+    position: relative;
+    transition: all .9s;
+    cursor: pointer;
+    background-color: whitesmoke;
+  }
+  
+  
+  
+  .card:hover {
+    box-shadow: 1px 4px 15px -3px rgba(0, 0, 0, 0.45);
+  }
+  
+  #row-aside {
+    max-width: 100%;
+    margin: 1em 3.5em;
+  }
+  
+  .title {
+    text-align: center;
+    margin: 40px 0;
+  }
+  
+  .title h1 {
+    font-size: 35px !important;
+  }
+  
+  .content-left {
+    margin-left: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .content-left img {
+    position: relative;
+    margin: 5px 0;
+    width: 50%;
+    height: 90%;
+    z-index: 100;
+  }
+  
+  .content-center {
+    position: relative;
+  }
+  .text-muted{
+    font-size: small;
+  }
+  
+  .child {
+    color: black;
+    padding: 5px 15px;
+    border: 1px solid white;
+    border-radius: 100px;
+    /* background-color: black; */
+   }
+  
+  .content-right {
+    text-align: center;
+    position: relative;
+  }
+  
+  .child-2 {
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    margin-top: -25px;
+    top: 50px;
+  }
+  
+  .child-2 button {
+    text-align: right;
+    position: absolute;
+    margin-top: -25px;
+  }
+  
+  .child-2p {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 25px;
+    margin-top: 10px;
+  }
+  
+  
+  .child-toggle {
+    margin-top: 25px;
+  }
+  
+  .circulo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid #000;
+    margin: 5px 0;
+  }
+  
+  .triangulo {
+    background-image: url("https://i.imgur.com/MTZHuke.png");
+    background-position: center;
+    background-size: cover;
+    height: 79px;
+    width: 89px;
+    z-index: 100;
+  }
+  .cuadrado {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #000;
+    margin: 5px 0;
+  
+  }
+  
+  input{
+    border: none;
+  
+  }
+  textarea:focus, input:focus{
+    outline: none;
+  }
+  

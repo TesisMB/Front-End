@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Carga de documentos</h1>
+<div mat-dialog-content>
+      
+      <button mat-stroked-button color="warn">
+        <input type="file" (change)="selectFiles($event)" class="fileInputProfile">
+         Selecciona el archivo</button>
+      <div *ngFor="let progressInfo of progressInfos" class="col-12 mt-2">
+        <span *ngIf="message.length">{{ message }} </span>                                
+        <mat-toolbar class="progress-bar">
+          <mat-progress-bar
+            color="accent"
+            [value]="progressInfo.value"
+          ></mat-progress-bar>
+          <span class="progress">{{ progressInfo.value }}%</span>
+        </mat-toolbar>
+      </div>
+   
+  </div>
+
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cerrar</button>
+</div>

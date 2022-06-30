@@ -1,0 +1,75 @@
+<!-- Card -->
+<div class="d-flex flex-column align-items-center">
+<div class="card" *ngFor="let file of (files$ | async); index as i"
+ #tooltip="matTooltip" matTooltip="Ver más información" matTooltipPosition="above" 
+ aria-tooltip="Button that displays and hides a tooltip triggered by other buttons">
+
+
+
+
+<div class="content-left">
+    <div >
+        <p class="text-center">{{file.createDate}}
+
+       
+    </div>
+</div>
+
+<div class="content-center d-flex flex-column justify-content-center align-items-center">
+    <div class="child text-center">
+        <button mat-icon-button (click)="openPDF(file.locationFile)">
+            <span><mat-icon>picture_as_pdf</mat-icon></span>
+            </button>
+            
+
+    </div>
+<span class="text-muted mt-2">{{file.location}}</span>
+</div>
+
+<div class="content-right">
+    <div class="child-2">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu">
+            <!-- <button mat-menu-item (click)="openDialog(i, 'Editar')" *ngIf="!emergency.emergencyDisasterEndDate">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+            </button> -->
+            <button mat-menu-item (click)="deleteModal(i, 'Eliminar')">
+                <mat-icon>delete</mat-icon>
+                <span>Eliminar</span>
+            </button>
+
+            <!-- <button mat-menu-item (click)="openDialog(i, 'Finalizar')" *ngIf="!emergency.emergencyDisasterEndDate">
+                <mat-icon>check_box</mat-icon>
+                <span>Finalizar emergencia</span>
+            </button> -->
+        </mat-menu> 
+
+        <div class="child-2p">
+            <!-- <p *ngIf="!emergency.emergencyDisasterEndDate">Activo</p>
+            <p *ngIf="emergency.emergencyDisasterEndDate">Inactivo</p> -->
+        </div>
+    </div>
+</div>
+</div>
+
+<div *ngIf="!(files$ | async)" class="text-center">
+<p class="align-center">No hay documentos</p>
+</div>
+</div>
+
+<div class="d-flex justify-content-between p-2 mt-4">
+<ngb-pagination [collectionSize]="10" page="1"
+    pageSize="1">
+</ngb-pagination>
+
+<select class="custom-select" style="width: auto" name="pageSize"
+    >
+    <option [ngValue]="4">4 emergencias por pagina</option>
+    <option [ngValue]="6">6 emergencias por pagina</option>
+    <option [ngValue]="10">10 emergencias por pagina</option>
+</select>
+</div>

@@ -14,11 +14,11 @@ export class RequestService extends DataService {
     super(http, 'ResourcesRequest')
   }
 
-  getAll(userId: number, condition?:string, state?: string): Observable<any> {
+  getAll(condition?:string, state?: string): Observable<any> {
     if(condition){
       
       const paramsObj = {
-        userId: JSON.stringify(userId) || undefined,
+        // userId: JSON.stringify(userId) || undefined,
         Condition: condition || undefined,
         state: state ||undefined
       };
@@ -30,9 +30,9 @@ export class RequestService extends DataService {
       return this.http.get<any>(environment.URL + this.patch, this.options);
     }
     else {
-      const parametro = new HttpParams().append('userId', JSON.stringify(userId));
-      this.options.params = parametro;
-      return this.http.get<any>(environment.URL + this.patch, this.options );
+      // const parametro = new HttpParams().append('userId', JSON.stringify(userId));
+      // this.options.params = parametro;
+      return this.http.get<any>(environment.URL + this.patch);
     }
   }
 

@@ -213,10 +213,10 @@ createForm() {
   getEmergencies(){
     const arrayEmergencies: Emergencies[] = [];
 
-    this.handleEmergency = this.emergenciesService.getAll(this.authService.currentUserValue.userID)
+    this.handleEmergency = this.emergenciesService.getAll()
     .pipe(
       map( x =>{
-        console.log('Emergencias =>', x)
+        console.log('Emergencias =>', x);
 
       x.forEach(e => {
       const emergency: any = {};

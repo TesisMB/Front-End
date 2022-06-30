@@ -300,7 +300,7 @@ setRole(){
   }
 
   getUser(){
-    this.userService.getAll(this.authService.currentUserValue.userID).subscribe(data => {
+    this.userService.getAll().subscribe(data => {
       this.user = data;
 
       this.user = this.user.filter(a => a.users.roleName == "Coord. de Emergencias");
