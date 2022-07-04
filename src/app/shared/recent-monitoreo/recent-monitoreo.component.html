@@ -21,21 +21,23 @@
       <hr/>
       <mat-card-content *ngIf="!isLoading">
 
-            <mat-card *ngFor="let request of request" class="card2 mb-3" >
+            <mat-card *ngFor="let f of files" class="card2 mb-3" >
                 <mat-grid-list cols="12" rowHeight="1.5:1">
                         <mat-grid-tile class="historys"  
-                        colspan="11"
+                        colspan="10"
                         rowspan="2">
                          <div>
-                             <p>Texto y mas texto</p>
-                             <p class="text-muted">Un poquito mas de texto</p>
+                             <p>#{{f.emergenciesDisasters.emergencyDisasterID}} - {{f.emergenciesDisasters.locationsEmergenciesDisasters.locationCityName}}</p>
+                             <p class="text-muted">{{f.emergenciesDisasters.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
                         </div>
 
                     </mat-grid-tile>
                     <mat-grid-tile
-                    colspan="1"
+                    colspan="2"
                     rowspan="2">
-                     <div ><button mat-icon-button><mat-icon>file_download</mat-icon></button></div>
+                    <div ><button mat-icon-button (click)="download(f.location, false)"><mat-icon>visibility</mat-icon></button></div>
+
+                     <div ><button mat-icon-button (click)="download(f.location, true)"><mat-icon>file_download</mat-icon></button></div>
 
                 </mat-grid-tile>
                   </mat-grid-list>

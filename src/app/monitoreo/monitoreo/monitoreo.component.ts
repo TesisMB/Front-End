@@ -11,7 +11,8 @@ import { MonitoreoService } from '../monitoreo.service';
   styleUrls: ['./monitoreo.component.css']
 })
 export class MonitoreoComponent implements OnInit {
-data: Subscription;
+data: any[] = [];
+handle: Subscription;
 isLoading = true;
   constructor(
     private alertService: AlertService,
@@ -22,15 +23,19 @@ isLoading = true;
 
 
   ngOnInit(): void {
-     this.getAll();
+      this.getAll();
   }
 
   openDialog() {
-    this.dialog.open(DialogPDFComponent);
+    this.dialog.open(DialogPDFComponent, {
+      height: '400px',
+      width: '600px',
+      data: { file: this.data },
+    });
   }
 
   getAll(){
-  this.data =  this.service.getAll()
+  this.handle =  this.service.getAll()
               .subscribe(
                 (data) => {
                   this.data = data;

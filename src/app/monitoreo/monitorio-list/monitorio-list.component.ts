@@ -2,7 +2,7 @@ import { AlertService } from './../../services/_alert.service/alert.service';
 import { MonitoreoService } from './../monitoreo.service';
 import { MonitoreoComponent } from './../monitoreo/monitoreo.component';
 import { Router } from '@angular/router';
-import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map, filter } from 'rxjs/operators';
@@ -16,6 +16,7 @@ import { NgbdDeleteModalComponent } from 'src/app/emergency-disaster/ngbd-delete
 import { NgbdEditDialogComponent } from 'src/app/emergency-disaster/ngbd-edit-dialog/ngbd-edit-dialog.component';
 import { SelectTypesEmergencyDisasterService } from 'src/app/emergency-disaster/select-types-emergency-disaster.service';
 import { NgbdModalComponent } from 'src/app/users/ngbd-modal/ngbd-modal.component';
+import { saveAs } from 'file-saver';
 import { Files } from 'src/app/models/monitoreos';
 
 @Component({
@@ -26,8 +27,8 @@ import { Files } from 'src/app/models/monitoreos';
 export class MonitorioListComponent implements OnInit {
   @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
-
-  files: Files[];
+  @Input() files: Files[] = [];
+  @Input() isLoading: boolean = true;
   files$: Observable<Files[]>;
   handler: any;
   array= [];
@@ -46,7 +47,7 @@ export class MonitorioListComponent implements OnInit {
       
     }
   ngOnInit(): void {
-    this.files$ = this.monitoreoService.getAll();
+    // this.files$ = this.monitoreoService.getAll();
      /*  this.selectTypesEmergencyDisasterService.TypesEvent.subscribe(data =>{
         this.typesid = data;
         this.emergencyDisaster = this.selectTypesEmergencyDisasterService.filterTypes(this.emergencyDisasterClone);
@@ -74,10 +75,13 @@ export class MonitorioListComponent implements OnInit {
     // this.selectTypesEmergencyDisasterService.sortDirection = direction;
   }
 
-downloadPDF(fileName: string){
+downloadPDF(fileName: string, download: boolean){
   this.monitoreoService.getFiles(fileName)
   .subscribe(
     (data) =>{
+        const file = new Blob([<any>data], {type: 'application/pdf'});
+          const fileURL = window.URL.createObjectURL(file);
+          download ? saveAs(file, fileName) :  window.open(fileURL, fileName);     
       this.alertService.info('PDF descargado exitosamente :)', {autoClose: true});
     },
     (error)=> {

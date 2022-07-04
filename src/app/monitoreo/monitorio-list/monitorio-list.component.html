@@ -1,38 +1,52 @@
 <!-- Card -->
-<div class="d-flex flex-column align-items-center">
-<div class="card" *ngFor="let file of (files$ | async); index as i"
- #tooltip="matTooltip" matTooltip="Ver más información" matTooltipPosition="above" 
- aria-tooltip="Button that displays and hides a tooltip triggered by other buttons">
-
-
-
-
-<div class="content-left">
-    <div >
-        <p class="text-center">{{file.createDate}}
-
-       
+<mat-card class="example-card">
+    <mat-card-header class="d-flex flex-row align-items-center" style="width: 100%;">
+      <!-- <div  > -->
+           <!-- <div mat-card-avatar class="example-header-image pr-3">
+        <span class="material-symbols-outlined">
+            assignment
+            </span>
     </div>
-</div>
-
-<div class="content-center d-flex flex-column justify-content-center align-items-center">
-    <div class="child text-center">
-        <button mat-icon-button (click)="openPDF(file.locationFile)">
-            <span><mat-icon>picture_as_pdf</mat-icon></span>
+      <mat-card-title style="width: inherit;"><h2>Monitoreo</h2></mat-card-title>
+        <div class="d-flex justify-content-end align-items-start"> 
+        <div class="example-header-image pl-3">
+        <button mat-icon-button [routerLink]="['monitoreo']">
+           <mat-icon>chevron_right</mat-icon> 
             </button>
-            
-
     </div>
-<span class="text-muted mt-2">{{file.location}}</span>
-</div>
+  </div> -->
+      <!-- </div> -->
+      </mat-card-header>
+        <hr/>
+        <mat-card-content *ngIf="files.length">
+    <mat-card *ngFor="let f of files; index as i" class="card2 mb-3" >
+        <mat-grid-list cols="12" rowHeight="1.5:1">
+                <mat-grid-tile class="historys"  
+                colspan="9"
+                rowspan="2">
+                 <div>
+                     <p>#{{f.emergenciesDisasters.emergencyDisasterID}} - {{f.emergenciesDisasters.locationsEmergenciesDisasters.locationCityName}}</p>
+                     <p class="text-muted">{{f.emergenciesDisasters.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
+                </div>
 
-<div class="content-right">
-    <div class="child-2">
+            </mat-grid-tile>
+            <mat-grid-tile
+            colspan="2"
+            rowspan="2">
+            <div ><button mat-icon-button (click)="downloadPDF(f.location, false)"><mat-icon>visibility</mat-icon></button></div>
+
+             <div ><button mat-icon-button (click)="downloadPDF(f.location, true)"><mat-icon>file_download</mat-icon></button></div>
+
+        </mat-grid-tile>
+        <mat-grid-tile
+        colspan="1"
+        rowspan="2">
         <button mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
         </button>
-
-        <mat-menu #menu="matMenu">
+    </mat-grid-tile>
+          </mat-grid-list>
+          <mat-menu #menu="matMenu">
             <!-- <button mat-menu-item (click)="openDialog(i, 'Editar')" *ngIf="!emergency.emergencyDisasterEndDate">
                 <mat-icon>edit</mat-icon>
                 <span>Editar</span>
@@ -47,29 +61,20 @@
                 <span>Finalizar emergencia</span>
             </button> -->
         </mat-menu> 
+        </mat-card>
+    </mat-card-content>
+    <mat-card-content *ngIf="!files.length" >
+      <div class="d-flex justify-content-center">
+        <!-- <mat-spinner color="warn" diameter="40"></mat-spinner> -->
+        <p class="text-center">No hay documentos cargados!</p>
+      </div>
+    </mat-card-content>
 
-        <div class="child-2p">
-            <!-- <p *ngIf="!emergency.emergencyDisasterEndDate">Activo</p>
-            <p *ngIf="emergency.emergencyDisasterEndDate">Inactivo</p> -->
-        </div>
-    </div>
-</div>
-</div>
-
-<div *ngIf="!(files$ | async)" class="text-center">
-<p class="align-center">No hay documentos</p>
-</div>
-</div>
-
-<div class="d-flex justify-content-between p-2 mt-4">
-<ngb-pagination [collectionSize]="10" page="1"
+<div class="d-flex justify-content-center align-items-center p-2 mt-4">
+<ngb-pagination [collectionSize]="5" page="1"
     pageSize="1">
 </ngb-pagination>
-
-<select class="custom-select" style="width: auto" name="pageSize"
-    >
-    <option [ngValue]="4">4 emergencias por pagina</option>
-    <option [ngValue]="6">6 emergencias por pagina</option>
-    <option [ngValue]="10">10 emergencias por pagina</option>
-</select>
 </div>
+
+  </mat-card>
+  

@@ -1,7 +1,7 @@
 import { Files } from './../models/monitoreos';
 import { DataService } from './../services/data.service';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -32,13 +32,20 @@ constructor(http: HttpClient) {
 
   
   getFiles(fileName: string): Observable<any> {
+    const headers = new HttpHeaders().set('Accept','application/pdf');
     const paramsObj = {
-      fileName: JSON.stringify(fileName) || undefined,
+      fileName: fileName || undefined,
     };
     let parametro = new HttpParams({fromObject: paramsObj});
     this.options.params = parametro;
+    this.options.headers = headers;
+  
     
-     return this.http.get(`${environment.URL + this.path}/download`, this.options);
+     return this.http.get(`${environment.URL + this.path}/download`,{
+      headers: headers,
+      params: parametro,
+      responseType: 'blob'
+    });
   }
 
 }

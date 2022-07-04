@@ -78,3 +78,15 @@ export interface EmergencyDisaster {
 
     victims: Victim;
 }
+
+export interface AlertsInput {
+    value: number;
+    viewValue: string;
+    date?: Date;
+  }
+  
+ export interface AlertArray {
+    disabled?: boolean;
+    name: string;
+    alerts: AlertsInput[];
+  }

@@ -1,4 +1,6 @@
-
+.example-card{
+  width: 750px;
+}
 .col-body {
     background: #fff;
     border-radius: 10px;
@@ -142,3 +144,106 @@ input{
     outline: none;
   }
   
+  .header{
+    height: 56px;
+    padding: 20px 20px;
+    color:  #363636 !important ;
+    }
+    .body{
+    padding: 25px 10px;
+    overflow-x: auto;
+    font-size: 15px;
+    
+    }
+    .title h2{
+    margin: 0 !important;
+    }
+    .title2{
+        flex: 1;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    /* .card-content{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        height: 179px;
+        width: 400px;
+        max-width: 400px;
+        margin: auto;
+        flex-direction: column;
+        background-color: #F1F1F1;
+        border-radius: 15px;
+    } */
+    .historys > ::ng-deep figure{
+        justify-content: flex-start !important;
+
+    }
+    /* .mat-grid-tile .mat-figure {
+        justify-content: flex-start !important ;
+        align-items: flex-start !important;
+     } */
+
+    .download{
+        display: flex;
+        justify-content: center;
+        margin: 1em;
+        align-items: center;
+        color: #E4002B;
+    }
+    .download-card{
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    /* Card */
+    .card-c {
+        background-color: #F1F1F1 !important;
+        height: 100%;
+        /* max-width: 400px; */
+      }
+      .example-header-image {
+        background-size: cover;
+        color: red;
+      }
+      mat-card-title .mat-card-header-text {
+          margin: 0 !important;
+      }
+      img {
+          background-size: cover;
+          width: 42px;
+      }
+      .logo-cr{
+        width: 50px;
+        background-size: cover;
+    
+      }
+    span h3 {
+        font-weight: bold;
+        margin: 0 !important;
+    }
+    .circulo {
+        /* width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 1px solid #000;
+        margin: 5px 0; */
+        background-color: #FADBD8;
+      }
+      
+      .triangulo {
+        /* background-image: url("https://i.imgur.com/MTZHuke.png");
+        background-position: center;
+        background-size: cover;
+        height: 79px;
+        width: 89px;
+        z-index: 100; */
+        background-color: #FCF3CF;
+      }
+      .cuadrado {
+        background-color: #D5F5E3;
+        /* width: 80px;
+        height: 80px;
+        border: 1px solid #000;
+        margin: 5px 0; */
+      
+      }

@@ -93,7 +93,7 @@ export class DataService {
 
   generatePDF(id): Observable<any> {
     const headers = new HttpHeaders().set('Accept','application/pdf');
-    return this.http.get(environment.URL + this.patch + '/pdf/' + id, 
+    return this.http.get(environment.URL + this.patch + '/' + id, 
         {
           headers: headers,
           responseType: 'blob'
