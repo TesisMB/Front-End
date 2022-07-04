@@ -17,7 +17,8 @@ export interface EmergencyDisaster {
     FK_AlertID: number,
     Fk_LocationID: number,
     FK_EstateID: number,
-    
+    employeeName: string;
+
     locationsEmergenciesDisasters: {
         locationDepartmentName: string;
         locationCityName: string;
@@ -36,7 +37,6 @@ export interface EmergencyDisaster {
           roleName: string;
           userAvailability: boolean;
           userDni: string;
-          name: string;
         }
 
      chatRooms:{

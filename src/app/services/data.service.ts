@@ -23,11 +23,11 @@ export class DataService {
 
   //getAll me traera errores si lo utilizo para otro tipo,
   // ya que this.object es utilizado para la tabla empleados.
-  getAll() {
-    // let paramaters = new HttpParams().append('userId', JSON.stringify(userID));
-    // this.options.params = paramaters;
+  getAll(limit?: string ) {
+    let paramaters = new HttpParams().append('limit', limit);
+    this.options.params = paramaters;
     return this.http.get<any>(
-      environment.URL + this.patch, 
+      environment.URL + this.patch,
       this.options
       );
   }

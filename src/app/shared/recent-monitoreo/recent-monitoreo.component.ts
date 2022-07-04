@@ -23,7 +23,7 @@ export class RecentMonitoreoComponent implements OnInit {
   constructor(public service: MonitoreoService, private alertService: AlertService) { }
 
   ngOnInit(): void {
-    this.handle = this.service.getAll()
+    this.handle = this.service.getAll('2')
     .subscribe(
       (data: Files[]) => {
         this.files = data;
