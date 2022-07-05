@@ -18,6 +18,7 @@ import { SelectTypesEmergencyDisasterService } from 'src/app/emergency-disaster/
 import { NgbdModalComponent } from 'src/app/users/ngbd-modal/ngbd-modal.component';
 import { saveAs } from 'file-saver';
 import { Files } from 'src/app/models/monitoreos';
+import { DialogPDFComponent } from '../dialog-pdf/dialog-pdf.component';
 
 @Component({
   selector: 'monitorio-list',
@@ -103,6 +104,17 @@ getCardColor(state: number){
     }
 }
 
+openDialog(i: number) {
+let dialogRef =  this.dialog.open(DialogPDFComponent, {
+    height: '400px',
+    width: '600px',
+    data: { file: this.files[i], isEdit: true },
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('Dialog close => ', result);
+  });
+}
 
 openVerticallyCentered(i) {
   //FALTA CONTROLAR LA CARD VERDE QUE NO SEA ABRA
@@ -115,7 +127,7 @@ deployment(){
   this.router.navigate(['emergencias/despliegue']);
 }
 
-openDialog(i, tipo: string){
+// openDialog(i, tipo: string){
   
   // const emergency = this.emergencyDisasterObservable[i];
   // const dialogRef = this.dialog.open(NgbdEditDialogComponent);
@@ -123,13 +135,17 @@ openDialog(i, tipo: string){
   // dialogRef.componentInstance.tipo = tipo;
 
 
-}
+// }
 
 
-deleteModal(i, reason: string){
+deleteModal(id, i?, reason?: string){
+  this.monitoreoService.delete(id).subscribe(data => this.alertService.success('Eliminado con exito!', {autoClose:true}),
+  (error) => {this.alertService.error('Error al eliminar, intente mas tarde', {autoClose : true})});
   // const emergency = this.emergencyDisasterObservable[i];
   // const dialogRef = this.modalService.open(NgbdDeleteModalComponent, { centered: true });
   // dialogRef.componentInstance.emergencyDisaster = this.selectTypesEmergencyDisasterService.emergencyDisasterObservableValue$[i];
   // dialogRef.componentInstance.titulo = reason;
 }
+
+
 }

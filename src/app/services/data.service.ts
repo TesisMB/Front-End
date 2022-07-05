@@ -24,8 +24,10 @@ export class DataService {
   //getAll me traera errores si lo utilizo para otro tipo,
   // ya que this.object es utilizado para la tabla empleados.
   getAll(limit?: string ) {
+    if(limit){
     let paramaters = new HttpParams().append('limit', limit);
     this.options.params = paramaters;
+  }
     return this.http.get<any>(
       environment.URL + this.patch,
       this.options

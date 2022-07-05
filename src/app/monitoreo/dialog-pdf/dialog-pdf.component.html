@@ -1,64 +1,112 @@
-<h1 mat-dialog-title>Carga de documentos</h1>
+<h1 mat-dialog-title>{{title | titlecase}}</h1>
 <div mat-dialog-content>
-  <mat-card class="card2 mb-3">
+  <!-- <mat-card  class="card2 mb-3" > -->
     <form [formGroup]="f" id="form">
 
-      <mat-grid-list cols="12" rowHeight="1.5:1">
-        <mat-grid-tile colspan="6" rowspan="3">
-          <!-- <div class="col col-head"> -->
-          <form>
-            <mat-form-field appearance="outline">
-              <mat-label>Alerta</mat-label>
-              <mat-select [formControl]="f.get('Fk_EmergencyDisasterID')" name="type" [required]="!isEdit"
-                [disabled]="isEdit" container="body">
-                <mat-option selected>Seleccione una emergencia</mat-option>
-
-                <mat-optgroup *ngFor="let group of emergencyGroups" [label]="group.name" [disabled]="group.disabled">
-                  <mat-option *ngFor="let emergency of  group.alerts" [value]="emergency.value">
-
-                    {{emergency.viewValue}} - {{emergency.date | date :'dd/MM hh:mm a'}}
-
-                  </mat-option>
-                </mat-optgroup>
-              </mat-select>
-              <mat-error *ngIf="form.get('Fk_EmergencyDisasterID').hasError('required')">
-                La alerta es <strong>requerida</strong>
-              </mat-error>
-            </mat-form-field>
-          </form>
-          <!-- </div> -->
+    <mat-grid-list cols="12" rowHeight="100px">
+            <mat-grid-tile 
+            colspan="6"
+            rowspan="1">
+            <!-- <div class="col col-head"> -->
+              <form >
+                  <mat-form-field appearance="outline">
+                    <mat-label>Alerta</mat-label>
+                    <mat-select
+                      [formControl]="alertID"
+                      name="type">
+                    <mat-option selected>Seleccione una alerta</mat-option>
+         
+                    <mat-optgroup *ngFor="let group of emergencyGroups" [label]="group.name" [disabled]="group.disabled">
+                      <mat-option
+                      *ngFor="let emergency of  group.alerts"
+                       [value]="emergency.value" >
+                      {{emergency.viewValue | titlecase }}
+                      </mat-option>
+                    </mat-optgroup>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="alertID.hasError('required')"
+                    >
+                      La alerta es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </form>
+            <!-- </div> -->
         </mat-grid-tile>
-        <mat-grid-tile colspan="6" rowspan="3">
-          <button mat-stroked-button color="warn">
-            <input type="file" (change)="selectFiles($event)" class="fileInputProfile">
-            Selecciona el archivo</button>
-          <div *ngFor="let progressInfo of progressInfos" class="col-12 mt-2">
-            <span *ngIf="message.length">{{ message }} </span>
-            <mat-toolbar class="progress-bar">
-              <mat-progress-bar color="accent" [value]="progressInfo.value"></mat-progress-bar>
-              <span class="progress">{{ progressInfo.value }}%</span>
-            </mat-toolbar>
-          </div>
-        </mat-grid-tile>
-        <mat-grid-tile *ngIf="isEdit">
-          <mat-form-field appearance="outline">
-            <mat-label>Creado por</mat-label>
-            <input matInput placeholder="Ex. Bayern, Conicet, etc" formControlName="CreatedBy" [readonly]="isEdit" />
-            <mat-error *ngIf="f.get('createdBy').hasError('required')">
-              La marca es <strong>requerida</strong>
-            </mat-error>
-          </mat-form-field>
-        </mat-grid-tile>
-      </mat-grid-list>
+        <mat-grid-tile
+        colspan="6"
+        rowspan="1"
+        >
+            <button mat-stroked-button color="warn">
+          <input type="file" (change)="selectFiles($event)" class="fileInputProfile">
+           Selecciona el archivo</button>
 
-    </form>
-  </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile 
+    *ngIf="data.isEdit" 
+    colspan="6"
+    rowspan="1">
+      <mat-form-field appearance="outline">
+        <mat-label>Creado por</mat-label>
+        <input
+          matInput
+          readonly
+          [value]="data.file.createdByEmployee"
+        />
+        
+      </mat-form-field>
+    </mat-grid-tile> 
+    <mat-grid-tile 
+    *ngIf="data.isEdit" 
+    colspan="6"
+    rowspan="1">
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de creación</mat-label>
+      <input
+      matInput
+      readonly
+      [value]="data.file.createDate"
+      />
+      
+    </mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile
+  colspan="12"
+  rowspan="1"
+  *ngIf="progressInfos.length">
+  <div *ngFor="let progressInfo of progressInfos">
+    <span *ngIf="message.length">{{ message }} </span>                                
+    <mat-toolbar class="progress-bar">
+      <mat-progress-bar
+        color="accent"
+        [value]="progressInfo.value"
+      ></mat-progress-bar>
+      <span class="progress">{{ progressInfo.value }}%</span>
+    </mat-toolbar>
+  </div>
+  </mat-grid-tile>
+  <!-- <mat-grid-tile
+  colspan="12"
+  rowspan="1"
+  *ngIf="location.hasError('required') && !progressInfos.length">
+  <mat-error
+  *ngIf="location.hasError('required')"
+>
+  <strong>Suba un archivo</strong>
+</mat-error> -->
+    <!-- <span *ngIf="message.length">{{ message }} </span>                                 -->
+
+  <!-- </mat-grid-tile> -->
+</mat-grid-list>
+
+</form>
+    <!-- </mat-card> -->
+ 
+   
+  </div>
 
 
-</div>
-
-
-<div mat-dialog-actions>
+<div mat-dialog-actions class="d-flex justify-content-between" >
   <button mat-button mat-dialog-close>Cerrar</button>
-  <button mat-button>Terminar</button>
+  <button mat-button type="submit" [disabled]="data.isEdit" (click)="onSubmit()">Enviar</button>
 </div>

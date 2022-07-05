@@ -27,10 +27,15 @@ isLoading = true;
   }
 
   openDialog() {
-    this.dialog.open(DialogPDFComponent, {
+  let dialogRef =  this.dialog.open(DialogPDFComponent, {
       height: '400px',
       width: '600px',
-      data: { file: this.data },
+      data: { file: this.data, isEdit: false },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog close => ', result);
+      if(result){this.getAll()}
     });
   }
 

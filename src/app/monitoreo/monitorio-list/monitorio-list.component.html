@@ -47,19 +47,14 @@
     </mat-grid-tile>
           </mat-grid-list>
           <mat-menu #menu="matMenu">
-            <!-- <button mat-menu-item (click)="openDialog(i, 'Editar')" *ngIf="!emergency.emergencyDisasterEndDate">
+            <button mat-menu-item (click)="openDialog(i)">
                 <mat-icon>edit</mat-icon>
                 <span>Editar</span>
-            </button> -->
-            <button mat-menu-item (click)="deleteModal(i, 'Eliminar')">
+            </button>
+            <button mat-menu-item (click)="deleteModal(f.id)">
                 <mat-icon>delete</mat-icon>
                 <span>Eliminar</span>
             </button>
-
-            <!-- <button mat-menu-item (click)="openDialog(i, 'Finalizar')" *ngIf="!emergency.emergencyDisasterEndDate">
-                <mat-icon>check_box</mat-icon>
-                <span>Finalizar emergencia</span>
-            </button> -->
         </mat-menu> 
         </mat-card>
     </mat-card-content>

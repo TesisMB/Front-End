@@ -2,11 +2,16 @@ import { EmergencyDisasterService } from 'src/app/emergency-disaster/emergency-d
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from './../../services/_alert.service/alert.service';
 import { MonitoreoService } from './../monitoreo.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Observable, pipe, Subscription } from 'rxjs';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AlertArray, AlertsInput } from 'src/app/models/emergencyDisaster';
 import { Files } from 'src/app/models/monitoreos';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+export interface EditMode {
+  file: Files,
+  isEdit: boolean
+}
 
 @Component({
   selector: 'dialog-pdf',
@@ -17,6 +22,8 @@ export class DialogPDFComponent implements OnInit {
   emergencyControl = new FormControl();
   emergencyGroups: AlertsInput[] = [];
   
+  title = 'Carga de documentos';
+  isLoading = true;
   selectedFiles?: FileList;
   selectedFileNames: string= "";
   progressInfos: any[] = [];
@@ -24,10 +31,11 @@ export class DialogPDFComponent implements OnInit {
   previews: string = "";
   imageInfos?: Observable<any>;
   form: FormGroup;
-  @Input() isEdit: boolean = false; 
-  @Input() file: Files = null;
   handleEmergency: Subscription;
+  handle: Subscription;
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: EditMode,
+    public dialogRef: MatDialogRef<DialogPDFComponent>,
     private service: MonitoreoService,
     private alertService: AlertService,
     public formBuilder: FormBuilder,
@@ -38,19 +46,27 @@ export class DialogPDFComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       location:['',[Validators.required]],
-      createdBy:['', Validators.required],
+      // createdBy:['', Validators.required],
       Fk_EmergencyDisasterID: ['', Validators.required],
-      ModifiedBy : ['', Validators.required]
+      // ModifiedBy : ['', Validators.required]
     });
 
-    if(this.file){
-      this.form.patchValue(this.file);
+    if(this.data.file && this.data.isEdit){
+      this.title = 'Modificar documentación'
+      this.location.patchValue(this.data.file.location);
+      this.alertID.patchValue(this.data.file.emergenciesDisasters.emergencyDisasterID);
     }
   }
 
   
 public get f() {
   return this.form;
+}
+public get location(){
+  return this.form.get('location');
+}
+public get alertID(){
+  return this.form.get('Fk_EmergencyDisasterID');
 }
   selectFiles(event: any): void {
     this.message = "";
@@ -64,7 +80,6 @@ public get f() {
       for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          console.log(e.target.result);
           this.previews = e.target.result;
         };
         reader.readAsDataURL(this.selectedFiles[i]);
@@ -92,15 +107,15 @@ public get f() {
          if (event.type === HttpEventType.UploadProgress) {
            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
          } else if (event instanceof HttpResponse) {
-            const msg = 'Se cargó la imagen exitosamente!: ' + file.name;
+            const msg = 'Se cargó el archivo exitosamente!: ' + file.name;
             this.message = msg;
             this.imageInfos = this.service.getFiles(file.name);
             console.log('Recibido => ', event);
-            this.f.get('location').patchValue(event.body);
+            this.location.patchValue(event.body);
            }
         (err: any) => {
           this.progressInfos[idx].value = 0;
-          const msg = 'No se ha podido cargar la imagen: ' + file.name;
+          const msg = 'No se ha podido cargar el archivo: ' + file.name;
           this.message = msg;
         } });
     }
@@ -109,11 +124,42 @@ public get f() {
   getEmergencies(){
     this.handleEmergency = this.emergenciesService.getAlerts()
     .subscribe(data =>{
-      console.log('data: ',data);
+      console.log('data => ',data);
       this.emergencyGroups = data;
-      if(this.isEdit){
-        this.f.get('Fk_EmergencyDisasterID').patchValue(data.emergenciesDisasters.emergencyDisasterID);
-      }
+      this.isLoading = false;
+    },
+    (err) => {
+    this.isLoading = false;
+
     } );
+  }
+
+  onSubmit(){
+    if(this.form.valid){
+      const pdf = this.form.value;
+      this.isLoading = true;
+      this.handle = this.service.register(pdf)
+      .subscribe(
+        (resp) => {
+          this.isLoading = false;
+          this.alertService.success('Documento subido exitosamente!');
+          this.closeDialog(pdf);
+          this.service.setMonitoreo(pdf);
+          console.log(resp);
+        },
+      (err) => {
+        this.isLoading = false;
+        console.log(err);
+        this.closeDialog(pdf);
+
+      }
+      );
+    }
+    else {
+    }
+  }
+
+  closeDialog(value) {
+    this.dialogRef.close(value);
   }
 }

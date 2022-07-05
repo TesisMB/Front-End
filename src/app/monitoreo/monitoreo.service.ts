@@ -20,6 +20,11 @@ constructor(http: HttpClient) {
 
  public get files(){return this.filesSubject.asObservable()}
 
+   public setMonitoreo(pdf: Files){
+    let pdfs = this.filesSubject.value;
+    pdfs.push(pdf);
+    this.filesSubject.next(pdfs);
+   }
    upload(file: File ){
     const PDF: FormData = new FormData();
     PDF.append('file', file);
@@ -37,8 +42,8 @@ constructor(http: HttpClient) {
       fileName: fileName || undefined,
     };
     let parametro = new HttpParams({fromObject: paramsObj});
-    this.options.params = parametro;
-    this.options.headers = headers;
+    // this.options.params = parametro;
+    // this.options.headers = headers;
   
     
      return this.http.get(`${environment.URL + this.path}/download`,{

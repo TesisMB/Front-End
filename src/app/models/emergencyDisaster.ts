@@ -32,6 +32,7 @@ export interface EmergencyDisaster {
     alerts: Alerts
 
     employees:{
+        name: string;
       employeeID: number;
           userID: number;
           roleName: string;
