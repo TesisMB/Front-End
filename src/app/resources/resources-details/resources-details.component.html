@@ -6,6 +6,17 @@
     <div class="col-4">
       <h1 class="title">Detalle del producto</h1>
     </div>
+
+    <!-- Falta pasarle id de voluntario -->
+    <!-- <div class="col-4">
+
+      <button mat-stroked-button color="warn" (click)="generatePDF()">
+        <mat-icon>
+          picture_as_pdf
+        </mat-icon>
+        Descargar
+      </button>
+    </div> -->
   </section>
   <ng-container *ngIf="item">
     <section class="center row">
@@ -27,41 +38,43 @@
         </div>
 
         <hr *ngIf="item.materials || item.medicines" />
-      <div *ngIf="!isLogistica" class="solicitud">
-        <div *ngIf="!item.volunteers && !item.vehicles">
-          <form class="cantidad" [formGroup]="form" (ngSubmit)="onSubmit()">
-            <mat-form-field appearance="outline">
-              <mat-label>Cantidad</mat-label>
-              <input required matInput #input formControlName="quantity" type="number" class="example-right-align"
-                placeholder="0" min="0" [max]="item.quantity" [ngClass]="{'is-invalid': f.quantity.invalid}">
-              <!-- <span matPrefix>({{item.quantity | number}} disponibles) &nbsp;</span> -->
-              <span matSuffix class="text-muted"> &nbsp; uds. </span>
-              <mat-hint *ngIf="f.quantity.valid" align="end">restantes: {{item.quantity - input.value}}</mat-hint>
-              <mat-error *ngIf="f.quantity.invalid">{{getErrorMessage()}}</mat-error>
-            </mat-form-field>
-          </form>
-        </div>
-        <div *ngIf="!item.volunteers" class="boton p-1">
-          <button class="btn btn-sm btn-danger" [disabled]="checkStock" (click)="onSubmit()">
-            Solicitar
-          </button>
-          <hr />
+        <div *ngIf="!isLogistica" class="solicitud">
+          <div *ngIf="!item.volunteers && !item.vehicles">
+            <form class="cantidad" [formGroup]="form" (ngSubmit)="onSubmit()">
+              <mat-form-field appearance="outline">
+                <mat-label>Cantidad</mat-label>
+                <input required matInput #input formControlName="quantity" type="number" class="example-right-align"
+                  placeholder="0" min="0" [max]="item.quantity" [ngClass]="{'is-invalid': f.quantity.invalid}">
+                <!-- <span matPrefix>({{item.quantity | number}} disponibles) &nbsp;</span> -->
+                <span matSuffix class="text-muted"> &nbsp; uds. </span>
+                <mat-hint *ngIf="f.quantity.valid" align="end">restantes: {{item.quantity - input.value}}</mat-hint>
+                <mat-error *ngIf="f.quantity.invalid">{{getErrorMessage()}}</mat-error>
+              </mat-form-field>
+            </form>
+          </div>
+          <div *ngIf="!item.volunteers" class="boton p-1">
+            <button class="btn btn-sm btn-danger" [disabled]="checkStock" (click)="onSubmit()">
+              Solicitar
+            </button>
+            <hr />
 
+          </div>
         </div>
-      </div>
         <div *ngIf="item.volunteers" class="skills">
           <span>
             <h2 class="title">Especialidades</h2>
           </span>
-            <ng-container *ngIf="item.volunteers.volunteersSkills.length; then hasSkills else notSkills"></ng-container>
+          <ng-container *ngIf="item.volunteers.volunteersSkills.length; then hasSkills else notSkills"></ng-container>
           <ng-template #hasSkills>
-           <ol class="m-3 text-justify">
+            <ol class="m-3 text-justify">
               <li class="m-3 text-justify" *ngFor="let skills of item.volunteers.volunteersSkills">
-                  {{skills.skillName}}
+                {{skills.skillName}}
               </li>
-          </ol> 
-        </ng-template>
-          <ng-template #notSkills><p class="p-3 text-center">No hay skills</p> </ng-template>
+            </ol>
+          </ng-template>
+          <ng-template #notSkills>
+            <p class="p-3 text-center">No hay skills</p>
+          </ng-template>
 
         </div>
         <div class="descripcion">
@@ -69,8 +82,12 @@
             <h3 class="title">Descripción</h3>
           </span>
           <ng-container *ngIf="item.description; then hasDescription else notDescription"></ng-container>
-          <ng-template #hasDescription> <p class="p-3 text-justify">{{item.description}}</p> </ng-template>
-          <ng-template #notDescription><p class="p-3 text-center">No hay descripción</p> </ng-template>
+          <ng-template #hasDescription>
+            <p class="p-3 text-justify">{{item.description}}</p>
+          </ng-template>
+          <ng-template #notDescription>
+            <p class="p-3 text-center">No hay descripción</p>
+          </ng-template>
         </div>
       </aside>
     </section>
@@ -207,11 +224,11 @@
                 </tr> -->
               </ng-container>
               <ng-container *ngIf="!item.volunteers">
-                <tr >
+                <tr>
                   <th scope="row">Donación</th>
                   <td>
                     <span *ngIf="!item.donation">Esto <strong>no</strong> sido una donacíon</span>
-                    <span *ngIf="item.donation">Esto <strong>si</strong> ha sido una donacíon</span>                  
+                    <span *ngIf="item.donation">Esto <strong>si</strong> ha sido una donacíon</span>
                   </td>
                 </tr>
                 <tr>

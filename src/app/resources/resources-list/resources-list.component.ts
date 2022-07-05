@@ -9,6 +9,7 @@ import { filter } from 'rxjs/operators';
 import { TableService } from 'src/app/services/_table.service/table.service';
 import { Observable, Subscription } from 'rxjs';
 import {SorteableDirective, SortEvent} from '../../directives/sorteable.directive';
+import { UserService } from 'src/app/users';
 
 @Component({
   selector: 'resources-list',
@@ -28,7 +29,9 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public service: ResourcesService,
     private location: Location,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private userService: UserService,
+
   ) {
 
     //this.tipo = this.route.snapshot.params.tipo;
@@ -87,6 +90,22 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   //   this.service.sortColumn = column;
   //   this.service.sortDirection = direction;
   // }
+
+
+  generatePDF(){ 
+
+    //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
+      //let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;
+      let fileName = 'Voluntarios';
+      this.userService.generatePDFVolunteers(this.authService.currentUserValue.userID).subscribe(res => {
+        const file = new Blob([<any>res], {type: 'application/pdf'});
+      //  saveAs(file, fileName);
+        const fileURL = window.URL.createObjectURL(file);
+        window.open(fileURL, fileName);
+      });
+    }
+
+
   ngOnDestroy(){
     this.handlerGetAll.unsubscribe();
     this.service.destroyResources();

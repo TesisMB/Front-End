@@ -138,7 +138,7 @@ deployment(){
 // }
 
 
-deleteModal(id, i?, reason?: string){
+deleteModal(id: string){
   this.monitoreoService.delete(id).subscribe(data => this.alertService.success('Eliminado con exito!', {autoClose:true}),
   (error) => {this.alertService.error('Error al eliminar, intente mas tarde', {autoClose : true})});
   // const emergency = this.emergencyDisasterObservable[i];

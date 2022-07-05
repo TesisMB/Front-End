@@ -7,6 +7,8 @@ import { Resource } from 'src/app/models';
 import { AuthenticationService } from 'src/app/services';
 import { UserService } from 'src/app/users';
 const TABS = ['materiales', 'medicamentos', 'vehiculos'];
+import { NgbdResourcesFiltersDialogComponentComponent} from '../ngbd-resources-filters-dialog-component/ngbd-resources-filters-dialog-component.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'stock',
@@ -25,7 +27,7 @@ export class StockComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private authService: AuthenticationService,
     private userService: UserService,
-
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -39,6 +41,13 @@ export class StockComponent implements OnInit, OnDestroy {
      console.log('Tab cambiada', this.type);
       this.service._setType(this.type);
       this.getResources();
+  }
+
+
+  openDialog(tipo: string){
+    const dialogRef = this.dialog.open(NgbdResourcesFiltersDialogComponentComponent);
+    dialogRef.componentInstance.tipo = tipo;
+  
   }
 
   getResources(){
@@ -77,3 +86,4 @@ export class StockComponent implements OnInit, OnDestroy {
     }
 
 }
+

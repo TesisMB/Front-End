@@ -95,14 +95,55 @@ export class DataService {
 
   generatePDF(id): Observable<any> {
     const headers = new HttpHeaders().set('Accept','application/pdf');
-    return this.http.get(environment.URL + this.patch + '/' + id, 
+    return this.http.get(environment.URL + this.patch + '/pdf/' + id, 
         {
           headers: headers,
           responseType: 'blob'
         }
       );
     }
+
+    
+  generatePDFCredential(id): Observable<any> {
+    const headers = new HttpHeaders().set('Accept','application/pdf');
+    return this.http.get(environment.URL + this.patch + '/credential/' + id, 
+        {
+          headers: headers,
+          responseType: 'blob'
+        }
+      );
+    }
+
+        
+  generatePDFEmployees(id): Observable<any> {
+    const headers = new HttpHeaders().set('Accept','application/pdf');
+    return this.http.get(environment.URL + this.patch + '/getall/pdf/' + id, 
+        {
+          headers: headers,
+          responseType: 'blob'
+        }
+      );
+    }
+
+    generatePDFVolunteers(id): Observable<any> {
+      const headers = new HttpHeaders().set('Accept','application/pdf');
+      return this.http.get(environment.URL + 'voluntarios' + '/getall/pdf/' + id, 
+          {
+            headers: headers,
+            responseType: 'blob'
+          }
+        );
+      }
   
+      generatePDFVolunteer(id): Observable<any> {
+        const headers = new HttpHeaders().set('Accept','application/pdf');
+        return this.http.get(environment.URL + 'voluntarios/' + 'pdf/' + id, 
+            {
+              headers: headers,
+              responseType: 'blob'
+            }
+          );
+        }
  
 
   private handleError(err) {  

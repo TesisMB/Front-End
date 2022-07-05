@@ -89,7 +89,8 @@ getAlerts(): Observable<any> {
       x.forEach(e => {
       const emergency: any = {};
       emergency.value = e.emergencyDisasterID;
-      emergency.viewValue = e.locationsEmergenciesDisasters.locationMunicipalityName + ' - '+ e.locationsEmergenciesDisasters.locationDepartmentName;
+      // emergency.viewValue = e.locationsEmergenciesDisasters.locationMunicipalityName + ' - '+ e.locationsEmergenciesDisasters.locationDepartmentName;
+       emergency.viewValue = e.locationsEmergenciesDisasters.locationCityName;
       emergency.date = e.emergencyDisasterStartDate;
       const index = arrayEmergencies.findIndex(x =>
         x.name === e.typesEmergenciesDisasters.typeEmergencyDisasterName

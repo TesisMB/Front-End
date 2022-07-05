@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { Resource, Cart } from 'src/app/models';
 import { ResourcesDetailsService } from '../cart/cart.service';
 import { AuthenticationService } from 'src/app/services';
+import { UserService } from 'src/app/users';
 
 const card = document.querySelector(".content");
 
@@ -30,7 +31,8 @@ export class ResourcesDetails implements OnInit {
     private service: ResourcesService,
     private requestService: ResourcesDetailsService,
     private authenticationService: AuthenticationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private userService: UserService,
     ) {
       
     }
@@ -151,5 +153,18 @@ export class ResourcesDetails implements OnInit {
   // this.submitted = false;
 
  }
+
+ generatePDF(){ 
+
+  //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
+    //let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;
+    let fileName = 'Voluntario';
+    this.userService.generatePDFVolunteer(this.authenticationService.currentUserValue.userID).subscribe(res => {
+      const file = new Blob([<any>res], {type: 'application/pdf'});
+    //  saveAs(file, fileName);
+      const fileURL = window.URL.createObjectURL(file);
+      window.open(fileURL, fileName);
+    });
+  }
 
 }

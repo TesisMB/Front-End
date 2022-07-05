@@ -44,4 +44,20 @@ export class RequestService extends DataService {
     return this.http.delete(environment.URL + this.patch + '/' + id);
   }
 
+  generatePDFRequest(startDate: String, tipo: String): Observable<any> {
+    // let paramaters = new HttpParams().append('startDate', JSON.stringify(startDate));
+    // this.options.params = paramaters;
+
+
+     let url = environment.URL  + this.patch + '/pdf/?Condition=' + tipo + '&dateStart=' + startDate;
+   
+    const headers = new HttpHeaders().set('Accept','application/pdf');
+    return this.http.get(url, 
+        {
+          headers: headers,
+          responseType: 'blob'
+        }
+      );
+    }
+
 }

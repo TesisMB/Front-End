@@ -18,13 +18,14 @@ export interface EmergencyDisaster {
     Fk_LocationID: number,
     FK_EstateID: number,
     employeeName: string;
+    fk_EmplooyeeID: number,
 
     locationsEmergenciesDisasters: {
         locationDepartmentName: string;
         locationCityName: string;
         locationMunicipalityName: string;
-        locationLatitude: number;
-        locationLongitude: number;
+        locationlatitude: number;
+        locationlongitude: number;
     }
 
     typesEmergenciesDisasters: TypesEmergencyDisaster;

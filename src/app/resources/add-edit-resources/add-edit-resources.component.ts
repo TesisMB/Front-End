@@ -18,9 +18,9 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 
 const TYPES = [
-  {value: 'materiales', viewValue:'Instrumental'},
+  {value: 'materiales', viewValue:'Material'},
   {value: 'medicamentos', viewValue:'Farmacia'},
-  {value: 'vehiculos', viewValue:'Rodado'}
+  {value: 'vehiculos', viewValue:'Vehiculo'}
   ];
 
   const VEHICLES_UTILITYS =['Transporte','Uso particular','Carga', 'Emergencias'];
@@ -337,9 +337,7 @@ data => {
 },
 error => {
     this.loading = false;
-    console.log('Error del post => ', error);
-    this.alertService.error('Ha ocurrido un error :( , intentelo mas tarde', {autoClose: true});
-
+    this.alertService.errorForRegister(error);
 }
     );
   }

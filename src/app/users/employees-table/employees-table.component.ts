@@ -8,6 +8,8 @@ import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
 import { Employee } from 'src/app/models';
 import { TableService } from 'src/app/services/_table.service/table.service';
 import {SorteableDirective, SortEvent} from '../../directives/sorteable.directive';
+import { UserService } from '../user.service';
+import { AuthenticationService } from 'src/app/services';
 
 @Component(
   {selector: 'ngbd-table-complete',
@@ -20,12 +22,17 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
   getHandler: any="";
   patchHandler: any ="";
   error: any = "";
-  
+  currentUser: any;
+
+
 
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
   constructor( 
     private modalService: NgbModal,
-    public service: TableService) {
+    public service: TableService,
+    private userService: UserService,
+    private authService: AuthenticationService,
+    ) {
 
     
   }
@@ -54,6 +61,18 @@ ngOnInit() {
   }
 
   
+
+  generatePDF(){ 
+
+    //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
+      let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;
+      this.userService.generatePDFVolunteer(this.authService.currentUserValue.userID).subscribe(res => {
+        const file = new Blob([<any>res], {type: 'application/pdf'});
+      //  saveAs(file, fileName);
+        const fileURL = window.URL.createObjectURL(file);
+        window.open(fileURL, fileName);
+      });
+    }
 
 
   ngOnDestroy(){  

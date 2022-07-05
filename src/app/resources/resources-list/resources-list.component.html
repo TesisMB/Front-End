@@ -3,7 +3,7 @@
     <h1>Lista de {{ tipo | lowercase }}</h1>
   </div>
   <div class="col">
-  <button mat-raised-button (click)="onBack()">Atrás</button>
+    <button mat-raised-button (click)="onBack()">Atrás</button>
   </div>
 </section>
 
@@ -11,16 +11,28 @@
 <div class="row justify-content-around" id="row-aside">
 
 
-  <section  class="col-12 col-body">
+  <section class="col-12 col-body">
 
 
     <div class="pt-4 col-3 align-self-end">
-      <div class="d-flex form-control align-items-center bd-highlight pr-3" id="search"> 
-      <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
-      <input class="col-4 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
-      <span class="col-4 text-center" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
-  </div>
+      <div class="d-flex form-control align-items-center bd-highlight pr-3" id="search">
+        <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
+        <input class="col-4 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
+        <span class="col-4 text-center" *ngIf="service.loading$ | async"><i
+            class="fas fa-spinner fa-lg fa-spin"></i></span>
+      </div>
     </div>
+
+
+      <div class="pt-4 col-3 align-self-end">
+
+        <button mat-stroked-button color="warn" (click)="generatePDF()">
+          <mat-icon>
+            picture_as_pdf
+          </mat-icon>
+          Descargar
+        </button>
+      </div>
 
     <div *ngIf="(data | async).length" class="campus-col">
       <ul *ngFor="let item of data | async; let i = index;">
@@ -172,18 +184,17 @@
       </ul>
     </div>
 
-    
+
     <div *ngIf="!(data | async).length">
       <!-- ******************* Spinner - se debe refactorizar  **************************-->
-      <div *ngIf="(service.loading$ | async) || !(data | async).length" colspan="7" class="text-center" >
+      <div *ngIf="(service.loading$ | async) || !(data | async).length" colspan="7" class="text-center">
         <span class="spinner-border spinner-border-lg align-center"></span>
       </div>
 
     </div>
     <div class="d-flex justify-content-between p-2">
       <div class="pagination">
-        <ngb-pagination
-        [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">>
+        <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">>
         </ngb-pagination>
       </div>
 

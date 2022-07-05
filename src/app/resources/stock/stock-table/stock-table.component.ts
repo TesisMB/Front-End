@@ -32,10 +32,11 @@ export class StockTableComponent implements OnInit {
   handleUpdate: Subscription;
   modalRef:any;
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
-    constructor( private alertService: AlertService,
+    constructor(private alertService: AlertService,
       public service: ResourcesService,
       private modalService: NgbModal,
       private authService: AuthenticationService,
+      
       ) {}
 
   ngOnInit(): void {

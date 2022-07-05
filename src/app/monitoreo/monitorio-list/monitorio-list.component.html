@@ -1,8 +1,8 @@
 <!-- Card -->
 <mat-card class="example-card">
-    <mat-card-header class="d-flex flex-row align-items-center" style="width: 100%;">
-      <!-- <div  > -->
-           <!-- <div mat-card-avatar class="example-header-image pr-3">
+  <mat-card-header class="d-flex flex-row align-items-center" style="width: 100%;">
+    <!-- <div  > -->
+    <!-- <div mat-card-avatar class="example-header-image pr-3">
         <span class="material-symbols-outlined">
             assignment
             </span>
@@ -15,61 +15,60 @@
             </button>
     </div>
   </div> -->
-      <!-- </div> -->
-      </mat-card-header>
-        <hr/>
-        <mat-card-content *ngIf="files.length">
-    <mat-card *ngFor="let f of files; index as i" class="card2 mb-3" >
-        <mat-grid-list cols="12" rowHeight="1.5:1">
-                <mat-grid-tile class="historys"  
-                colspan="9"
-                rowspan="2">
-                 <div>
-                     <p>#{{f.emergenciesDisasters.emergencyDisasterID}} - {{f.emergenciesDisasters.locationsEmergenciesDisasters.locationCityName}}</p>
-                     <p class="text-muted">{{f.emergenciesDisasters.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
-                </div>
-
-            </mat-grid-tile>
-            <mat-grid-tile
-            colspan="2"
-            rowspan="2">
-            <div ><button mat-icon-button (click)="downloadPDF(f.location, false)"><mat-icon>visibility</mat-icon></button></div>
-
-             <div ><button mat-icon-button (click)="downloadPDF(f.location, true)"><mat-icon>file_download</mat-icon></button></div>
+    <!-- </div> -->
+  </mat-card-header>
+  <hr />
+  <mat-card-content *ngIf="files.length">
+    <mat-card *ngFor="let f of files; index as i" class="card2 mb-3">
+      <mat-grid-list cols="12" rowHeight="1.5:1">
+        <mat-grid-tile class="historys" colspan="9" rowspan="2">
+          <div>
+            <p>#{{f.emergenciesDisasters.emergencyDisasterID}} -
+              {{f.emergenciesDisasters.locationsEmergenciesDisasters.locationCityName}}</p>
+            <p class="text-muted">{{f.emergenciesDisasters.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
+          </div>
 
         </mat-grid-tile>
-        <mat-grid-tile
-        colspan="1"
-        rowspan="2">
-        <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-grid-tile colspan="2" rowspan="2">
+          <div><button mat-icon-button (click)="downloadPDF(f.location, false)">
+              <mat-icon>visibility</mat-icon>
+            </button></div>
+
+          <div><button mat-icon-button (click)="downloadPDF(f.location, true)">
+              <mat-icon>file_download</mat-icon>
+            </button></div>
+
+        </mat-grid-tile>
+
+        <!-- Anda mal - modificar -->
+        <!-- <mat-grid-tile colspan="1" rowspan="2">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
-        </button>
-    </mat-grid-tile>
-          </mat-grid-list>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="openDialog(i)">
+          </button>
+        </mat-grid-tile> -->
+      </mat-grid-list>
+      <!-- <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openDialog(i)">
                 <mat-icon>edit</mat-icon>
                 <span>Editar</span>
             </button>
-            <button mat-menu-item (click)="deleteModal(f.id)">
-                <mat-icon>delete</mat-icon>
-                <span>Eliminar</span>
-            </button>
-        </mat-menu> 
-        </mat-card>
-    </mat-card-content>
-    <mat-card-content *ngIf="!files.length" >
-      <div class="d-flex justify-content-center">
-        <!-- <mat-spinner color="warn" diameter="40"></mat-spinner> -->
-        <p class="text-center">No hay documentos cargados!</p>
-      </div>
-    </mat-card-content>
+        <button mat-menu-item (click)="deleteModal(f.id)">
+          <mat-icon>delete</mat-icon>
+          <span>Eliminar</span>
+        </button>
+      </mat-menu> -->
+    </mat-card>
+  </mat-card-content>
+  <mat-card-content *ngIf="!files.length">
+    <div class="d-flex justify-content-center">
+      <!-- <mat-spinner color="warn" diameter="40"></mat-spinner> -->
+      <p class="text-center">No hay documentos cargados!</p>
+    </div>
+  </mat-card-content>
 
-<div class="d-flex justify-content-center align-items-center p-2 mt-4">
-<ngb-pagination [collectionSize]="5" page="1"
-    pageSize="1">
-</ngb-pagination>
-</div>
+  <div class="d-flex justify-content-center align-items-center p-2 mt-4">
+    <ngb-pagination [collectionSize]="5" page="1" pageSize="1">
+    </ngb-pagination>
+  </div>
 
-  </mat-card>
-  
+</mat-card>

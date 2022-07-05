@@ -1,75 +1,99 @@
 <form>
   <div class="row justify-content-between p-3">
-          
+
     <div class="col-4 col-xs-4 col-sm-auto ">
-      <div class="align-items-center align-self-start ml-auto bd-highlight child-toggle mb-3" id="search"> 
-      <mat-slide-toggle (change)="onShow($event)" color="warn">Mostrar usuarios deshabilitados
-      </mat-slide-toggle>
+      <div class="align-items-center align-self-start ml-auto bd-highlight child-toggle mb-3" id="search">
+        <mat-slide-toggle (change)="onShow($event)" color="warn">Mostrar usuarios deshabilitados
+        </mat-slide-toggle>
+      </div>
+      <div class="d-flex form-control align-self-end align-items-center bd-highlight pr-3" id="search">
+        <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
+        <input class="col-4 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
+        <span class="col-4 text-right" *ngIf="service.loading$ | async"><i
+            class="fas fa-spinner fa-lg fa-spin"></i></span>
+      </div>
     </div>
-      <div class="d-flex form-control align-self-end align-items-center bd-highlight pr-3" id="search"> 
-      <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
-      <input class="col-4 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
-      <span class="col-4 text-right" *ngIf="service.loading$ | async" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
-    </div>
-    </div>
+
+
 
 
     <div class="col-4 col-xs-4 col-sm-auto align-self-end">
-      <button mat-raised-button matTooltip="Agregar un usuario nuevo" matTooltipPosition="above" color="warn" [routerLink]="['registrar']" aria-label="Agregar nuevo empleado">
+
+      <button mat-stroked-button color="warn" style="margin-right: 10px;" (click)="generatePDF()">
+        <mat-icon>
+          picture_as_pdf
+        </mat-icon>
+        Descargar
+      </button>
+
+      <button mat-raised-button matTooltip="Agregar un usuario nuevo" matTooltipPosition="above" color="warn"
+        [routerLink]="['registrar']" aria-label="Agregar nuevo empleado">
         <mat-icon>person_add</mat-icon>
-         Nuevo usuario
-         </button>
+        Nuevo usuario
+      </button>
     </div>
-</div>
+  </div>
 
   <table class="table table-striped table-sm">
     <thead>
-    <tr>
-      <th scope="col" sortable="userDni" (sort)="onSort($event)">DNI</th>
-      <th scope="col" sortable="firstName" (sort)="onSort($event)">Nombre</th>
-      <th scope="col" sortable="lastName" (sort)="onSort($event)">Apellido</th>
-      <th scope="col" sortable="roleName" (sort)="onSort($event)">Cargo</th>
-      <th scope="col" sortable="address" (sort)="onSort($event)">Dirección de trabajo</th>
-      <th scope="col" sortable="status" (sort)="onSort($event)">Disponibilidad</th>
-      <th scope="col"> </th>
-    </tr>
+      <tr>
+        <th scope="col" sortable="userDni" (sort)="onSort($event)">DNI</th>
+        <th scope="col" sortable="firstName" (sort)="onSort($event)">Nombre</th>
+        <th scope="col" sortable="lastName" (sort)="onSort($event)">Apellido</th>
+        <th scope="col" sortable="roleName" (sort)="onSort($event)">Cargo</th>
+        <th scope="col" sortable="address" (sort)="onSort($event)">Dirección de trabajo</th>
+        <th scope="col" sortable="status" (sort)="onSort($event)">Disponibilidad</th>
+        <th scope="col"> </th>
+      </tr>
     </thead>
     <tbody>
-      <ng-container ></ng-container>
-    <tr *ngFor="let empleado of employees$ | async; let i = index;">
-      <th scope="row">  <ngb-highlight [result]="empleado.users.userDni" [term]="service.searchTerm"></ngb-highlight></th>
-      <td>
-        <ngb-highlight [result]="empleado.users.persons.firstName | titlecase" [term]="service.searchTerm"></ngb-highlight>
-      </td>
-      <td><ngb-highlight [result]="empleado.users.persons.lastName | titlecase" [term]="service.searchTerm"></ngb-highlight></td>
-      <td><ngb-highlight [result]="empleado.users.roleName | titlecase" [term]="service.searchTerm"></ngb-highlight></td>
-      <td><ngb-highlight [result]="empleado.users.estates.address" [term]="service.searchTerm"></ngb-highlight></td>
-      <td><span for="status" *ngIf="empleado.users.persons.status"><i [class.text-success]="empleado.users.persons.status" class="fas fa-circle"></i>      Disponible</span>
-        <span *ngIf="!empleado.users.persons.status"><i [class.text-danger]="!empleado.users.persons.status"class="fas fa-circle"></i>      No disponible</span></td>
+      <ng-container></ng-container>
+      <tr *ngFor="let empleado of employees$ | async; let i = index;">
+        <th scope="row">
+          <ngb-highlight [result]="empleado.users.userDni" [term]="service.searchTerm"></ngb-highlight>
+        </th>
+        <td>
+          <ngb-highlight [result]="empleado.users.persons.firstName | titlecase" [term]="service.searchTerm">
+          </ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight [result]="empleado.users.persons.lastName | titlecase" [term]="service.searchTerm">
+          </ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight [result]="empleado.users.roleName | titlecase" [term]="service.searchTerm"></ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight [result]="empleado.users.estates.address" [term]="service.searchTerm"></ngb-highlight>
+        </td>
+        <td><span for="status" *ngIf="empleado.users.persons.status"><i
+              [class.text-success]="empleado.users.persons.status" class="fas fa-circle"></i> Disponible</span>
+          <span *ngIf="!empleado.users.persons.status"><i [class.text-danger]="!empleado.users.persons.status"
+              class="fas fa-circle"></i> No disponible</span>
+        </td>
 
-      
-<td>
-        <button mat-icon-button (click)="open(i)" aria-label="Icono del menu de empleados">
-          <mat-icon>info</mat-icon>
-        </button>
-        
-</td>
-    </tr>
-    <tr *ngIf="(employees$ | async).length == 0">
-      <!--******************* Spinner - se debe refactorizar  **************************-->
-      <!-- <td *ngIf="(employees$ | async) == null" colspan="7" class="text-center" >
+
+        <td>
+          <button mat-icon-button (click)="open(i)" aria-label="Icono del menu de empleados">
+            <mat-icon>info</mat-icon>
+          </button>
+
+        </td>
+      </tr>
+      <tr *ngIf="(employees$ | async).length == 0">
+        <!--******************* Spinner - se debe refactorizar  **************************-->
+        <!-- <td *ngIf="(employees$ | async) == null" colspan="7" class="text-center" >
         <span class="spinner-border spinner-border-lg align-center"></span>
       </td> -->
-      <td *ngIf="(employees$ | async).length == 0" colspan="7" class="text-center">
-        <p class="align-center">No hay personal registrado.</p>
-      </td>
-    </tr>
+        <td *ngIf="(employees$ | async).length == 0" colspan="7" class="text-center">
+          <p class="align-center">No hay personal registrado.</p>
+        </td>
+      </tr>
     </tbody>
   </table>
 
   <div class="d-flex justify-content-between p-2">
-    <ngb-pagination
-      [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
     </ngb-pagination>
 
     <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">

@@ -10,6 +10,8 @@ import { NgbdModalComponent } from '../../users/ngbd-modal/ngbd-modal.component'
 import { RequestTableService } from './request-table.service';
 import { AuthenticationService } from 'src/app/services';
 import { User } from 'src/app/models/user';
+import { NgbdResourcesFiltersDialogComponentComponent } from '../ngbd-resources-filters-dialog-component/ngbd-resources-filters-dialog-component.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'request-table',
@@ -30,7 +32,9 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   modalRef:any;
 
-    constructor( private alertService: AlertService,
+    constructor(
+      public dialog: MatDialog,
+      private alertService: AlertService,
       public service: RequestTableService,
       private modalService: NgbModal,
       private userService: UserService,
@@ -89,6 +93,12 @@ generatePDF(){
     });
   }
 
+
+  openDialog(tipo: string){
+    const dialogRef = this.dialog.open(NgbdResourcesFiltersDialogComponentComponent);
+    dialogRef.componentInstance.tipo = tipo;
+  
+  }
 
   ngOnDestroy(): void {
     if( this.handleUser){
