@@ -78,7 +78,7 @@ loading : boolean = false;
 minDate;
 maxDate;
 vehicles: Vehicle = null;
-
+prefix = '';
 vehicleYear: number;
 
 selectedFiles?: FileList;
@@ -116,7 +116,7 @@ imageInfos?: Observable<any>;
         this.type = this.formType.value;
         this.createForm();
         this.getForm(this.formType.value);
-
+        this.prefix = this.getPrefix(this.formType.value);
       });
   }
 
@@ -134,6 +134,15 @@ imageInfos?: Observable<any>;
     console.log('Ingreso a picklist');
     this.vehicleForm.get('Fk_TypeVehicleID').patchValue(this.vehicles.fk_TypeVehicleID);
 }
+
+  private getPrefix(value){
+    switch(value){
+      case 'materiales': return 'MA';
+      case 'medicamentos': return 'ME';
+      case 'vehiculos': return 'VE';
+
+    }
+  }
 
   private getParams(){
       this.activatedRoute.paramMap
@@ -310,7 +319,8 @@ imageInfos?: Observable<any>;
   public onSubmit(){
     if(this.form.valid){
       this.loading = true;
-
+      const id = this.prefix+'-'+this.form.get('id').value;
+      this.form.get('id').patchValue(id);
       if(this.action === 'nuevo'){
 
       this.postItem(this.form.value);

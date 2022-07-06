@@ -37,7 +37,8 @@
 
       <mat-form-field appearance="outline" style="width: 25%;">
         <mat-label>Codigo</mat-label>
-        <input matInput formControlName="id" [readonly]="isEdit" [readonly]="isEdit" />
+        <span matPrefix class="pr-2">{{prefix}} &nbsp;</span>
+        <input matInput formControlName="id" [readonly]="isEdit" />
       </mat-form-field>
 
       <mat-grid-list cols="4" rowHeight="100px">

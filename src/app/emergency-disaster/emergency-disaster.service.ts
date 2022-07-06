@@ -67,8 +67,12 @@ export class EmergencyDisasterService extends DataService {
     };
     let parametro = new HttpParams({fromObject: paramsObj});
     this.options.params = parametro;
-  }
     return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter', this.options);
+  }
+  else {
+    return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter');
+
+  }
 
     // .pipe(map(x => { 
     //   const items = x.filter(f => f.alerts.alertDegree != 'Controlado');
