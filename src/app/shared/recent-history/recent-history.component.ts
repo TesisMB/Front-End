@@ -45,7 +45,7 @@ export class RecentHistoryComponent implements OnInit {
 
   getLastRequest(){
   const userID =  this.authService.currentUserValue.userID;
-    this.handle = this.service.getAll(userID, this.condition)
+    this.handle = this.service.getAll(this.condition, 'solicitud')
     .pipe(
       tap(data => console.log(data)),
       )

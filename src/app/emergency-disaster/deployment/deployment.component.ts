@@ -38,7 +38,7 @@ firstFormGroup: FormGroup;
      (mapboxgl as any).accessToken = environment.key;
     const map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11', // style apiUrl
+      style: 'mapbox://styles/mapbox/streets-v11', // style URL
       center: [-74.5, 40], // starting position [lng, lat]
       zoom: 9 // starting zoom
     });
@@ -49,7 +49,7 @@ firstFormGroup: FormGroup;
   
 
 var map = L.map('map')
-.setView([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude], 14);
+.setView([this.emergencyDisaster.locationsEmergenciesDisasters.locationlatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationlongitude], 14);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -60,12 +60,12 @@ zoomOffset: -1,
 accessToken: 'pk.eyJ1IjoieW9lbHNvbGNhIiwiYSI6ImNrenpxZ2Z6bzBjcGgzY3F4NnJwYjJoODEifQ.tB-AizTwtOQLC3BA_5FiMw'
 }).addTo(map);
 
-var marker = L.marker([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude],{
+var marker = L.marker([this.emergencyDisaster.locationsEmergenciesDisasters.locationlatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationlongitude],{
   fillColor: '#ccc'
 })
 .addTo(map);
 
-var circle = L.circle([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude], {
+var circle = L.circle([this.emergencyDisaster.locationsEmergenciesDisasters.locationlatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationlongitude], {
   color: 'red',
   fillColor: '#f03',
   fillOpacity: 0.3,
@@ -74,7 +74,7 @@ var circle = L.circle([this.emergencyDisaster.locationsEmergenciesDisasters.loca
 }).addTo(map);
 
 var popup = L.popup()
-    .setLatLng([this.emergencyDisaster.locationsEmergenciesDisasters.locationLatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationLongitude])
+    .setLatLng([this.emergencyDisaster.locationsEmergenciesDisasters.locationlatitude, this.emergencyDisaster.locationsEmergenciesDisasters.locationlongitude])
 
     function onMapClick(e) {
       popup

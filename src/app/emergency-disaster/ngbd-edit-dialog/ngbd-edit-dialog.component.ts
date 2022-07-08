@@ -63,7 +63,7 @@ export class NgbdEditDialogComponent implements OnInit {
 
     this.emergencyDisaster.chatRooms.messages.forEach(times => messages.push(this.fb.group(times)));
 
-    this.emergencyDisaster.resources_Requests.forEach(times => resourcesRequests.push(this.fb.group(times)));
+    //this.emergencyDisaster.resources_Requests.forEach(times => resourcesRequests.push(this.fb.group(times)));
 
 
     
@@ -76,7 +76,7 @@ export class NgbdEditDialogComponent implements OnInit {
     }; */
 
   
-    let employee =  this.emergencyDisaster.employees.employeeID;
+    let employee =  this.emergencyDisaster.fk_EmplooyeeID;
     this.EmplooyeeID.patchValue(employee);
 
     
@@ -300,7 +300,7 @@ setRole(){
   }
 
   getUser(){
-    this.userService.getAll(this.authService.currentUserValue.userID).subscribe(data => {
+    this.userService.getAll().subscribe(data => {
       this.user = data;
 
       this.user = this.user.filter(a => a.users.roleName == "Coord. de Emergencias");

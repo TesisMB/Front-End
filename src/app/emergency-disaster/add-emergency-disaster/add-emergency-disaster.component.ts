@@ -108,7 +108,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
 
   getUser(){
-    this.userService.getAll(this.authenticationService.currentUserValue.userID).subscribe(data => {
+    this.userService.getAll().subscribe(data => {
       this.user = data;
       this.user = this.user.filter(a => a.users.roleName == "Coord. de Emergencias");
     }, error =>{
@@ -132,26 +132,21 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
     }
 
   getLocation(placeObservable){
-   this.handler = this.placesService.getLocation(placeObservable.center[1], placeObservable.center[0]).subscribe(resp =>{
     this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationLongitude').patchValue(placeObservable.center[0]);
     this.addEmergencyDisaster.get('locationsEmergenciesDisasters.LocationLatitude').patchValue(placeObservable.center[1]);
- 
-    this.ubicacion = resp.ubicacion;
+    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(placeObservable.place_name);
 
-    }, error=>{
-      console.log("Error", error);
-    });  
+    console.log("Place Name", placeObservable.place_name);
   }
     
   
 
   postEmergencyDisaster(){
 
-    if(this.addEmergencyDisaster.valid && this.ubicacion){
+    // if(this.addEmergencyDisaster.valid && this.ubicacion){
 
-      this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(this.ubicacion.municipio.nombre);
-      this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationDepartmentName').patchValue(this.ubicacion.departamento.nombre);
-      this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationMunicipalityName').patchValue(this.ubicacion.municipio.nombre);
+     // this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(this.ubicacion.municipio.nombre);
+      
       this.addEmergencyDisaster.get('FK_EstateID').patchValue(this.currentUser.estates.estateID);
 
       
@@ -167,14 +162,14 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
         console.log("Error en el formulario!!!", error);
       });
     }
-    else if(this.addEmergencyDisaster.valid){
-      this.alertService.error('La API no esta funcionando correctamente, por favor reintentar en un rato.', {autoClose: true});
-    }
-  }
+    // else if(this.addEmergencyDisaster.valid){
+    //   this.alertService.error('La API no esta funcionando correctamente, por favor reintentar en un rato.', {autoClose: true});
+    // }
+  //}
 
 
   getTypeEmergencyDisaster(){
-    this.selectTypesEmergencyDisasterService.getAll(this.authenticationService.currentUserValue.userID)
+    this.selectTypesEmergencyDisasterService.getAll()
     .pipe(
       map((x) =>{
         x.forEach(item =>{

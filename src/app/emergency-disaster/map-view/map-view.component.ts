@@ -23,7 +23,7 @@ export class MapViewComponent implements OnInit, AfterViewInit {
 
     const map = new Map({
       container: this.mapDivElement.nativeElement, // container ID
-      style: 'mapbox://styles/mapbox/streets-v11', // style apiUrl
+      style: 'mapbox://styles/mapbox/streets-v11', // style URL
       center: this.placesService.userLocation, // starting position [lng, lat]
       zoom: 14 // starting zoom
   });

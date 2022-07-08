@@ -19,7 +19,7 @@ export class RecentAlertComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.handle = this.service.getAllWithoutFilter(this.authService.currentUserValue.userID,'2')
+    this.handle = this.service.getAllWithoutFilter('2')
     .subscribe(data => {
       this.alerts = data;
       this.isLoading = false;

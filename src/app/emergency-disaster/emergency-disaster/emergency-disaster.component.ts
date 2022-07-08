@@ -57,7 +57,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
 
 
   getTypeEmergencyDisaster(){
-    this.selectTypesEmergencyDisasterService.getAll(this.authService.currentUserValue.userID)
+    this.selectTypesEmergencyDisasterService.getAll()
     .pipe(
       map((x) =>{
         x.forEach(item =>{
@@ -89,7 +89,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
 
   
   getEmergencyDisaster() {
-     this.emergencyDisasterService.getAllWithoutFilter(this.authService.currentUserValue.userID)
+     this.emergencyDisasterService.getAllWithoutFilter()
  
         .subscribe(data => {
           this.emergencyDisaster = data;
@@ -109,7 +109,6 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
     console.log("data => ", id);
      this.selectTypesEmergencyDisasterService.setTypes(id);
     /*this.selectTypesEmergencyDisasterService.TypesEvent.emit(id); */
-    
   }
 
 

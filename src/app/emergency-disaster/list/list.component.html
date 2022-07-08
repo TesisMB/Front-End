@@ -22,11 +22,13 @@
         <p>{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
     </div>
 
-    <div class="content-center d-flex flex-column justify-content-center align-items-center" [routerLink]="['despliegue', emergency.emergencyDisasterID]">
+    <div class="content-center d-flex flex-column justify-content-center align-items-center"
+        [routerLink]="['despliegue', emergency.emergencyDisasterID]">
         <div class="child text-center">
             <p class="font-weight-bold">#{{emergency.emergencyDisasterID}}
-                <span>{{emergency.locationsEmergenciesDisasters.locationCityName}}</span></p>
-                <span class="text-muted mt-2">{{emergency.alerts.alertMessage}}</span>
+                <span>{{emergency.locationsEmergenciesDisasters.locationCityName}}</span>
+            </p>
+            <span class="text-muted mt-2">{{emergency.alerts.alertMessage}}</span>
 
         </div>
 
@@ -43,10 +45,10 @@
                     <mat-icon>edit</mat-icon>
                     <span>Editar</span>
                 </button>
-                <button mat-menu-item (click)="deleteModal(i, 'Eliminar')">
+                <!-- <button mat-menu-item (click)="deleteModal(i, 'Eliminar')">
                     <mat-icon>delete</mat-icon>
                     <span>Eliminar</span>
-                </button>
+                </button> -->
 
                 <button mat-menu-item (click)="openDialog(i, 'Finalizar')" *ngIf="!emergency.emergencyDisasterEndDate">
                     <mat-icon>check_box</mat-icon>

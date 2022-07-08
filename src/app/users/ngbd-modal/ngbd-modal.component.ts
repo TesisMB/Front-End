@@ -261,7 +261,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
    private getLocations(){
-     this.stateService.getAll(this.authenticationService.currentUserValue.userID)
+     this.stateService.getAll()
      .pipe(map(x => 
      x.filter( estates => this.user.users.estates.locationCityName == estates.locationCityName)))
      .subscribe(

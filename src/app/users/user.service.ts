@@ -72,7 +72,7 @@ return this._employeeForm.group({
 getLocations(patch: string): Observable<any> {
   const arrayEmergencies: Input[] = [];
 
-    return this.http.get<any>(environment.apiUrl + patch)
+    return this.http.get<any>(environment.URL + patch)
     .pipe(map( data => {
      return data.filter(e => e.locationCityName === this.authenticateService.currentUserValue.estates.locationCityName)
   }));}

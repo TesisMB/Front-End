@@ -27,7 +27,7 @@ export class ListComponent implements OnInit, OnDestroy{
 
 public getUsers() {
 
-  this.handleSU = this.service.getAll(this._authenticationService.currentUserValue.userID)
+  this.handleSU = this.service.getAll()
   .subscribe(
     (result: Employee[]) => {
       this.employees = result;

@@ -126,7 +126,7 @@ export interface FoodNode {
       name: 'Monitoreo',
       patch:'/monitoreo',
       icon:'fas fa-tv' ,
-      disabled: true,
+      disabled: false,
       role:['Admin','Coordinador General','Coord. de Emergencias']
     },
 ];

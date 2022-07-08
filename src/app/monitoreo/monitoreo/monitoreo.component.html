@@ -1,11 +1,26 @@
-<section class="title">
+<!-- <section class="title">
     <h1>Monitoreo</h1>
-</section>
+</section> -->
 
 
-<section class="row justify-content-around col-body" id="row-aside">
-<!-- 
-    <div class="d-flex justify-content-around row col-12">
+<section class="row justify-content-between col-body" id="row-aside">
+
+    <div class="d-flex justify-content-between row col-12">
+
+        <div class="pt-4 col-3 align-self-end">
+            <div class="d-flex form-control align-items-center bd-highlight pr-3" id="search"> 
+            <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
+            <input class="col-4 input-search" type="text" name="searchTerm">
+            <span *ngIf="isLoading" class="col-4 text-center"  ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
+        </div>
+          </div>
+       
+
+        <div class="col-4 col-xs-4 col-sm-auto pt-4 title">
+              <h2 class="text-center">Monitoreo</h2>
+        </div>
+
+        <!-- 
 
         <div class="child-toggle">
             <mat-slide-toggle color="warn" (change)="getcheckStatus($event)">Mostrar emergencias inactivas
@@ -23,17 +38,16 @@
         </mat-form-field> -->
 
         <!-- Boton para agregar -->
-        <!-- <div class="col-4 col-xs-4 col-sm-auto ">
-            <button mat-raised-button color="warn" [routerLink]="['/emergencias','agregar']">
+        <div class="col-4 col-xs-4 col-sm-auto pt-4  align-self-end">
+            <button mat-raised-button color="warn" (click)="openDialog()" >
                 <mat-icon>add</mat-icon>
-                Agregar emergencia
+                Agrega un PDF
             </button>
         </div>
-    </div> -->
+    </div>
 
-
-    <div class="col-10">
-        
+    <div class="d-flex flex-column justify-content-center align-items-center col-12 mt-5">
+        <monitorio-list [files]="data"></monitorio-list>
     </div>
 
 

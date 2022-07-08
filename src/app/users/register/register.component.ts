@@ -161,7 +161,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     //   if (event.target.files && event.target.files[0]) {
     //     let reader = new FileReader();
 
-    //     reader.readAsDataURL(event.target.files[0]); // Lee el archivo como DATA apiUrl
+    //     reader.readAsDataURL(event.target.files[0]); // Lee el archivo como DATA URL
 
     //     reader.onload = (event) => { // Es llamado cuando el metodo readAsDataURL es completado
     //       this.url = event.target.result;

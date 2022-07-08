@@ -10,6 +10,8 @@ import { NgbdModalComponent } from '../../users/ngbd-modal/ngbd-modal.component'
 import { RequestTableService } from './request-table.service';
 import { AuthenticationService } from 'src/app/services';
 import { User } from 'src/app/models/user';
+import { NgbdResourcesFiltersDialogComponentComponent } from '../ngbd-resources-filters-dialog-component/ngbd-resources-filters-dialog-component.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'request-table',
@@ -20,6 +22,7 @@ import { User } from 'src/app/models/user';
 export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() condition = 'Pendiente';
   request$: Observable<RequestGet[]>;
+  @Input() title: string;
   total$: Observable<number>;
   loading$: Observable<boolean>;
   currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
@@ -30,7 +33,9 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   modalRef:any;
 
-    constructor( private alertService: AlertService,
+    constructor(
+      public dialog: MatDialog,
+      private alertService: AlertService,
       public service: RequestTableService,
       private modalService: NgbModal,
       private userService: UserService,
@@ -81,7 +86,7 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
 generatePDF(){ 
   //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
     let fileName = `${this.authenticateService.currentUserValue.persons.firstName} ${this.authenticateService.currentUserValue.persons.lastName}`;
-    this.service.generatePDF(this.authenticateService.currentUserValue.estates.estateID).subscribe(res => {
+    this.service.generatePDF(this.authenticateService.currentUserValue.estates.estateID, this.title).subscribe(res => {
       const file = new Blob([<any>res], {type: 'application/pdf'});
     //  saveAs(file, fileName);
       const fileURL = window.URL.createObjectURL(file);
@@ -89,6 +94,12 @@ generatePDF(){
     });
   }
 
+
+  openDialog(tipo: string){
+    const dialogRef = this.dialog.open(NgbdResourcesFiltersDialogComponentComponent);
+    dialogRef.componentInstance.tipo = tipo;
+  
+  }
 
   ngOnDestroy(): void {
     if( this.handleUser){

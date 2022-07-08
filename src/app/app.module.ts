@@ -24,12 +24,16 @@ import { AppComponent } from './app.component';
 import { ErrorInterceptor, JwtInterceptor} from './_helpers';
 import { FileValueAccessorDirective } from './directives/file-value-accessor.directive';
 import { MonitoreoComponent } from './monitoreo/monitoreo/monitoreo.component';
+import { DialogPDFComponent } from './monitoreo/dialog-pdf/dialog-pdf.component';
+import { MonitorioListComponent } from './monitoreo/monitorio-list/monitorio-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FileValueAccessorDirective,
     MonitoreoComponent,
+    DialogPDFComponent,
+    MonitorioListComponent,
 
 
 

@@ -12,6 +12,7 @@ import { DecimalPipe } from '@angular/common';
 import {compare, Operation } from 'fast-json-patch';
 import * as _ from 'lodash';
 import { constants } from 'buffer';
+import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 
 function matches(resource: Resource, term: string, pipe: PipeTransform) {
   return (resource.name).toLowerCase().includes(term.toLowerCase())
@@ -54,6 +55,9 @@ export class ResourcesService {
  private _imgFile$ = new BehaviorSubject<File>(null);
  private _showAvailability$ = new BehaviorSubject<boolean>(false);
 
+
+
+
  private _state: State = {
    page: 1,
    pageSize: 5,
@@ -80,7 +84,7 @@ export class ResourcesService {
   
     this._search$.next();
 
-    this.vehiclesTypes$ = this.http.get<any>(environment.apiUrl + 'typesvehicles').pipe(tap(x => console.log('Types of vehicles => ',x)));
+    this.vehiclesTypes$ = this.http.get<any>(environment.URL + 'typesvehicles').pipe(tap(x => console.log('Types of vehicles => ',x)));
   }
 
 get resourcesValue(){  return this._resources$.value; }
@@ -158,7 +162,7 @@ public uploadTable(resources: Resource[]) {
     this.options.params = paramaters;
 
     return this.http
-      .get<Resource[]>(environment.apiUrl + this._type$.value, this.options)
+      .get<Resource[]>(environment.URL + this._type$.value, this.options)
        .pipe(map((resources: Resource[]) => {
           if(resources.length){
             this._resources$.next(resources);
@@ -175,14 +179,14 @@ public uploadTable(resources: Resource[]) {
   }
 
   getById(id: string, patch: string) {
-    return this.http.get<any>(environment.apiUrl + patch + '/' + id);
+    return this.http.get<any>(environment.URL + patch + '/' + id);
   }
   register(resource, patch: string) {
 
-    return this.http.post(environment.apiUrl + patch, resource);
+    return this.http.post(environment.URL + patch, resource);
   }
   update(patch ,id, operations?: Operation[]) {
-    return this.http.patch(environment.apiUrl + patch+ '/' + id, operations)
+    return this.http.patch(environment.URL + patch+ '/' + id, operations)
     .pipe(map( x => {    
     return x
     }));
@@ -193,19 +197,54 @@ public uploadTable(resources: Resource[]) {
     ImageFile.append('file', file);
   //  this._imgFile$.next(file);
    // resource.imageFile = ImageFile;
-    const req = new HttpRequest('POST', `${environment.apiUrl}upload`, ImageFile , {
+    const req = new HttpRequest('POST', `${environment.URL}upload`, ImageFile, {
       reportProgress: true,
-      responseType: 'json'
+      responseType: 'text'
     });
     return this.http.request(req);
   }
+
+  
+  generatePDFResources(startDate: String, tipo: String, endDate: String, userId: number): Observable<any> {
+    // let paramaters = new HttpParams().append('startDate', JSON.stringify(startDate));
+    // this.options.params = paramaters;
+
+    let url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate;
+
+//https://localhost:5001/api/estates/pdf/?dateStart=Thu Oct 12 2022 00:00:00 GMT-0300 (hora estándar de Argentina)
+//&dateEnd=Thu Oct 12 2022 00:00:00 GMT-0300 (hora estándar de Argentina)&userId=3
+
+    if(tipo == 'get' && endDate != null){
+      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate + '/&dateEnd=' + endDate + '&userId' + userId;
+    }else if(tipo == 'get' && endDate == null){
+      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate;
+    }
+    else if (tipo != 'get' && endDate != null){
+      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate + '/&dateEnd=' + endDate + '&userId' + userId + '&getall=todas';
+    }
+   else{
+      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate + '&userId' + userId + '&getall=todas';
+    }
+    
+
+
+    const headers = new HttpHeaders().set('Accept','application/pdf');
+    return this.http.get(url, 
+        {
+          headers: headers,
+          responseType: 'blob'
+        }
+      );
+    }
+
+
   getFiles(): Observable<any> {
-     return this.http.get(`${environment.apiUrl}files`);
+     return this.http.get(`${environment.URL}files`);
   }
 
 
   delete(id, patch: string) {
-    return this.http.delete(environment.apiUrl + patch + '/' + id)
+    return this.http.delete(environment.URL + patch + '/' + id)
     .pipe(map( x => {
       this.deleteFromTable(id);
       return x
@@ -215,7 +254,7 @@ public uploadTable(resources: Resource[]) {
   
   generatePDF(id): Observable<any> {
     const headers = new HttpHeaders().set('Accept','application/pdf');
-    return this.http.get(environment.apiUrl + 'pdf/' + id, 
+    return this.http.get(environment.URL + 'pdf/' + id, 
         {
           headers: headers,
           responseType: 'blob'

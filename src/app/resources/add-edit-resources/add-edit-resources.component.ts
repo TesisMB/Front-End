@@ -18,9 +18,9 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 
 const TYPES = [
-  {value: 'materiales', viewValue:'Instrumental'},
+  {value: 'materiales', viewValue:'Material'},
   {value: 'medicamentos', viewValue:'Farmacia'},
-  {value: 'vehiculos', viewValue:'Rodado'}
+  {value: 'vehiculos', viewValue:'Vehiculo'}
   ];
 
   const VEHICLES_UTILITYS =['Transporte','Uso particular','Carga', 'Emergencias'];
@@ -78,7 +78,7 @@ loading : boolean = false;
 minDate;
 maxDate;
 vehicles: Vehicle = null;
-
+prefix = '';
 vehicleYear: number;
 
 selectedFiles?: FileList;
@@ -116,7 +116,7 @@ imageInfos?: Observable<any>;
         this.type = this.formType.value;
         this.createForm();
         this.getForm(this.formType.value);
-
+        this.prefix = this.getPrefix(this.formType.value);
       });
   }
 
@@ -134,6 +134,15 @@ imageInfos?: Observable<any>;
     console.log('Ingreso a picklist');
     this.vehicleForm.get('Fk_TypeVehicleID').patchValue(this.vehicles.fk_TypeVehicleID);
 }
+
+  private getPrefix(value){
+    switch(value){
+      case 'materiales': return 'MA';
+      case 'medicamentos': return 'ME';
+      case 'vehiculos': return 'VE';
+
+    }
+  }
 
   private getParams(){
       this.activatedRoute.paramMap
@@ -238,7 +247,7 @@ imageInfos?: Observable<any>;
                           });
   }
   private getLocations(){
-    this.stateService.getAll(this.currentUser.userID)
+    this.stateService.getAll()
     .pipe(map(x => 
     x.filter( estates => this.currentUser.estates.locationCityName == estates.locationCityName)))
     .subscribe(
@@ -267,7 +276,7 @@ imageInfos?: Observable<any>;
     const arrayUsers: UsersGroup[] = [];
    
 
-    this.userService.getAll(this.currentUser.userID)
+    this.userService.getAll()
     .pipe(
     tap(x => console.log('Usuarios before filter => ', x)),
     map((x:Employee[]) => {
@@ -310,7 +319,8 @@ imageInfos?: Observable<any>;
   public onSubmit(){
     if(this.form.valid){
       this.loading = true;
-
+      const id = this.prefix+'-'+this.form.get('id').value;
+      this.form.get('id').patchValue(id);
       if(this.action === 'nuevo'){
 
       this.postItem(this.form.value);
@@ -324,6 +334,7 @@ imageInfos?: Observable<any>;
 
   private postItem(form){
     this.form.get('createdBy').patchValue(this.authenticationService.currentUserValue.userID);
+    form.createdBy =  this.form.get('createdBy').value;
     this.service.register(form,this.formType.value)
     .subscribe(
 data => {
@@ -336,9 +347,7 @@ data => {
 },
 error => {
     this.loading = false;
-    console.log('Error del post => ', error);
-    this.alertService.error('Ha ocurrido un error :( , intentelo mas tarde', {autoClose: true});
-
+    this.alertService.errorForRegister(error);
 }
     );
   }
@@ -413,7 +422,7 @@ error => {
            if (event.type === HttpEventType.UploadProgress) {
              this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
            } else if (event instanceof HttpResponse) {
-           this.form.get('picture').patchValue(event.body.fileName);
+           this.form.get('picture').patchValue(event.body);
               const msg = 'Se cargó la imagen exitosamente!: ' + file.name;
               this.message = msg;
              this.imageInfos = this.service.getFiles();

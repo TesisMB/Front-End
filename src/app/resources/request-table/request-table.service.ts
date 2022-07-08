@@ -128,9 +128,9 @@ public _uploadTable(_request: RequestGet[]) {
 
 }
 
-generatePDF(id): Observable<any> {
+generatePDF(id, tab): Observable<any> {
   const headers = new HttpHeaders().set('Accept','application/pdf');
-  return this.http.get(environment.apiUrl + 'resourcesrequest/' + 'pdf/' + id, 
+  return this.http.get(environment.URL + 'resourcesrequest/' + 'pdf/' + id, 
       {
         headers: headers,
         responseType: 'blob'
@@ -159,6 +159,11 @@ private _search(): Observable<SearchResult> {
   // 3. paginate
   data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
   return of({data, total});
+ }
+
+
+ openDialog(){
+  
  }
 
   

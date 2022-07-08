@@ -17,13 +17,15 @@ export interface EmergencyDisaster {
     FK_AlertID: number,
     Fk_LocationID: number,
     FK_EstateID: number,
-    
+    employeeName: string;
+    fk_EmplooyeeID: number,
+
     locationsEmergenciesDisasters: {
         locationDepartmentName: string;
         locationCityName: string;
         locationMunicipalityName: string;
-        locationLatitude: number;
-        locationLongitude: number;
+        locationlatitude: number;
+        locationlongitude: number;
     }
 
     typesEmergenciesDisasters: TypesEmergencyDisaster;
@@ -31,12 +33,12 @@ export interface EmergencyDisaster {
     alerts: Alerts
 
     employees:{
+        name: string;
       employeeID: number;
           userID: number;
           roleName: string;
           userAvailability: boolean;
           userDni: string;
-          name: string;
         }
 
      chatRooms:{
@@ -78,3 +80,15 @@ export interface EmergencyDisaster {
 
     victims: Victim;
 }
+
+export interface AlertsInput {
+    value: number;
+    viewValue: string;
+    date?: Date;
+  }
+  
+ export interface AlertArray {
+    disabled?: boolean;
+    name: string;
+    alerts: AlertsInput[];
+  }

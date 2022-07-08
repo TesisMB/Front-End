@@ -39,7 +39,7 @@ changeCondition(event){
 }
 
 getRequest(condition){
-  this.handleRequest = this.requestService.getAll(this.authenticateService.currentUserValue.userID, condition)
+  this.handleRequest = this.requestService.getAll(condition)
   .subscribe((x: any) =>{
   this.service._uploadTable(x);
   this.service._setCondition(condition);

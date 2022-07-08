@@ -113,7 +113,7 @@
         <select type="number" formControlName="FK_EmergencyDisasterID" class="custom-select custom-select-sm">
           <option selected>Seleccione una emergencia</option>
           <optgroup *ngFor="let group of emergencyGroups" [label]="group.name" [disabled]="group.disabled">
-            <option *ngFor="let emergency of  group.emergency" [value]="emergency.value">
+            <option *ngFor="let emergency of  group.alerts" [value]="emergency.value">
               {{emergency.viewValue}} - {{emergency.date | date :'dd/MM hh:mm a'}}</option>
           </optgroup>
         </select>
