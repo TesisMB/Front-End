@@ -8,15 +8,16 @@
     </div>
 
     <!-- Falta pasarle id de voluntario -->
-    <!-- <div class="col-4">
+    <div class="col-4">
 
-      <button mat-stroked-button color="warn" (click)="generatePDF()">
+      <button mat-stroked-button color="warn" (click)="generatePDF()" *ngIf="type == 'voluntarios'">
         <mat-icon>
           picture_as_pdf
         </mat-icon>
         Descargar
       </button>
-    </div> -->
+    </div>
+
   </section>
   <ng-container *ngIf="item">
     <section class="center row">

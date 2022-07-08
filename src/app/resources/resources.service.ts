@@ -205,17 +205,27 @@ public uploadTable(resources: Resource[]) {
   }
 
   
-  generatePDFResources(startDate: String, tipo: String): Observable<any> {
+  generatePDFResources(startDate: String, tipo: String, endDate: String, userId: number): Observable<any> {
     // let paramaters = new HttpParams().append('startDate', JSON.stringify(startDate));
     // this.options.params = paramaters;
 
     let url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate;
 
-    if(tipo == 'get'){
+//https://localhost:5001/api/estates/pdf/?dateStart=Thu Oct 12 2022 00:00:00 GMT-0300 (hora estándar de Argentina)
+//&dateEnd=Thu Oct 12 2022 00:00:00 GMT-0300 (hora estándar de Argentina)&userId=3
+
+    if(tipo == 'get' && endDate != null){
+      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate + '/&dateEnd=' + endDate + '&userId' + userId;
+    }else if(tipo == 'get' && endDate == null){
       url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate;
-    }else{
-      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate + '&getall=todas';
     }
+    else if (tipo != 'get' && endDate != null){
+      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate + '/&dateEnd=' + endDate + '&userId' + userId + '&getall=todas';
+    }
+   else{
+      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate + '&userId' + userId + '&getall=todas';
+    }
+    
 
 
     const headers = new HttpHeaders().set('Accept','application/pdf');

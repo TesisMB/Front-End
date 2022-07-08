@@ -109,7 +109,6 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
     console.log("data => ", id);
      this.selectTypesEmergencyDisasterService.setTypes(id);
     /*this.selectTypesEmergencyDisasterService.TypesEvent.emit(id); */
-    
   }
 
 

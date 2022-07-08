@@ -14,21 +14,21 @@
     </div>
 
 
-    <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-      <mat-icon>more_vert</mat-icon>
-    </button> -->
-
-
-    <!-- <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="openDialog('solicitudes')">
-        <mat-icon>picture_as_pdf</mat-icon>
-        <span>Descargar solicitudes de la filial</span>
+    <div *ngIf="title !== 'Pendiente'">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
       </button>
-    </mat-menu> -->
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openDialog('solicitudes')">
+          <mat-icon>picture_as_pdf</mat-icon>
+          <span>Descargar recursos de la filial</span>
+        </button>
+      </mat-menu>
+      <!-- <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF()">
+        <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
+      </button> -->
+    </div>
 
-    <!-- <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF()">
-      <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
-    </button> -->
   </div>
 </form>
 

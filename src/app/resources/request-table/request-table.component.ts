@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() condition = 'Pendiente';
   request$: Observable<RequestGet[]>;
+  @Input() title: string;
   total$: Observable<number>;
   loading$: Observable<boolean>;
   currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
@@ -85,7 +86,7 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
 generatePDF(){ 
   //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
     let fileName = `${this.authenticateService.currentUserValue.persons.firstName} ${this.authenticateService.currentUserValue.persons.lastName}`;
-    this.service.generatePDF(this.authenticateService.currentUserValue.estates.estateID).subscribe(res => {
+    this.service.generatePDF(this.authenticateService.currentUserValue.estates.estateID, this.title).subscribe(res => {
       const file = new Blob([<any>res], {type: 'application/pdf'});
     //  saveAs(file, fileName);
       const fileURL = window.URL.createObjectURL(file);

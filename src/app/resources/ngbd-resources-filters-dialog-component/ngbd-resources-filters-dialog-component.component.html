@@ -4,7 +4,7 @@
         <div *ngIf="tipo == 'solicitudes'">
             <h4>Seleccione el tipo de solicitud a consultar</h4>
             <mat-form-field appearance="fill">
-                <mat-label>Select an option</mat-label>
+                <mat-label>Seleccione una opción</mat-label>
                 <mat-select [(value)]="selected" (valueChange)="select()">
                     <mat-option value="Aceptada">Aceptadas</mat-option>
                     <mat-option value="Rechazada">Rechazadas</mat-option>
@@ -13,34 +13,53 @@
         </div>
 
 
+        <!-- <mat-form-field appearance="fill" *ngIf="tipo == 'solicitudes'">
+            <mat-label>Tipo de Emergencia</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let employee of arrayRequest" [value]="employee.id"
+                    (click)="selectTypes(employee.id)">
+                    {{employee.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="fill" *ngIf="tipo == 'solicitudes'">
+            <mat-label>Tipo de Emergencia</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let emergency of arrayRequest" [value]="emergency.emergnecyId"
+                    (click)="selectTypesEmergency(emergency.emergnecyId)">
+                    {{emergency.emergencyName}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
 
         <mat-form-field appearance="fill" style="margin-top: 3rem;">
             <mat-label>Seleccione una fecha desde </mat-label>
-            <input matInput 
-            [max]="maxDate"
-            [matDatepicker]="picker" (dateChange)="dates($event)">
+            <input matInput [max]="maxDate" [matDatepicker]="picker" (dateChange)="dates($event)">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
 
-        <!-- <mat-form-field appearance="fill" style="margin-left: 20px;">
+        <mat-form-field appearance="fill" style="margin-left: 20px;">
             <mat-label>Seleccione una fecha hasta</mat-label>
-            <input matInput [matDatepicker]="mypicker" (dateChange)="dateEnd($event)">
+            <input matInput [matDatepicker]="mypicker" [max]="maxDate" (dateChange)="dateEnd($event)">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="mypicker"></mat-datepicker-toggle>
             <mat-datepicker #mypicker></mat-datepicker>
         </mat-form-field>
-    </div> -->
-
-        <div class="d-flex justify-content-end">
-            <button mat-stroked-button color="warn" style="margin-right: 10px;" (click)="generatePDF()">
-                <mat-icon>
-                    picture_as_pdf
-                </mat-icon>
-                Descargar
-            </button>
-        </div>
-
     </div>
+
+    <div class="d-flex justify-content-end">
+        <button mat-stroked-button color="warn" style="margin-right: 10px;" (click)="generatePDF()">
+            <mat-icon>
+                picture_as_pdf
+            </mat-icon>
+            Descargar
+        </button>
+    </div>
+
+</div>
