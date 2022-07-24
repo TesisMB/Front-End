@@ -104,7 +104,7 @@ var popup = L.popup()
 
 
       if(this.emergencyDisaster.chatRooms != null){
-        this.emergencyDisaster.chatRooms.usersChatRooms.forEach(element => {
+        this.emergencyDisaster.usersChatRooms.forEach(element => {
           const user = {
             id: element.userID,
             legajo: element.userDni,

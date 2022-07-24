@@ -19,7 +19,7 @@
   </mat-card-header>
   <hr />
   <mat-card-content *ngIf="files.length">
-    <mat-card *ngFor="let f of files; index as i" class="card2 mb-3">
+    <mat-card *ngFor="let f of (files$ | async); index as i" class="card2 mb-3">
       <mat-grid-list cols="12" rowHeight="1.5:1">
         <mat-grid-tile class="historys" colspan="9" rowspan="2">
           <div>
@@ -41,22 +41,22 @@
         </mat-grid-tile>
 
         <!-- Anda mal - modificar -->
-        <!-- <mat-grid-tile colspan="1" rowspan="2">
+        <mat-grid-tile colspan="1" rowspan="2">
           <button mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
-        </mat-grid-tile> -->
+        </mat-grid-tile>
       </mat-grid-list>
-      <!-- <mat-menu #menu="matMenu">
+      <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="openDialog(i)">
-                <mat-icon>edit</mat-icon>
-                <span>Editar</span>
-            </button>
+          <mat-icon>edit</mat-icon>
+          <span>Editar</span>
+        </button>
         <button mat-menu-item (click)="deleteModal(f.id)">
           <mat-icon>delete</mat-icon>
           <span>Eliminar</span>
         </button>
-      </mat-menu> -->
+      </mat-menu>
     </mat-card>
   </mat-card-content>
   <mat-card-content *ngIf="!files.length">

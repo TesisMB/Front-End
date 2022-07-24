@@ -40,26 +40,30 @@ export interface EmergencyDisaster {
           userAvailability: boolean;
           userDni: string;
         }
+        
+        usersChatRooms:[
+        {
+            userID: number;
+            name: string;
+            userDni: string;
+            roleName: string;
+        },
+       ]
 
      chatRooms:{
          id:number;
          FK_TypeChatRoomID: number;
-         usersChatRooms:[
-         {
-             userID: number;
-             name: string;
-             userDni: string;
-             roleName: string;
-         },
-        ]
-        messages: [{
-            ID: number,
-            message: string,
-            messagesState: boolean,
-            createdDate: Date,
-            FK_UserID: number,
-            name: string
-        }]
+         dataMessage:[{
+            createdDate: string;
+                messages: [{
+                    ID: number,
+                    message: string,
+                    messagesState: boolean,
+                    createdDate: Date,
+                    FK_UserID: number,
+                    name: string
+                }]
+         }]
      }
 
     resources_Requests: [

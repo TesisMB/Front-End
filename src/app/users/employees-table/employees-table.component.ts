@@ -23,6 +23,7 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
   patchHandler: any ="";
   error: any = "";
   currentUser: any;
+  loading = false;
 
 
 
@@ -62,8 +63,8 @@ ngOnInit() {
 
   
 
-  generatePDF(){ 
-
+  generatePDF(){  
+    this.loading = true;
     //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
       //let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;
       let fileName = 'Empleado';
@@ -72,6 +73,8 @@ ngOnInit() {
       //  saveAs(file, fileName);
         const fileURL = window.URL.createObjectURL(file);
         window.open(fileURL, fileName);
+        this.loading = false;
+
       });
     }
 

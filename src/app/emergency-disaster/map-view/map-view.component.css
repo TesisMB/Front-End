@@ -8,3 +8,13 @@
     /*   margin-top: 8rem;
     margin: 11rem 67px; */
 }
+
+agm-map {
+    position: relative;
+    top: 0;
+    right: 0;
+    width: 74vw;
+    height: 74vh;
+    border-radius: 10px;
+    height: 50vh;
+}

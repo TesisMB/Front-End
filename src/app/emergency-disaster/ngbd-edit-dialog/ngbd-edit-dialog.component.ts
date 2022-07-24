@@ -59,9 +59,9 @@ export class NgbdEditDialogComponent implements OnInit {
     const resources = this.resources;
 
 
-    this.emergencyDisaster.chatRooms.usersChatRooms.forEach(times => chat.push(this.fb.group(times)));
+   // this.emergencyDisaster.usersChatRooms.forEach(times => chat.push(this.fb.group(times)));
 
-    this.emergencyDisaster.chatRooms.messages.forEach(times => messages.push(this.fb.group(times)));
+    //this.emergencyDisaster.chatRooms.dataMessage.forEach(times => messages.push(this.fb.group(times)));
 
     //this.emergencyDisaster.resources_Requests.forEach(times => resourcesRequests.push(this.fb.group(times)));
 
@@ -183,9 +183,22 @@ setRole(){
       let patch = compare(this.model, this.emergencyDisasterForm.value);
       //let patch = compare(this.model, this.emergencyDisaster);
 
-      patch = patch.filter( obj => obj.op !== 'add');
+      // patch = patch.filter( obj => obj.op !== 'add');
       patch = patch.filter( obj => obj.op !== 'remove');
-      //patch = patch.filter( obj => obj.path !== "/alerts");
+      patch = patch.filter( obj => obj.path !== "/chatRooms");
+      patch = patch.filter( obj => obj.path !== "/chatRooms/creationDate");
+      patch = patch.filter( obj => obj.path !== "/usersChatRooms");
+      patch = patch.filter( obj => obj.path !== "/chatRooms/usersChatRooms");
+      patch = patch.filter( obj => obj.path !== "/chatRooms/messages");
+      patch = patch.filter( obj => obj.path !== "/chatRooms/dateMessage");
+      
+      
+      patch = patch.filter( obj => obj.path !== "/employees");
+      patch = patch.filter( obj => obj.path !== "/resources_Requests");
+      patch = patch.filter( obj => obj.path !== "/resources_RequestResources_Materials_Medicines_Vehicles");
+      patch = patch.filter( obj => obj.path !== "/locationsEmergenciesDisasters/locationLatitude");
+      patch = patch.filter( obj => obj.path !== "/locationsEmergenciesDisasters/locationLongitude");
+      patch = patch.filter( obj => obj.path !== "/typesEmergenciesDisasters/typeEmergencyDisasterDescription");
 
     
       console.log("Patch =>", patch);

@@ -10,7 +10,7 @@
   <div class="col">
     <button mat-raised-button (click)="onBack()">Atras</button>
   </div>
-  <div class="col col-head">
+  <div class="col col-head" *ngIf="!isEdit">
     <form>
       <mat-form-field appearance="outline">
         <mat-label>Tipo de recurso</mat-label>
@@ -24,8 +24,8 @@
         </mat-error>
       </mat-form-field>
     </form>
-    <!-- <button mat-raised-button color="accent" (click)="getData">Imprimir datos por consola</button> -->
   </div>
+  <!-- <button mat-raised-button color="accent" (click)="getData">Imprimir datos por consola</button> -->
 
   <div class="col-12">
     <form [formGroup]="form" id="form">

@@ -11,20 +11,18 @@ import { map } from 'rxjs/operators';
 })
 export class MonitoreoService extends DataService {
 path = 'pdf';
-private filesSubject: BehaviorSubject<Files[]> = new BehaviorSubject<Files[]>(null);
-public files$: Observable<Files[]> = new Observable<Files[]>(null);
+private filesSubject: BehaviorSubject<Files[]> = new BehaviorSubject<Files[]>(JSON.parse(localStorage.getItem('pdfs')));
+//public files$: Observable<Files[]> = new Observable<Files[]>(null);
 constructor(http: HttpClient) {
     super(http, 'pdf');
-    this.files$ = this.filesSubject.asObservable();
+     this.files$ = this.filesSubject.asObservable();
    }
 
  public get files(){return this.filesSubject.asObservable()}
+public get pdfs(){return this.filesSubject.value}
 
-   public setMonitoreo(pdf: Files){
-    let pdfs = this.filesSubject.value;
-    pdfs.push(pdf);
-    this.filesSubject.next(pdfs);
-   }
+ files$ = this.http.get<Files[]>(environment.URL + this.path, this.options);
+
    upload(file: File ){
     const PDF: FormData = new FormData();
     PDF.append('file', file);
@@ -35,7 +33,17 @@ constructor(http: HttpClient) {
     return this.http.request(req);
   }
 
-  
+  deletePDF(id: number){
+    const files: Files[] = this.pdfs.filter(x => x.id !== id);
+    this.addPDF(files);
+  }
+  addPDF(pdfs: Files[]): void{
+    this.filesSubject.next(pdfs);
+    localStorage.setItem('pdfs',JSON.stringify(pdfs));
+
+  }
+
+
   getFiles(fileName: string): Observable<any> {
     const headers = new HttpHeaders().set('Accept','application/pdf');
     const paramsObj = {

@@ -19,6 +19,8 @@ currentUser: any;
 handle: Subscription;
 msj: string;
 error: any;
+loading = false;
+
   constructor(private service: AuthenticationService,
     private userService: UserService,
     ) { }
@@ -41,6 +43,7 @@ error: any;
 
 
   generatePDF(){ 
+    this.loading = true;
 
     console.log(this.currentUser);
     //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
@@ -50,6 +53,7 @@ error: any;
       //  saveAs(file, fileName);
         const fileURL = window.URL.createObjectURL(file);
         window.open(fileURL, fileName);
+        this.loading = false;
       });
     }
   

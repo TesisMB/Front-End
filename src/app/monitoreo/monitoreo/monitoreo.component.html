@@ -8,16 +8,16 @@
     <div class="d-flex justify-content-between row col-12">
 
         <div class="pt-4 col-3 align-self-end">
-            <div class="d-flex form-control align-items-center bd-highlight pr-3" id="search"> 
-            <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
-            <input class="col-4 input-search" type="text" name="searchTerm">
-            <span *ngIf="isLoading" class="col-4 text-center"  ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
+            <div class="d-flex form-control align-items-center bd-highlight pr-3" id="search">
+                <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
+                <input class="col-4 input-search" type="text" name="searchTerm">
+                <span *ngIf="isLoading" class="col-4 text-center"><i class="fas fa-spinner fa-lg fa-spin"></i></span>
+            </div>
         </div>
-          </div>
-       
+
 
         <div class="col-4 col-xs-4 col-sm-auto pt-4 title">
-              <h2 class="text-center">Monitoreo</h2>
+            <h2 class="text-center">Monitoreo</h2>
         </div>
 
         <!-- 
@@ -39,7 +39,7 @@
 
         <!-- Boton para agregar -->
         <div class="col-4 col-xs-4 col-sm-auto pt-4  align-self-end">
-            <button mat-raised-button color="warn" (click)="openDialog()" >
+            <button mat-raised-button color="warn" (click)="openDialog()">
                 <mat-icon>add</mat-icon>
                 Agrega un PDF
             </button>
@@ -47,7 +47,7 @@
     </div>
 
     <div class="d-flex flex-column justify-content-center align-items-center col-12 mt-5">
-        <monitorio-list [files]="data"></monitorio-list>
+        <monitorio-list [files$]="files$" [files]="data"></monitorio-list>
     </div>
 
 

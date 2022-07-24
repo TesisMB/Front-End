@@ -19,7 +19,15 @@
 
     <div class="col-4 col-xs-4 col-sm-auto align-self-end">
 
-      <button mat-stroked-button color="warn" style="margin-right: 10px;" (click)="generatePDF()">
+      <button 
+      mat-stroked-button
+       color="warn" 
+       style="margin-right: 10px;" 
+       [disabled]="loading"
+       (click)="generatePDF()">
+       <span class="text-center" *ngIf="loading">
+        <i class="fas fa-spinner fa-lg fa-spin"> </i>
+      </span>
         <mat-icon>
           picture_as_pdf
         </mat-icon>

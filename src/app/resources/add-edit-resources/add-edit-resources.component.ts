@@ -140,7 +140,6 @@ imageInfos?: Observable<any>;
       case 'materiales': return 'MA';
       case 'medicamentos': return 'ME';
       case 'vehiculos': return 'VE';
-
     }
   }
 
@@ -319,7 +318,7 @@ imageInfos?: Observable<any>;
   public onSubmit(){
     if(this.form.valid){
       this.loading = true;
-      const id = this.prefix+'-'+this.form.get('id').value;
+      const id = this.prefix+this.form.get('id').value;
       this.form.get('id').patchValue(id);
       if(this.action === 'nuevo'){
 

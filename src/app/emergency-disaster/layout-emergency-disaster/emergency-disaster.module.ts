@@ -19,6 +19,7 @@ import { BtnMyLocationComponent } from '../btn-my-location/btn-my-location.compo
 import { AngularLogoComponent } from '../angular-logo/angular-logo.component';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { SearchResultComponent } from '../search-result/search-result.component';
+
 @NgModule({
   declarations: [LayoutEmergencyDisasterComponent, ListComponent, NgbdModalComponent, 
     NgbdEditDialogComponent,TableComponent, 
@@ -29,7 +30,11 @@ import { SearchResultComponent } from '../search-result/search-result.component'
     SearchBarComponent, SearchResultComponent],
   imports: [
     SharedModule,
-    EmergencyDisasterRoutingModule
+    EmergencyDisasterRoutingModule,
+    // AgmCoreModule.forRoot({
+    //   apiKey: 'AIzaSyDfSM4ay1c99LQe0s3dA2FElUvvJtjQlIY',
+    //   libraries: ['places']
+    // })
   ],
   providers: [
     NgbActiveModal,

@@ -30,7 +30,7 @@ export class MonitorioListComponent implements OnInit {
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
   @Input() files: Files[] = [];
   @Input() isLoading: boolean = true;
-  files$: Observable<Files[]>;
+  @Input() files$: Observable<Files[]>;
   handler: any;
   array= [];
   typesid: number;
@@ -138,9 +138,13 @@ deployment(){
 // }
 
 
-deleteModal(id: string){
-  this.monitoreoService.delete(id).subscribe(data => this.alertService.success('Eliminado con exito!', {autoClose:true}),
-  (error) => {this.alertService.error('Error al eliminar, intente mas tarde', {autoClose : true})});
+deleteModal(id: number){
+  this.monitoreoService.delete(id).subscribe(
+    data => {
+      this.monitoreoService.deletePDF(id);
+      this.alertService.success('Eliminado con exito!', {autoClose:true});
+  },
+  (error) =>  {this.alertService.error('Error al eliminar, intente mas tarde', {autoClose : true})});
   // const emergency = this.emergencyDisasterObservable[i];
   // const dialogRef = this.modalService.open(NgbdDeleteModalComponent, { centered: true });
   // dialogRef.componentInstance.emergencyDisaster = this.selectTypesEmergencyDisasterService.emergencyDisasterObservableValue$[i];

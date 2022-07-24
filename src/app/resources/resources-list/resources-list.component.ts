@@ -22,6 +22,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   total$: Observable<number>;
   handlerGetAll: Subscription;
   error: any = '';
+  loading = false;
 
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
   constructor(
@@ -96,12 +97,15 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
 
     //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
       //let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;
+      this.loading = true;
       let fileName = 'Voluntarios';
       this.userService.generatePDFVolunteers(this.authService.currentUserValue.userID).subscribe(res => {
         const file = new Blob([<any>res], {type: 'application/pdf'});
       //  saveAs(file, fileName);
-        const fileURL = window.URL.createObjectURL(file);
-        window.open(fileURL, fileName);
+      
+      const fileURL = window.URL.createObjectURL(file);
+      window.open(fileURL, fileName);
+      this.loading = false;
       });
     }
 

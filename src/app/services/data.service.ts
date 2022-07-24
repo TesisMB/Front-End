@@ -78,18 +78,18 @@ export class DataService {
 
   delete(id) {
     return this.http
-      .delete(environment.URL + this.patch + '/' + id, this.options)
-   .pipe(
-        map((x) => {
-          if (id == this.authenticateService.currentUserValue.userID) {
-            this.authenticateService.logout();
-          }
+      .delete(environment.URL + this.patch + '/' + id, this.options);
+  //  .pipe(
+  //       map((x) => {
+  //         if (id == this.authenticateService.currentUserValue.userID) {
+  //           this.authenticateService.logout();
+  //         }
 
-          console.log("currentUserValue: ", this.authenticateService.currentUserValue.userID);
+  //         console.log("currentUserValue: ", this.authenticateService.currentUserValue.userID);
 
-          return x;
-        })
-      ); 
+  //         return x;
+  //       })
+  //     ); 
   }
 
 

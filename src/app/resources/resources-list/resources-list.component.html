@@ -25,13 +25,21 @@
 
 
     <div class="pt-4 col-3 align-self-end">
-      <button mat-stroked-button color="warn" (click)="generatePDF()" *ngIf="tipo == 'voluntarios'">
+      <button
+       mat-stroked-button color="warn" 
+       [disabled]="loading"
+       (click)="generatePDF()"
+        *ngIf="tipo == 'voluntarios'">
+        <span class="text-center" *ngIf="loading">
+          <i class="fas fa-spinner fa-lg fa-spin"> </i>
+        </span>
         <mat-icon>
           picture_as_pdf
         </mat-icon>
         Descargar
       </button>
     </div>
+
 
     <div *ngIf="(data | async).length" class="campus-col">
       <ul *ngFor="let item of data | async; let i = index;">

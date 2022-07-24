@@ -4,7 +4,7 @@ import { Subscription, Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { MonitoreoService } from '../monitoreo.service';
-
+import { Files } from 'src/app/models/monitoreos';
 @Component({
   selector: 'monitoreo',
   templateUrl: './monitoreo.component.html',
@@ -14,17 +14,20 @@ export class MonitoreoComponent implements OnInit {
 data: any[] = [];
 handle: Subscription;
 isLoading = true;
+files$: Observable<Files[]>;
   constructor(
     private alertService: AlertService,
     private service: MonitoreoService,
     public dialog: MatDialog) { 
 
+      this.files$ = this.service.files$;
   }
 
 
   ngOnInit(): void {
       this.getAll();
   }
+
 
   openDialog() {
   let dialogRef =  this.dialog.open(DialogPDFComponent, {
@@ -44,6 +47,8 @@ isLoading = true;
               .subscribe(
                 (data) => {
                   this.data = data;
+                  localStorage.setItem('pdfs',JSON.stringify(data));
+                  this.service.addPDF(data);
                   this.isLoading = false;
                 }
                 ,

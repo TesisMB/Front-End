@@ -10,6 +10,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 
 
+//import { AgmCoreModule } from '@agm/core';
+
+
 //---- Importaciones internas ----
 //******************Modulos ********************** */
 import { SharedModule } from './shared/shared.module';
@@ -34,9 +37,7 @@ import { MonitorioListComponent } from './monitoreo/monitorio-list/monitorio-lis
     MonitoreoComponent,
     DialogPDFComponent,
     MonitorioListComponent,
-
-
-
+    
   ],
   imports: [
     BrowserModule,
@@ -48,10 +49,10 @@ import { MonitorioListComponent } from './monitoreo/monitorio-list/monitorio-lis
     SharedModule,
     MaterialDesignModule,
     ResourcesModule,
-    EmergencyDisasterModule
-
-
+    EmergencyDisasterModule,
   ],
+
+  //AIzaSyA_CKkvt8BfYaEsSp0AHiJVwD_KB5G2Pa4
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

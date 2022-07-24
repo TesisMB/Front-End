@@ -16,6 +16,14 @@
         </mat-icon>
         Descargar
       </button>
+
+      <button mat-raised-button color="warn"
+       *ngIf="type == 'voluntarios' && item" 
+       (click)="openModal('employee', item.id)" >
+        Modificar información
+      </button>
+
+
     </div>
 
   </section>

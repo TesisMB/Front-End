@@ -8,6 +8,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { AlertArray, AlertsInput } from 'src/app/models/emergencyDisaster';
 import { Files } from 'src/app/models/monitoreos';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { map } from 'rxjs/operators';
 export interface EditMode {
   file: Files,
   isEdit: boolean
@@ -21,7 +22,7 @@ export interface EditMode {
 export class DialogPDFComponent implements OnInit {
   emergencyControl = new FormControl();
   emergencyGroups: AlertsInput[] = [];
-  
+
   title = 'Carga de documentos';
   isLoading = true;
   selectedFiles?: FileList;
@@ -123,6 +124,21 @@ public get alertID(){
 
   getEmergencies(){
     this.handleEmergency = this.emergenciesService.getAlerts()
+    .pipe( 
+      map(
+        (a) => {
+          const pdfs = this.service.pdfs;
+          a.forEach( groups => { 
+            const alerts = groups.alerts.filter((x: AlertsInput) =>{
+           return pdfs.find(p => p.emergenciesDisasters.emergencyDisasterID !== x.value);
+          }); 
+          groups.alerts = alerts;
+        }
+        )
+        console.log('Map de getAlerts => ',a);
+        return a;
+          })
+    )
     .subscribe(data =>{
       console.log('data => ',data);
       this.emergencyGroups = data;
@@ -142,20 +158,20 @@ public get alertID(){
       .subscribe(
         (resp) => {
           this.isLoading = false;
-          this.alertService.success('Documento subido exitosamente!');
+          this.alertService.success('Documento subido exitosamente!', {autoClose: true});
           this.closeDialog(pdf);
-          this.service.setMonitoreo(pdf);
           console.log(resp);
         },
       (err) => {
         this.isLoading = false;
         console.log(err);
-        this.closeDialog(pdf);
-
+        this.alertService.error('Ha ocurrido un error :(', {autoClose: true});
+        // this.closeDialog(pdf);
       }
       );
     }
     else {
+      this.alertService.error('Formulario invalido :(', {autoClose: true});
     }
   }
 
