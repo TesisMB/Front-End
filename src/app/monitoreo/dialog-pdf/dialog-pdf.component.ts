@@ -128,13 +128,16 @@ public get alertID(){
       map(
         (a) => {
           const pdfs = this.service.pdfs;
-          a.forEach( groups => { 
-            const alerts = groups.alerts.filter((x: AlertsInput) =>{
+          if(pdfs.length){
+
+            a.forEach( groups => { 
+              const alerts = groups.alerts.filter((x: AlertsInput) =>{
            return pdfs.find(p => p.emergenciesDisasters.emergencyDisasterID !== x.value);
           }); 
           groups.alerts = alerts;
         }
         )
+      }
         console.log('Map de getAlerts => ',a);
         return a;
           })
