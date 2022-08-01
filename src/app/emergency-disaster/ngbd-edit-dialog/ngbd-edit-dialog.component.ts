@@ -13,6 +13,7 @@ import { AlertService, AuthenticationService } from 'src/app/services';
 import { SelectTypesEmergencyDisasterService } from '../select-types-emergency-disaster.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdDeleteModalComponent } from '../ngbd-delete-modal/ngbd-delete-modal.component';
+import { User } from 'src/app/models';
 
 @Component({
   selector: 'ngbd-edit-dialog',
@@ -24,7 +25,7 @@ export class NgbdEditDialogComponent implements OnInit {
   @Input() emergencyDisaster: EmergencyDisaster;
 
   model : any;
-  user: Employee [];
+  user: User [];
   employeeSelected: number;
   alerts: Alerts[];
   emergencyDisasterForm: FormGroup;
@@ -121,8 +122,8 @@ get EndDate(){ return this.emergencyDisasterForm.get('emergencyDisasterEndDate')
 
 
 changeEmployeedID(){
-  let employee =  (this.user.find(user => user.employeeID == this.EmplooyeeID.value));
-  this.EmplooyeeID.patchValue(employee.employeeID);
+  let employee =  (this.user.find(user => user.userID == this.EmplooyeeID.value));
+  this.EmplooyeeID.patchValue(employee.userID);
 }
 
 setRole(){
@@ -199,6 +200,7 @@ setRole(){
       patch = patch.filter( obj => obj.path !== "/locationsEmergenciesDisasters/locationLatitude");
       patch = patch.filter( obj => obj.path !== "/locationsEmergenciesDisasters/locationLongitude");
       patch = patch.filter( obj => obj.path !== "/typesEmergenciesDisasters/typeEmergencyDisasterDescription");
+      patch = patch.filter( obj => obj.path !== "/chatRooms/usersChatRooms/0");
 
     
       console.log("Patch =>", patch);
@@ -316,7 +318,7 @@ setRole(){
     this.userService.getAll().subscribe(data => {
       this.user = data;
 
-      this.user = this.user.filter(a => a.users.roleName == "Coord. de Emergencias");
+      this.user = this.user.filter(a => a.roleName == "Coord. de Emergencias");
     }, error =>{
       console.log(error);
     })

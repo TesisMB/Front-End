@@ -22,7 +22,7 @@ export class NgbdResourcesFiltersDialogComponentComponent implements OnInit {
  endDate: any;
 selectValue: any;
 selected: any;
-maxDate = new Date(2022, 6, 21);
+maxDate = new Date(2022, 7, 1);
 arrayRequest = [];
 id: number;
 emergencyid: number;
@@ -145,6 +145,7 @@ loading = false;
       };
     }
   else{
+    this.loading = true;
 
       //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
       //let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;
@@ -154,6 +155,7 @@ loading = false;
       //  saveAs(file, fileName);
         const fileURL = window.URL.createObjectURL(file);
         window.open(fileURL, fileName);
+        this.loading = false;
       }), error =>{
         this.alertService.error('No hay ningun recurso en la fecha establecida.');
         console.log("Error en el formulario!!!", error);

@@ -2,19 +2,17 @@ import { AuthenticationService } from './../../services/_authentication/authenti
 import { UserService } from './../../users/user.service';
 import { PlacesService } from './../places.service';
 import { Alerts } from './../../models/alerts';
-import { Alert } from './../../models/alert';
 import { EmergencyDisasterService } from './../emergency-disaster.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { TypesEmergencyDisaster } from 'src/app/models/typeEmergencyDisaster';
 import { SelectTypesEmergencyDisasterService } from '../select-types-emergency-disaster.service';
-import { Observable } from 'rxjs';
 import { Feature } from 'src/app/models/places';
 import { Ubicacion } from 'src/app/models/Parametros';
 import { Employee, User } from 'src/app/models';
-import { MatStepper } from '@angular/material/stepper';
 import { AlertService } from 'src/app/services';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'add-emergency-disaster',
@@ -22,11 +20,11 @@ import { AlertService } from 'src/app/services';
   styleUrls: ['./add-emergency-disaster.component.css']
 })
 export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
-  @ViewChild('stepper',{read:MatStepper}) stepper:MatStepper;
+  // @ViewChild('stepper',{read:MatStepper}) stepper:MatStepper;
 
   arraytypeEmergencyDisaster = [];
   typeEmergencyDisaster: TypesEmergencyDisaster[];
-  location: boolean = false;
+  locationB: boolean = false;
   addEmergencyDisaster: FormGroup;
   alerts: Alerts[];
   placeObservable: Feature;
@@ -34,11 +32,12 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   coordinates: Ubicacion;
   handler: any;
   currentUser: User;
-  user: Employee [];
+  user: User [];
   ubicacion: any;
   hasVictims: boolean = false;
 
-  constructor(    
+  constructor(   
+    private location: Location,
     private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
     private fb: FormBuilder,
@@ -107,10 +106,14 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
 
+  onBack() {
+    this.location.back();
+  }
+
   getUser(){
     this.userService.getAll().subscribe(data => {
       this.user = data;
-      this.user = this.user.filter(a => a.users.roleName == "Coord. de Emergencias");
+      this.user = this.user.filter(a => a.roleName == "Coord. de Emergencias");
     }, error =>{
       console.log(error);
     })
@@ -155,7 +158,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
       
       this.emergencyDisasterService.register(emergency).subscribe( () =>{
       this.alertService.success('Registro exitoso :)', { autoClose: true });
-      this.stepper.reset();
+      // this.stepper.reset();
         
       }, error =>{
         this.alertService.error('Ocurrio un error :(', { autoClose: true });

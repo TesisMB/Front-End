@@ -1,6 +1,6 @@
 import { Vehicle } from './../../models/vehicle.model';
 import { AlertService, AuthenticationService } from 'src/app/services';
-import {  Employee } from 'src/app/models';
+import {  Employee, User } from 'src/app/models';
 import {  first, map, tap } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { ResourcesService } from './../resources.service';
@@ -278,21 +278,21 @@ imageInfos?: Observable<any>;
     this.userService.getAll()
     .pipe(
     tap(x => console.log('Usuarios before filter => ', x)),
-    map((x:Employee[]) => {
+    map((x:User[]) => {
 
       x.filter( (user: any) =>
-       this.currentUser.estates.locationCityName == user.users.estates.locationCityName &&
-      user.users.roleName !== 'Admin' && user.users.roleName !== 'Voluntario')
+       this.currentUser.estates.locationCityName == user.estates.locationCityName &&
+      user.roleName !== 'Admin' && user.roleName !== 'Voluntario')
       .forEach(u => {
         const user: any = {};
-        user.value = u.employeeID;
-        user.viewValue = u.users.persons.firstName + '  '+ u.users.persons.lastName;
+        user.value = u.userID;
+        user.viewValue = u.persons.firstName + '  '+ u.persons.lastName;
         const index = arrayUsers.findIndex(x =>
-          x.role === u.users.roleName
+          x.role === u.roleName
         );
           if (index === -1) {
             const users: any = {role: '', users: []};
-            users.role = u.users.roleName;
+            users.role = u.roleName;
             users.users.push(user);
             arrayUsers.push(users);
           } else {

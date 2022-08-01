@@ -8,6 +8,8 @@ export interface Employee {
     users: {
         userDni: string;
     userAvailability?: boolean;
+    avatar: string;
+    //createdDate: Date;
     persons: {
         lastName: string;
         firstName: string;

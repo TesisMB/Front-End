@@ -1,4 +1,4 @@
-import { Employee } from './../../models/employee';
+import { Employee, User } from 'src/app/models';
 import { Injectable, PipeTransform} from '@angular/core';
 
 import {SortColumn, SortDirection} from '../../directives/sorteable.directive';
@@ -11,7 +11,7 @@ import { SearchResult, State } from 'src/app/models';
 
 const compare = (v1: string | number | any, v2: string | number | any) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-function sort(employees: Employee[], column: SortColumn, direction: string): Employee[] {
+function sort(employees: User[], column: SortColumn, direction: string): User[] {
   if (direction === '' || column === '') {
     return employees;
   } else {
@@ -22,12 +22,12 @@ function sort(employees: Employee[], column: SortColumn, direction: string): Emp
   }
 }
 
-function matches(employee: Employee, term: string, pipe: PipeTransform) {
-  return employee.users.userDni.includes(term)
-    || employee.users.persons.lastName.toLowerCase().includes(term.toLowerCase())
-    || (employee.users.persons.firstName).toLowerCase().includes(term.toLowerCase())
-    || (employee.users.roleName).toLowerCase().includes(term.toLowerCase())
-    || (employee.users.estates.address).toLowerCase().includes(term.toLowerCase());
+function matches(employee: User, term: string, pipe: PipeTransform) {
+  return employee.userDni.includes(term)
+    || employee.persons.lastName.toLowerCase().includes(term.toLowerCase())
+    || (employee.persons.firstName).toLowerCase().includes(term.toLowerCase())
+    || (employee.roleName).toLowerCase().includes(term.toLowerCase())
+    || (employee.estates.address).toLowerCase().includes(term.toLowerCase());
 
 }
 
@@ -39,9 +39,9 @@ export class TableService {
 
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
-  private _employees$ = new BehaviorSubject<Employee[]>([]);
+  private _employees$ = new BehaviorSubject<User[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
-  private EMPLEADOS: Employee[]= [];
+  private EMPLEADOS: User[]= [];
   private _showAvailability$ = new BehaviorSubject<boolean>(false);
   private _state: State = {
     page: 1,
@@ -90,21 +90,21 @@ private _setAvailability(availability:boolean){
   this._search$.next();
 }
 /**Se debe realizar una funcion para la cual se actualice la tabla despues de cambiar datos de usuario */
-public _setEmployee(patch:Employee){
-  let index = this.EMPLEADOS.findIndex( x => patch.users.userID == x.users.userID);
+public _setEmployee(patch:User){
+  let index = this.EMPLEADOS.findIndex( x => patch.userID == x.userID);
   
   (index === -1) ? this.EMPLEADOS.push(patch) : this.EMPLEADOS[index] = patch;
   this._search$.next();
 }
 
 public deleteFromTable(id){
-  const index =  this.EMPLEADOS.findIndex(x => x.users.userID == id);
+  const index =  this.EMPLEADOS.findIndex(x => x.userID == id);
   let deleteUser = this.EMPLEADOS.splice(index, 1);
   console.log("deleteUser =>", deleteUser);
   this.uploadTable(this.EMPLEADOS);
 }
 
-public uploadTable(employees: Employee[]) {
+public uploadTable(employees: User[]) {
   this.EMPLEADOS = employees;
   this._employees$.next(employees);
   this._search$.next();
@@ -115,7 +115,8 @@ private _search(): Observable<SearchResult> {
   const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
   // 1. filtrado por disponibilidad
-  const empleados = this.EMPLEADOS.filter(x =>( x.users.userAvailability !== this._showAvailability$.value) && x.users.roleName !== 'Voluntario');
+  //const empleados = this.EMPLEADOS.filter(x =>( x.users.userAvailability !== this._showAvailability$.value) && x.users.roleName !== 'Voluntario');
+  const empleados = this.EMPLEADOS.filter(x =>( x.userAvailability !== this._showAvailability$.value));
   
   // 1. sort
   let data = sort(empleados, sortColumn, sortDirection);

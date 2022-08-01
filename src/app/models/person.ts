@@ -8,6 +8,7 @@ export interface Person {
     address: string;
     gender: string;
     status: boolean;
+    birthdate: string;
 
 //     constructor(lastName: string, firstName:string,phone: string,address: string,email?: string,gender?: string,birthdate?: Date,status?: boolean, personID?: number)
 

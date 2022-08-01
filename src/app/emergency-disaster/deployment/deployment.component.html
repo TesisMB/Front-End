@@ -1,8 +1,12 @@
-<section class="modo">
-  <h1>Informe de Emergencia</h1>
+<section class="head d-flex">
+  <div class="col-4" style="margin-top: 2rem; margin-left: 2rem;">
+    <button mat-raised-button (click)="onBack()">Atrás</button>
+  </div>
 
 
-
+  <div class="col-4 text-center">
+    <h1>Informe de emergencia</h1>
+  </div>
 
 </section>
 
@@ -12,17 +16,41 @@
 
       <section *ngIf="emergencyDisaster">
 
-        <div class="col-12 emergencia">
-          <h4>
+        <div style="display: flex; justify-content: end;">
+
+          <h4 style="text-align: left; width: 80%;">
             #{{emergencyDisaster.emergencyDisasterID}}
-            {{emergencyDisaster.locationsEmergenciesDisasters.locationCityName}}
+            {{emergencyDisaster.locationsEmergenciesDisasters.locationCityName}} -
             {{emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName}}
           </h4>
 
-          <!-- <button mat-fab color="warn" aria-label="Example icon button with a home icon">
-              <mat-icon class="icon">picture_as_pdf</mat-icon>
-            </button> -->
+          <button mat-fab color="warn" aria-label="Example icon button with a home icon" [disabled]="loading"
+            style="margin-top: 1rem;" (click)="generatePDF(emergencyDisaster.emergencyDisasterID)">
+            <span class="text-center" *ngIf="loading">
+              <i class="fas fa-spinner fa-lg fa-spin"> </i>
+            </span>
+            <mat-icon class="icon">picture_as_pdf</mat-icon>
+          </button>
         </div>
+        <!-- 
+          <button mat-fab color="warn" aria-label="Example icon button with a home icon" [disabled]="loading"
+            (click)="generatePDF(emergencyDisaster.emergencyDisasterID)">
+            <span class="text-center" *ngIf="loading">
+              <i class="fas fa-spinner fa-lg fa-spin"> </i>
+            </span>
+            <mat-icon class="icon">picture_as_pdf</mat-icon>
+          </button> -->
+
+        <!-- <button mat-stroked-button color="warn" style="margin-right: 10px;" [disabled]="loading"
+            (click)="generatePDF(emergencyDisaster.emergencyDisasterID)">
+            <span class="text-center" *ngIf="loading">
+              <i class="fas fa-spinner fa-lg fa-spin"> </i>
+            </span>
+            <mat-icon>
+              picture_as_pdf
+            </mat-icon>
+            Descargar
+          </button> -->
 
 
         <div class="date row justify-content-around" *ngIf="emergencyDisaster">
@@ -126,10 +154,9 @@
 
 
       </section>
-      <button mat-button routerLink="/emergencias" type="button">Salir</button>
-      <button mat-button matStepperNext>Siguiente</button>
-
-
+      <div class="btn-r">
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
     </mat-step>
 
     <mat-step>
@@ -248,9 +275,10 @@
           </table>
         </div>
       </section>
-
-      <button mat-button matStepperPrevious type="button">Atras</button>
-      <button mat-button matStepperNext>Siguiente</button>
+      <div class="btn-r">
+        <button mat-button matStepperPrevious type="button">Atras</button>
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
     </mat-step>
 
 
@@ -306,7 +334,10 @@
 
           </div>
         </section>
-        <button mat-button matStepperPrevious type="button">Atras</button>
+
+        <div class="btn-r" style="margin-top: 4rem;">
+          <button mat-button matStepperPrevious type="button">Atras</button>
+        </div>
       </mat-step>
     </section>
   </mat-horizontal-stepper>

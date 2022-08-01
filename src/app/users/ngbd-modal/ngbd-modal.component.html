@@ -1,247 +1,259 @@
-
 <div class="modal-header">
-  
-      <div class="col"> <h4 class="title modal-title">Información Personal</h4></div>
-      <div class="col"><h4 class="title modal-title">Información de Contacto</h4></div>
-      <div class="col"><h4 class="title modal-title" >Informacion de Trabajo</h4></div>
-      <div class="col"> <h4 class="title modal-title">Información de Acceso</h4></div>
 
-      
-        <ng-template   #popMenu >
-          <button type="button" class="btn btn-options  btn-sm" (click)="onClick()"><mat-icon class="icon">mode_edit</mat-icon><span class="option-text">Actualizar datos</span> </button>
-          
-          <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF()"><mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span></button>
-
-          <button *ngIf="user.users.userAvailability" type="button " class="btn btn-options-warning  btn-sm" (click)="changeStatus('Deshabilitar')">
-            <mat-icon class="icon">person_remove</mat-icon>
-            <span class="option-text">Deshabilitar usuario</span>
-          </button>
-          <button *ngIf="!user.users.userAvailability" type="button " class="btn btn-options-success  btn-sm" (click)="changeStatus('Habilitar')">
-            <mat-icon class="icon">person_add</mat-icon>
-            <span class="option-text">Habilitar usuario</span>
-          </button>
-          <button type="button " class="btn btn-options-warning  btn-sm" (click)="changeStatus('Eliminar')">
-            <mat-icon class="icon">delete</mat-icon>
-            <span class="option-text">Eliminar usuario</span>
-          </button>
-        </ng-template>
-    
-        <div *ngIf="isAdmin || isCGeneral">
-        <button  mat-icon-button type="button" class="btn btn-outline-secondary"
-        [ngbPopover]="popMenu" popoverClass="options" container="body">
-                <mat-icon>more_vert</mat-icon>
-        </button>
-      </div>
-      
-
+  <div class="col">
+    <h4 class="title modal-title">Información Personal</h4>
+  </div>
+  <div class="col">
+    <h4 class="title modal-title">Información de Contacto</h4>
+  </div>
+  <div class="col">
+    <h4 class="title modal-title">Informacion de Trabajo</h4>
+  </div>
+  <div class="col">
+    <h4 class="title modal-title">Información de Acceso</h4>
   </div>
 
-  <div class="modal-body" style="margin: 0 15px">
-    <alert ></alert>
 
-          <!-- Informacion General -->
-    <form [formGroup]="form" (ngSubmit)="onSubmit()"  >
+  <ng-template #popMenu>
+    <button type="button" class="btn btn-options  btn-sm" (click)="onClick()">
+      <mat-icon class="icon">mode_edit</mat-icon><span class="option-text">Actualizar datos</span>
+    </button>
 
-  <div class="row" formGroupName="users">
-  
-<div class="personal col-sm">
-  <ng-container formGroupName="persons">
-  <div class="form-row">
-    <div class="form-group col">
-      <label for="firstName" class="first"><strong class="info" >Nombre</strong></label>
-      <input type="text" formControlName="firstName" required name="firstName" id="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.firstName').errors }">
-     
-      <div *ngIf="submitted && f.get('users.persons.firstName').errors" class="invalid-feedback">
-        <div *ngIf="f.get('users.persons.firstName').errors.required"><small>*Campo requerido</small> </div>
-        <div *ngIf="f.get('users.persons.firstName').errors.pattern"><small>*Nombre invalido</small> </div>
 
-      </div>
-    </div>
+    <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF(isNotVolunteer)"
+      *ngIf="user.roleName !== 'Voluntario'">
+      <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
+    </button>
+
+    <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF(isVolunteer)"
+      *ngIf="user.roleName === 'Voluntario'">
+      <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
+    </button>
+
+    <button *ngIf="user.userAvailability" type="button " class="btn btn-options-warning  btn-sm"
+      (click)="changeStatus('Deshabilitar')">
+      <mat-icon class="icon">person_remove</mat-icon>
+      <span class="option-text">Deshabilitar usuario</span>
+    </button>
+    <button *ngIf="!user.userAvailability" type="button " class="btn btn-options-success  btn-sm"
+      (click)="changeStatus('Habilitar')">
+      <mat-icon class="icon">person_add</mat-icon>
+      <span class="option-text">Habilitar usuario</span>
+    </button>
+    <button type="button " class="btn btn-options-warning  btn-sm" (click)="changeStatus('Eliminar')">
+      <mat-icon class="icon">delete</mat-icon>
+      <span class="option-text">Eliminar usuario</span>
+    </button>
+  </ng-template>
+
+  <div *ngIf="isAdmin || isCGeneral">
+    <button mat-icon-button type="button" class="btn btn-outline-secondary" [ngbPopover]="popMenu"
+      popoverClass="options" container="body">
+      <mat-icon>more_vert</mat-icon>
+    </button>
   </div>
 
-  <div class="form-row">
-    <div class="form-group col">
-      <label for="lastName" class="first"><strong class="info" >Apellido</strong></label>
-      <input type="text"  formControlName="lastName" required name="lastName" id="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.lastName').errors }" >
-      <div *ngIf="submitted && f.get('users.persons.lastName').errors" class="invalid-feedback">
-        <div *ngIf="f.get('users.persons.lastName').errors.required"><small>*Campo requerido</small></div>
-        <div *ngIf="f.get('users.persons.lastName').errors.pattern"><small>*Apellido invalido</small> </div>
-
-    </div>
-  </div>
-  </div>
-</ng-container>
-  <div class="form-row">
-    <div class="form-group col">
-      <label for="dni" class="first"><strong class="info" >Documento</strong></label>
-      <p readonly class="form-control">{{user.users.userDni}}</p>
-  </div>
-  </div>
-  
-
-  <ng-container formGroupName="persons">
-  <div class="form-row">
-    <div class="form-group col">
-      <label for="genre" class="first"><strong class="info" >Género</strong></label>
-      <select type="text" formControlName="gender" required name="gender" id="gender" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.gender').errors }">
-       <option [selected]="user.users.persons.gender === 'M'" value="M">Masculino</option>
-        <option [selected]="user.users.persons.gender === 'F'" value="F">Femenino</option>
-        <option [selected]="user.users.persons.gender === 'O'" value="O">Otrx</option>
-      </select>
-      <div *ngIf="submitted && f.get('users.persons.gender').errors" class="invalid-feedback">
-        <div *ngIf="f.get('users.persons.gender').errors.required"><small>*Campo requerido</small></div>
-    </div>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group col">
-      <label for="birthdate" class="first"><strong class="info" >Fecha de nacimiento</strong></label>
-      <input type="datetime" formControlName="birthdate" readonly required name="birthdate" id="birthdate" class="form-control" [ngModel]="user.users.persons.birthdate" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.birthdate').errors }" >
-    
-      <div *ngIf="submitted && f.get('users.persons.birthdate').errors" class="invalid-feedback">
-        <div *ngIf="f.get('users.persons.birthdate').errors.required"><small>*Campo requerido</small></div>
-    </div>
-    </div>
-  </div>    
-  </ng-container>
 
 </div>
 
-  <!-- Informacion de contacto -->
+<div class="modal-body" style="margin: 0 15px">
+  <alert></alert>
 
-  <div class="contact col-sm" formGroupName="persons">
-    <div class="form-row">
-      <div class="form-group col">
-        <label for="email" class="first"><strong class="info" for="email">Correo Electronico</strong></label>
-        <input formControlName="email" required class="form-control correoInput info" name="email" type="email" placeholder="Correo electronico" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.email').errors }"/>
-        <div *ngIf="submitted && f.get('users.persons.email').errors" class="invalid-feedback">
-          <div *ngIf="f.get('users.persons.email').errors.email">*Correo electrónico inválido</div>
-          <div *ngIf="f.get('users.persons.email').errors.required"><small>*Campo requerido</small> </div>
+  <!-- Informacion General -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
+    <div class="row">
+
+      <div class="personal col-sm">
+        <ng-container formGroupName="persons">
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="firstName" class="first"><strong class="info">Nombre</strong></label>
+              <input type="text" formControlName="firstName" required name="firstName" id="firstName"
+                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('persons.firstName').errors }">
+
+              <div *ngIf="submitted && f.get('persons.firstName').errors" class="invalid-feedback">
+                <div *ngIf="f.get('persons.firstName').errors.required"><small>*Campo requerido</small> </div>
+                <div *ngIf="f.get('persons.firstName').errors.pattern"><small>*Nombre invalido</small> </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="lastName" class="first"><strong class="info">Apellido</strong></label>
+              <input type="text" formControlName="lastName" required name="lastName" id="lastName" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.get('persons.lastName').errors }">
+              <div *ngIf="submitted && f.get('persons.lastName').errors" class="invalid-feedback">
+                <div *ngIf="f.get('persons.lastName').errors.required"><small>*Campo requerido</small></div>
+                <div *ngIf="f.get('persons.lastName').errors.pattern"><small>*Apellido invalido</small> </div>
+
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="dni" class="first"><strong class="info">Documento</strong></label>
+            <p readonly class="form-control">{{user.userDni}}</p>
+          </div>
+        </div>
+
+
+        <ng-container formGroupName="persons">
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="genre" class="first"><strong class="info">Género</strong></label>
+              <select type="text" formControlName="gender" required name="gender" id="gender" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.get('persons.gender').errors }">
+                <option [selected]="user.persons.gender === 'M'" value="M">Masculino</option>
+                <option [selected]="user.persons.gender === 'F'" value="F">Femenino</option>
+                <option [selected]="user.persons.gender === 'O'" value="O">Otrx</option>
+              </select>
+              <div *ngIf="submitted && f.get('persons.gender').errors" class="invalid-feedback">
+                <div *ngIf="f.get('persons.gender').errors.required"><small>*Campo requerido</small></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="birthdate" class="first"><strong class="info">Fecha de nacimiento</strong></label>
+              <input type="datetime" formControlName="birthdate" readonly required name="birthdate" id="birthdate"
+                class="form-control" [ngModel]="user.persons.birthdate"
+                [ngClass]="{ 'is-invalid': submitted && f.get('persons.birthdate').errors }">
+
+              <div *ngIf="submitted && f.get('persons.birthdate').errors" class="invalid-feedback">
+                <div *ngIf="f.get('persons.birthdate').errors.required"><small>*Campo requerido</small></div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+
+      <!-- Informacion de contacto -->
+
+      <div class="contact col-sm" formGroupName="persons">
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="email" class="first"><strong class="info" for="email">Correo Electronico</strong></label>
+            <input formControlName="email" required class="form-control correoInput info" name="email" type="email"
+              placeholder="Correo electronico"
+              [ngClass]="{ 'is-invalid': submitted && f.get('persons.email').errors }" />
+            <div *ngIf="submitted && f.get('persons.email').errors" class="invalid-feedback">
+              <div *ngIf="f.get('persons.email').errors.email">*Correo electrónico inválido</div>
+              <div *ngIf="f.get('persons.email').errors.required"><small>*Campo requerido</small> </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="phone" class="first"><strong class="info" for="phone">Telefono de contacto</strong></label>
+            <input formControlName="phone" required class="form-control telefonoInput info" name="phone" type="tel"
+              placeholder="Telefono" [ngClass]="{ 'is-invalid': submitted && f.get('persons.phone').errors }" />
+
+            <div *ngIf="submitted && f.get('persons.phone').errors" class="invalid-feedback">
+              <div *ngIf="f.get('persons.phone').errors.pattern">Número de teléfono inválido</div>
+              <div *ngIf="f.get('persons.phone').errors.required"><small>*Campo requerido</small></div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="address" class="first"><strong class="info" for="address">Ciudad de residencia</strong></label>
+            <input formControlName="locationName" required class="form-control direccionInput info" name="locationName"
+              type="text" placeholder="Ciudad de residencia"
+              [ngClass]="{ 'is-invalid': submitted && f.get('persons.locationName').errors }" />
+            <div *ngIf="submitted && f.get('persons.locationName').errors" class="invalid-feedback">
+              <div *ngIf="f.get('persons.locationName').errors.required"><small>*Campo requerido</small></div>
+              <div *ngIf="f.get('persons.locationName').errors.maxlength"><small>*Ha superado el maximo de 25
+                  caracteres permitidos</small> </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="address" class="first"><strong class="info" for="address">Domicilio</strong></label>
+            <input formControlName="address" required class="form-control direccionInput info" name="address"
+              type="text" placeholder="Domicilio"
+              [ngClass]="{ 'is-invalid': submitted && f.get('persons.address').errors }" />
+            <div *ngIf="submitted && f.get('persons.address').errors" class="invalid-feedback">
+              <div *ngIf="f.get('persons.address').errors.maxlength"><small>*Ha superado el maximo de 20
+                  caracteres permitidos</small> </div>
+              <div *ngIf="f.get('persons.address').errors.required"><small>*Campo requerido</small></div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col">
-        <label for="phone" class="first"><strong class="info" for="phone">Telefono de contacto</strong></label>
-        <input  formControlName="phone" required class="form-control telefonoInput info" name="phone" type="tel" placeholder="Telefono"[ngClass]="{ 'is-invalid': submitted && f.get('users.persons.phone').errors }"/>
-           
-        <div *ngIf="submitted && f.get('users.persons.phone').errors" class="invalid-feedback">
-          <div *ngIf="f.get('users.persons.phone').errors.pattern">Número de teléfono inválido</div>
-          <div *ngIf="f.get('users.persons.phone').errors.required"><small>*Campo requerido</small></div>
+      <!-- Informacion de Trabajo -->
+      <div class="work col-sm">
 
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="role" class="first"><strong class="info">Cargo</strong></label>
+            <select required formControlName="roleName" (change)="setRole()" class="form-control info"
+              [ngClass]="{ 'is-invalid': submitted && f.get('roleName').errors }">
+              <option *ngFor="let role of roles" [ngValue]="role.RoleName">{{role.RoleName}}</option>
+            </select>
+            <div *ngIf="submitted && f.get('roleName').errors" class="invalid-feedback">
+              <div *ngIf="f.get('roleName').errors.required"><small>*Campo requerido</small></div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  
-    <div class="form-row">
-      <div class="form-group col">
-        <label for="address" class="first"><strong class="info" for="address">Ciudad de residencia</strong></label>
-        <input formControlName="locationName" required class="form-control direccionInput info" name="locationName" type="text" placeholder="Ciudad de residencia" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.locationName').errors }"/>
-        <div *ngIf="submitted && f.get('users.persons.locationName').errors" class="invalid-feedback">
-          <div *ngIf="f.get('users.persons.locationName').errors.required"><small>*Campo requerido</small></div>
-          <div *ngIf="f.get('users.persons.locationName').errors.maxlength"><small>*Ha superado el maximo de 25 caracteres permitidos</small> </div> 
-      </div>     
-      </div>
-    </div>
-  
-    <div class="form-row">
-      <div class="form-group col">
-        <label for="address" class="first"><strong class="info" for="address">Domicilio</strong></label>
-        <input formControlName="address" required class="form-control direccionInput info" name="address" type="text" placeholder="Domicilio" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.address').errors }"/>
-        <div *ngIf="submitted && f.get('users.persons.address').errors" class="invalid-feedback">
-          <div *ngIf="f.get('users.persons.address').errors.maxlength"><small>*Ha superado el maximo de 20 caracteres permitidos</small> </div> 
-          <div *ngIf="f.get('users.persons.address').errors.required"><small>*Campo requerido</small></div>
-      </div>     
-      </div>
-    </div>
-  </div>
-  <!-- Informacion de Trabajo -->
-  <div class="work col-sm">
-
-    <div class="form-row">
-      <div class="form-group col">
-    <label for="role" class="first"><strong class="info">Cargo</strong></label>
-    <select required formControlName="roleName" (change)="setRole()" class="form-control info" [ngClass]="{ 'is-invalid': submitted && f.get('users.roleName').errors }">
-      <option *ngFor="let role of roles"  [ngValue]="role.RoleName">{{role.RoleName}}</option>
-    </select>
-    <div *ngIf="submitted && f.get('users.roleName').errors" class="invalid-feedback">
-      <div *ngIf="f.get('users.roleName').errors.required"><small>*Campo requerido</small></div>
-  </div>
-  </div>
-</div>
 
 
-  <mat-form-field  appearance="legacy">
-    <mat-label>Sucursal</mat-label>
-    <mat-select
-      
-    formControlName="FK_EstateID"
-      name="FK_EstateID"
-    > 
-    <!-- [required]="!isEdit" -->
-      <mat-optgroup
-        *ngFor="let locations of locations"
-        [label]="locations.locationCityName"
-      >
-        <mat-option
-          *ngFor="let estate of locations['estates']"
-          [value]="estate.estateID"
-          
-        >
-         {{estate.address | titlecase}} &nbsp;  &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
-        </mat-option>
-      </mat-optgroup>
-    </mat-select>
-    <mat-error
-      *ngIf="f.get('users.FK_EstateID').hasError('required')"
-    >
-      La filial es <strong>requerida</strong>
-    </mat-error>
-  </mat-form-field>
+        <mat-form-field appearance="legacy">
+          <mat-label>Sucursal</mat-label>
+          <mat-select formControlName="FK_EstateID" name="FK_EstateID">
+            <!-- [required]="!isEdit" -->
+            <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName">
+              <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
+                {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+          <mat-error *ngIf="f.get('FK_EstateID').hasError('required')">
+            La filial es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
 
- <mat-form-field  appearance="legacy" formGroupName="estates">
-    <mat-label>Ciudad</mat-label>
-    <mat-select
-      
-    formControlName="locationCityName"
-      name="FK_EstateID"
-    > 
-    <!-- [required]="!isEdit" -->
- 
-        <mat-option
-          *ngFor="let locations of locations"
-          [value]="locations.locationCityName"
-          
-        >
-         {{locations.locationCityName | titlecase}}
-        </mat-option>
-    </mat-select>
-    <mat-error
-      *ngIf="f.get('users.FK_EstateID').hasError('required')"
-    >
-      La filial es <strong>requerida</strong>
-    </mat-error>
-  </mat-form-field>
-<div class="form-row">
-  <div class="form-group col" formGroupName="estates">
-  <label for="workPhone" class="first"><strong>Telefono de la Filial</strong></label>
-  <p readonly class="form-control">{{user.users.estates.estatePhone}}</p>
-</div>
-</div>
+        <mat-form-field appearance="legacy" formGroupName="estates">
+          <mat-label>Ciudad</mat-label>
+          <mat-select formControlName="locationCityName" name="FK_EstateID">
+            <!-- [required]="!isEdit" -->
+
+            <mat-option *ngFor="let locations of locations" [value]="locations.locationCityName">
+              {{locations.locationCityName | titlecase}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.get('FK_EstateID').hasError('required')">
+            La filial es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+        <div class="form-row">
+          <div class="form-group col" formGroupName="estates">
+            <label for="workPhone" class="first"><strong>Telefono de la Filial</strong></label>
+            <p readonly class="form-control">{{user.estates.estatePhone}}</p>
+          </div>
+        </div>
 
 
-    <div class="form-row" >
-      <div class="form-group col" >
-    <label for="times" class="first"><strong class="info">Horarios</strong></label>
-    <ul *ngFor="let times of model['users']['estates']['estatesTimes']; let i = index;">
-      <li style="list-style: none;" >
-        <span>
-      {{times['scheduleDate']}} {{times['times']}}
-        </span>
-<!-- ******************* Form Array ********************* -->
-        <!-- <div  *ngFor="let times of estates.controls; index as i" >
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="times" class="first"><strong class="info">Horarios</strong></label>
+            <ul *ngFor="let times of model['estates']['estatesTimes']; let i = index;">
+              <li style="list-style: none;">
+                <span>
+                  {{times['scheduleDate']}} {{times['times']}}
+                </span>
+                <!-- ******************* Form Array ********************* -->
+                <!-- <div  *ngFor="let times of estates.controls; index as i" >
           <div [formGroupName]="i">
         <div class="input-group" formGroupName="times">
           <div formGroupName="schedules">
@@ -254,68 +266,74 @@
       </div> 
 </div> -->
 
-      <!-- ************************ FIN - Form Array ***************** -->
-       </li>
-  </ul>  
- </div>
-  </div>
-</div>
-<!-- Informacion de Acceso -->
-<div class="access col-sm" >
-  <div class="form-row" formGroupName="persons">
-    <div class="form-group col">
-      <label for="first"><strong>Disponibilidad ante emergencias</strong></label>
-  <select class="form-control info" required formControlName="status"  name="" id="" [ngClass]="{ 'is-invalid': submitted && f.get('users.persons.status').errors }">
-<option  [ngValue]="true">  <i [class.text-success]="user.users.persons.status" class="fas fa-circle"></i>Disponible</option>
-<option  [ngValue]="false"> <i [class.text-danger]="!user.users.persons.status"class="fas fa-circle"></i>No disponible</option>
-  </select>
-  <div *ngIf="submitted && f.get('users.persons.status').errors" class="invalid-feedback">
-    <div *ngIf="f.get('users.persons.status').errors.required"><small>*Campo requerido</small></div>
-</div>
-   
-</div>
-</div>
-    <div class="form-row">
-      <div class="form-group col">
-        <label class="first"><strong >Acceso al sistema</strong></label>
-        <p class="form-control availability" *ngIf="user.users.userAvailability"><i [class.text-success]="user.users.userAvailability" class="fas fa-circle mr-2"></i>Disponible</p>
-        <p class="form-control availability" *ngIf="!user.users.userAvailability"><i [class.text-danger]="!user.users.userAvailability"class="fas fa-circle mr-2"></i>No disponible</p>
-</div>
-</div>
+                <!-- ************************ FIN - Form Array ***************** -->
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Informacion de Acceso -->
+      <div class="access col-sm">
+        <div class="form-row" formGroupName="persons">
+          <div class="form-group col">
+            <label for="first"><strong>Disponibilidad ante emergencias</strong></label>
+            <select class="form-control info" required formControlName="status" name="" id=""
+              [ngClass]="{ 'is-invalid': submitted && f.get('persons.status').errors }">
+              <option [ngValue]="true"> <i [class.text-success]="user.persons.status"
+                  class="fas fa-circle"></i>Disponible</option>
+              <option [ngValue]="false"> <i [class.text-danger]="!user.persons.status" class="fas fa-circle"></i>No
+                disponible</option>
+            </select>
+            <div *ngIf="submitted && f.get('persons.status').errors" class="invalid-feedback">
+              <div *ngIf="f.get('persons.status').errors.required"><small>*Campo requerido</small></div>
+            </div>
 
-  <div class="form-row">
-    <div class="form-group col">
-      <label for="" class="first"><strong class="info">Fecha de alta</strong></label>
-      <p readonly class="form-control">{{user.employeeCreatedate}}</p>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col">
+            <label class="first"><strong>Acceso al sistema</strong></label>
+            <p class="form-control availability" *ngIf="user.userAvailability"><i
+                [class.text-success]="user.userAvailability" class="fas fa-circle mr-2"></i>Disponible</p>
+            <p class="form-control availability" *ngIf="!user.userAvailability"><i
+                [class.text-danger]="!user.userAvailability" class="fas fa-circle mr-2"></i>No disponible</p>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="" class="first"><strong class="info">Fecha de alta</strong></label>
+            <p readonly class="form-control">{{user.createdate}}</p>
+          </div>
+        </div>
+        <div *ngIf="isAdmin || isCGeneral" class="form-row" style="margin-top: 15px;">
+          <div class="form-group col">
+            <div class="bd-highlight">
+              <button mat-flat-button popoverClass="resetPassword" [disabled]="canReset" (click)="resetPassword()"
+                type="button" name="canReset" ngbPopover="Se le enviara un email con la nueva contraseña"
+                triggers="mouseenter:mouseleave" placement="bottom-right" color="warn" aria-label="Resetear contraseña">
+                <mat-icon>lock_clock</mat-icon> Resetear Contraseña
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+
     </div>
-  </div>
-<div *ngIf="isAdmin || isCGeneral" class="form-row" style="margin-top: 15px;">
-    <div class="form-group col">
-      <div class="bd-highlight" >
-      <button mat-flat-button popoverClass="resetPassword" [disabled]="canReset" (click)="resetPassword()" type="button" name="canReset" ngbPopover="Se le enviara un email con la nueva contraseña" triggers="mouseenter:mouseleave" placement="bottom-right" color="warn" aria-label="Resetear contraseña">
-        <mat-icon >lock_clock</mat-icon> Resetear Contraseña
-      </button>
-    </div>
-  </div>
-  </div>
-    
-    
-
-
+  </form>
 </div>
-
-</div>
-</form>
-</div>
-  <div class="modal-footer d-flex justify-content-between p-2">
-    <div><button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cerrar</button></div>
-    <div *ngIf="form.enabled">
-      <button type="button" [disabled]="loading" (click)="onSubmit() "class="btn btn-outline-dark">
-        <span class="text-center" *ngIf="loading" ><i class="fas fa-spinner fa-lg fa-spin"></i></span>
-        <span *ngIf="!loading"> Guardar cambios</span>
+<div class="modal-footer d-flex justify-content-between p-2">
+  <div><button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cerrar</button>
+  </div>
+  <div *ngIf="form.enabled">
+    <button type="button" [disabled]="loading" (click)="onSubmit() " class="btn btn-outline-dark">
+      <span class="text-center" *ngIf="loading"><i class="fas fa-spinner fa-lg fa-spin"></i></span>
+      <span *ngIf="!loading"> Guardar cambios</span>
     </button>
   </div>
 
-  </div>
-     
-
+</div>

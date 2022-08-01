@@ -5,7 +5,7 @@ import { Observable} from 'rxjs';
 import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
 
-import { Employee } from 'src/app/models';
+import { Employee, User } from 'src/app/models';
 import { TableService } from 'src/app/services/_table.service/table.service';
 import {SorteableDirective, SortEvent} from '../../directives/sorteable.directive';
 import { UserService } from '../user.service';
@@ -17,7 +17,7 @@ import { AuthenticationService } from 'src/app/services';
    styleUrls: ['./employees-table.component.css'],
 })
 export class EmployeesTableComponent implements OnInit, OnDestroy {
-  employees$: Observable<Employee[]> ;
+  employees$: Observable<User[]> ;
   total$: Observable<number>;
   getHandler: any="";
   patchHandler: any ="";
@@ -77,6 +77,7 @@ ngOnInit() {
 
       });
     }
+    
 
 
   ngOnDestroy(){  

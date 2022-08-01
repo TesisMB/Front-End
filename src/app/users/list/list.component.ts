@@ -4,7 +4,7 @@ import { UserService } from './../user.service';
 import { AuthenticationService, AlertService } from 'src/app/services';
 
 import { Component, OnInit, OnDestroy} from '@angular/core';
-import { Employee } from 'src/app/models';
+import { Employee, User } from 'src/app/models';
 @Component({
   selector: 'list',
   templateUrl: './list.component.html',
@@ -12,7 +12,7 @@ import { Employee } from 'src/app/models';
 })
 export class ListComponent implements OnInit, OnDestroy{
   ubication: string = "";
-  employees: Employee[] = [];
+  employees: User[] = [];
   handleSU: Subscription;
   constructor(private _authenticationService: AuthenticationService,
     private service : UserService,
@@ -29,7 +29,7 @@ public getUsers() {
 
   this.handleSU = this.service.getAll()
   .subscribe(
-    (result: Employee[]) => {
+    (result: User[]) => {
       this.employees = result;
       this.setUsers(result);
       console.log('GetAll AJAX ejecutado');
@@ -43,7 +43,7 @@ public getUsers() {
     
 }
 
-public setUsers(employees: Employee[]) {
+public setUsers(employees: User[]) {
    this.tableService.uploadTable(employees);
 }
 

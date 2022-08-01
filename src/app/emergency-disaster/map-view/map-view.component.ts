@@ -1,7 +1,7 @@
 import { MapService } from './../map.service';
 import { PlacesService } from './../places.service';
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-//import {Map, Popup, Marker} from 'mapbox-gl';
+import {Map, Popup, Marker} from 'mapbox-gl';
 //import { MapsAPILoader } from '@agm/core';
 
 @Component({
@@ -20,8 +20,8 @@ export class MapViewComponent implements OnInit, AfterViewInit {
   @ViewChild('search')
   public searchElementRef: ElementRef;
 
-  // @ViewChild ('mapDiv')
-  // mapDivElement!: ElementRef;
+  @ViewChild ('mapDiv')
+  mapDivElement!: ElementRef;
   private debounceTimer ?: NodeJS.Timeout;
 
   constructor(private placesService: PlacesService,
@@ -33,36 +33,35 @@ export class MapViewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-  //   if(!this.placesService.userLocation) throw Error('No hay placesServices.userLocation');
+    if(!this.placesService.userLocation) throw Error('No hay placesServices.userLocation');
     
 
-  //   const map = new Map({
-  //     container: this.mapDivElement.nativeElement, // container ID
-  //     style: 'mapbox://styles/mapbox/streets-v11', // style URL
-  //     center: this.placesService.userLocation, // starting position [lng, lat]
-  //     zoom: 14 // starting zoom
-  // });
+    const map = new Map({
+      container: this.mapDivElement.nativeElement, // container ID
+      //style: 'mapbox://styles/mapbox/streets-v11', // style URL
+      style: 'mapbox://styles/mapbox/satellite-v9', // style URL
+      center: this.placesService.userLocation, // starting position [lng, lat]
+      zoom: 14 // starting zoom
+  });
 
-  // const popUp = new Popup()
-  //       .setHTML(`
-  //         <h5>Ubicaciòn actual</h5>
-  //         <span>En este punto me encuentro actualmente</span>
-  //       `);
+  const popUp = new Popup()
+        .setHTML(`
+          <h5>Ubicaciòn actual</h5>
+        `);
 
-  // new Marker({color: 'red'})
-  // .setLngLat(this.placesService.userLocation)
-  // .setPopup(popUp)
+  new Marker({color: 'red'})
+  .setLngLat(this.placesService.userLocation)
+  .setPopup(popUp)
 
-  // .addTo(map);
+  .addTo(map);
 
-  // this.mapService.setMap(map);
-  // }
+  this.mapService.setMap(map);
   }
 
   ngOnInit(): void {
-  this.lat = this.placesService.userLocation[1];
-  this.lng = this.placesService.userLocation[0];
-  this.zoom = 15;
+  // this.lat = this.placesService.userLocation[1];
+  // this.lng = this.placesService.userLocation[0];
+  // this.zoom = 15;
    console.log(this.placesService.userLocation);
   }
 

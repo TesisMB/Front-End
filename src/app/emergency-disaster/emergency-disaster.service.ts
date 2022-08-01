@@ -74,13 +74,24 @@ export class EmergencyDisasterService extends DataService {
 
   }
 
-    // .pipe(map(x => { 
+
+  // .pipe(map(x => { 
     //   const items = x.filter(f => f.alerts.alertDegree != 'Controlado');
     //    return items;
     // }));
 
+  }
 
-}
+
+  generatePDFEmergency(id): Observable<any> {
+    const headers = new HttpHeaders().set('Accept','application/pdf');
+    return this.http.get(environment.URL + this.patch + '/pdf/' + id, 
+        {
+          headers: headers,
+          responseType: 'blob'
+        }
+      );
+    }
 
 getAlerts(): Observable<any> {
   const arrayEmergencies: AlertArray[] = [];

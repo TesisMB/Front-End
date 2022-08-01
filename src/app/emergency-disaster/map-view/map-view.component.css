@@ -1,15 +1,21 @@
+/* .container {
+    height: 80% !important;
+    width: 50%;
+} */
+
+
 .map-container {
     position: relative;
     top: 0;
     right: 0;
-    width: 74vw;
-    height: 74vh;
+    width: 40vw;
+    height: 40vh;
     border-radius: 10px;
     /*   margin-top: 8rem;
     margin: 11rem 67px; */
 }
 
-agm-map {
+/* agm-map {
     position: relative;
     top: 0;
     right: 0;
@@ -17,4 +23,4 @@ agm-map {
     height: 74vh;
     border-radius: 10px;
     height: 50vh;
-}
+} */

@@ -19,6 +19,8 @@ import { BtnMyLocationComponent } from '../btn-my-location/btn-my-location.compo
 import { AngularLogoComponent } from '../angular-logo/angular-logo.component';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { SearchResultComponent } from '../search-result/search-result.component';
+import {GoogleMapsModule} from '@angular/google-maps';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
   declarations: [LayoutEmergencyDisasterComponent, ListComponent, NgbdModalComponent, 
@@ -31,10 +33,8 @@ import { SearchResultComponent } from '../search-result/search-result.component'
   imports: [
     SharedModule,
     EmergencyDisasterRoutingModule,
-    // AgmCoreModule.forRoot({
-    //   apiKey: 'AIzaSyDfSM4ay1c99LQe0s3dA2FElUvvJtjQlIY',
-    //   libraries: ['places']
-    // })
+    // GoogleMapsModule,
+    // GooglePlaceModule
   ],
   providers: [
     NgbActiveModal,

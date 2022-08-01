@@ -1,19 +1,21 @@
 <!-- <div class="container">
 
-  <h1>Angular Google Maps with Places Search Example</h1>
+  <input ngx-google-places-autocomplete (onAddressChange)="handleAddressChange($event)" />
 
-  <div class="form-group">
-    <label>Enter address</label>
-    <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()"
-      placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
-  </div>
 
-  <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
-    <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
-      (dragEnd)="markerDragEnd($event)"></agm-marker>
-  </agm-map>
+  <google-map [center]="position" [options]="mapOptions">
 
-  <h5>Address: {{address}}</h5>
-  <div>Latitude: {{latitude}}</div>
-  <div>Longitude: {{longitude}}</div>
+    <map-marker [position]="position" [label]="label">
+
+    </map-marker>
+
+  </google-map>
+
+
+  <p>Address: {{ address }}</p>
+  <p>Latitude: {{ lat }}</p>
+  <p>Longitude: {{ lng }}</p>
 </div> -->
+
+<div #mapDiv class="map-container">
+</div>

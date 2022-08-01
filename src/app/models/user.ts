@@ -3,6 +3,7 @@
  export interface User  {
   userDni: string;
   userAvailability?: boolean;
+  createdate: string;
   roleName: RoleName;  
   persons?: Person;
   estates?: Estates
@@ -10,6 +11,9 @@
   userID?: number;
   UserPassword?: string;
   UserNewPassword?: string;
+  FK_RoleID: number;
+  FK_EstateID: number;
+  avatar: string;
  }
 
  export interface UserRequest {

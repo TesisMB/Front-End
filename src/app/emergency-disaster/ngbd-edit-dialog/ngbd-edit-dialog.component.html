@@ -42,10 +42,10 @@
                 <div class="form-group col">
                     <label for="Fk_EmplooyeeID" class="first"><strong class="info">Responsable: </strong></label>
                     <select formControlName="Fk_EmplooyeeID" (change)="changeEmployeedID()" class="form-control info">
-                        <option *ngFor=" let item of user" [value]="item.employeeID">
-                            {{item.users.userDni}} -
-                            {{item.users.persons.firstName}}
-                            {{item.users.persons.lastName}}
+                        <option *ngFor=" let item of user" [value]="item.userID">
+                            {{item.userDni}} -
+                            {{item.persons.firstName}}
+                            {{item.persons.lastName}}
                         </option>
                     </select>
                 </div>

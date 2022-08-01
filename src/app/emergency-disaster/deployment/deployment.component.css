@@ -2,6 +2,10 @@
     display: none;
 }
 
+.btn-r {
+    display: flex;
+    justify-content: end;
+}
 
 table {
     width: 100%;

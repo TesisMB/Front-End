@@ -1,21 +1,19 @@
+<!-- Nav 1- Sidebar 2- Logo  3-User -->
 
-
-    <!-- Nav 1- Sidebar 2- Logo  3-User -->
-
-    <!--******************************* BODY *******************************-->
-    <div class="justify-content-center p-5">
+<!--******************************* BODY *******************************-->
+<div class="justify-content-center p-5">
     <div class="col-12 contenedor1 ">
-      <div class="contenido-header">
-                <div class="textos-header">
-                    <h1>#ArgentinaNosNecesita</h1>
-                </div>
-                <div class="img">
+        <div class="contenido-header">
+            <div class="textos-header">
+                <h1>#ArgentinaNosNecesita</h1>
+            </div>
+            <div class="img">
                 <img src="./../../../assets/img-home-users/img-header.png" alt="">
             </div>
-                <a mat-raised-button color="warn" href="https://www.cruzroja.org.ar/argentinanosnecesita/">Ver más</a>
-            </div>
+            <a mat-raised-button color="warn" href="https://www.cruzroja.org.ar/argentinanosnecesita/">Ver más</a>
         </div>
-    <div class="col-12 row mt-4" >
+    </div>
+    <div class="col-12 row mt-4">
         <div class="col-xl-6 col-lg-12">
             <div class="col-body">
                 <div class="carnet">
@@ -28,13 +26,13 @@
                     <recent-monitoreo></recent-monitoreo>
                 </div>
             </div>
-         </div>
+        </div>
         <div class="col-xl-6 col-lg-12">
             <div class="col-body">
-                
+
                 <div *ngIf="condition" class="carnet">
-                    <recent-history  condition = 'Pendiente' title ='Ultimas solicitudes pendientes'></recent-history>
-                    
+                    <recent-history condition='Pendiente' title='Ultimas solicitudes'></recent-history>
+
 
                 </div>
                 <!-- <div class="carnet" *ngIf="currentUser.roleName != 'Encargado de Logistica'">
@@ -44,13 +42,14 @@
                     <recent-request></recent-request>
 
                 </div> -->
-            </div> </div>
+            </div>
+        </div>
+
+    </div>
 
 </div>
 
-</div>
-      
-    <!-- <section class="card-min">
+<!-- <section class="card-min">
         <div class="contenedor">
             <div class="contenedor-articulo">
                 <div class="articulo">
@@ -111,4 +110,3 @@
             </div>
         </div>
     </section> -->
-

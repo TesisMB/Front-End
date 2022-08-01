@@ -59,7 +59,7 @@ export interface FoodNode {
       role:['Admin','Coordinador General', ,'Coord. de Emergencias'],
       disabled: true,
       children: [
-        {name: 'Lista de empleados',
+        {name: 'Lista de usuarios',
         patch:'/empleados',
         icon:'fas fa-user-plus',
         role:['Admin','Coordinador General']

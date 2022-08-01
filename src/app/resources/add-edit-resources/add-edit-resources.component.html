@@ -36,9 +36,12 @@
           <ng-template matStepLabel>Primeros datos</ng-template> -->
 
       <mat-form-field appearance="outline" style="width: 25%;">
+
+
         <mat-label>Codigo</mat-label>
         <span matPrefix class="pr-2">{{prefix}} &nbsp;</span>
-        <input matInput formControlName="id" [readonly]="isEdit" />
+        <input matInput placeholder="Codigo" formControlName="id" required [readonly]="isEdit" />
+        <!-- <input matInput formControlName="id" [readonly]="isEdit" /> -->
       </mat-form-field>
 
       <mat-grid-list cols="4" rowHeight="100px">
@@ -152,7 +155,7 @@
         <mat-grid-tile *ngIf="medicineForm" [formGroup]="medicineForm">
           <mat-form-field appearance="outline">
             <mat-label>Peso - Volumen</mat-label>
-            <input matInput placeholder="Peso del medicamento" formControlName="medicineWeight" required
+            <input matInput placeholder="Peso del medicamento" formControlName="medicineWeight" required type="number"
               [readonly]="isEdit" />
             <mat-error *ngIf="
                     medicineForm.get('medicineWeight').hasError('pattern') &&
@@ -226,7 +229,7 @@
         <mat-grid-tile *ngIf="medicineForm" [formGroup]="medicineForm">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Fecha de vencimiento</mat-label>
-            <input matInput placeholder="Ex. 12/2022 o 12-2023" formControlName='medicineExpirationDate' required
+            <input matInput placeholder="Ex. 12/2022" formControlName='medicineExpirationDate' required
               [readonly]="isEdit" />
             <mat-error *ngIf="medicineForm.get('medicineExpirationDate').hasError('required')">
               La fecha es <strong>requerida</strong>
@@ -424,6 +427,7 @@
         </mat-grid-tile>
         <br />
         <mat-grid-tile colspan="1" rowspan="3">
+
           <div class="imagen-class row ">
             <div class="custom-file fileInputProfileWrap col-12">
               <input type="file" (change)="selectFiles($event)" class="fileInputProfile">

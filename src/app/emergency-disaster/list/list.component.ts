@@ -32,11 +32,13 @@ export class ListComponent implements OnInit {
 
 
 
-  constructor(private emergencyDisasterService: EmergencyDisasterService,
+  constructor(
     public selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private modalService: NgbModal,
     public dialog: MatDialog,
-    private router: Router) {
+    private router: Router,
+    private emergencyDisasterService: EmergencyDisasterService,
+    ) {
 
       
     }
