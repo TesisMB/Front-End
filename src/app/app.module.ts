@@ -1,3 +1,4 @@
+import { ReportsModule } from './reports/reports.module';
 import { EmergencyDisasterModule } from './emergency-disaster/layout-emergency-disaster/emergency-disaster.module';
 import { ResourcesModule } from './resources/resources.module';
 import { AuthenticationService } from './services/_authentication/authentication.service';
@@ -50,6 +51,7 @@ import { MonitorioListComponent } from './monitoreo/monitorio-list/monitorio-lis
     MaterialDesignModule,
     ResourcesModule,
     EmergencyDisasterModule,
+    ReportsModule,
   ],
 
   //AIzaSyA_CKkvt8BfYaEsSp0AHiJVwD_KB5G2Pa4

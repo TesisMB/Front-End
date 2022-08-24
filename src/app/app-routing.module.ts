@@ -13,6 +13,7 @@ const accountModule = () => import ('./account/account.module').then(x => x.Acco
 const usersModule = () => import ('./users/users.module').then(x => x.UsersModule);
 const resourcesModule = () => import('./resources/resources.module').then(m => m.ResourcesModule);
 const emergencyModule = () => import('./emergency-disaster/layout-emergency-disaster/emergency-disaster.module').then(m => m.EmergencyDisasterModule);
+const reportModule = () => import('./reports/reports.module').then(m => m.ReportsModule);
 
 export const routes: Routes = [
   {
@@ -48,8 +49,12 @@ export const routes: Routes = [
     loadChildren: emergencyModule,
     canActivate: [AuthGuard],
     data:{ roles: [RoleName.Admin, RoleName.CoordinadorGeneral, RoleName.CEyD]}
+   },  
+    {
+    path: 'reportes',
+    loadChildren: reportModule,
+    canActivate: [AuthGuard]
    },
-
    {
     path: 'monitoreo',
     component: MonitoreoComponent,

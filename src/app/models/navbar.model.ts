@@ -123,6 +123,13 @@ export interface FoodNode {
       role:['Admin','Coordinador General','Coord. de Emergencias'],
     },
     {
+      name: 'Reportes',
+      patch:'/reportes',
+      icon:'fas fa-chart-pie' ,
+      disabled: false,
+      role:['Admin']
+    },
+    {
       name: 'Monitoreo',
       patch:'/monitoreo',
       icon:'fas fa-tv' ,
