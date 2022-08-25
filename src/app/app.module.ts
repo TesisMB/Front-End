@@ -30,7 +30,7 @@ import { FileValueAccessorDirective } from './directives/file-value-accessor.dir
 import { MonitoreoComponent } from './monitoreo/monitoreo/monitoreo.component';
 import { DialogPDFComponent } from './monitoreo/dialog-pdf/dialog-pdf.component';
 import { MonitorioListComponent } from './monitoreo/monitorio-list/monitorio-list.component';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +51,7 @@ import { MonitorioListComponent } from './monitoreo/monitorio-list/monitorio-lis
     MaterialDesignModule,
     ResourcesModule,
     EmergencyDisasterModule,
-    ReportsModule,
+    ReportsModule
   ],
 
   //AIzaSyA_CKkvt8BfYaEsSp0AHiJVwD_KB5G2Pa4
