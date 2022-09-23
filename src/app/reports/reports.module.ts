@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ReportsRoutingModule } from './reports-routing.module';
@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReportsRoutingModule,
     SharedModule,
     NgxChartsModule
-    ]
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ReportsModule { }

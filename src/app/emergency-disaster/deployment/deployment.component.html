@@ -23,13 +23,13 @@
             {{emergencyDisaster.locationsEmergenciesDisasters.locationCityName}} -
             {{emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName}}
           </h4>
-
-          <button mat-fab color="warn" aria-label="Example icon button with a home icon" [disabled]="loading"
+<!-- disabled]="loading" -->
+          <button mat-fab color="warn" aria-label="Example icon button with a home icon" disabled
             style="margin-top: 1rem;" (click)="generatePDF(emergencyDisaster.emergencyDisasterID)">
             <span class="text-center" *ngIf="loading">
               <i class="fas fa-spinner fa-lg fa-spin"> </i>
             </span>
-            <mat-icon class="icon">picture_as_pdf</mat-icon>
+            <mat-icon class="icon">picture_as_pdf</mat-icon> **REFACTORIZAR**
           </button>
         </div>
         <!-- 

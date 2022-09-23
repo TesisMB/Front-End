@@ -54,11 +54,12 @@
     </div>
 
     <div class="d-flex justify-content-end">
+          <!-- [disabled]="loading" -->
         <button
          mat-stroked-button
           color="warn" 
           style="margin-right: 10px;" 
-          [disabled]="loading"
+          disabled
           (click)="generatePDF()"
           >
           <span class="text-center" *ngIf="loading">
@@ -67,7 +68,7 @@
             <mat-icon>
                 picture_as_pdf
             </mat-icon>
-            Descargar
+            Descargar **REFACTORIZAR**
         </button>
     </div>
 

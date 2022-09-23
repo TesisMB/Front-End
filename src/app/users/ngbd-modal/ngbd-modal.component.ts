@@ -263,7 +263,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   );}
 
 
-
+    //*************REFACTORIZAR ************/
   generatePDF(role){ 
     if(role == true){
       this.generateEmployeePDF();
@@ -272,6 +272,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   
+    //*************REFACTORIZAR ************/
 
   generateEmployeePDF(){  
      //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
@@ -284,7 +285,8 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
      });
     }
 
-    
+        //*************REFACTORIZAR ************/
+
  generateVolunteerPDF(){ 
 
   //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
