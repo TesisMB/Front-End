@@ -18,8 +18,8 @@
 
 
     <div class="col-4 col-xs-4 col-sm-auto align-self-end">
-
-      <button mat-stroked-button color="warn" style="margin-right: 10px;" [disabled]="loading"
+<!--  [disabled]="loading"-->
+      <button mat-stroked-button color="warn" style="margin-right: 10px;" disabled 
         (click)="generatePDF()">
         <span class="text-center" *ngIf="loading">
           <i class="fas fa-spinner fa-lg fa-spin"> </i>
@@ -27,7 +27,7 @@
         <mat-icon>
           picture_as_pdf
         </mat-icon>
-        Descargar
+        Descargar **REFACTORIZAR**
       </button>
 
       <button mat-raised-button matTooltip="Agregar un usuario nuevo" matTooltipPosition="above" color="warn"

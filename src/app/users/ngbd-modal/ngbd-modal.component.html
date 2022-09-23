@@ -20,12 +20,12 @@
     </button>
 
 
-    <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF(isNotVolunteer)"
+    <button type="button" class="btn btn-options  btn-sm" disabled (click)="generatePDF(isNotVolunteer)"
       *ngIf="user.roleName !== 'Voluntario'">
       <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
     </button>
 
-    <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF(isVolunteer)"
+    <button type="button" class="btn btn-options  btn-sm" disabled (click)="generatePDF(isVolunteer)"
       *ngIf="user.roleName === 'Voluntario'">
       <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
     </button>

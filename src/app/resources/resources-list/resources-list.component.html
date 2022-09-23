@@ -23,11 +23,11 @@
       </div>
     </div>
 
-
+<!-- [disabled]="loading" -->
     <div class="pt-4 col-3 align-self-end">
       <button
        mat-stroked-button color="warn" 
-       [disabled]="loading"
+        disabled
        (click)="generatePDF()"
         *ngIf="tipo == 'voluntarios'">
         <span class="text-center" *ngIf="loading">
@@ -36,7 +36,7 @@
         <mat-icon>
           picture_as_pdf
         </mat-icon>
-        Descargar
+        Descargar **REFACTORIZAR**
       </button>
     </div>
 

@@ -41,20 +41,20 @@ loading = false;
     
   }
 
-
+//**********REFACTORIZAR *************/
   generatePDF(){ 
-    this.loading = true;
+    // this.loading = true;
 
-    console.log(this.currentUser);
-    //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
-      let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;
-      this.userService.generatePDFCredential(this.service.currentUserValue.userID).subscribe(res => {
-        const file = new Blob([<any>res], {type: 'application/pdf'});
-      //  saveAs(file, fileName);
-        const fileURL = window.URL.createObjectURL(file);
-        window.open(fileURL, fileName);
-        this.loading = false;
-      });
+    // console.log(this.currentUser);
+    // //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
+    //   let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;
+    //   this.userService.generatePDFCredential(this.service.currentUserValue.userID).subscribe(res => {
+    //     const file = new Blob([<any>res], {type: 'application/pdf'});
+    //   //  saveAs(file, fileName);
+    //     const fileURL = window.URL.createObjectURL(file);
+    //     window.open(fileURL, fileName);
+    //     this.loading = false;
+    //   });
     }
   
   ngOnDestroy(){
