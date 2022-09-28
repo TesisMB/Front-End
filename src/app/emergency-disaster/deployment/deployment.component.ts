@@ -3,7 +3,7 @@ import { EmergencyDisasterService } from './../emergency-disaster.service';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import {FormGroup } from '@angular/forms';
-import * as L from  'Leaflet';
+import L from 'leaflet';
 import mapboxgl from 'mapbox-gl'; // or "const mapboxgl = require('mapbox-gl');"
 import { environment } from 'src/environments/environment';
 import { Location } from '@angular/common';
@@ -12,7 +12,7 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'deployment',
   templateUrl: './deployment.component.html',
-  styleUrls: ['./deployment.component.css']
+  // styleUrls: ['./deployment.component.css']
 })
 export class DeploymentComponent implements OnInit, AfterViewInit{
   @ViewChild('mapDiv')
