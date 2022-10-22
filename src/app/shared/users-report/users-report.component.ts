@@ -1,7 +1,9 @@
 import { throwError } from 'rxjs';
-import { DatePipe } from '@angular/common';
+// import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import * as moment from 'moment';
+
 interface EmergencyDisastersReports {
   id: number;
   city: string;
@@ -74,7 +76,7 @@ export class UsersReportComponent implements OnInit {
   selected = this.states.TODOS;
   selectedType: string = "list";
   date = new Date();
-  public datepipe: DatePipe;
+  // public datepipe: DatePipe;
   barChartcustomColors = 
   [
     { name: "Moderado", value: '#C7B42C' },
@@ -98,18 +100,18 @@ export class UsersReportComponent implements OnInit {
     },
   );
   filterState: any;
+
   constructor() { }
 
   ngOnInit(): void {
      this.dataClone = Object.assign(this.data);
     console.log('Reporte => ',this.reports);
-    // this.setAll();
+    this.setAll();
     this.control.valueChanges.subscribe(date => {
     this.formateDate();
     console.log('clone data => ',this.dataClone);
     this.setAll();
     });
-
   }
 
   get getActiveList(){
@@ -314,16 +316,16 @@ getType(data){
 
   formateDate(){
     const dateForm = this.control.value;
-    const isEndDate = new Date(dateForm.to);
-    const startDate = new Date(dateForm.from);
+    const isEndDate = moment(dateForm.to);
+    const startDate = moment(dateForm.from);
 
     // let latest_date =this.datepipe.transform(startDate, 'yyyy-MM-dd');
     // console.log('Fecha formateada => ',latest_date);
 
     
      this.dataClone = dateForm.to ?
-     this.data.filter(f => new Date(f.startDate) >=  startDate && new Date(f.startDate) <= isEndDate) :
-     this.data.filter(f => new Date(f.startDate) >=  startDate);
+     this.data.filter(f =>   moment(f.startDate).isBetween(startDate,isEndDate)) :
+     this.data.filter(f => moment(f.startDate).isAfter(startDate));
 
     console.log('clone data => ',this.dataClone);
   }

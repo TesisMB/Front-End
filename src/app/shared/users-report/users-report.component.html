@@ -19,11 +19,11 @@
         </select>
       </mat-form-field> -->
       <mat-form-field appearance="outline" *ngIf="control" class="full-width" >
-        <mat-label>Select dates</mat-label>
+        <mat-label>Por fecha</mat-label>
         <date-picker-range [formControl]="control" placeholder="DD/MM/YYYY" ></date-picker-range>
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Tipo</mat-label>
+        <mat-label>Por tipo</mat-label>
         <mat-select [(value)]="selectedType" (selectionChange)="setVisible($event.value)" >
           <mat-option value="list">Lista de alertas</mat-option>
           <mat-option value="city">Por ubicacion</mat-option>
@@ -60,7 +60,7 @@
         <mat-list-item *ngFor="let inactive of getInactiveList" class="alertCard mt-3" [ngStyle]="{backgroundColor: getCardColor(inactive.degree)}" >
           <img matListAvatar src="../../../assets/icons - Resources - EmergDesas/{{inactive.icon | lowercase}}.svg"
           alt="" class="img">
-            <div mat-line>{{inactive.startDate | date :'dd/MM/yyyy'}} {{inactive.endDate | date :'dd/MM/yyyy'}}</div>
+            <div mat-line>{{inactive.startDate | date :'dd/MM/yyyy'}} - {{inactive.endDate | date :'dd/MM/yyyy'}}</div>
             <div mat-line>{{inactive.id}} {{inactive.city}} </div>
             <div mat-line> {{inactive.type }} - {{inactive.degree}}</div>
         </mat-list-item>

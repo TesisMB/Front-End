@@ -66,6 +66,7 @@ import { DatePickerRangeComponent } from '../directives/date-picker-range/date-p
     AlertComponent,
     ReactiveFormsModule,
     ResourceModalComponent,
+    UsersReportComponent,
     NgxChartsModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
