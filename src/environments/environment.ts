@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  URL:  'http://localhost:5001/api/',
-  // URL: 'https://sicreyd.azurewebsites.net/api/',
+  // URL:  'http://localhost:5001/api/',
+  URL: 'https://sicreyd.azurewebsites.net/api/',
   key: 'pk.eyJ1IjoieW9lbHNvbGNhIiwiYSI6ImNrenpxZ2Z6bzBjcGgzY3F4NnJwYjJoODEifQ.tB-AizTwtOQLC3BA_5FiMw'
 
 };
