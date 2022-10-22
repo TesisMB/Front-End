@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import {compare } from 'fast-json-patch';
 import * as _ from 'lodash';
-
 import { UserService } from './../../users/index';
 import {AlertService } from './../../services/index';
 import { Employee, User} from 'src/app/models';

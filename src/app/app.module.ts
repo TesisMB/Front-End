@@ -31,6 +31,8 @@ import { MonitoreoComponent } from './monitoreo/monitoreo/monitoreo.component';
 import { DialogPDFComponent } from './monitoreo/dialog-pdf/dialog-pdf.component';
 import { MonitorioListComponent } from './monitoreo/monitorio-list/monitorio-list.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MomentModule } from 'ngx-moment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +53,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     MaterialDesignModule,
     ResourcesModule,
     EmergencyDisasterModule,
-    ReportsModule
+    ReportsModule,
+    MomentModule 
+
   ],
 
   //AIzaSyA_CKkvt8BfYaEsSp0AHiJVwD_KB5G2Pa4

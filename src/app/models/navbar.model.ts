@@ -122,13 +122,13 @@ export interface FoodNode {
       icon:'fas fa-briefcase-medical' ,
       role:['Admin','Coordinador General','Coord. de Emergencias'],
     },
-    {
-      name: 'Reportes',
-      patch:'/reportes',
-      icon:'fas fa-chart-pie' ,
-      disabled: false,
-      role:['Admin','Coordinador General']
-    },
+    // {
+    //   name: 'Reportes',
+    //   patch:'/reportes',
+    //   icon:'fas fa-chart-pie' ,
+    //   disabled: false,
+    //   role:['Admin','Coordinador General']
+    // },
     {
       name: 'Monitoreo',
       patch:'/monitoreo',
