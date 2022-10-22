@@ -2,7 +2,7 @@ import { AuthenticationService } from './../../services/_authentication/authenti
 import { TableService } from 'src/app/services/_table.service/table.service';
 import { AlertService } from './../../services/_alert.service/alert.service';
 import { Employee } from './../../models/employee';
-import { Component, Input, OnInit, ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation, OnDestroy, AfterViewInit, Inject } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray, FormGroup } from '@angular/forms';
 import { UserService } from '../user.service';
@@ -13,6 +13,7 @@ import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-moda
 import { saveAs } from 'file-saver';
 import { StatesService } from 'src/app/resources/states/states.service';
 import { map } from 'rxjs/operators';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 interface UsersInput {
   value: number;
@@ -24,6 +25,8 @@ interface UsersGroup {
   id: number;
   users: Employee[];
 }
+const ACTIVE = 'Activa';
+const INACTIVE = 'Inactiva';
 
 @Component({
   selector: 'ngbd-modal-component',
@@ -50,6 +53,8 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   estates = [];
 
   constructor(
+    // public dialogRef: MatDialogRef<NgbdModalComponent>,
+    // @Inject(MAT_DIALOG_DATA) public data: any,
     public activeModal: NgbActiveModal,
     private modalService: NgbModal,
     private tableService: TableService,
@@ -59,7 +64,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     private authenticationService: AuthenticationService ) {
     }
   
-    @Input() user: User;
+    @Input() user: User = null;
 
     
   ngOnInit() {
@@ -141,6 +146,15 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     return  this.authenticationService.currentUserValue.userID ===  this.user.userID;
   }
 
+  get getActiveList(){
+    const activeList = this.user.emergencyDisastersReports.filter(p => p.state === ACTIVE);
+    return activeList;
+  }
+
+  get getInactiveList(){
+    const inactiveList = this.user.emergencyDisastersReports.filter(p => p.state === INACTIVE);
+    return inactiveList;
+  }
   setRole(){
   let role = (this.roles.find(name => name.RoleName === this.roleName.value));
   this.roleID.patchValue(role.roleID);
@@ -181,14 +195,15 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-
+  onNoClick(): void {
+    // this.dialogRef.close();
+  } 
   onClick(){
     //metodo que habilita y deshabilita el formulario, se ejecuta al clickear en el boton Actualizar Datos
     (this.form.disabled)?this.form.enable():this.form.disable();
-     
     // if(this.user.roleName ==='Voluntario'){    
     //   this.f.controls['roleName'].disable();
-    // }
+      // }
   }
 
   private updateUser(patch) {
@@ -240,7 +255,8 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     patch = patch.filter( obj => obj.path !== "/createdate");
     patch = patch.filter( obj => obj.path !== "/fK_EstateID");
     patch = patch.filter( obj => obj.path !== "/fK_RoleID");
-
+    patch = patch.filter( obj => obj.path !== "/emergencyDisastersReports");
+    
     console.log(patch);
     (patch.length !== 0) ? this.updateUser(patch) : this.loading = false;
 

@@ -3,6 +3,7 @@ import {QueryList, ViewChildren} from '@angular/core';
 import { Observable} from 'rxjs';
 
 import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {MatDialog} from '@angular/material/dialog';
 import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
 
 import { Employee, User } from 'src/app/models';
@@ -33,6 +34,7 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
     public service: TableService,
     private userService: UserService,
     private authService: AuthenticationService,
+    public dialog: MatDialog
     ) {
 
     
@@ -61,7 +63,16 @@ ngOnInit() {
     modalRef.componentInstance.user = this.service.empleadosValue[index];      
   }
 
-  
+  openDialog(index): void {
+    const dialogRef = this.dialog.open(NgbdModalComponent, {
+      //  width: '800px',
+      data: {user: this.service.empleadosValue[index]}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 //**********************REFACTORIZAR************
   generatePDF(){  
     // this.loading = true;

@@ -4,7 +4,8 @@
   userDni: string;
   userAvailability?: boolean;
   createdate: string;
-  roleName: RoleName;  
+  roleName: RoleName;
+  emergencyDisastersReports?: any;
   persons?: Person;
   estates?: Estates
   token?: string;
