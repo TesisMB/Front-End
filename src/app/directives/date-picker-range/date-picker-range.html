@@ -1,0 +1,14 @@
+<div class="date-picker-range">
+	<input #fromID (click)="fromID.select();trigger.openMenu()" [placeholder]="focused && !from.value?placeholder:''" [formControl]="from" (blur)="tryFormat(from.value,from,calendar)" [style.text-align]="!focused?'center':null" />
+  <span [style.visibility]="empty && !focused?'hidden':null"> - </span>
+	<input #toID (click)="toID.select();trigger.openMenu()" [style.text-align]="!focused?'center':null" [placeholder]="focused && !to.value?placeholder:''"  [formControl]="to" (blur)="tryFormat(to.value,to)"/>
+  </div>
+	<mat-icon *ngIf="!disabled" [matMenuTriggerFor]="appMenu" [style.opacity]="disabled?'.5':null"  (menuOpened)="onOpen(calendar)" >calendar_today</mat-icon>
+	<mat-icon *ngIf="disabled" [style.opacity]="disabled?'.5':null"  >calendar_today</mat-icon>
+
+<mat-menu #appMenu="matMenu" class="drop-calendar" >
+	<div  (click)="$event.stopPropagation()">
+		<mat-calendar  class="calendar" #calendar (selectedChange)="select($event)" [selected]="parse(date)" [dateClass]="setClass()" >
+    </mat-calendar>
+	</div>
+</mat-menu>

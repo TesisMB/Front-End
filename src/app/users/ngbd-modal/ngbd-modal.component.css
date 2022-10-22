@@ -1,8 +1,48 @@
+/* .mat-tab-group {
+  flex-direction: row !important;
+}
+.mat-tab-header {
+  border-bottom: none;
+}
+.mat-tab-header-pagination {
+  display: none !important;
+}
+.mat-tab-labels {
+  flex-direction: column;
+}
+.mat-ink-bar {
+  height: 100%;
+  width: 2% !important; 
+  left: 98% !important;
 
+}
+.mat-tab-body-wrapper {
+  flex: 1 1 auto;
+} */
+.info-personal{
+  /* background-color: #e9ecef; */
+}
+
+  .avatar{
+    width: 150px; 
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    /* background-color: blue; */
+  }
+  .avatar img{
+    width: 100%;
+  }
   .modal-header {
     text-align: center!important;
   }
+.personal, .contact,.work,.access{
+  background-color: #e9ecef;
+  border: 1px;
+  border-radius: 10px;
+  padding-top: 10px;
 
+}
   .modal-body {
     margin: 0 15px!important ;
   }

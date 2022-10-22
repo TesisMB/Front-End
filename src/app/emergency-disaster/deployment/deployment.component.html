@@ -24,7 +24,7 @@
             {{emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName}}
           </h4>
 <!-- disabled]="loading" -->
-          <button mat-fab color="warn" aria-label="Example icon button with a home icon" disabled
+          <button mat-fab color="warn" hidden aria-label="Example icon button with a home icon" disabled
             style="margin-top: 1rem;" (click)="generatePDF(emergencyDisaster.emergencyDisasterID)">
             <span class="text-center" *ngIf="loading">
               <i class="fas fa-spinner fa-lg fa-spin"> </i>

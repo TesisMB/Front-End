@@ -47,6 +47,7 @@
     "moment": "^2.29.4",
     "ngx-filesaver": "^12.0.0",
     "ngx-google-places-autocomplete": "^2.0.5",
+    "ngx-moment": "^6.0.2",
     "normalize.css": "^8.0.1",
     "popper.js": "^1.16.1",
     "primeicons": "^4.0.0",

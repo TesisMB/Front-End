@@ -1,0 +1,27 @@
+mat-grid-tile {
+    background: #e9ecef;
+  }
+
+  .button-group button{
+    margin-right: 8px;
+  }
+
+  .button-group .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+
+  mat-grid-tile .row{
+    width: 100%;
+  } 
+
+  .alertCard{
+    border-radius: 10px;
+    border: 1px solid #000;
+    width: 100%;
+  }
+
+  .mat-grid-tile .mat-figure {
+
+    align-items: flex-start !important; 
+
+}

@@ -127,7 +127,7 @@ export interface FoodNode {
       patch:'/reportes',
       icon:'fas fa-chart-pie' ,
       disabled: false,
-      role:['Admin']
+      role:['Admin','Coordinador General']
     },
     {
       name: 'Monitoreo',
