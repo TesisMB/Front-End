@@ -13,6 +13,7 @@ import { Ubicacion } from 'src/app/models/Parametros';
 import { Employee, User } from 'src/app/models';
 import { AlertService } from 'src/app/services';
 import { Location } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'add-emergency-disaster',
@@ -24,6 +25,11 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
   arraytypeEmergencyDisaster = [];
   typeEmergencyDisaster: TypesEmergencyDisaster[];
+  subscriber1: Subscription;
+  subscriber2: Subscription;
+  subscriber3: Subscription;
+  subscriber4: Subscription;
+  subscriber5: Subscription;
   locationB: boolean = false;
   addEmergencyDisaster: FormGroup;
   alerts: Alerts[];
@@ -88,7 +94,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.authenticationService.currentUser.subscribe(data => {
+    this.subscriber1 =  this.authenticationService.currentUser.subscribe(data => {
       this.currentUser = data;
       console.log("Data", data);
     }, error => {
@@ -111,7 +117,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
   getUser(){
-    this.userService.getAll().subscribe(data => {
+    this.subscriber2 = this.userService.getAll().subscribe(data => {
       this.user = data;
       this.user = this.user.filter(a => a.roleName == "Coord. de Emergencias");
     }, error =>{
@@ -120,7 +126,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
   addEmergencyDisasterFunction(){
-    this.currentPlaceHandler = this.placesService.placeSubject$.subscribe(resp => {
+    this.subscriber3 = this.placesService.placeSubject$.subscribe(resp => {
       if(resp){
         this.getLocation(resp);
       }
@@ -156,7 +162,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
       const emergency = this.addEmergencyDisaster.value;
       console.log('Formulario =>', emergency);
       
-      this.emergencyDisasterService.register(emergency).subscribe( () =>{
+      this.subscriber4 =   this.emergencyDisasterService.register(emergency).subscribe( () =>{
       this.alertService.success('Registro exitoso :)', { autoClose: true });
       // this.stepper.reset();
         
@@ -172,7 +178,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
 
   getTypeEmergencyDisaster(){
-    this.selectTypesEmergencyDisasterService.getAll()
+    this.subscriber5 =  this.selectTypesEmergencyDisasterService.getAll()
     .pipe(
       map((x) =>{
         x.forEach(item =>{
@@ -202,8 +208,11 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
  
   ngOnDestroy(): void {
-   /*  this.handler.unsubscribe();
-    this.currentPlaceHandler.unsubscribe(); */
+  if(this.subscriber1) this.subscriber1.unsubscribe();
+  if(this.subscriber2)   this.subscriber2.unsubscribe();
+  if(this.subscriber3)   this.subscriber3.unsubscribe();
+  if(this.subscriber4)   this.subscriber4.unsubscribe();
+  if(this.subscriber5)   this.subscriber5.unsubscribe();
   }
 
 }
