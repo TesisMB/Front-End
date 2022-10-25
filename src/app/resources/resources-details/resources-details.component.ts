@@ -5,7 +5,12 @@ import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Resource, Cart } from 'src/app/models';
 import { ResourcesDetailsService } from '../cart/cart.service';
-import { AuthenticationService } from 'src/app/services';
+import { AlertService, AuthenticationService } from 'src/app/services';
+import { UserService } from 'src/app/users';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RequestTableService } from '../request-table/request-table.service';
+import { NgbdModalComponent } from '../../users/ngbd-modal/ngbd-modal.component';
+import { Subscription } from 'rxjs';
 
 const card = document.querySelector(".content");
 
@@ -22,6 +27,7 @@ export class ResourcesDetails implements OnInit {
   error: any = '';
   form: FormGroup;
   handlerRequest: any;
+  handleUser: Subscription;
 
   constructor(
     private location: Location,
@@ -30,7 +36,12 @@ export class ResourcesDetails implements OnInit {
     private service: ResourcesService,
     private requestService: ResourcesDetailsService,
     private authenticationService: AuthenticationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private modalService: NgbModal,
+    public service2: RequestTableService,
+    private alertService: AlertService,
+
     ) {
       
     }
@@ -151,5 +162,43 @@ export class ResourcesDetails implements OnInit {
   // this.submitted = false;
 
  }
+
+
+ openModal(patch, i){
+  if(patch === 'info'){
+    const modalRef = this.modalService.open(ResourcesDetails, { size: 'lg', centered: true, scrollable: true });
+    modalRef.componentInstance.resources = this.service2.requestValue[i];
+}
+  else if(patch === 'employee'){
+
+    this.getUser(i);
+}
+}
+
+getUser(id){
+  this.handleUser = this.userService.getById(id)
+  .subscribe(x =>{
+    const modalRef = this.modalService.open(NgbdModalComponent, { size: 'xl' });
+    modalRef.componentInstance.user = x;
+    }, 
+     e => {
+       this.alertService.error('Error, usuario no inicializado :(', {autoClose: true});
+
+    } );
+}
+
+
+ generatePDF(){ 
+
+  //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
+    //let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;
+    let fileName = 'Voluntario';
+    this.userService.generatePDFVolunteer(this.id).subscribe(res => {
+      const file = new Blob([<any>res], {type: 'application/pdf'});
+    //  saveAs(file, fileName);
+      const fileURL = window.URL.createObjectURL(file);
+      window.open(fileURL, fileName);
+    });
+  }
 
 }

@@ -1,0 +1,52 @@
+.drop-calendar
+{
+  width:30rem
+}
+date-picker-range
+{
+  display:flex;
+  flex-wrap: nowrap;
+  justify-content:space-between;
+}
+.date-picker-range .mat-icon-button {
+  float:rigth;
+  line-height:1.5rem;
+  padding:0;
+  margin:0;
+    }
+    .date-picker-range span{
+      line-height:1.5rem
+    }
+.date-picker-range input {
+  flex-grow:1;
+      border: none;
+      background: none;
+      padding: 0;
+      outline: none;
+      font: inherit;
+      width:45%;
+      text-align: left;
+    }
+    .date-picker-range input:first-child
+    {
+      text-align: left;
+
+    }
+    .date-picker-range input::placeholder
+    {
+      font-size:.9rem
+    }
+    .from
+    {
+      border-top-left-radius:50%;
+      border-bottom-left-radius:50%;
+    }
+    .to{
+      border-top-right-radius:50%;
+      border-bottom-right-radius:50%;
+    }
+    .inside
+    {
+      background-color:lightblue;
+    }
+

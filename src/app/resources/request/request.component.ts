@@ -27,7 +27,7 @@ export class RequestComponent implements OnInit, OnDestroy {
 
 
   getRequest(){
-    this.handleRequest = this.requestService.getAll(this.authService.currentUserValue.userID,CONDITION)
+    this.handleRequest = this.requestService.getAll(CONDITION)
     .subscribe((x: any) =>{
     this.service._uploadTable(x);
     //this.service._setCondition(this.condition);

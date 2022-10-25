@@ -1,7 +1,7 @@
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DataService } from '../services/data.service';
 import { Injectable} from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { AuthenticationService } from '../services';
 import { Group, Role, RoleName, Input } from '../models';
 import { environment } from 'src/environments/environment';
@@ -28,9 +28,9 @@ let roles: Role[];
 
 public get EmployeeForm () {
 return this._employeeForm.group({
-    employeeID:[],
-    employeeCreatedate: [],
-    users: this._employeeForm.group({
+    // employeeID:[],
+    // employeeCreatedate: [],
+    // users: this._employeeForm.group({
       persons: this._employeeForm.group({
         lastName: [{},[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
         firstName:[{},[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
@@ -40,8 +40,8 @@ return this._employeeForm.group({
         email:    [{},[Validators.required,Validators.email]],
         address: [{},[Validators.required, Validators.maxLength(20)]],
         status: [{},[Validators.required]],
-        locationName: [{},[Validators.required, Validators.maxLength(20)]]
-      }),
+        locationName: [{},[Validators.required, Validators.maxLength(20)]],
+       }),
       estates: this._employeeForm.group({
          estateID: [],
         estatePhone: [],
@@ -59,14 +59,30 @@ return this._employeeForm.group({
 
       }),
       userDni: [{},[Validators.required]],
+      avatar: [],
       FK_RoleID:[{},[Validators.required]],
       roleName: [],
+      createdate: [],
       userAvailability: [{},[Validators.required]],
       userID: [{},[Validators.required]],
-      FK_EstateID: ['',[Validators.required]],
-    })
-
+      FK_EstateID: [],
     });
+}
+
+upload(file: File ){
+  const ImageFile: FormData = new FormData();
+  ImageFile.append('file', file);
+//  this._imgFile$.next(file);
+ // resource.imageFile = ImageFile;
+  const req = new HttpRequest('POST', `${environment.URL}upload`, ImageFile, {
+    reportProgress: true,
+    responseType: 'text'
+  });
+  return this.http.request(req);
+}
+
+getFiles(): Observable<any> {
+  return this.http.get(`${environment.URL}files`);
 }
 
 getLocations(patch: string): Observable<any> {

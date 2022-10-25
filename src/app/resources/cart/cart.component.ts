@@ -8,19 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/services';
-
-
-interface EmergenciesInput {
-  value: number;
-  viewValue: string;
-  date?: Date;
-}
-
-interface Emergencies {
-  disabled?: boolean;
-  name: string;
-  emergency: EmergenciesInput[];
-}
+import { AlertArray, AlertsInput } from 'src/app/models/emergencyDisaster';
 
 @Component({
   selector: 'cart',
@@ -29,7 +17,7 @@ interface Emergencies {
 })
 export class CartComponent implements OnInit, OnDestroy {
   emergencyControl = new FormControl();
-  emergencyGroups: Emergencies[] = [];
+  emergencyGroups: AlertsInput[] = [];
 
   request: Cart = null;
   error:any;
@@ -211,32 +199,7 @@ createForm() {
   }
 
   getEmergencies(){
-    const arrayEmergencies: Emergencies[] = [];
-
-    this.handleEmergency = this.emergenciesService.getAll(this.authService.currentUserValue.userID)
-    .pipe(
-      map( x =>{
-        console.log('Emergencias =>', x)
-
-      x.forEach(e => {
-      const emergency: any = {};
-      emergency.value = e.emergencyDisasterID;
-      emergency.viewValue = e.locationsEmergenciesDisasters.locationMunicipalityName + ' - '+ e.locationsEmergenciesDisasters.locationDepartmentName;
-      emergency.date = e.emergencyDisasterStartDate;
-      const index = arrayEmergencies.findIndex(x =>
-        x.name === e.typesEmergenciesDisasters.typeEmergencyDisasterName
-      );
-        if (index === -1) {
-          const emergencies: any = {name: '', emergency: []};
-          emergencies.name = e.typesEmergenciesDisasters.typeEmergencyDisasterName;
-          emergencies.emergency.push(emergency);
-          arrayEmergencies.push(emergencies);
-        } else {
-          arrayEmergencies[index].emergency.push(emergency);
-        }
-      });
-       return arrayEmergencies;
-    }))
+    this.handleEmergency = this.emergenciesService.getAlerts()
     .subscribe(data =>{
       console.log('data: ',data);
       this.emergencyGroups = data;

@@ -2,6 +2,7 @@ import { AuthenticationService } from './../../services/_authentication/authenti
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/models';
 import { Observable, Subscriber, Subscription } from 'rxjs';
+import { UserService } from 'src/app/users';
 
 const TITLE = 'Credencial Digital';
 
@@ -18,10 +19,14 @@ currentUser: any;
 handle: Subscription;
 msj: string;
 error: any;
-  constructor(private service: AuthenticationService) { }
+loading = false;
+
+  constructor(private service: AuthenticationService,
+    private userService: UserService,
+    ) { }
 
   ngOnInit(): void {
-  //  this.currentUser =  this.service.currentUserValue;
+      this.currentUser =  this.service.currentUserValue;
       this.handle = this.service.currentUser2
       .subscribe(x =>{
         this.currentUser = x;
@@ -36,6 +41,22 @@ error: any;
     
   }
 
+//**********REFACTORIZAR *************/
+  generatePDF(){ 
+    // this.loading = true;
+
+    // console.log(this.currentUser);
+    // //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
+    //   let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;
+    //   this.userService.generatePDFCredential(this.service.currentUserValue.userID).subscribe(res => {
+    //     const file = new Blob([<any>res], {type: 'application/pdf'});
+    //   //  saveAs(file, fileName);
+    //     const fileURL = window.URL.createObjectURL(file);
+    //     window.open(fileURL, fileName);
+    //     this.loading = false;
+    //   });
+    }
+  
   ngOnDestroy(){
      this.handle.unsubscribe();
   }

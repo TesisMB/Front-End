@@ -31,9 +31,25 @@
           Agregar {{type | lowercase}}
         </button>
 
-        <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF()">
+
+        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button> -->
+        <mat-menu #menu="matMenu">
+          <button disabled mat-menu-item (click)="openDialog('get')">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <span>Descargar **REFACTORIZAR**</span>
+          </button>
+          <button disabled mat-menu-item (click)="openDialog('getall')">
+            <mat-icon>picture_as_pdf</mat-icon>
+            <span>Descargar recursos de las filiales **REFACTORIZAR**</span>
+          </button>
+        </mat-menu>
+
+
+        <!-- <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF()">
           <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
-        </button>
+        </button> -->
 
       </div>
     </div>

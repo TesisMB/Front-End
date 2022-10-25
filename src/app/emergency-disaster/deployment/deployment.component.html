@@ -1,9 +1,13 @@
-<section class="modo">
-  <h1>Informe de Emergencia</h1>
-  
+<section class="head d-flex">
+  <div class="col-4" style="margin-top: 2rem; margin-left: 2rem;">
+    <button mat-raised-button (click)="onBack()">Atrás</button>
+  </div>
 
 
- 
+  <div class="col-4 text-center">
+    <h1>Informe de emergencia</h1>
+  </div>
+
 </section>
 
 <div class="col justify-content-around col-body" id="row-aside">
@@ -12,65 +16,91 @@
 
       <section *ngIf="emergencyDisaster">
 
-        <div class="col-12 emergencia">
-          <h4>
+        <div style="display: flex; justify-content: end;">
+
+          <h4 style="text-align: left; width: 80%;">
             #{{emergencyDisaster.emergencyDisasterID}}
-            {{emergencyDisaster.locationsEmergenciesDisasters.locationCityName}} 
+            {{emergencyDisaster.locationsEmergenciesDisasters.locationCityName}} -
             {{emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName}}
           </h4>
-          
-            <button mat-fab color="warn" aria-label="Example icon button with a home icon">
-              <mat-icon class="icon">picture_as_pdf</mat-icon>
-            </button>
+<!-- disabled]="loading" -->
+          <button mat-fab color="warn" hidden aria-label="Example icon button with a home icon" disabled
+            style="margin-top: 1rem;" (click)="generatePDF(emergencyDisaster.emergencyDisasterID)">
+            <span class="text-center" *ngIf="loading">
+              <i class="fas fa-spinner fa-lg fa-spin"> </i>
+            </span>
+            <mat-icon class="icon">picture_as_pdf</mat-icon> **REFACTORIZAR**
+          </button>
         </div>
+        <!-- 
+          <button mat-fab color="warn" aria-label="Example icon button with a home icon" [disabled]="loading"
+            (click)="generatePDF(emergencyDisaster.emergencyDisasterID)">
+            <span class="text-center" *ngIf="loading">
+              <i class="fas fa-spinner fa-lg fa-spin"> </i>
+            </span>
+            <mat-icon class="icon">picture_as_pdf</mat-icon>
+          </button> -->
+
+        <!-- <button mat-stroked-button color="warn" style="margin-right: 10px;" [disabled]="loading"
+            (click)="generatePDF(emergencyDisaster.emergencyDisasterID)">
+            <span class="text-center" *ngIf="loading">
+              <i class="fas fa-spinner fa-lg fa-spin"> </i>
+            </span>
+            <mat-icon>
+              picture_as_pdf
+            </mat-icon>
+            Descargar
+          </button> -->
 
 
         <div class="date row justify-content-around" *ngIf="emergencyDisaster">
 
           <div class="col-4 align-self-end">
             <div class="justify-content-end mb-3">
-               <p>
-          <mat-icon class="calendar">calendar_today</mat-icon>
-          <span>Fecha de inicio: {{emergencyDisaster.emergencyDisasterStartDate | date: 'dd/MM/yyyy hh:mm a'}}</span>
-        </p>
+              <p>
+                <mat-icon class="calendar">calendar_today</mat-icon>
+                <span>Fecha de inicio: {{emergencyDisaster.emergencyDisasterStartDate | date: 'dd/MM/yyyy hh:mm
+                  a'}}</span>
+              </p>
             </div>
-       
-        <div class="justify-content-end">  <p>
-              <mat-icon class="person">person</mat-icon>
-              <span>Responsable:
-                {{emergencyDisaster.employees.name}}
-              </span>
-            </p>
-          </div>
 
-      </div>
+            <div class="justify-content-end">
+              <p>
+                <mat-icon class="person">person</mat-icon>
+                <span>Responsable:
+                  {{emergencyDisaster.employeeName}}
+                </span>
+              </p>
+            </div>
+
+          </div>
           <div class="date employees col-4 align-self-start" *ngIf="emergencyDisaster">
 
             <div class="justify-content-end">
-          <p class="text-right">
-          <mat-icon>calendar_today</mat-icon>
-          <span class="calendar-end" *ngIf="!emergencyDisaster.emergencyDisasterEndDate">
-            Esta emergencia no
-            ha sido finalizada</span>
+              <p class="text-right">
+                <mat-icon>calendar_today</mat-icon>
+                <span class="calendar-end" *ngIf="!emergencyDisaster.emergencyDisasterEndDate">
+                  Esta emergencia no
+                  ha sido finalizada</span>
 
-          <span class="calendar-end" *ngIf="emergencyDisaster.emergencyDisasterEndDate">Fecha final:
-            {{emergencyDisaster.emergencyDisasterEndDate}}</span>
-        </p>
-          </div>
-      </div>
-</div>
-
-    
-      </section>
-
-        <section class="instructionMap">
-
-          <div class="map-container">
-            <div class="location map-frame">
-              <div id="map">
-              </div>
+                <span class="calendar-end" *ngIf="emergencyDisaster.emergencyDisasterEndDate">Fecha final:
+                  {{emergencyDisaster.emergencyDisasterEndDate}}</span>
+              </p>
             </div>
           </div>
+        </div>
+
+
+      </section>
+
+      <section class="instructionMap">
+
+        <div class="map-container">
+          <div class="location map-frame">
+            <div id="map">
+            </div>
+          </div>
+        </div>
 
 
         <div *ngIf="emergencyDisaster" class="instruction">
@@ -85,53 +115,52 @@
         </div>
 
         <div class="users col-10">
-        <div class="titulo">
-          <h2>Personas confirmadas</h2>
+          <div class="titulo">
+            <h2>Personas confirmadas</h2>
+          </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Legajo</th>
+                <th scope="col">Nombre</th>
+                <th scopee="col">Rol</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let user of users; index as i">
+                <th scope="row">{{ i + 1 }}</th>
+
+                <td>
+                  {{ user.legajo }}
+                </td>
+                <td>
+                  {{ user.name }}
+                </td>
+                <td>
+                  {{ user.roleName }}
+                </td>
+              </tr>
+
+              <tr>
+                <td *ngIf="users.length == 0" colspan="7" class="text-center">
+                  <p class="align-center">No hay usuarios en esta emergencia.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Legajo</th>
-              <th scope="col">Nombre</th>
-              <th scopee="col">Rol</th>
-            </tr>
-          </thead>
-      
-          <tbody>
-            <tr *ngFor="let user of users; index as i">
-              <th scope="row">{{ i + 1 }}</th>
-      
-              <td>
-                {{ user.legajo }}
-              </td>
-              <td>
-                {{ user.name }}
-              </td>
-              <td>
-                {{ user.roleName }}
-              </td>
-            </tr>
-      
-            <tr>
-              <td *ngIf="users.length == 0" colspan="7" class="text-center">
-                <p class="align-center">No hay usuarios en esta emergencia.</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+
+      </section>
+      <div class="btn-r">
+        <button mat-button matStepperNext>Siguiente</button>
       </div>
-
-        
-  </section>
-  <button mat-button routerLink="/emergencias" type="button">Salir</button>
-  <button mat-button matStepperNext>Siguiente</button>
-
-
     </mat-step>
 
-      <mat-step>
-        <section class="instructionMap resources">
+    <mat-step>
+      <section class="instructionMap resources">
 
         <div class="titulo2">
           <h2>Recursos utilizados</h2>
@@ -246,10 +275,11 @@
           </table>
         </div>
       </section>
-
+      <div class="btn-r">
         <button mat-button matStepperPrevious type="button">Atras</button>
         <button mat-button matStepperNext>Siguiente</button>
-      </mat-step>
+      </div>
+    </mat-step>
 
 
     <section>
@@ -259,52 +289,55 @@
         <section *ngIf="emergencyDisaster">
 
 
-        <div class="victim text-center">
+          <div class="victim text-center">
 
-          <mat-card class="example-card">
-            <p> personas asisitidas: <span>{{emergencyDisaster.victims.assistedPeople}}</span></p>
-          </mat-card>
-
-
-          <mat-card class="example-card">
-            <p>personas fallecidas: <span>{{emergencyDisaster.victims.numberDeaths}}</span></p>
-          </mat-card>
-
-          <mat-card class="example-card">
-            <p>barrios afectados: <span>{{emergencyDisaster.victims.affectedNeighborhoods}}</span></p>
-          </mat-card>
-
-          <mat-card class="example-card">
-            <p>localidades afectadas: <span>{{emergencyDisaster.victims.affectedLocalities}}</span></p>
-          </mat-card>
+            <mat-card class="example-card">
+              <p> personas asisitidas: <span>{{emergencyDisaster.victims.assistedPeople}}</span></p>
+            </mat-card>
 
 
+            <mat-card class="example-card">
+              <p>personas fallecidas: <span>{{emergencyDisaster.victims.numberDeaths}}</span></p>
+            </mat-card>
 
-          <mat-card class="example-card">
-            <p>familias afectadas: <span>{{emergencyDisaster.victims.numberFamiliesAffected}}</span></p>
-          </mat-card>
+            <mat-card class="example-card">
+              <p>barrios afectados: <span>{{emergencyDisaster.victims.affectedNeighborhoods}}</span></p>
+            </mat-card>
 
-
-          <mat-card class="example-card">
-            <p>personas evacuadas: <span>{{emergencyDisaster.victims. evacuatedPeople}}</span></p>
-          </mat-card>
-
-          <mat-card class="example-card">
-            <p>daños materiales:<span>${{emergencyDisaster.victims.affectedNeighborhoods}}</span></p>
-          </mat-card>
-
-          <mat-card class="example-card">
-            <p>personas afectadas: <span>{{emergencyDisaster.victims.numberAffected}}</span></p>
-          </mat-card>
-
-          <mat-card class="example-card">
-            <p>personas recuperadas: <span>{{emergencyDisaster.victims.recoveryPeople}}</span></p>
-          </mat-card>
+            <mat-card class="example-card">
+              <p>localidades afectadas: <span>{{emergencyDisaster.victims.affectedLocalities}}</span></p>
+            </mat-card>
 
 
-        </div> 
-      </section>
-        <button mat-button matStepperPrevious type="button">Atras</button>
+
+            <mat-card class="example-card">
+              <p>familias afectadas: <span>{{emergencyDisaster.victims.numberFamiliesAffected}}</span></p>
+            </mat-card>
+
+
+            <mat-card class="example-card">
+              <p>personas evacuadas: <span>{{emergencyDisaster.victims. evacuatedPeople}}</span></p>
+            </mat-card>
+
+            <mat-card class="example-card">
+              <p>daños materiales:<span>${{emergencyDisaster.victims.affectedNeighborhoods}}</span></p>
+            </mat-card>
+
+            <mat-card class="example-card">
+              <p>personas afectadas: <span>{{emergencyDisaster.victims.numberAffected}}</span></p>
+            </mat-card>
+
+            <mat-card class="example-card">
+              <p>personas recuperadas: <span>{{emergencyDisaster.victims.recoveryPeople}}</span></p>
+            </mat-card>
+
+
+          </div>
+        </section>
+
+        <div class="btn-r" style="margin-top: 4rem;">
+          <button mat-button matStepperPrevious type="button">Atras</button>
+        </div>
       </mat-step>
     </section>
   </mat-horizontal-stepper>

@@ -1,74 +1,76 @@
 <mat-card class="example-card">
   <mat-card-header class="d-flex flex-row align-items-center" style="width: 100%;">
     <!-- <div  > -->
-         <div mat-card-avatar class="example-header-image pr-3">
+    <div mat-card-avatar class="example-header-image pr-3">
       <span class="material-symbols-outlined">
-          campaigne
-          </span>
-  </div>
-    <mat-card-title style="width: inherit;"><h2>{{title}}</h2></mat-card-title>
-      <div class="d-flex justify-content-end align-items-start"> 
+        campaigne
+      </span>
+    </div>
+    <mat-card-title style="width: inherit;">
+      <h2>{{title}}</h2>
+    </mat-card-title>
+    <div class="d-flex justify-content-end align-items-start">
       <div class="example-header-image pl-3">
-      <button mat-icon-button [routerLink]="['emergencias']">
-         <mat-icon>chevron_right</mat-icon> 
-          </button>
-  </div>
-</div>
+        <button mat-icon-button [routerLink]="['emergencias']">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
     <!-- </div> -->
-   
-   
+
+
   </mat-card-header>
-      <hr/>
-      <mat-card-content *ngIf="!isLoading">
-          <ng-container *ngIf="alerts && alerts.length; else noData">
-            <mat-card *ngFor="let a of alerts" class="card2 mb-3" 
-            [ngStyle]="{backgroundColor: getCardColor(a.alerts.alertID)}">
-               <mat-grid-list cols="12" rowHeight="1.5:1">
-                  <mat-grid-tile colspan="2" rowspan="2">
-                    <div class="d-flex flex-column text-center align-items-center" [ngStyle]="{'width': '100%', 'height':'100%'}">
-                    <div [ngClass]="{'cuadrado': a.alerts.alertID === 1 ,
+  <hr />
+  <mat-card-content *ngIf="!isLoading">
+    <ng-container *ngIf="alerts && alerts.length; else noData">
+      <mat-card *ngFor="let a of alerts" class="card2 mb-3"
+        [ngStyle]="{backgroundColor: getCardColor(a.alerts.alertID)}">
+        <mat-grid-list cols="12" rowHeight="1.5:1">
+          <mat-grid-tile colspan="2" rowspan="2">
+            <div class="d-flex flex-column text-center align-items-center"
+              [ngStyle]="{'width': '100%', 'height':'100%'}">
+              <div [ngClass]="{'cuadrado': a.alerts.alertID === 1 ,
                     'triangulo': a.alerts.alertID === 2,
                   'circulo': a.alerts.alertID === 3}">
-    
-                <img src="../../../assets/icons - Resources - EmergDesas/{{a.typesEmergenciesDisasters.typeEmergencyDisasterIcon}}.svg"
-                    alt="" class="img">
+
+                <img
+                  src="../../../assets/icons - Resources - EmergDesas/{{a.typesEmergenciesDisasters.typeEmergencyDisasterIcon}}.svg"
+                  alt="" class="img">
+              </div>
             </div>
-          </div>
-                  </mat-grid-tile>
-                        <mat-grid-tile class="historys"  
-                        colspan="9"
-                        rowspan="2">
-                         <div class="text-center" style="width: 80%;">
-                          <p class="">#{{a.emergencyDisasterID}}
-                            <span>{{a.locationsEmergenciesDisasters.locationCityName}}</span></p>
-                  <p class="text-muted">{{a.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
+          </mat-grid-tile>
+          <mat-grid-tile class="historys" colspan="9" rowspan="2">
+            <div class="text-center" style="width: 100%;">
+              <p class="" style="margin-top: 15px;">#{{a.emergencyDisasterID}}
+                <span>{{a.locationsEmergenciesDisasters.locationCityName}}</span>
+              </p>
+              <p class="text-muted">{{a.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
 
-                        </div>
+            </div>
 
-                        <div class="" style="width: 20%;">
-                          <span class="text-muted">{{a.alerts.alertMessage}}</span>
+            <div class="" style="width: 20%;">
+              <span class="text-muted">{{a.alerts.alertMessage}}</span>
 
-                        </div>
+            </div>
 
-                    </mat-grid-tile>
-                    <mat-grid-tile
-                    colspan="1"
-                    rowspan="2">
-                     <div ><button mat-icon-button [routerLink]="['emergencias','despliegue', a.emergencyDisasterID]"><mat-icon>visibility</mat-icon></button></div>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="1" rowspan="2">
+            <div><button mat-icon-button [routerLink]="['emergencias','despliegue', a.emergencyDisasterID]">
+                <mat-icon>visibility</mat-icon>
+              </button></div>
 
-                </mat-grid-tile>
-                  </mat-grid-list>
-                </mat-card>
-              </ng-container>
-                 <ng-template #noData>
-                  <p class="text-center">No hay alertas por el momento!</p>
-                </ng-template>   
-    </mat-card-content>
-    <mat-card-content *ngIf="isLoading" >
-      <div class="d-flex justify-content-center">
-        <mat-spinner color="warn" diameter="40"></mat-spinner>
-      </div>
-    </mat-card-content>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-card>
+    </ng-container>
+    <ng-template #noData>
+      <p class="text-center">No hay alertas por el momento!</p>
+    </ng-template>
+  </mat-card-content>
+  <mat-card-content *ngIf="isLoading">
+    <div class="d-flex justify-content-center">
+      <mat-spinner color="warn" diameter="40"></mat-spinner>
+    </div>
+  </mat-card-content>
 
-  </mat-card>
-  
+</mat-card>

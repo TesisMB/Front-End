@@ -13,6 +13,7 @@ import { AlertService, AuthenticationService } from 'src/app/services';
 import { SelectTypesEmergencyDisasterService } from '../select-types-emergency-disaster.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdDeleteModalComponent } from '../ngbd-delete-modal/ngbd-delete-modal.component';
+import { User } from 'src/app/models';
 
 @Component({
   selector: 'ngbd-edit-dialog',
@@ -24,7 +25,7 @@ export class NgbdEditDialogComponent implements OnInit {
   @Input() emergencyDisaster: EmergencyDisaster;
 
   model : any;
-  user: Employee [];
+  user: User [];
   employeeSelected: number;
   alerts: Alerts[];
   emergencyDisasterForm: FormGroup;
@@ -59,11 +60,11 @@ export class NgbdEditDialogComponent implements OnInit {
     const resources = this.resources;
 
 
-    this.emergencyDisaster.chatRooms.usersChatRooms.forEach(times => chat.push(this.fb.group(times)));
+   // this.emergencyDisaster.usersChatRooms.forEach(times => chat.push(this.fb.group(times)));
 
-    this.emergencyDisaster.chatRooms.messages.forEach(times => messages.push(this.fb.group(times)));
+    //this.emergencyDisaster.chatRooms.dataMessage.forEach(times => messages.push(this.fb.group(times)));
 
-    this.emergencyDisaster.resources_Requests.forEach(times => resourcesRequests.push(this.fb.group(times)));
+    //this.emergencyDisaster.resources_Requests.forEach(times => resourcesRequests.push(this.fb.group(times)));
 
 
     
@@ -76,7 +77,7 @@ export class NgbdEditDialogComponent implements OnInit {
     }; */
 
   
-    let employee =  this.emergencyDisaster.employees.employeeID;
+    let employee =  this.emergencyDisaster.fk_EmplooyeeID;
     this.EmplooyeeID.patchValue(employee);
 
     
@@ -121,8 +122,8 @@ get EndDate(){ return this.emergencyDisasterForm.get('emergencyDisasterEndDate')
 
 
 changeEmployeedID(){
-  let employee =  (this.user.find(user => user.employeeID == this.EmplooyeeID.value));
-  this.EmplooyeeID.patchValue(employee.employeeID);
+  let employee =  (this.user.find(user => user.userID == this.EmplooyeeID.value));
+  this.EmplooyeeID.patchValue(employee.userID);
 }
 
 setRole(){
@@ -183,9 +184,23 @@ setRole(){
       let patch = compare(this.model, this.emergencyDisasterForm.value);
       //let patch = compare(this.model, this.emergencyDisaster);
 
-      patch = patch.filter( obj => obj.op !== 'add');
+      // patch = patch.filter( obj => obj.op !== 'add');
       patch = patch.filter( obj => obj.op !== 'remove');
-      //patch = patch.filter( obj => obj.path !== "/alerts");
+      patch = patch.filter( obj => obj.path !== "/chatRooms");
+      patch = patch.filter( obj => obj.path !== "/chatRooms/creationDate");
+      patch = patch.filter( obj => obj.path !== "/usersChatRooms");
+      patch = patch.filter( obj => obj.path !== "/chatRooms/usersChatRooms");
+      patch = patch.filter( obj => obj.path !== "/chatRooms/messages");
+      patch = patch.filter( obj => obj.path !== "/chatRooms/dateMessage");
+      
+      
+      patch = patch.filter( obj => obj.path !== "/employees");
+      patch = patch.filter( obj => obj.path !== "/resources_Requests");
+      patch = patch.filter( obj => obj.path !== "/resources_RequestResources_Materials_Medicines_Vehicles");
+      patch = patch.filter( obj => obj.path !== "/locationsEmergenciesDisasters/locationLatitude");
+      patch = patch.filter( obj => obj.path !== "/locationsEmergenciesDisasters/locationLongitude");
+      patch = patch.filter( obj => obj.path !== "/typesEmergenciesDisasters/typeEmergencyDisasterDescription");
+      patch = patch.filter( obj => obj.path !== "/chatRooms/usersChatRooms/0");
 
     
       console.log("Patch =>", patch);
@@ -300,10 +315,10 @@ setRole(){
   }
 
   getUser(){
-    this.userService.getAll(this.authService.currentUserValue.userID).subscribe(data => {
+    this.userService.getAll().subscribe(data => {
       this.user = data;
 
-      this.user = this.user.filter(a => a.users.roleName == "Coord. de Emergencias");
+      this.user = this.user.filter(a => a.roleName == "Coord. de Emergencias");
     }, error =>{
       console.log(error);
     })

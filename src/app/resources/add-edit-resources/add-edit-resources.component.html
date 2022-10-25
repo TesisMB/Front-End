@@ -1,406 +1,275 @@
 <section class="title">
-    <h1>{{action | titlecase}} {{type | lowercase}}</h1>
-  </section>
-  
-  
- 
-  
- 
-  <section class="row justify-content-between col-body" id="row-aside">
-    <div class="col">
-        <button mat-raised-button (click)="onBack()">Atras</button>
-</div>
-<div class="col col-head">
-  <form >
+  <h1>{{action | titlecase}} {{type | lowercase}}</h1>
+</section>
+
+
+
+
+
+<section class="row justify-content-between col-body" id="row-aside">
+  <div class="col">
+    <button mat-raised-button (click)="onBack()">Atras</button>
+  </div>
+  <div class="col col-head" *ngIf="!isEdit">
+    <form>
       <mat-form-field appearance="outline">
         <mat-label>Tipo de recurso</mat-label>
-        <mat-select
-          [formControl]="formType"
-          name="type"
-          [required]="!isEdit"
-          [disabled]="isEdit"
-          
-        >
-          <mat-option
-            *ngFor="let type of types"
-            [value]="type.value"
-          >
+        <mat-select [formControl]="formType" name="type" [required]="!isEdit" [disabled]="isEdit">
+          <mat-option *ngFor="let type of types" [value]="type.value">
             {{ type.viewValue }}
           </mat-option>
         </mat-select>
-        <mat-error
-          *ngIf="formType.hasError('required')"
-        >
+        <mat-error *ngIf="formType.hasError('required')">
           El tipo de recurso es <strong>requerido</strong>
         </mat-error>
       </mat-form-field>
     </form>
-    <!-- <button mat-raised-button color="accent" (click)="getData">Imprimir datos por consola</button> -->
-</div>
- 
-<div class="col-12">
-     <form [formGroup]="form" id="form">
+  </div>
+  <!-- <button mat-raised-button color="accent" (click)="getData">Imprimir datos por consola</button> -->
+
+  <div class="col-12">
+    <form [formGroup]="form" id="form">
       <!-- <mat-horizontal-stepper linear #stepper>
         <mat-step
           errorMessage="Datos son requeridos."
         >
           <ng-template matStepLabel>Primeros datos</ng-template> -->
 
-          <mat-grid-list cols="4" rowHeight="100px">
-            <mat-grid-tile *ngIf="vehicleForm"  [formGroup]="vehicleForm">
-              <mat-form-field appearance="outline">
-                <mat-label>Patente</mat-label>
-                <input
-                  matInput
-                  placeholder="Ex. AG 759 LH / NVZ-087"
-                  formControlName="vehiclePatent"
-                  required
-                  [readonly]="isEdit"
+      <mat-form-field appearance="outline" style="width: 25%;">
 
-                />
-                <mat-error
-                  *ngIf="
+
+        <mat-label>Codigo</mat-label>
+        <span matPrefix class="pr-2">{{prefix}} &nbsp;</span>
+        <input matInput placeholder="Codigo" formControlName="id" required [readonly]="isEdit" />
+        <!-- <input matInput formControlName="id" [readonly]="isEdit" /> -->
+      </mat-form-field>
+
+      <mat-grid-list cols="4" rowHeight="100px">
+        <mat-grid-tile *ngIf="vehicleForm" [formGroup]="vehicleForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Patente</mat-label>
+            <input matInput placeholder="Ex. AG 759 LH / NVZ-087" formControlName="vehiclePatent" required
+              [readonly]="isEdit" />
+            <mat-error *ngIf="
                   vehicleForm.get('vehiclePatent').hasError('pattern') &&
                     !vehicleForm.get('vehiclePatent').hasError('required')
-                  "
-                >
-                  Por favor ingresar una patente valido
-                </mat-error>
-                <mat-error *ngIf="vehicleForm.get('vehiclePatent').hasError('required')">
-                  La patente es <strong>requerida</strong>
-                </mat-error>
-              </mat-form-field>
-            </mat-grid-tile>
-            <br />
-            <mat-grid-tile *ngIf="!vehicleForm">
-              <mat-form-field color="white" appearance="outline">
-                <mat-label>Nombre</mat-label>
-                <input
-                  matInput
-                  placeholder="Nombre completo"
-                  formControlName="name"
-                  required
-                />
-                <mat-error
-                  *ngIf="
+                  ">
+              Por favor ingresar una patente valido
+            </mat-error>
+            <mat-error *ngIf="vehicleForm.get('vehiclePatent').hasError('required')">
+              La patente es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="!vehicleForm">
+          <mat-form-field color="white" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Nombre completo" formControlName="name" required />
+            <mat-error *ngIf="
                     form.get('name').hasError('pattern') &&
                     !form.get('name').hasError('required')
-                  "
-                >
-                  Nombre invalido, el minimo es de 2 caracteres y maximo 35
-                </mat-error>
-                <mat-error
-                  *ngIf="form.get('name').hasError('required')"
-                >
-                  El nombre es <strong>requerido</strong>
-                </mat-error>
-              </mat-form-field>
-            </mat-grid-tile>
-            <br />
-            <mat-grid-tile *ngIf="!vehicleForm">
-              <mat-form-field appearance="outline">
-                <mat-label>Cantidad</mat-label>
-                <input
-                  matInput
-                  placeholder="Cantidad de stock"
-                  formControlName="quantity"
-                  required
-                  type="number"
-                  min="0"
-                  max="9999"
-                />
-                <mat-error
-                  *ngIf="
+                  ">
+              Nombre invalido, el minimo es de 2 caracteres y maximo 35
+            </mat-error>
+            <mat-error *ngIf="form.get('name').hasError('required')">
+              El nombre es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="!vehicleForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Cantidad</mat-label>
+            <input matInput placeholder="Cantidad de stock" formControlName="quantity" required type="number" min="0"
+              max="9999" />
+            <mat-error *ngIf="
                     form.get('quantity').hasError('max') &&
                     !form.get('quantity').hasError('required')
-                  "
-                >
-                  Cantidad maxima (9999) superada.
-                </mat-error>
-                <mat-error
-                  *ngIf="
+                  ">
+              Cantidad maxima (9999) superada.
+            </mat-error>
+            <mat-error *ngIf="
                     form.get('quantity').hasError('min') &&
                     !form.get('quantity').hasError('required')
-                  "
-                >
-                  Cantidad minima es de 1.
-                </mat-error>
-                <mat-error
-                  *ngIf="form.get('quantity').hasError('required')"
-                >
-                La cantidad es <strong>requerida</strong>
-                </mat-error>
-              </mat-form-field>
-            </mat-grid-tile>
-            <br />
-            <mat-grid-tile  >
-              <mat-form-field  appearance="outline">
-                <mat-label>Sucursal</mat-label>
-                <mat-select
-                  
-                formControlName="fk_EstateID"
-                  name="fk_EstateID"
-                  [required]="!isEdit"
-                >
-                  <mat-option>-- Seleccione su lugar de trabajo --</mat-option>
-                  <mat-optgroup
-                    *ngFor="let locations of locations"
-                    [label]="locations.locationCityName"
-                  >
-                    <mat-option
-                      *ngFor="let estate of locations['estates']"
-                      [value]="estate.estateID"
-                      
-                    >
-                     {{estate.address | titlecase}} &nbsp;  &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
-                    </mat-option>
-                  </mat-optgroup>
-                </mat-select>
-                <mat-error
-                  *ngIf="form.get('fk_EstateID').hasError('required')"
-                >
-                  La filial es <strong>requerida</strong>
-                </mat-error>
-              </mat-form-field>
-            </mat-grid-tile>
-            <br />
-             <mat-grid-tile  *ngIf="medicineForm" [formGroup]="medicineForm">
-              <mat-form-field appearance="outline">
-                <mat-label>Farmaco</mat-label>
-                <input
-                  matInput
-                  placeholder="Farmaco"
-                  formControlName="medicineDrug"
-                  required
-                  [readonly]="isEdit"
-
-                />
-                <mat-error
-                  *ngIf="
+                  ">
+              Cantidad minima es de 1.
+            </mat-error>
+            <mat-error *ngIf="form.get('quantity').hasError('required')">
+              La cantidad es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile>
+          <mat-form-field appearance="outline">
+            <mat-label>Sucursal</mat-label>
+            <mat-select formControlName="fk_EstateID" name="fk_EstateID" [required]="!isEdit">
+              <mat-option>-- Seleccione su lugar de trabajo --</mat-option>
+              <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName">
+                <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
+                  {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
+                </mat-option>
+              </mat-optgroup>
+            </mat-select>
+            <mat-error *ngIf="form.get('fk_EstateID').hasError('required')">
+              La filial es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="medicineForm" [formGroup]="medicineForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Farmaco</mat-label>
+            <input matInput placeholder="Farmaco" formControlName="medicineDrug" required [readonly]="isEdit" />
+            <mat-error *ngIf="
                     medicineForm.get('medicineDrug').hasError('pattern') &&
                     !medicineForm.get('medicineDrug').hasError('required')
-                  "
-                >
-                  Por favor ingresar un farmaco valido
-                </mat-error>
-                <mat-error *ngIf="medicineForm.get('medicineDrug').hasError('required')">
-                  El farmaco es <strong>requerido</strong>
-                </mat-error>
-              </mat-form-field>
+                  ">
+              Por favor ingresar un farmaco valido
+            </mat-error>
+            <mat-error *ngIf="medicineForm.get('medicineDrug').hasError('required')">
+              El farmaco es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
 
-            </mat-grid-tile>
-            <br />
-            <mat-grid-tile  *ngIf="medicineForm" [formGroup]="medicineForm">
-              <mat-form-field appearance="outline">
-                <mat-label>Laboratorio</mat-label>
-                <input
-                  matInput
-                  placeholder="Laboratorio fabricante"
-                  formControlName="medicineLab"
-                  required
-                  [readonly]="isEdit"
-
-                                  />
-                <mat-error
-                  *ngIf="
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="medicineForm" [formGroup]="medicineForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Laboratorio</mat-label>
+            <input matInput placeholder="Laboratorio fabricante" formControlName="medicineLab" required
+              [readonly]="isEdit" />
+            <mat-error *ngIf="
                     medicineForm.get('medicineLab').hasError('pattern') &&
                     !medicineForm.get('medicineLab').hasError('required')
-                  "
-                >
-                  Por favor ingresar un laboratorio valido
-                </mat-error>
-                <mat-error *ngIf="medicineForm.get('medicineLab').hasError('required')">
-                  El laboratorio es <strong>requerido</strong>
-                </mat-error>
-              </mat-form-field>
-            </mat-grid-tile>
-            <br />
-            <mat-grid-tile  *ngIf="medicineForm" [formGroup]="medicineForm">
-              <mat-form-field appearance="outline">
-                <mat-label>Peso - Volumen</mat-label>
-                <input
-                  matInput
-                  placeholder="Peso del medicamento"
-                  formControlName="medicineWeight"
-                  required
-                  [readonly]="isEdit"
-                                  />
-                <mat-error
-                  *ngIf="
+                  ">
+              Por favor ingresar un laboratorio valido
+            </mat-error>
+            <mat-error *ngIf="medicineForm.get('medicineLab').hasError('required')">
+              El laboratorio es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="medicineForm" [formGroup]="medicineForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Peso - Volumen</mat-label>
+            <input matInput placeholder="Peso del medicamento" formControlName="medicineWeight" required type="number"
+              [readonly]="isEdit" />
+            <mat-error *ngIf="
                     medicineForm.get('medicineWeight').hasError('pattern') &&
                     !medicineForm.get('medicineWeight').hasError('required')
-                  "
-                >
-                  Por favor ingresar un peso valida
-                </mat-error>
-                <mat-error *ngIf="medicineForm.get('medicineWeight').hasError('required')">
-                  El peso es <strong>requerido</strong>
-                </mat-error>
-              </mat-form-field>
+                  ">
+              Por favor ingresar un peso valida
+            </mat-error>
+            <mat-error *ngIf="medicineForm.get('medicineWeight').hasError('required')">
+              El peso es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
 
-            </mat-grid-tile>
-            <br />
-            <mat-grid-tile  *ngIf="medicineForm"  [formGroup]="medicineForm">
-              <mat-form-field  appearance="outline">
-                <mat-label>Unidad de medida</mat-label>
-                <mat-select
-                  
-                formControlName="medicineUnits"
-                  name="medicineUnits"
-                  required
-                  [disabled]="isEdit"
-
-                >
-                    <mat-option
-                    *ngFor="let u of units"
-                      [value]="u.value"
-                      
-                    >
-                     {{u.viewValue}}
-                    </mat-option>
-                </mat-select> 
-                <!-- <mat-error
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="medicineForm" [formGroup]="medicineForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Unidad de medida</mat-label>
+            <mat-select formControlName="medicineUnits" name="medicineUnits" required [disabled]="isEdit">
+              <mat-option *ngFor="let u of units" [value]="u.value">
+                {{u.viewValue}}
+              </mat-option>
+            </mat-select>
+            <!-- <mat-error
                   *ngIf="form.get('Fk_EmployeeID').hasError('required')"
                 >
                   El usuario es <strong>requerida</strong>
                 </mat-error> -->
-            </mat-form-field>
-            </mat-grid-tile>
-                <br /> 
-            <mat-grid-tile  *ngIf="materialForm" [formGroup]="materialForm">
-            <mat-form-field appearance="outline">
-              <mat-label>Marca</mat-label>
-              <input
-                matInput
-                placeholder="Ex. Bayern, Conicet, etc"
-                formControlName="brand"
-                required
-                [readonly]="isEdit"
-
-              />
-              <mat-error
-                *ngIf="materialForm.get('brand').hasError('required')"
-              >
-                La marca es <strong>requerida</strong>
-              </mat-error>
-              <mat-error
-              *ngIf="materialForm.get('brand').hasError('maxlength') &&
-              !materialForm.get('brand').hasError('required')"
-            >
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="materialForm" [formGroup]="materialForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Marca</mat-label>
+            <input matInput placeholder="Ex. Bayern, Conicet, etc" formControlName="brand" required
+              [readonly]="isEdit" />
+            <mat-error *ngIf="materialForm.get('brand').hasError('required')">
+              La marca es <strong>requerida</strong>
+            </mat-error>
+            <mat-error *ngIf="materialForm.get('brand').hasError('maxlength') &&
+              !materialForm.get('brand').hasError('required')">
               Ha superado los 15 caracteres permitidos
             </mat-error>
-            <mat-error
-              *ngIf="materialForm.get('brand').hasError('pattern') &&
+            <mat-error *ngIf="materialForm.get('brand').hasError('pattern') &&
               !materialForm.get('brand').hasError('required') &&
-              !materialForm.get('brand').hasError('maxlength')"
-            >
+              !materialForm.get('brand').hasError('maxlength')">
               Ingrese un formato <strong>valido </strong>
             </mat-error>
-            </mat-form-field>
-          </mat-grid-tile>
-          <br />
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
 
-         <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm">
-          <mat-form-field  appearance="outline">
+        <mat-grid-tile *ngIf="vehicleForm" [formGroup]="vehicleForm">
+          <mat-form-field appearance="outline">
             <mat-label>Responsable</mat-label>
-            <mat-select
-              
-            formControlName="fK_EmployeeID"
-              name="fK_EmployeeID"
-              required
-            >
+            <mat-select formControlName="fK_EmployeeID" name="fK_EmployeeID" required>
               <mat-option>-- Seleccione al responsable del vehiculo --</mat-option>
-              <mat-optgroup
-                *ngFor="let role of userList"
-                [label]="role.role"
-              >
-                <mat-option
-                *ngFor="let user of role['users']"
-                  [value]="user.value"
-                  
-                >
-                 {{user.viewValue| titlecase}}
+              <mat-optgroup *ngFor="let role of userList" [label]="role.role">
+                <mat-option *ngFor="let user of role['users']" [value]="user.value">
+                  {{user.viewValue| titlecase}}
                 </mat-option>
               </mat-optgroup>
-            </mat-select> 
+            </mat-select>
             <!-- <mat-error
               *ngIf="form.get('Fk_EmployeeID').hasError('required')"
             >
               El usuario es <strong>requerida</strong>
             </mat-error> -->
-        </mat-form-field>
+          </mat-form-field>
         </mat-grid-tile>
-            <br /> 
-            <mat-grid-tile *ngIf="medicineForm"  [formGroup]="medicineForm">
-              <mat-form-field class="example-full-width"  appearance="outline">
-                <mat-label>Fecha de vencimiento</mat-label>
-                <input
-                matInput
-                placeholder="Ex. 12/2022 o 12-2023"
-                formControlName='medicineExpirationDate'
-                required
-                [readonly]="isEdit"
-                
-                />
-              <mat-error
-                *ngIf="medicineForm.get('medicineExpirationDate').hasError('required')"
-              >
-                La fecha es <strong>requerida</strong>
-              </mat-error>
+        <br />
+        <mat-grid-tile *ngIf="medicineForm" [formGroup]="medicineForm">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Fecha de vencimiento</mat-label>
+            <input matInput placeholder="Ex. 12/2022" formControlName='medicineExpirationDate' required
+              [readonly]="isEdit" />
+            <mat-error *ngIf="medicineForm.get('medicineExpirationDate').hasError('required')">
+              La fecha es <strong>requerida</strong>
+            </mat-error>
 
-            <mat-error
-              *ngIf="medicineForm.get('medicineExpirationDate').hasError('pattern') &&
-              !medicineForm.get('medicineExpirationDate').hasError('required')"
-            >
+            <mat-error *ngIf="medicineForm.get('medicineExpirationDate').hasError('pattern') &&
+              !medicineForm.get('medicineExpirationDate').hasError('required')">
               Ingrese un formato <strong>valido </strong>
-            </mat-error> 
-          
-             </mat-form-field>
-            </mat-grid-tile>
-            <br />
-            <mat-grid-tile *ngIf="vehicleForm"  [formGroup]="vehicleForm">
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Año</mat-label>
+            </mat-error>
 
-                  <input
-                    matInput
-                    placeholder="Ex. 2021"
-                    formControlName='vehicleYear'
-                    required
-                    [readonly]="isEdit"
-                    [max]="2022"
-                    [min]="1970"
-                  />
-                  <mat-error
-                    *ngIf="vehicleForm.get('vehicleYear').hasError('required')"
-                  >
-                    La marca es <strong>requerida</strong>
-                  </mat-error>
- 
-                <mat-error
-                  *ngIf="vehicleForm.get('vehicleYear').hasError('pattern') &&
-                  !vehicleForm.get('vehicleYear').hasError('required')"
-                >
-                  Ingrese un formato <strong>valido </strong>
-                </mat-error> 
-                <mat-error
-                  *ngIf="vehicleForm.get('vehicleYear').hasError('max') &&
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="vehicleForm" [formGroup]="vehicleForm">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Año</mat-label>
+
+            <input matInput placeholder="Ex. 2021" formControlName='vehicleYear' required [readonly]="isEdit"
+              [max]="2022" [min]="1970" />
+            <mat-error *ngIf="vehicleForm.get('vehicleYear').hasError('required')">
+              La marca es <strong>requerida</strong>
+            </mat-error>
+
+            <mat-error *ngIf="vehicleForm.get('vehicleYear').hasError('pattern') &&
+                  !vehicleForm.get('vehicleYear').hasError('required')">
+              Ingrese un formato <strong>valido </strong>
+            </mat-error>
+            <mat-error *ngIf="vehicleForm.get('vehicleYear').hasError('max') &&
                   !vehicleForm.get('vehicleYear').hasError('required') &&
-                  !vehicleForm.get('vehicleYear').hasError('pattern')"
-                  
-                >
-                  Introduzca un año posterior al actual
-                </mat-error>
-                <mat-error
-                *ngIf="vehicleForm.get('vehicleYear').hasError('min') &&
+                  !vehicleForm.get('vehicleYear').hasError('pattern')">
+              Introduzca un año posterior al actual
+            </mat-error>
+            <mat-error *ngIf="vehicleForm.get('vehicleYear').hasError('min') &&
                 !vehicleForm.get('vehicleYear').hasError('required') &&
                 !vehicleForm.get('vehicleYear').hasError('pattern') &&
-                !vehicleForm.get('vehicleYear').hasError('max')"
-              >
-              
-                Introduzca un año posterior al actual
-              </mat-error>
-<!--                 
+                !vehicleForm.get('vehicleYear').hasError('max')">
+
+              Introduzca un año posterior al actual
+            </mat-error>
+            <!--                 
               <input matInput [matDatepicker]="dp"
               [disabled]="isEdit"
               required
@@ -420,88 +289,60 @@
                 >
                   La fecha es <strong>requerida</strong>
                 </mat-error> -->
-                
-              </mat-form-field>
-            </mat-grid-tile>
-            <br />
-            <mat-grid-tile *ngIf="vehicleForm"  [formGroup]="vehicleForm">
-              <mat-form-field appearance="outline">
-                <mat-label>Utilidad</mat-label>
-                <mat-select
-              formControlName="vehicleUtility"
-                name="vehicleUtility"
-                required
-              >
-                  <mat-option
-                  *ngFor="let u of vehiclesUtilitys"
-                  [value]="u"                    
-                  >
-                   {{u | uppercase}}
-                  </mat-option>
-              </mat-select> 
 
-                <!-- <mat-error
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="vehicleForm" [formGroup]="vehicleForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Utilidad</mat-label>
+            <mat-select formControlName="vehicleUtility" name="vehicleUtility" required>
+              <mat-option *ngFor="let u of vehiclesUtilitys" [value]="u">
+                {{u | uppercase}}
+              </mat-option>
+            </mat-select>
+
+            <!-- <mat-error
                   *ngIf="form.get('description').hasError('pattern')"
                 >
                   Formato <strong>invalido</strong>
                 </mat-error> -->
-                <mat-error
-                *ngIf="vehicleForm.get('vehicleUtility').hasError('maxlength')"
-              >
-                Ha superado los 254 caracteres permitidos
-              </mat-error>
-              </mat-form-field>
-              </mat-grid-tile>
-              <br />
-              <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm">
-                <mat-form-field  appearance="outline">
-                  <mat-label>Tipo de Rodado</mat-label>
-                  <mat-select
-                  formControlName="Fk_TypeVehicleID"
-                    name="Fk_TypeVehicleID"
-                    required
-                    [disabled]="isEdit"
-
-                  >
-                      <mat-option
-                      *ngFor="let u of vehiclesTypes"
-                        [value]="u.value"
-                        
-                      >
-                       {{u.viewValue | uppercase}}
-                      </mat-option>
-                  </mat-select> 
-                  <!-- <mat-error
+            <mat-error *ngIf="vehicleForm.get('vehicleUtility').hasError('maxlength')">
+              Ha superado los 254 caracteres permitidos
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="vehicleForm" [formGroup]="vehicleForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Tipo de Rodado</mat-label>
+            <mat-select formControlName="Fk_TypeVehicleID" name="Fk_TypeVehicleID" required [disabled]="isEdit">
+              <mat-option *ngFor="let u of vehiclesTypes" [value]="u.value">
+                {{u.viewValue | uppercase}}
+              </mat-option>
+            </mat-select>
+            <!-- <mat-error
                     *ngIf="form.get('Fk_EmployeeID').hasError('required')"
                   >
                     El usuario es <strong>requerida</strong>
                   </mat-error> -->
-              </mat-form-field>
-              </mat-grid-tile>
-                  <br /> 
-                  <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm">
-                    <mat-form-field  appearance="outline">
-                      <mat-label>Marca</mat-label>
-                      <input
-                      matInput
-                      placeholder="Ex. FIAT, PEUGEOT, etc"
-                      formControlName="brandName"
-                      required
-                      [readonly]="isEdit"
-                    />
-                    <mat-error
-                      *ngIf="vehicleForm.get('brandName').hasError('required')"
-                    >
-                      La marca es <strong>requerida</strong>
-                    </mat-error>
-                    <mat-error
-                    *ngIf="vehicleForm.get('brandName').hasError('maxlength') &&
-                    !vehicleForm.get('brandName').hasError('required')"
-                  >
-                    Ha superado los 15 caracteres permitidos
-                  </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="vehicleForm" [formGroup]="vehicleForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Marca</mat-label>
+            <input matInput placeholder="Ex. FIAT, PEUGEOT, etc" formControlName="brandName" required
+              [readonly]="isEdit" />
+            <mat-error *ngIf="vehicleForm.get('brandName').hasError('required')">
+              La marca es <strong>requerida</strong>
+            </mat-error>
+            <mat-error *ngIf="vehicleForm.get('brandName').hasError('maxlength') &&
+                    !vehicleForm.get('brandName').hasError('required')">
+              Ha superado los 15 caracteres permitidos
+            </mat-error>
 
-                      <!-- <mat-select
+            <!-- <mat-select
                         [disabled]="isEdit"
                       formControlName="Fk_BrandID"
                       
@@ -517,36 +358,27 @@
                            {{u.brandsName | uppercase}}
                           </mat-option>
                       </mat-select>  -->
-                      <!-- <mat-error
+            <!-- <mat-error
                         *ngIf="form.get('Fk_EmployeeID').hasError('required')"
                       >
                         El usuario es <strong>requerida</strong>
                       </mat-error> -->
-                  </mat-form-field>
-                  </mat-grid-tile>
-                      <br /> 
-                      <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm">
-                        <mat-form-field  appearance="outline">
-                          <mat-label>Modelo</mat-label>
-                          <input
-                          matInput
-                          placeholder="Ex. FIESTA, 207, etc"
-                          formControlName="modelName"
-                          required
-                          [readonly]="isEdit"
-                        />
-                        <mat-error
-                          *ngIf="vehicleForm.get('modelName').hasError('required')"
-                        >
-                          El modelo es <strong>requerido</strong>
-                        </mat-error>
-                        <mat-error
-                        *ngIf="vehicleForm.get('modelName').hasError('maxlength') &&
-                        !vehicleForm.get('modelName').hasError('required')"
-                      >
-                        Ha superado los 15 caracteres permitidos
-                      </mat-error>
-                          <!-- <mat-select
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile *ngIf="vehicleForm" [formGroup]="vehicleForm">
+          <mat-form-field appearance="outline">
+            <mat-label>Modelo</mat-label>
+            <input matInput placeholder="Ex. FIESTA, 207, etc" formControlName="modelName" required
+              [readonly]="isEdit" />
+            <mat-error *ngIf="vehicleForm.get('modelName').hasError('required')">
+              El modelo es <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="vehicleForm.get('modelName').hasError('maxlength') &&
+                        !vehicleForm.get('modelName').hasError('required')">
+              Ha superado los 15 caracteres permitidos
+            </mat-error>
+            <!-- <mat-select
                             [disabled]="isEdit"
                           formControlName="Fk_ModelID"
                             name="Fk_ModelID"
@@ -560,112 +392,91 @@
                                {{u.modelName | uppercase}}
                               </mat-option>
                           </mat-select>  -->
-                          <!-- <mat-error
+            <!-- <mat-error
                             *ngIf="form.get('Fk_EmployeeID').hasError('required')"
                           >
                             El usuario es <strong>requerida</strong>
                           </mat-error> -->
-                      </mat-form-field>
-                      </mat-grid-tile>
-                          <br />
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
 
-                          <mat-form-field class="example-full-width" appearance="outline">
-                            <mat-label>Codigo</mat-label>
-                            <span matPrefix>MA &nbsp;</span>
-                            <input  matInput
-                            formControlName="id"
-                            required
-                            [readonly]="isEdit">
-                          </mat-form-field>
-              
-                          <mat-grid-tile colspan = "2" rowspan="2">
-                            <mat-form-field class="description-field" appearance="outline">
-                              <mat-label>Descripción</mat-label>
-                              <textarea
-                                matInput
-                                placeholder="Texto ejemplo va aquí"
-                                formControlName="description"
-                                 >
+
+
+
+        <mat-grid-tile colspan="2" rowspan="2">
+          <mat-form-field class="description-field" appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput placeholder="Texto ejemplo va aquí" formControlName="description">
                               </textarea>
-                              <!-- <mat-error
+            <!-- <mat-error
                                 *ngIf="form.get('description').hasError('pattern')"
                               >
                                 Formato <strong>invalido</strong>
                               </mat-error> -->
-                              <mat-error
-                              *ngIf="form.get('description').hasError('maxlength')"
-                            >
-                              Ha superado los 254 caracteres permitidos
-                            </mat-error>
-                            </mat-form-field>
-                            </mat-grid-tile>
-                            <br />
-                            <mat-grid-tile >
-                                
-                              <mat-checkbox formControlName="donation" [disabled]="isEdit"
-                              >¿Es donación?</mat-checkbox>
+            <mat-error *ngIf="form.get('description').hasError('maxlength')">
+              Ha superado los 254 caracteres permitidos
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile>
 
-                          </mat-grid-tile>
-                          <br/> 
-                               <mat-grid-tile colspan="1" rowspan="3">
-                                <div class="imagen-class row ">
-                                <div class="custom-file fileInputProfileWrap col-12">
-                                  <input type="file" (change)="selectFiles($event)" class="fileInputProfile">
-                                  <div class="img-space">
-              
-                                      <ng-container *ngIf="previews else elseTemplate">
-                                        <img [src]="previews" class="img-responsive">
-                                      </ng-container>
-                                      <ng-template #elseTemplate>
-                                          <img src="https://i.imgur.com/S9HJEwF.png" class="img-responsive">
-                                      </ng-template>
-                                  </div>
-                              </div>
+          <mat-checkbox formControlName="donation" [disabled]="isEdit">¿Es donación?</mat-checkbox>
 
-                               <div *ngFor="let progressInfo of progressInfos" class="col-12 mt-2">
-                                 <span *ngIf="message.length">{{ message }} </span>                                
-                                 <mat-toolbar class="progress-bar">
-                                   <mat-progress-bar
-                                     color="accent"
-                                     [value]="progressInfo.value"
-                                   ></mat-progress-bar>
-                                   <span class="progress">{{ progressInfo.value }}%</span>
-                                 </mat-toolbar>
-                               </div>
-       
-                              </div>
+        </mat-grid-tile>
+        <br />
+        <mat-grid-tile colspan="1" rowspan="3">
 
-                            </mat-grid-tile>
-               
-          </mat-grid-list>
+          <div class="imagen-class row ">
+            <div class="custom-file fileInputProfileWrap col-12">
+              <input type="file" (change)="selectFiles($event)" class="fileInputProfile">
+              <div class="img-space">
 
-          <div class="footer-form">
+                <ng-container *ngIf="previews else elseTemplate">
+                  <img [src]="previews" class="img-responsive">
+                </ng-container>
+                <ng-template #elseTemplate>
+                  <img src="https://i.imgur.com/S9HJEwF.png" class="img-responsive">
+                </ng-template>
+              </div>
+            </div>
 
-            <button
-              mat-raised-button
-              type="submit"
-              [disabled]="loading"
-              (click)="onSubmit()"
-              color="primary"
-            >
-              <span class="text-center" *ngIf="loading">
-                <i class="fas fa-spinner fa-lg fa-spin"> </i>
-              </span>
-              <span *ngIf="!loading">Finalizar</span>
-            </button>
-            <button *ngIf="!isEdit" mat-raised-button (click)="form.reset()">Resetear</button>
+            <div *ngFor="let progressInfo of progressInfos" class="col-12 mt-2">
+              <span *ngIf="message.length">{{ message }} </span>
+              <mat-toolbar class="progress-bar">
+                <mat-progress-bar color="accent" [value]="progressInfo.value"></mat-progress-bar>
+                <span class="progress">{{ progressInfo.value }}%</span>
+              </mat-toolbar>
+            </div>
+
           </div>
-        <!-- </mat-step> -->
 
-        <!-- ****************** OTRO STEP *********** -->
-        <!-- <mat-step
+        </mat-grid-tile>
+
+      </mat-grid-list>
+
+      <div class="footer-form">
+
+        <button mat-raised-button type="submit" [disabled]="loading" (click)="onSubmit()" color="primary">
+          <span class="text-center" *ngIf="loading">
+            <i class="fas fa-spinner fa-lg fa-spin"> </i>
+          </span>
+          <span *ngIf="!loading">Finalizar</span>
+        </button>
+        <button *ngIf="!isEdit" mat-raised-button (click)="form.reset()">Resetear</button>
+      </div>
+      <!-- </mat-step> -->
+
+      <!-- ****************** OTRO STEP *********** -->
+      <!-- <mat-step
           errorMessage="Todos los datos son requeridos"
         >
           <ng-template matStepLabel>Segundos datos</ng-template>
           <mat-grid-list cols="4" rowHeight="100px"> -->
 
-            
-            <!-- <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm">
+
+      <!-- <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm">
               <mat-form-field appearance="outline">
                   
                   <mat-label>Ciudad</mat-label>
@@ -712,7 +523,7 @@
             <br /> 
           </mat-grid-list>-->
 
-          <!-- <div>
+      <!-- <div>
             <button mat-button matStepperPrevious type="button">Atras</button>
             <button mat-button matStepperNext type="button">Siguiente</button>
           </div>
@@ -741,10 +552,8 @@
           
       </mat-step>
         </mat-horizontal-stepper> -->
-    </form> 
+    </form>
   </div>
-    
-   
+
+
 </section>
-  
-  

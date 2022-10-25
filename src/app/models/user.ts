@@ -3,13 +3,18 @@
  export interface User  {
   userDni: string;
   userAvailability?: boolean;
-  roleName: RoleName;  
+  createdate: string;
+  roleName: RoleName;
+  emergencyDisastersReports?: any;
   persons?: Person;
   estates?: Estates
   token?: string;
   userID?: number;
   UserPassword?: string;
   UserNewPassword?: string;
+  FK_RoleID: number;
+  FK_EstateID: number;
+  avatar: string;
  }
 
  export interface UserRequest {

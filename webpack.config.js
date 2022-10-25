@@ -27,7 +27,7 @@ module.exports = {
         new webpack.DefinePlugin({
           // global app config object
           config: JSON.stringify({
-              apiUrl: 'http://localhost:5001'
+              URL: 'https://back-end-SIGREYD.azurewebsites.net/api'
           })
       })
     ],

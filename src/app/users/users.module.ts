@@ -15,9 +15,7 @@ import { UserService } from './';
 import { EmployeesTableComponent } from './employees-table/employees-table.component';
 import { SorteableDirective } from '../directives/sorteable.directive';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-// import { UsersReportComponent } from '../shared/users-report/users-report.component';
-import { ResourcesRequestReportComponent } from './report-resources-request/resources-request-report/resources-request-report.component';
-import { ReportLayoutComponent } from './report-resources-request/report-layout/report-layout.component';
+import { UsersReportComponent } from '../shared/users-report/users-report.component';
 
 @NgModule({
     imports: [
@@ -31,9 +29,7 @@ import { ReportLayoutComponent } from './report-resources-request/report-layout/
         LayoutComponent,
         ListComponent,
         RegisterComponent,
-        EmployeesTableComponent,
-        ResourcesRequestReportComponent,
-        ReportLayoutComponent,    ],
+        EmployeesTableComponent,    ],
     providers: [TableService, UserService, DecimalPipe,
     {provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true}}
     ]

@@ -1,52 +1,60 @@
 <mat-card class="example-card">
   <mat-card-header class="d-flex flex-row align-items-center" style="width: 100%;">
     <!-- <div  > -->
-         <div mat-card-avatar class="example-header-image pr-3">
+    <div mat-card-avatar class="example-header-image pr-3">
       <span class="material-symbols-outlined">
-          assignment
-          </span>
-  </div>
-    <mat-card-title style="width: inherit;"><h2>{{title}}</h2></mat-card-title>
-      <div class="d-flex justify-content-end align-items-start"> 
+        assignment
+      </span>
+    </div>
+    <mat-card-title style="width: inherit;">
+      <h2>{{title}}</h2>
+    </mat-card-title>
+    <div class="d-flex justify-content-end align-items-start">
       <div class="example-header-image pl-3">
-      <button mat-icon-button [routerLink]="['monitoreo']">
-         <mat-icon>chevron_right</mat-icon> 
-          </button>
-  </div>
-</div>
-    <!-- </div> -->
-   
-   
-    </mat-card-header>
-      <hr/>
-      <mat-card-content *ngIf="!isLoading">
-
-            <mat-card *ngFor="let request of request" class="card2 mb-3" >
-                <mat-grid-list cols="12" rowHeight="1.5:1">
-                        <mat-grid-tile class="historys"  
-                        colspan="11"
-                        rowspan="2">
-                         <div>
-                             <p>Texto y mas texto</p>
-                             <p class="text-muted">Un poquito mas de texto</p>
-                        </div>
-
-                    </mat-grid-tile>
-                    <mat-grid-tile
-                    colspan="1"
-                    rowspan="2">
-                     <div ><button mat-icon-button><mat-icon>file_download</mat-icon></button></div>
-
-                </mat-grid-tile>
-                  </mat-grid-list>
-                </mat-card>
-                       
-    </mat-card-content>
-    <mat-card-content *ngIf="isLoading" >
-      <div class="d-flex justify-content-center">
-        <mat-spinner color="warn" diameter="40"></mat-spinner>
+        <button mat-icon-button [routerLink]="['monitoreo']">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
       </div>
-    </mat-card-content>
+    </div>
+    <!-- </div> -->
 
-  </mat-card>
-  
+
+  </mat-card-header>
+  <hr />
+  <mat-card-content *ngIf="!isLoading">
+
+    <mat-card *ngFor="let f of files" class="card2 mb-3">
+      <mat-grid-list cols="12" rowHeight="1.5:1">
+        <mat-grid-tile class="historys" colspan="10" rowspan="2">
+          <div>
+            <p>#{{f.emergenciesDisasters.emergencyDisasterID}} -
+              {{f.emergenciesDisasters.locationsEmergenciesDisasters.locationCityName}}</p>
+            <p class="text-muted">{{f.emergenciesDisasters.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
+          </div>
+
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2" rowspan="2">
+          <div><button mat-icon-button (click)="download(f.location, false)">
+              <mat-icon>visibility</mat-icon>
+            </button></div>
+
+          <div><button mat-icon-button (click)="download(f.location, true)">
+              <mat-icon>file_download</mat-icon>
+            </button></div>
+
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card>
+
+    <div *ngIf="files.length == 0">
+      <p class="text-center">No hay reportes por el momento!</p>
+    </div>
+
+  </mat-card-content>
+  <mat-card-content *ngIf="isLoading">
+    <div class="d-flex justify-content-center">
+      <mat-spinner color="warn" diameter="40"></mat-spinner>
+    </div>
+  </mat-card-content>
+
+</mat-card>

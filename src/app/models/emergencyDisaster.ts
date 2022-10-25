@@ -17,13 +17,15 @@ export interface EmergencyDisaster {
     FK_AlertID: number,
     Fk_LocationID: number,
     FK_EstateID: number,
-    
+    employeeName: string;
+    fk_EmplooyeeID: number,
+
     locationsEmergenciesDisasters: {
         locationDepartmentName: string;
         locationCityName: string;
         locationMunicipalityName: string;
-        locationLatitude: number;
-        locationLongitude: number;
+        locationlatitude: number;
+        locationlongitude: number;
     }
 
     typesEmergenciesDisasters: TypesEmergencyDisaster;
@@ -31,33 +33,37 @@ export interface EmergencyDisaster {
     alerts: Alerts
 
     employees:{
+        name: string;
       employeeID: number;
           userID: number;
           roleName: string;
           userAvailability: boolean;
           userDni: string;
-          name: string;
         }
+        
+        usersChatRooms:[
+        {
+            userID: number;
+            name: string;
+            userDni: string;
+            roleName: string;
+        },
+       ]
 
      chatRooms:{
          id:number;
          FK_TypeChatRoomID: number;
-         usersChatRooms:[
-         {
-             userID: number;
-             name: string;
-             userDni: string;
-             roleName: string;
-         },
-        ]
-        messages: [{
-            ID: number,
-            message: string,
-            messagesState: boolean,
-            createdDate: Date,
-            FK_UserID: number,
-            name: string
-        }]
+         dataMessage:[{
+            createdDate: string;
+                messages: [{
+                    ID: number,
+                    message: string,
+                    messagesState: boolean,
+                    createdDate: Date,
+                    FK_UserID: number,
+                    name: string
+                }]
+         }]
      }
 
     resources_Requests: [
@@ -78,3 +84,15 @@ export interface EmergencyDisaster {
 
     victims: Victim;
 }
+
+export interface AlertsInput {
+    value: number;
+    viewValue: string;
+    date?: Date;
+  }
+  
+ export interface AlertArray {
+    disabled?: boolean;
+    name: string;
+    alerts: AlertsInput[];
+  }

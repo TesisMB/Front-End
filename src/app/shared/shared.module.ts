@@ -1,5 +1,5 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { RouterModule} from '@angular/router';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
@@ -21,20 +21,58 @@ import { RecentAlertComponent } from './recent-alert/recent-alert.component';
 import { RecentHistoryComponent } from './recent-history/recent-history.component';
 import { RecentMonitoreoComponent } from './recent-monitoreo/recent-monitoreo.component';
 import { RecentNoStockComponent } from './recent-no-stock/recent-no-stock.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { UsersReportComponent } from './users-report/users-report.component';
+import { DatePickerRangeComponent } from '../directives/date-picker-range/date-picker-range';
 
 
 
 @NgModule({
-  declarations: [NavbarComponent, NotFoundComponent, AlertComponent, ConfirmModalComponent, NgbdModalComponent, ResourceModalComponent, ListResourcesComponent, CredentialComponent, RecentAlertComponent, RecentHistoryComponent, RecentMonitoreoComponent, RecentNoStockComponent],
+  declarations: [
+    NavbarComponent,
+    NotFoundComponent,
+    AlertComponent,
+    ConfirmModalComponent,
+    NgbdModalComponent,
+    ResourceModalComponent,
+    ListResourcesComponent,
+    CredentialComponent, 
+    RecentAlertComponent, 
+    RecentHistoryComponent,
+    RecentMonitoreoComponent,
+    RecentNoStockComponent,
+    UsersReportComponent,
+    DatePickerRangeComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
     MaterialDesignModule,
     NgbModule,
+    NgxChartsModule,
   ],
-  exports: [MaterialDesignModule,CredentialComponent,RecentMonitoreoComponent,RecentHistoryComponent,RecentAlertComponent, NavbarComponent, NgbModule, NotFoundComponent, CommonModule, FormsModule, AlertComponent, ReactiveFormsModule,ResourceModalComponent],
-  providers: [TableService, UserService, DecimalPipe,
+  exports: [
+    MaterialDesignModule,
+    CredentialComponent,
+    RecentMonitoreoComponent,
+    RecentHistoryComponent,
+    RecentAlertComponent, 
+    NavbarComponent,
+    NgbModule, 
+    NotFoundComponent,
+    CommonModule,
+    FormsModule,
+    AlertComponent,
+    ReactiveFormsModule,
+    ResourceModalComponent,
+    UsersReportComponent,
+    NgxChartsModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    TableService,
+    UserService,
+    DecimalPipe,
     {provide: STEPPER_GLOBAL_OPTIONS, useValue: {showError: true}}
     ]
 })

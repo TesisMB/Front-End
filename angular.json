@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "SICREYD": {
+    "SIGREYD": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/SICREYD",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -31,7 +31,7 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -64,18 +64,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "SICREYD:build"
+            "browserTarget": "SIGREYD:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "SICREYD:build:production"
+              "browserTarget": "SIGREYD:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "SICREYD:build"
+            "browserTarget": "SIGREYD:build"
           }
         },
         "test": {
@@ -113,18 +113,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "SICREYD:serve"
+            "devServerTarget": "SIGREYD:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "SICREYD:serve:production"
+              "devServerTarget": "SIGREYD:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "SICREYD",
+  "defaultProject": "SIGREYD",
   "cli": {
     "analytics": false
   }

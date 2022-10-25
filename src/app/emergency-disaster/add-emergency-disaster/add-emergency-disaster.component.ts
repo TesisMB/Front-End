@@ -2,19 +2,18 @@ import { AuthenticationService } from './../../services/_authentication/authenti
 import { UserService } from './../../users/user.service';
 import { PlacesService } from './../places.service';
 import { Alerts } from './../../models/alerts';
-import { Alert } from './../../models/alert';
 import { EmergencyDisasterService } from './../emergency-disaster.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { TypesEmergencyDisaster } from 'src/app/models/typeEmergencyDisaster';
 import { SelectTypesEmergencyDisasterService } from '../select-types-emergency-disaster.service';
-import { Observable } from 'rxjs';
 import { Feature } from 'src/app/models/places';
 import { Ubicacion } from 'src/app/models/Parametros';
 import { Employee, User } from 'src/app/models';
-import { MatStepper } from '@angular/material/stepper';
 import { AlertService } from 'src/app/services';
+import { Location } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'add-emergency-disaster',
@@ -22,11 +21,16 @@ import { AlertService } from 'src/app/services';
   styleUrls: ['./add-emergency-disaster.component.css']
 })
 export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
-  @ViewChild('stepper',{read:MatStepper}) stepper:MatStepper;
+  // @ViewChild('stepper',{read:MatStepper}) stepper:MatStepper;
 
   arraytypeEmergencyDisaster = [];
   typeEmergencyDisaster: TypesEmergencyDisaster[];
-  location: boolean = false;
+  subscriber1: Subscription;
+  subscriber2: Subscription;
+  subscriber3: Subscription;
+  subscriber4: Subscription;
+  subscriber5: Subscription;
+  locationB: boolean = false;
   addEmergencyDisaster: FormGroup;
   alerts: Alerts[];
   placeObservable: Feature;
@@ -34,11 +38,12 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   coordinates: Ubicacion;
   handler: any;
   currentUser: User;
-  user: Employee [];
+  user: User [];
   ubicacion: any;
   hasVictims: boolean = false;
 
-  constructor(    
+  constructor(   
+    private location: Location,
     private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
     private fb: FormBuilder,
@@ -89,7 +94,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.authenticationService.currentUser.subscribe(data => {
+    this.subscriber1 =  this.authenticationService.currentUser.subscribe(data => {
       this.currentUser = data;
       console.log("Data", data);
     }, error => {
@@ -107,17 +112,21 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
 
+  onBack() {
+    this.location.back();
+  }
+
   getUser(){
-    this.userService.getAll(this.authenticationService.currentUserValue.userID).subscribe(data => {
+    this.subscriber2 = this.userService.getAll().subscribe(data => {
       this.user = data;
-      this.user = this.user.filter(a => a.users.roleName == "Coord. de Emergencias");
+      this.user = this.user.filter(a => a.roleName == "Coord. de Emergencias");
     }, error =>{
       console.log(error);
     })
   }
 
   addEmergencyDisasterFunction(){
-    this.currentPlaceHandler = this.placesService.placeSubject$.subscribe(resp => {
+    this.subscriber3 = this.placesService.placeSubject$.subscribe(resp => {
       if(resp){
         this.getLocation(resp);
       }
@@ -132,49 +141,44 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
     }
 
   getLocation(placeObservable){
-   this.handler = this.placesService.getLocation(placeObservable.center[1], placeObservable.center[0]).subscribe(resp =>{
     this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationLongitude').patchValue(placeObservable.center[0]);
     this.addEmergencyDisaster.get('locationsEmergenciesDisasters.LocationLatitude').patchValue(placeObservable.center[1]);
- 
-    this.ubicacion = resp.ubicacion;
+    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(placeObservable.place_name);
 
-    }, error=>{
-      console.log("Error", error);
-    });  
+    console.log("Place Name", placeObservable.place_name);
   }
     
   
 
   postEmergencyDisaster(){
 
-    if(this.addEmergencyDisaster.valid && this.ubicacion){
+    // if(this.addEmergencyDisaster.valid && this.ubicacion){
 
-      this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(this.ubicacion.municipio.nombre);
-      this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationDepartmentName').patchValue(this.ubicacion.departamento.nombre);
-      this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationMunicipalityName').patchValue(this.ubicacion.municipio.nombre);
+     // this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(this.ubicacion.municipio.nombre);
+      
       this.addEmergencyDisaster.get('FK_EstateID').patchValue(this.currentUser.estates.estateID);
 
       
       const emergency = this.addEmergencyDisaster.value;
       console.log('Formulario =>', emergency);
       
-      this.emergencyDisasterService.register(emergency).subscribe( () =>{
+      this.subscriber4 =   this.emergencyDisasterService.register(emergency).subscribe( () =>{
       this.alertService.success('Registro exitoso :)', { autoClose: true });
-      this.stepper.reset();
+      // this.stepper.reset();
         
       }, error =>{
         this.alertService.error('Ocurrio un error :(', { autoClose: true });
         console.log("Error en el formulario!!!", error);
       });
     }
-    else if(this.addEmergencyDisaster.valid){
-      this.alertService.error('La API no esta funcionando correctamente, por favor reintentar en un rato.', {autoClose: true});
-    }
-  }
+    // else if(this.addEmergencyDisaster.valid){
+    //   this.alertService.error('La API no esta funcionando correctamente, por favor reintentar en un rato.', {autoClose: true});
+    // }
+  //}
 
 
   getTypeEmergencyDisaster(){
-    this.selectTypesEmergencyDisasterService.getAll(this.authenticationService.currentUserValue.userID)
+    this.subscriber5 =  this.selectTypesEmergencyDisasterService.getAll()
     .pipe(
       map((x) =>{
         x.forEach(item =>{
@@ -204,8 +208,11 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
  
   ngOnDestroy(): void {
-   /*  this.handler.unsubscribe();
-    this.currentPlaceHandler.unsubscribe(); */
+  if(this.subscriber1) this.subscriber1.unsubscribe();
+  if(this.subscriber2)   this.subscriber2.unsubscribe();
+  if(this.subscriber3)   this.subscriber3.unsubscribe();
+  if(this.subscriber4)   this.subscriber4.unsubscribe();
+  if(this.subscriber5)   this.subscriber5.unsubscribe();
   }
 
 }

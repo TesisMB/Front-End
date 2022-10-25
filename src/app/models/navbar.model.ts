@@ -59,7 +59,7 @@ export interface FoodNode {
       role:['Admin','Coordinador General', ,'Coord. de Emergencias'],
       disabled: true,
       children: [
-        {name: 'Lista de empleados',
+        {name: 'Lista de usuarios',
         patch:'/empleados',
         icon:'fas fa-user-plus',
         role:['Admin','Coordinador General']
@@ -122,10 +122,18 @@ export interface FoodNode {
       icon:'fas fa-briefcase-medical' ,
       role:['Admin','Coordinador General','Coord. de Emergencias'],
     },
+    // {
+    //   name: 'Reportes',
+    //   patch:'/reportes',
+    //   icon:'fas fa-chart-pie' ,
+    //   disabled: false,
+    //   role:['Admin','Coordinador General']
+    // },
     {
       name: 'Monitoreo',
       patch:'/monitoreo',
       icon:'fas fa-tv' ,
+      disabled: false,
       role:['Admin','Coordinador General','Coord. de Emergencias']
     },
 ];

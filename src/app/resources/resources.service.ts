@@ -12,6 +12,7 @@ import { DecimalPipe } from '@angular/common';
 import {compare, Operation } from 'fast-json-patch';
 import * as _ from 'lodash';
 import { constants } from 'buffer';
+import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 
 function matches(resource: Resource, term: string, pipe: PipeTransform) {
   return (resource.name).toLowerCase().includes(term.toLowerCase())
@@ -53,6 +54,9 @@ export class ResourcesService {
  private _item$ = new BehaviorSubject<Resource>(null);
  private _imgFile$ = new BehaviorSubject<File>(null);
  private _showAvailability$ = new BehaviorSubject<boolean>(false);
+
+
+
 
  private _state: State = {
    page: 1,
@@ -201,6 +205,39 @@ public uploadTable(resources: Resource[]) {
   }
 
   
+  generatePDFResources(startDate: String, tipo: String, endDate: String, userId: number): Observable<any> {
+    // let paramaters = new HttpParams().append('startDate', JSON.stringify(startDate));
+    // this.options.params = paramaters;
+
+    let url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate;
+
+//https://localhost:5001/api/estates/pdf/?dateStart=Thu Oct 12 2022 00:00:00 GMT-0300 (hora estándar de Argentina)
+//&dateEnd=Thu Oct 12 2022 00:00:00 GMT-0300 (hora estándar de Argentina)&userId=3
+
+    if(tipo == 'get' && endDate != null){
+      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate + '/&dateEnd=' + endDate + '&userId' + userId;
+    }else if(tipo == 'get' && endDate == null){
+      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate;
+    }
+    else if (tipo != 'get' && endDate != null){
+      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate + '/&dateEnd=' + endDate + '&userId' + userId + '&getall=todas';
+    }
+   else{
+      url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate + '&userId' + userId + '&getall=todas';
+    }
+    
+
+
+    const headers = new HttpHeaders().set('Accept','application/pdf');
+    return this.http.get(url, 
+        {
+          headers: headers,
+          responseType: 'blob'
+        }
+      );
+    }
+
+
   getFiles(): Observable<any> {
      return this.http.get(`${environment.URL}files`);
   }

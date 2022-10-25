@@ -15,10 +15,11 @@ import { CartComponent } from './cart/cart.component';
 import { RequestTableComponent } from './request-table/request-table.component';
 import { StockComponent } from './stock/stock.component';
 import { StockTableComponent } from './stock/stock-table/stock-table.component';
+import { NgbdResourcesFiltersDialogComponentComponent } from './ngbd-resources-filters-dialog-component/ngbd-resources-filters-dialog-component.component';
 
 
 @NgModule({
-  declarations: [ResourcesComponent, HistoryRequestComponent, RequestComponent, addEditResourcesComponent, ResourcesDetails, StatesComponent, LayoutResourcesComponent, ResourcesListComponent, CartComponent, RequestTableComponent, StockComponent, StockTableComponent],
+  declarations: [ResourcesComponent, HistoryRequestComponent, RequestComponent, addEditResourcesComponent, ResourcesDetails, StatesComponent, LayoutResourcesComponent, ResourcesListComponent, CartComponent, RequestTableComponent, StockComponent, StockTableComponent, NgbdResourcesFiltersDialogComponentComponent],
   imports: [
     SharedModule,
     ResourcesRoutingModule
