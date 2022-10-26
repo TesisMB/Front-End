@@ -4,7 +4,10 @@
       <button mat-raised-button (click)="onBack()">Atrás</button>
     </div>
     <div class="col-4">
-      <h1 class="title">Detalle del producto</h1>
+      <h1 class="title">
+      <span *ngIf="!item.volunteers">Detalle del producto</span>  
+      <span *ngIf="item.volunteers">Perfil de {{item.name | titlecase}}</span>  
+      </h1>
     </div>
 
     <!-- Falta pasarle id de voluntario -->

@@ -37,7 +37,13 @@ export class PlacesService {
     return this.http.get<any>(`https://apis.datos.gob.ar/georef/api/ubicacion?lat=${lat}&lon=${lon}`);
 }
 
+get alertLocation(){
+  return this.userLocation;
+}
 
+set alertLocation(coords){
+  this.userLocation = coords;
+}
 
 
   get placeSubject$(){

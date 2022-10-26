@@ -21,6 +21,7 @@ import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { SearchResultComponent } from '../search-result/search-result.component';
 import {GoogleMapsModule} from '@angular/google-maps';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 @NgModule({
   declarations: [LayoutEmergencyDisasterComponent, ListComponent, NgbdModalComponent, 
@@ -33,6 +34,9 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
   imports: [
     SharedModule,
     EmergencyDisasterRoutingModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: 'pk.eyJ1IjoicGxheWVyMDA3IiwiYSI6ImNsOXAyeG1sNTA2dWkzb20zdGZlZXltN3kifQ.Go27DcgWemsSmSr8gWg5Aw', // Optional, can also be set per map (accessToken input of mgl-map)
+    })
     // GoogleMapsModule,
     // GooglePlaceModule
   ],
