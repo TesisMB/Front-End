@@ -25,7 +25,7 @@ const geoJSON = {
 @Component({
   selector: 'deployment',
   templateUrl: './deployment.component.html',
-  // styleUrls: ['./deployment.component.css']
+  styleUrls: ['./deployment.component.css']
 })
 export class DeploymentComponent implements OnInit{
   // @ViewChild('mapDiv')
