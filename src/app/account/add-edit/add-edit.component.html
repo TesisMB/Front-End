@@ -28,7 +28,7 @@
         <form [formGroup]="form" (ngSubmit)="onSubmit()" style="background-color: #fff!Important; border-radius: 10px;"
           style="display: flex; flex-direction: column; background: #fff;">
             <div *ngIf="model" class="row">
-              <div class="personal col-6">
+              <div class="personal-tab col-6">
                 <h2 class="title">Información Personal</h2>
                 <p style="font-size: small;"><i class="fas fa-edit text-danger " style=" cursor: pointer;"
                     (click)="onUpdate(model)"></i> Editar Informacion</p>
@@ -156,7 +156,7 @@
 
               </div>
 
-              <div class="work col-6">
+              <div class="work-tab col-6">
                 <h2 class="title" style="margin-right: 50px;">Informacion de Trabajo</h2>
                 <strong class="info" style="  margin-top: 4rem;">Cargo</strong>
                 <p class="info">{{model.roleName | titlecase}}</p>
