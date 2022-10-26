@@ -32,6 +32,7 @@ import { DialogPDFComponent } from './monitoreo/dialog-pdf/dialog-pdf.component'
 import { MonitorioListComponent } from './monitoreo/monitorio-list/monitorio-list.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MomentModule } from 'ngx-moment';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,10 @@ import { MomentModule } from 'ngx-moment';
     ResourcesModule,
     EmergencyDisasterModule,
     ReportsModule,
-    MomentModule 
+    MomentModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: 'pk.eyJ1IjoicGxheWVyMDA3IiwiYSI6ImNsOXAyeG1sNTA2dWkzb20zdGZlZXltN3kifQ.Go27DcgWemsSmSr8gWg5Aw', // Optional, can also be set per map (accessToken input of mgl-map)
+    })
 
   ],
 

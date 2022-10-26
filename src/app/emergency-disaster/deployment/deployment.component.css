@@ -74,8 +74,10 @@ mat-icon {
 
 
 .location {
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     height: 300px;
+    text-align: justify;
+    padding: 20px;
 }
 
 /* .location:nth-child(1) {
@@ -85,9 +87,16 @@ mat-icon {
 .instruction {
     overflow-y: auto;
     width: 50%;
+    border-radius: 10px; 
+    border: 1px solid #ccc;
+
 }
 
-
+mgl-map {
+    height: 100%;
+    width: 100%;
+    
+  }
 /* .date .calendar,
 .date .person {
     margin-left: 20px;
@@ -102,7 +111,11 @@ mat-icon {
 }
 
 .map-container {
-    width: 36%;
+    border-radius: 10px; 
+    /*   margin-top: 8rem;
+    margin: 11rem 67px; */
+    height: 40vh !important;
+    width: 40vw;
 }
 
 .instructionMap {

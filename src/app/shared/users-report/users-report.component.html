@@ -34,7 +34,7 @@
       </mat-form-field>
     </div>
 
-   <mat-grid-tile *ngIf="isSelected">
+   <mat-grid-tile class="tile" *ngIf="isSelected">
     <div class="row">
       <div  *ngIf="selected !== states.INACTIVAS" [ngClass]="{'col-6': selected === states.TODOS, 'col-12': selected === states.ACTIVAS }">
       <mat-list dense>
@@ -82,7 +82,7 @@
     </mat-list>
   </div>
   </mat-grid-tile> -->
-    <mat-grid-tile *ngIf="reports && reports.type.selected">
+    <mat-grid-tile class="tile" *ngIf="reports && reports.type.selected">
       <ngx-charts-bar-horizontal
       [view]="view"
       [scheme]="colorScheme"
@@ -100,7 +100,7 @@
     </ngx-charts-bar-horizontal>
     </mat-grid-tile>
 
-    <mat-grid-tile *ngIf="reports && reports.city.selected">
+    <mat-grid-tile class="tile" *ngIf="reports && reports.city.selected">
       <ngx-charts-bar-horizontal
   [view]="view"
   [scheme]="colorScheme"
@@ -118,7 +118,7 @@
 
 <!-- [xAxisTickFormatting] =  'formatingAxisX' -->
     </mat-grid-tile>
-    <mat-grid-tile *ngIf="reports && reports.degree.selected">
+    <mat-grid-tile class="tile" *ngIf="reports && reports.degree.selected">
       <div class="d-flex flex-column text-center">
         <p>Grado de emergencias</p>
         <ngx-charts-pie-chart
@@ -137,7 +137,7 @@
       </ngx-charts-pie-chart>
     </div>
     </mat-grid-tile>
-    <mat-grid-tile *ngIf="reports && reports.state.selected">
+    <mat-grid-tile class="tile" *ngIf="reports && reports.state.selected">
       <div class="d-flex flex-column text-center">
       <p>Estado de alertas</p>
       <ngx-charts-pie-chart

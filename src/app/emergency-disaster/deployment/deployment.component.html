@@ -9,8 +9,8 @@
   </div>
 
 </section>
-
-<div class="col justify-content-around col-body" id="row-aside">
+<loading *ngIf="!emergencyDisaster"></loading>
+<div *ngIf="emergencyDisaster" class="col justify-content-around col-body" id="row-aside">
   <mat-horizontal-stepper linear #stepper>
     <mat-step>
 
@@ -96,20 +96,54 @@
       <section class="instructionMap">
 
         <div class="map-container">
-          <div class="location map-frame">
-            <div id="map">
-            </div>
-          </div>
+          <!-- <div class="location map-frame"> -->
+            <!-- <div id="map">
+            </div>  -->
+            <!-- <map>
+            </map> -->
+            <!-- <div #mapDiv class="map-container">
+            </div> -->
+            <mgl-map
+            [style]="'mapbox://styles/mapbox/streets-v11'"
+            [zoom]="[14]"
+            [center]="[emergencyDisaster.locationsEmergenciesDisasters.locationlongitude, emergencyDisaster.locationsEmergenciesDisasters.locationlatitude]"
+            trackProximity="true" (load)="onLoad($event)"
+            doubleClickZoom="true">
+            <mgl-marker [lngLat]="[emergencyDisaster.locationsEmergenciesDisasters.locationlongitude, emergencyDisaster.locationsEmergenciesDisasters.locationlatitude]">
+            </mgl-marker>
+             <mgl-layer
+               id="state-borders"
+               type="circle"
+               [source]="source"
+               [paint]="{
+                 'circle-color': '#627BC1',
+                 'circle-radius': 50,
+                 'circle-opacity': 0.5,
+                 'circle-pitch-scale' : 'viewport',
+                 'circle-pitch-alignment':'viewport'
+               }"
+  ></mgl-layer> 
+  <mgl-control mglNavigation></mgl-control>
+  <mgl-control mglFullscreen></mgl-control>
+  <mgl-control mglGeolocate showUserLocation="true" trackUserLocation="true"></mgl-control>
+  
+  <mgl-control mglScale unit="metric" position="top-right"></mgl-control>
+          </mgl-map>
+          <!-- </div> -->
         </div>
 
 
+          <!-- <div style="display:block">
+  
+          </div> -->
+
         <div *ngIf="emergencyDisaster" class="instruction">
 
-          <div class="instruction location" *ngIf="!emergencyDisaster.emergencyDisasterInstruction">
+          <div class="location" *ngIf="!emergencyDisaster.emergencyDisasterInstruction">
             <p>No hay ninguna descripción por el momento</p>
           </div>
 
-          <div class="instruction location" *ngIf="emergencyDisaster.emergencyDisasterInstruction">
+          <div class="location" *ngIf="emergencyDisaster.emergencyDisasterInstruction">
             {{emergencyDisaster.emergencyDisasterInstruction}}
           </div>
         </div>
@@ -155,7 +189,7 @@
 
       </section>
       <div class="btn-r">
-        <button mat-button matStepperNext>Siguiente</button>
+        <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
       </div>
     </mat-step>
 
@@ -275,9 +309,9 @@
           </table>
         </div>
       </section>
-      <div class="btn-r">
-        <button mat-button matStepperPrevious type="button">Atras</button>
-        <button mat-button matStepperNext>Siguiente</button>
+      <div class="btn-r d-flex justify-content-between">
+        <button mat-raised-button color="warn"  matStepperPrevious type="button">Atras</button>
+        <button mat-raised-button color="primary"  matStepperNext>Siguiente</button>
       </div>
     </mat-step>
 
@@ -336,7 +370,7 @@
         </section>
 
         <div class="btn-r" style="margin-top: 4rem;">
-          <button mat-button matStepperPrevious type="button">Atras</button>
+          <button mat-raised-button color="secondary" matStepperPrevious type="button">Atras</button>
         </div>
       </mat-step>
     </section>

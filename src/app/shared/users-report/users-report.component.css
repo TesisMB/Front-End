@@ -1,14 +1,15 @@
-mat-grid-tile {
+.tile{
     background: #e9ecef;
+    padding: 10vh;
   }
 
   .button-group button{
     margin-right: 8px;
   }
 
-  .button-group .mat-form-field + .mat-form-field {
+  /* .button-group .mat-form-field + .mat-form-field {
     margin-left: 8px;
-  }
+  } */
 
   mat-grid-tile .row{
     width: 100%;
