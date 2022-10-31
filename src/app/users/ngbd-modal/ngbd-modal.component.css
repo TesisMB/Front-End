@@ -19,90 +19,122 @@
 .mat-tab-body-wrapper {
   flex: 1 1 auto;
 } */
-.info-personal{
+.info-personal {
   /* background-color: #e9ecef; */
 }
 
-  .avatar{
-    width: 150px; 
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    /* background-color: blue; */
-  }
-  .avatar img{
-    width: 100%;
-  }
-  .modal-header {
-    text-align: center!important;
-  }
-.personal, .contact,.work,.access{
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  /* background-color: blue; */
+}
+
+.avatar img {
+  width: 100%;
+}
+
+.modal-header {
+  text-align: center !important;
+}
+
+.personal, .contact, .work, .access {
   background-color: #e9ecef;
   border: 1px;
   border-radius: 10px;
   padding-top: 10px;
 
 }
-  .modal-body {
-    margin: 0 15px!important ;
-  }
 
-  #estateTypes {
-    width: 35%;
-  }
-  #address {
-    width: 65%;
-  }
-  .input-group .form-control {
-    flex: none!important;
-  }
-  .modal-title{
-    text-transform: uppercase;
-    font-weight: 500; 
-    
-  }
-  .options {
-    padding: 8px 0px;
-    background-color: #424242;
-  }
-  .options .arrow::after{
-    border-bottom-color: #424242 !important;
+.modal-body {
+  margin: 0 15px !important;
+}
 
-  }
-  .btn-options, .btn-options-warning, .btn-options-success{
-    width: 100%;
-    background-color: #424242;
-    outline: none;
-    padding: 0px 16px;
-    display: block;
-    position: relative;
-    height: 48px;
-    text-align: left;
-    border:none;
-    color: white;
-  }
-  .btn-options-warning:hover {
-    background:red;
-    color:white;
-  }
-  .btn-options-success:hover {
-    background: green;
-    color:white;
-  }
-  .btn-options:hover{
-    background:rgba(255,255,255,.04);
-    color:white;
-  }
+#estateTypes {
+  width: 35%;
+}
 
-  .icon{
-    vertical-align: middle;
-    margin-right: 16px;
-  }
+#address {
+  width: 65%;
+}
 
-  .options .popover-body{
-    padding: 8px 0 !important;
-  }
+.input-group .form-control {
+  flex: none !important;
+}
 
-  .availability, p{
-    margin: 0 !important;
+.modal-title {
+  text-transform: uppercase;
+  font-weight: 500;
+
+}
+
+.options {
+  padding: 8px 0px;
+  background-color: #424242;
+}
+
+.options .arrow::after {
+  border-bottom-color: #424242 !important;
+
+}
+
+.btn-options, .btn-options-warning, .btn-options-success {
+  width: 100%;
+  background-color: #424242;
+  outline: none;
+  padding: 0px 16px;
+  display: block;
+  position: relative;
+  height: 48px;
+  text-align: left;
+  border: none;
+  color: white;
+}
+
+.btn-options-warning:hover {
+  background: red;
+  color: white;
+}
+
+.btn-options-success:hover {
+  background: green;
+  color: white;
+}
+
+.btn-options:hover {
+  background: rgba(255, 255, 255, .04);
+  color: white;
+}
+
+.icon {
+  vertical-align: middle;
+  margin-right: 16px;
+}
+
+.options .popover-body {
+  padding: 8px 0 !important;
+}
+
+.availability, p {
+  margin: 0 !important;
+}
+
+@media (min-width: 1200px) {
+
+  .modal-xl {
+    max-width: 1500px;
   }
+}
+
+/* 
+.modal-dialog,
+.modal-content {
+  height: 90%;
+} */
+
+.modal-body {
+  /* 100% = dialog height, 120px = header + footer */
+  max-height: calc(100% - 120px);
+  overflow-y: scroll;
+}

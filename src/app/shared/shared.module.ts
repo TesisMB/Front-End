@@ -24,6 +24,8 @@ import { RecentNoStockComponent } from './recent-no-stock/recent-no-stock.compon
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { UsersReportComponent } from './users-report/users-report.component';
 import { DatePickerRangeComponent } from '../directives/date-picker-range/date-picker-range';
+import { ResourcesRequestReportComponent } from '../users/report-resources-request/resources-request-report/resources-request-report.component';
+import { ResourcesRequestViewComponent } from '../users/report-resources-request/resources-request-view/resources-request-view.component';
 
 
 
@@ -42,7 +44,9 @@ import { DatePickerRangeComponent } from '../directives/date-picker-range/date-p
     RecentMonitoreoComponent,
     RecentNoStockComponent,
     UsersReportComponent,
-    DatePickerRangeComponent
+    ResourcesRequestReportComponent,
+    ResourcesRequestViewComponent,
+    DatePickerRangeComponent,
   ],
   imports: [
     CommonModule,
@@ -67,6 +71,8 @@ import { DatePickerRangeComponent } from '../directives/date-picker-range/date-p
     ReactiveFormsModule,
     ResourceModalComponent,
     UsersReportComponent,
+    ResourcesRequestReportComponent,
+    ResourcesRequestViewComponent,
     NgxChartsModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

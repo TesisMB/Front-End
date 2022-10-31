@@ -332,11 +332,11 @@ getType(data){
 
   
   formatingAxisX(event: number){
-  //   if(typeof event === 'number'){
-  //     event = Math.round(event);
-  //     console.log('Evento Formating => ', event);
-  //     return event;
-  //   }
-  //  return event;
+    if(typeof event === 'number'){
+      // event = Math.round(event);
+      console.log('Evento Formating => ', event);
+      return event % 1 === 0 ? event :  ''; 
+    }
+   return event;
   }
 }

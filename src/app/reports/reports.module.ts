@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AlertReportComponent } from './alert-report/alert-report.component';
 import { ReportLayoutComponent } from './report-layout/report-layout.component';
 import { UsersReportComponent } from './users-report/users-report.component';
+import { ResourcesRequestReportComponent } from '../users/report-resources-request/resources-request-report/resources-request-report.component';
 @NgModule({
   declarations: [AlertReportComponent, ReportLayoutComponent, UsersReportComponent],
   imports: [

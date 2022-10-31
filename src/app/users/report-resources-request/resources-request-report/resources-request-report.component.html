@@ -1,1 +1,139 @@
-<p>resources-request-report works!</p>
+<mat-grid-list cols="cols" rowHeight="2:1">
+    <div class="button-group mt-2 text-center row col-12 justify-content-between">
+        <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select [(value)]="selected" (selectionChange)="filterByState($event.value)">
+                <mat-option [value]="condition.TODOS">Todas</mat-option>
+                <mat-option [value]="condition.ACEPTADAS">Aceptadas</mat-option>
+                <mat-option [value]="condition.RECHAZADAS"> Rechazadas</mat-option>
+                <mat-option [value]="condition.PENDIENTES"> Pendientes</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!-- <mat-form-field >
+        <mat-label>Fecha</mat-label>
+        <select matNativeControl (selectionChange)="filterByState($event.value)" >
+          <option [value]="states.ACTIVAS">Activas</option>
+          <option [value]="states.INACTIVAS">Inactivas</option>
+          <option [value]="states.TODOS">Todas</option>
+        </select>
+      </mat-form-field> -->
+        <mat-form-field appearance="outline" *ngIf="control" class="full-width">
+            <mat-label>Por fecha</mat-label>
+            <date-picker-range [formControl]="control" placeholder="DD/MM/YYYY"></date-picker-range>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Por tipo</mat-label>
+            <mat-select [(value)]="selectedType" (selectionChange)="setVisible($event.value)">
+                <mat-option value="list">Lista de solicitudes</mat-option>
+                <mat-option value="condition">Por estado</mat-option>
+                <mat-option value="type">Por tipo de alerta</mat-option>
+                <mat-option value="city">Por ubicación</mat-option>
+                <!--<<mat-option value="state">Por estado</mat-option> -->
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+
+    <!-- 
+    <mat-grid-tile *ngIf="reports && reports.city.selected">
+        <ngx-charts-bar-horizontal [view]="view" [scheme]="colorScheme" [results]="reports.city.data"
+            [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
+            [showXAxisLabel]="showYAxisLabelCity" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabelCity" (select)="onSelectCity($event)">
+        </ngx-charts-bar-horizontal>
+
+    </mat-grid-tile> -->
+
+
+    <mat-grid-tile *ngIf="isSelected">
+        <div class="row">
+            <div *ngIf="selected !== condition.RECHAZADAS && selected !== condition.PENDIENTES"
+                [ngClass]="{'col-4': selected === condition.TODOS, 'col-12': selected === condition.ACEPTADAS }">
+                <mat-list dense>
+                    <div mat-subheader>Aceptadas</div>
+                    <mat-list-item class="alertCard mt-3" *ngFor="let active of getActiveList; index as i">
+                        <div mat-line> Solicitud #{{active.id}}</div>
+                        <div mat-line> {{active.requestDate | date:'dd/MM/yyyy'}}</div>
+
+                        <div class="div-center">#{{active.emergencyDisasterID}}&nbsp;{{active.type}}</div>
+                        <div><button mat-icon-button matTooltip="Ver más" matTooltipPosition="above" color="warn"
+                                (click)="openModal(active.id)" aria-label="Ver más">
+                                <mat-icon>visibility</mat-icon>
+                            </button></div>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+
+            <div *ngIf="selected !== condition.RECHAZADAS && selected !== condition.ACEPTADAS"
+                [ngClass]="{'col-4': selected === condition.TODOS, 'col-12': selected === condition.PENDIENTES }">
+                <mat-list dense>
+                    <div mat-subheader>Pendientes</div>
+                    <mat-list-item *ngFor="let inactive of getPendienteList; index as i" class="alertCard mt-3">
+                        <div mat-line> Solicitud #{{inactive.id}}</div>
+                        <div mat-line> {{inactive.requestDate | date:'dd/MM/yyyy'}}</div>
+
+                        <div class="div-center">#{{inactive.emergencyDisasterID}}&nbsp;{{inactive.type}}</div>
+                        <div><button mat-icon-button matTooltip="Ver más" matTooltipPosition="above" color="warn"
+                                (click)="openModal(inactive.id)" aria-label="Ver más">
+                                <mat-icon>visibility</mat-icon>
+                            </button></div>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+
+            <div *ngIf="selected !== condition.PENDIENTES && selected !== condition.ACEPTADAS"
+                [ngClass]="{'col-4': selected === condition.TODOS, 'col-12': selected === condition.RECHAZADAS }">
+                <mat-list dense>
+                    <div mat-subheader>Rechazadas</div>
+                    <mat-list-item *ngFor="let inactive of getInactiveList; index as i" class="alertCard mt-3">
+                        <div mat-line> Solicitud #{{inactive.id}}</div>
+                        <div mat-line> {{inactive.requestDate | date:'dd/MM/yyyy'}}</div>
+
+                        <div class="div-center">#{{inactive.emergencyDisasterID}}&nbsp;{{inactive.type}}</div>
+                        <div><button mat-icon-button matTooltip="Ver más" matTooltipPosition="above" color="warn"
+                                (click)="openModal(inactive.id)" aria-label="Ver más">
+                                <mat-icon>visibility</mat-icon>
+                            </button></div>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+
+        </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile *ngIf="reports && reports.condition.selected">
+        <div class="center">
+            <ngx-charts-advanced-pie-chart [view]="view" [scheme]="colorScheme" [results]="reports.condition.data"
+                [gradient]="gradient" (select)="onSelectCity($event)"> (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)"
+                [animations]="true">
+            </ngx-charts-advanced-pie-chart>
+        </div>
+    </mat-grid-tile>
+
+
+
+
+
+    <mat-grid-tile *ngIf="reports && reports.type.selected">
+        <div class="center2 m-1">
+
+            <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="reports.type.data"
+                [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                [yAxisTickFormatting]='formatingAxisX' (select)="onSelectDegree($event)">
+            </ngx-charts-bar-vertical>
+        </div>
+    </mat-grid-tile>
+
+
+    <mat-grid-tile *ngIf="reports && reports.city.selected">
+        <div class="center2">
+
+            <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="reports.city.data"
+                [gradient]="gradient" [labels]="showLabels" [doughnut]="isDoughnut" (select)="onSelectUbication($event)"
+                (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+            </ngx-charts-pie-chart>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>
