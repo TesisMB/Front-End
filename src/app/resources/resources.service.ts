@@ -78,11 +78,12 @@ export class ResourcesService {
       delay(200),
       tap(() => this._loading$.next(false))
     ).subscribe(result => {
+      console.log('Paso por el search => ',result);
       this._resources$.next(result.data);
       this._total$.next(result.total);
-    });
+    }, (error) => { console.log('Paso por el error => ',error);});
   
-    this._search$.next();
+    // this._search$.next();
 
     this.vehiclesTypes$ = this.http.get<any>(environment.URL + 'typesvehicles').pipe(tap(x => console.log('Types of vehicles => ',x)));
   }
@@ -103,21 +104,22 @@ set searchTerm(searchTerm: string) { this._set({searchTerm}); }
 set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
 set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
 set type(type: string) {this._setType(type);}
-set showAvailability(availability: boolean) {this._setAvailability(availability);}
+set showAvailability(availability: any) {this._setAvailability(availability);}
 set loading(load:any){this._setLoading(load);}
 
 private _set(patch: Partial<State>) {
   Object.assign(this._state, patch);
   this._search$.next();
 }
-private _setLoading(load){
-  this._loading$.next(load);
+public _setLoading(value : boolean){
+  this._loading$.next(value);
 }
 public _setType(type:string){
   this._type$.next(type);
   // this._search$.next();
 }
 private _setAvailability(availability:boolean){
+  console.log('EJecutando setAvailability => ', availability);
   this._showAvailability$.next(availability);
   this._search$.next();
 }
@@ -157,9 +159,12 @@ public uploadTable(resources: Resource[]) {
 }
 
 
-  getAll(userID: number) {
-    let paramaters = new HttpParams().append('userId', JSON.stringify(userID));
-    this.options.params = paramaters;
+  getAll(locationID?: any) {
+    // if(locationID){
+      
+      let paramaters = new HttpParams().append('locationId', JSON.stringify(locationID ? locationID : null));
+      this.options.params = paramaters;
+    // }
 
     return this.http
       .get<Resource[]>(environment.URL + this._type$.value, this.options)
@@ -172,6 +177,7 @@ public uploadTable(resources: Resource[]) {
           }
           else{
             this._resources$.next(null);
+            this._loading$.next(false);
           }
           return resources;
        }
@@ -263,13 +269,14 @@ public uploadTable(resources: Resource[]) {
     }
 
   private _search(): Observable<SearchResult> {
+    
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
   
     // 1. filtrado por disponibilidad
-     const resources = this.resources.filter(x => x.availability !== this._showAvailability$.value);
+     const resources = this._showAvailability$.value ? this.resources.filter(x => x.availability !== this._showAvailability$.value) : this.resources;
     
     // 1. sort
-    let data = sort(this.resources, sortColumn, sortDirection);
+    let data = sort(resources, sortColumn, sortDirection);
   
     // 2. filter
     data = data.filter(employee => matches(employee, searchTerm, this.pipe));

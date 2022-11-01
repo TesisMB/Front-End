@@ -33,8 +33,8 @@ public getUsers() {
       this.employees = result;
       this.setUsers(result);
       console.log('GetAll AJAX ejecutado');
-    console.log('Empleados: ', this.employees);
-
+      console.log('Empleados: ', this.employees);
+      // this.tableService.setLoading(false);
    },
      error => { 
        console.log('Error: ' + error.message);

@@ -10,6 +10,7 @@ import { TableService } from 'src/app/services/_table.service/table.service';
 import { Observable, Subscription } from 'rxjs';
 import {SorteableDirective, SortEvent} from '../../directives/sorteable.directive';
 import { UserService } from 'src/app/users';
+import { StatesService } from '../states/states.service';
 
 @Component({
   selector: 'resources-list',
@@ -23,6 +24,9 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
   handlerGetAll: Subscription;
   error: any = '';
   loading = false;
+  locationSelected = '';
+  locations = [];
+  estates = [];
 
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
   constructor(
@@ -31,6 +35,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
     public service: ResourcesService,
     private location: Location,
     private authService: AuthenticationService,
+    private stateService: StatesService,
     private userService: UserService,
 
   ) {
@@ -45,15 +50,15 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getParams();
-
+    this.getLocations();
   }
 
   get availabilityItem(){
 
     return;
   }
-  getAllItems() {
-    this.handlerGetAll = this.service.getAll(this.authService.currentUserValue.userID)
+  getAllItems(locationId?) {
+    this.handlerGetAll = this.service.getAll(locationId)
     .subscribe(
       (data) => {
         console.log('Datos: ',data);   
@@ -108,7 +113,32 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
       this.loading = false;
       });
     }
+    selectLocation(event){
+      console.log('Localidad seleccionada! => ', event);
+      this.service._setLoading(true);
+      this.getAllItems(event);
+    }
 
+    private getLocations(){
+      this.stateService.getAll()
+      //  .pipe(map(x => {
+  
+      //  }))
+      .subscribe(
+        data => {
+          this.locations = data;
+          data.forEach(e => {
+            this.estates.push(e.estates);
+          });
+          console.log(data);
+          console.log(this.estates);
+   
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
 
   ngOnDestroy(){
     this.handlerGetAll.unsubscribe();

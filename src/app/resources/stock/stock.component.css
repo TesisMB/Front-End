@@ -12,13 +12,20 @@
     border: none;
 
 }
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
 textarea:focus, input:focus{
     outline: none;
   }
   
   .title {
     text-align: center;
-    margin: 40px 0;
+    margin: 10px 0;
+    /* border-radius: 10px;
+    border: 1px solid red;
+    padding: 10px; */
   }
   
   .title h1 {

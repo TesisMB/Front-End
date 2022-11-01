@@ -235,7 +235,30 @@
       </div>
     </div>
 
+    <div class="form-row">
+      <div class="form-group col-6">
 
+        <mat-form-field appearance="legacy" formGroupName="estates">
+          <mat-label>Ciudad</mat-label>
+          <mat-select formControlName="locationCityName" name="FK_EstateID">
+            <!-- [required]="!isEdit" -->
+    
+            <mat-option *ngFor="let locations of locations" [value]="locations.locationCityName">
+              {{locations.locationCityName | titlecase}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="f.get('FK_EstateID').hasError('required')">
+            La filial es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+        <div class="form-row">
+          <div class="form-group col" formGroupName="estates">
+            <label for="workPhone" class="first"><strong>Telefono de la Filial</strong></label>
+            <p readonly class="form-control">{{user.estates.estatePhone}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-6">
     <mat-form-field appearance="legacy">
       <mat-label>Sucursal</mat-label>
       <mat-select formControlName="FK_EstateID" name="FK_EstateID">
@@ -250,26 +273,9 @@
         La filial es <strong>requerida</strong>
       </mat-error>
     </mat-form-field>
-
-    <mat-form-field appearance="legacy" formGroupName="estates">
-      <mat-label>Ciudad</mat-label>
-      <mat-select formControlName="locationCityName" name="FK_EstateID">
-        <!-- [required]="!isEdit" -->
-
-        <mat-option *ngFor="let locations of locations" [value]="locations.locationCityName">
-          {{locations.locationCityName | titlecase}}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="f.get('FK_EstateID').hasError('required')">
-        La filial es <strong>requerida</strong>
-      </mat-error>
-    </mat-form-field>
-    <div class="form-row">
-      <div class="form-group col" formGroupName="estates">
-        <label for="workPhone" class="first"><strong>Telefono de la Filial</strong></label>
-        <p readonly class="form-control">{{user.estates.estatePhone}}</p>
       </div>
-    </div>
+
+</div>
 
 
     <div class="form-row">

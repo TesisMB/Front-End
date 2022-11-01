@@ -256,6 +256,8 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     patch = patch.filter( obj => obj.path !== "/fK_EstateID");
     patch = patch.filter( obj => obj.path !== "/fK_RoleID");
     patch = patch.filter( obj => obj.path !== "/emergencyDisastersReports");
+    patch = patch.filter( obj => obj.path !== "/resourcesRequestReports");
+    patch = patch.filter( obj => obj.path !== "/estates/locationAddress");
     
     console.log(patch);
     (patch.length !== 0) ? this.updateUser(patch) : this.loading = false;

@@ -1,15 +1,16 @@
-import { throwError } from 'rxjs';
+import { throwError, Subscription } from 'rxjs';
 // import { DatePipe } from '@angular/common';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
+import { ResourcesService } from '../../resources.service';
 
-interface EmergencyDisastersReports {
+interface StockReports {
   id: number;
-  city: string;
+  location: string;
   type: string;
-  state: string;
-  degree: string;
+  donation: string;
+  name: string;
   startDate: string;
   endDate: string;
   icon: string;
@@ -32,25 +33,25 @@ enum Grades {
 
 class Reports{
   type: {data: ReportData[], selected: boolean};
-  city: {data: ReportData[], selected: boolean};
-  state: {data: ReportData[], selected: boolean};
-  degree: {data: ReportData[], selected: boolean};
+  location: {data: ReportData[], selected: boolean};
+  donation: {data: ReportData[], selected: boolean};
+  name: {data: ReportData[], selected: boolean};
   }
 
 const ACTIVE = 'Activa';
 const INACTIVE = 'Inactiva';
 
 @Component({
-  selector: 'app-users-report',
-  templateUrl: './users-report.component.html',
-  styleUrls: ['./users-report.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'stock-report',
+  templateUrl: './stock-report.component.html',
+  styleUrls: ['./stock-report.component.css']
 })
-export class UsersReportComponent implements OnInit {
-  view: [number, number] = [700, 350];
-  @Input() data: EmergencyDisastersReports[] = null;
-  dataClone: EmergencyDisastersReports[] = null;
-
+export class StockReportComponent implements OnInit {
+  view: [number, number] = [400, 250];
+  view2: [number, number] = [600, 320];
+  data: any[] = null;
+  dataClone: any[] = null;
+  subscribe: Subscription;
   // options
   showXAxis: boolean = true;
   showYAxis: boolean = true;
@@ -87,9 +88,9 @@ export class UsersReportComponent implements OnInit {
 
   reports: Reports = {
     type:   {data: null, selected: false},
-    city:   {data: null, selected: false},
-    state:  {data: null, selected: false},
-    degree: {data: null, selected: false},
+    location:   {data: null, selected: false},
+    donation:  {data: null, selected: false},
+    name: {data: null, selected: false},
   }
 
 
@@ -100,30 +101,28 @@ export class UsersReportComponent implements OnInit {
     },
   );
   filterState: any;
+  constructor(private service: ResourcesService) { }
 
-  constructor() { }
-
-  ngOnInit(): void {
-     this.dataClone = Object.assign(this.data);
-    console.log('Reporte => ',this.reports);
-    this.setAll();
+   ngOnInit() {
+    this.getData();
+    // console.log('Reporte => ',this.reports);
+    // this.setAll();
     this.control.valueChanges.subscribe(date => {
     this.formateDate();
     console.log('clone data => ',this.dataClone);
     this.setAll();
     });
   }
-
   get getActiveList(){
-    return this.data.filter(p => p.state === ACTIVE);
+    return this.data.filter(p => p.donation === ACTIVE);
   }
 
   get getInactiveList(){
-    return this.data.filter(p => p.state === INACTIVE);
+    return this.data.filter(p => p.donation === INACTIVE);
   }
 
   get isSelected(){
-   return !this.reports.type.selected && !this.reports.city.selected && !this.reports.degree.selected && !this.reports.state.selected;
+   return !this.reports.type.selected && !this.reports.location.selected && !this.reports.name.selected && !this.reports.donation.selected;
   }
 
   get lstData(){
@@ -133,6 +132,17 @@ export class UsersReportComponent implements OnInit {
   set lstData(filter: any){
   }
 
+ getData(){
+    this.subscribe =  this.service.resources$
+                    .subscribe(
+                      (data) => {
+                        this.data = data;
+                        this.dataClone = data ? Object.assign(this.data) : [];
+                        this.setAll();
+  },
+                      (error) => {console.log('Error en reports');}
+                    );
+  }
 
   /**
  * @author Matias Roldán
@@ -141,48 +151,48 @@ export class UsersReportComponent implements OnInit {
  * @return void
  */
  setAll(){
-  this.reports.state.data = [...this.dataClone.reduce( (mp, o) => {
-    if (!mp.has(o.state)) mp.set(o.state, { name: o.state, value: 0 });
-    mp.get(o.state).value++;
+  this.reports.donation.data = [...this.dataClone.reduce( (mp, o) => {
+    if (!mp.has(o.donation)) mp.set(o.donation, { name: o.donation, value: 0 });
+    mp.get(o.donation).value++;
     return mp;
   }, new Map).values()];
 
-  this.reports.type.data= [...this.dataClone.reduce( (mp, o) => {
-    if (!mp.has(o.type)) mp.set(o.type, { name: o.type, value: 0});
-    mp.get(o.type).value++;
-    return mp;
-}, new Map).values()];
+//   this.reports.type.data= [...this.dataClone.reduce( (mp, o) => {
+//     if (!mp.has(o.type)) mp.set(o.type, { name: o.type, value: 0});
+//     mp.get(o.type).value++;
+//     return mp;
+// }, new Map).values()];
 
-this.reports.city.data= [...this.dataClone.reduce( (mp, o) => {
-  if (!mp.has(o.city)) mp.set(o.city, { name: o.city, value: 0});
-  mp.get(o.city).value++;
+this.reports.location.data= [...this.dataClone.reduce( (mp, o) => {
+  if (!mp.has(o.estates.locationCityName)) mp.set(o.estates.locationCityName, { name: o.estates.locationCityName, value: 0});
+  mp.get(o.estates.locationCityName).value++;
   return mp;
 }, new Map).values()];
 
-this.reports.degree.data = [...this.dataClone.reduce( (mp, o) => {
-  if (!mp.has(o.degree)) mp.set(o.degree, { name: o.degree, value: 0 });
-  mp.get(o.degree).value++;
+this.reports.name.data = [...this.dataClone.reduce( (mp, o) => {
+  if (!mp.has(o.name)) mp.set(o.name, { name: o.name, value: 0 });
+  mp.get(o.name).value += o.quantity ;
   return mp;
 }, new Map).values()];
 }
 
 /**
  * @author Matias Roldán
- * @description Metodo que reduce la informaciòn y genera un mapa de valores para generar el reporte de state 
+ * @description Metodo que reduce la informaciòn y genera un mapa de valores para generar el reporte de donation 
  * @param data 
  * @return void
  */
  getStates(data){
-  this.setVisible('state');  
-  this.reports.state.data = [...data.reduce( (mp, o) => {
-    if (!mp.has(o.state)) mp.set(o.state, { name: o.state, value: 0 });
-    mp.get(o.state).value++;
+  this.setVisible('donation');  
+  this.reports.donation.data = [...data.reduce( (mp, o) => {
+    if (!mp.has(o.donation)) mp.set(o.donation, { name: o.donation, value: 0 });
+    mp.get(o.donation).value++;
     return mp;
   }, new Map).values()];
 }
 /**
  * @author Matias Roldán
- * @description Metodo que de filtrado del reporte de state 
+ * @description Metodo que de filtrado del reporte de donation 
  * @param filter 
  * @return void
  */
@@ -190,7 +200,7 @@ onSelectState(filter: any): void {
   const f = typeof filter === 'object' ? filter.name : filter;
   console.log('Tipo filtro: ',typeof filter);
   console.log('Item clicked', JSON.parse(JSON.stringify(filter)));
-  const states = this.dataClone.filter(d => d.state === f);
+  const states = this.dataClone.filter(d => d.donation === f);
   this.getStates(states);
 }
 /**
@@ -223,22 +233,22 @@ getType(data){
   }
 /**
  * @author Matias Roldán
- * @description Metodo que reduce la informaciòn y genera un mapa de valores para generar el reporte de city 
+ * @description Metodo que reduce la informaciòn y genera un mapa de valores para generar el reporte de location 
  * @param data 
  * @return void
  */
  getCitys(data){
 
-  this.setVisible('city');  
-  this.reports.city.data= [...data.reduce( (mp, o) => {
-      if (!mp.has(o.city)) mp.set(o.city, { name: o.city, value: 0});
-      mp.get(o.city).value++;
+  this.setVisible('location');  
+  this.reports.location.data= [...data.reduce( (mp, o) => {
+      if (!mp.has(o.location)) mp.set(o.location, { name: o.location, value: 0});
+      mp.get(o.location).value++;
       return mp;
   }, new Map).values()];
   }
   /**
  * @author Matias Roldán
- * @description Metodo que de filtrado del reporte de city 
+ * @description Metodo que de filtrado del reporte de location 
  * @param filter 
  * @return void
  */
@@ -246,26 +256,26 @@ getType(data){
     const f = typeof filter === 'object' ? filter.name : filter;
     console.log('Tipo filtro: ',typeof filter);
     console.log('Item clicked', JSON.parse(JSON.stringify(filter)));
-    const citys = this.dataClone.filter(d => d.city === f);
+    const citys = this.dataClone.filter(d => d.location === f);
     this.getCitys(citys);
   }
 /**
  * @author Matias Roldán
- * @description Metodo que reduce la informaciòn y genera un mapa de valores para generar el reporte de degree 
+ * @description Metodo que reduce la informaciòn y genera un mapa de valores para generar el reporte de name 
  * @param data 
  * @return void
  */
  getDegree(data){
-  this.setVisible('degree');  
-  this.reports.degree.data = [...data.reduce( (mp, o) => {
-      if (!mp.has(o.degree)) mp.set(o.degree, { name: o.degree, value: 0 });
-      mp.get(o.degree).value++;
+  this.setVisible('name');  
+  this.reports.name.data = [...data.reduce( (mp, o) => {
+      if (!mp.has(o.name)) mp.set(o.name, { name: o.name, value: o.quantity });
+      mp.get(o.name).value =mp.get(o.name).value + o.quantity;
       return mp;
   }, new Map).values()];
   }
 /**
  * @author Matias Roldán
- * @description Metodo que de filtrado del reporte de degree 
+ * @description Metodo que de filtrado del reporte de name 
  * @param filter 
  * @return void
  */
@@ -273,7 +283,7 @@ getType(data){
     const f = typeof filter === 'object' ? filter.name : filter;
     console.log('Tipo filtro: ',typeof filter);
     console.log('Item clicked', JSON.parse(JSON.stringify(filter)));
-    const degrees = this.dataClone.filter(d => d.degree === f);
+    const degrees = this.dataClone.filter(d => d.name === f);
     this.getDegree(degrees);
 
   } 
@@ -288,9 +298,9 @@ getType(data){
 
   setVisible(value){
     this.reports.type.selected = value === 'type';
-    this.reports.city.selected = value === 'city';
-    this.reports.state.selected = value === 'state';
-    this.reports.degree.selected = value === 'degree';
+    this.reports.location.selected = value === 'location';
+    this.reports.donation.selected = value === 'donation';
+    this.reports.name.selected = value === 'name';
   }
 
   getCardColor(grade: string){
@@ -307,7 +317,7 @@ getType(data){
       this.formateDate();
     }
     if(event !== this.states.TODOS){
-      this.dataClone = this.data.filter(p => p.state === event);
+      this.dataClone = this.data.filter(p => p.donation === event);
     }else{
       this.dataClone = Object.assign(this.data);
     }
@@ -323,9 +333,9 @@ getType(data){
     // console.log('Fecha formateada => ',latest_date);
 
     
-  this.dataClone = dateForm.to ?
-  this.data.filter(f =>   moment(f.startDate).isBetween(startDate,isEndDate)) :
-  this.data.filter(f => moment(f.startDate).isAfter(startDate));
+     this.dataClone = dateForm.to ?
+     this.data.filter(f =>   moment(f.startDate).isBetween(startDate,isEndDate)) :
+     this.data.filter(f => moment(f.startDate).isAfter(startDate));
 
     console.log('clone data => ',this.dataClone);
   }
@@ -338,6 +348,5 @@ getType(data){
   //     return event;
   //   }
   //  return event;
-  
   }
 }

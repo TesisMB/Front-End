@@ -23,7 +23,7 @@ export class StockTableComponent implements OnInit {
   resources$: Observable<Resource[]>;
   total$: Observable<number>;
   loading$: Observable<boolean>;
-  currentUser: User = this.authService.currentUserValue;
+  currentUser: User;
   error: any = '';
 
   handleRequest: Subscription;
@@ -32,8 +32,9 @@ export class StockTableComponent implements OnInit {
   handleUpdate: Subscription;
   modalRef:any;
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
-    constructor(private alertService: AlertService,
+    constructor(
       public service: ResourcesService,
+      private alertService: AlertService,
       private modalService: NgbModal,
       private authService: AuthenticationService,
       
@@ -50,7 +51,6 @@ export class StockTableComponent implements OnInit {
        return this.currentUser.roleName === 'Admin';
       }
       get isCG(){
-        
         return this.currentUser.roleName ===  'Coordinador General';
        }
 

@@ -63,7 +63,7 @@ export class TableService {
     this._total$.next(result.total);
   });
 
-  this._search$.next();
+  // this._search$.next();
 }
 get empleadosValue(){  return this._employees$.value; }
 get employees$() { return this._employees$.asObservable(); }
@@ -79,6 +79,7 @@ set searchTerm(searchTerm: string) { this._set({searchTerm}); }
 set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
 set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
 set showAvailability(availability: boolean) {this._setAvailability(availability);}
+// set loading$(value: any){this.setLoading(value);}
 
 private _set(patch: Partial<State>) {
   Object.assign(this._state, patch);
@@ -88,6 +89,10 @@ private _set(patch: Partial<State>) {
 private _setAvailability(availability:boolean){
   this._showAvailability$.next(availability);
   this._search$.next();
+}
+
+public setLoading(value:boolean){
+  this._loading$.next(value);
 }
 /**Se debe realizar una funcion para la cual se actualice la tabla despues de cambiar datos de usuario */
 public _setEmployee(patch:User){
