@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-prod": "ng build --configuration=prod --output-hashing=all"
   },
   "browser": {
     "fs": false,
@@ -17,15 +18,15 @@
   "private": true,
   "dependencies": {
     "@angular-devkit/architect": "^0.901.1",
-    "@angular/animations": "^9.1.12",
-    "@angular/cdk": "^9.2.4",
+    "@angular/animations": "^9.1.1",
+    "@angular/cdk": "^9.1.1",
     "@angular/common": "~9.1.1",
     "@angular/compiler": "~9.1.1",
     "@angular/core": "~9.1.1",
     "@angular/forms": "~9.1.1",
-    "@angular/google-maps": "^9.2.4",
+    "@angular/google-maps": "^9.1.1",
     "@angular/localize": "~9.1.1",
-    "@angular/material": "^9.2.4",
+    "@angular/material": "^9.1.1",
     "@angular/material-moment-adapter": "~9.1.1",
     "@angular/platform-browser": "~9.1.1",
     "@angular/platform-browser-dynamic": "~9.1.1",
@@ -35,7 +36,7 @@
     "@ng-bootstrap/ng-bootstrap": "^6.2.0",
     "@popperjs/core": "^2.5.3",
     "@swimlane/ngx-charts": "13.0.0",
-    "@types/lodash": "^4.14.170",
+    "@types/lodash": "4.14.182",
     "@types/mapbox-gl": "^2.6.3",
     "ar-poncho": "^2.0.81",
     "boostrap": "^2.0.0",
@@ -61,7 +62,7 @@
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "webpack": "^4.43.0",
-    "zone.js": "^0.11.8"
+    "zone.js": "^0.10.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.1",
@@ -72,7 +73,7 @@
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/mapbox-gl": "^2.6.3",
-    "@types/node": "^12.11.1",
+    "@types/node": "14.0.4",
     "codelyzer": "^5.1.2",
     "font-awesome": "^4.7.0",
     "jasmine-core": "~3.5.0",

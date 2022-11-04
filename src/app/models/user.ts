@@ -6,6 +6,7 @@
   createdate: string;
   roleName: RoleName;
   emergencyDisastersReports?: any;
+  resourcesRequestReports?: any;
   persons?: Person;
   estates?: Estates
   token?: string;

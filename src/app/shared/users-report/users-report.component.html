@@ -1,16 +1,14 @@
-
-
-  <mat-grid-list cols="cols" rowHeight="2:1">
-    <div class="button-group mt-2 text-center row col-12 justify-content-between">
-      <mat-form-field appearance="outline">
-        <mat-label>Estado</mat-label>
-        <mat-select [(value)]="selected" (selectionChange)="filterByState($event.value)" >
-          <mat-option [value]="states.ACTIVAS">Activas</mat-option>
-          <mat-option [value]="states.INACTIVAS">Inactivas</mat-option>
-          <mat-option [value]="states.TODOS">Todas</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <!-- <mat-form-field >
+<mat-grid-list cols="cols" rowHeight="2:1">
+  <div class="button-group mt-2 text-center row col-12 justify-content-between">
+    <mat-form-field appearance="outline">
+      <mat-label>Estado</mat-label>
+      <mat-select [(value)]="selected" (selectionChange)="filterByState($event.value)">
+        <mat-option [value]="states.TODOS">Todas</mat-option>
+        <mat-option [value]="states.ACTIVAS">Activas</mat-option>
+        <mat-option [value]="states.INACTIVAS">Inactivas</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- <mat-form-field >
         <mat-label>Fecha</mat-label>
         <select matNativeControl (selectionChange)="filterByState($event.value)" >
           <option [value]="states.ACTIVAS">Activas</option>
@@ -18,56 +16,60 @@
           <option [value]="states.TODOS">Todas</option>
         </select>
       </mat-form-field> -->
-      <mat-form-field appearance="outline" *ngIf="control" class="full-width" >
-        <mat-label>Por fecha</mat-label>
-        <date-picker-range [formControl]="control" placeholder="DD/MM/YYYY" ></date-picker-range>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Por tipo</mat-label>
-        <mat-select [(value)]="selectedType" (selectionChange)="setVisible($event.value)" >
-          <mat-option value="list">Lista de alertas</mat-option>
-          <mat-option value="city">Por ubicacion</mat-option>
-          <mat-option value="degree">Por grado de alerta</mat-option>
-          <mat-option value="type">Por tipo de alerta</mat-option>
-          <mat-option value="state">Por estado</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+    <mat-form-field appearance="outline" *ngIf="control" class="full-width">
+      <mat-label>Por fecha</mat-label>
+      <date-picker-range [formControl]="control" placeholder="DD/MM/YYYY"></date-picker-range>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Por tipo</mat-label>
+      <mat-select [(value)]="selectedType" (selectionChange)="setVisible($event.value)">
+        <mat-option value="list">Lista de alertas</mat-option>
+        <mat-option value="city">Por ubicación</mat-option>
+        <mat-option value="degree">Por grado de alerta</mat-option>
+        <mat-option value="type">Por tipo de alerta</mat-option>
+        <mat-option value="state">Por estado</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
    <mat-grid-tile class="tile" *ngIf="isSelected">
     <div class="row">
-      <div  *ngIf="selected !== states.INACTIVAS" [ngClass]="{'col-6': selected === states.TODOS, 'col-12': selected === states.ACTIVAS }">
-      <mat-list dense>
-        <div mat-subheader>Activas</div>
-        <mat-list-item class="alertCard mt-3" *ngFor="let active of getActiveList" [ngStyle]="{backgroundColor: getCardColor(active.degree)}">
+      <div *ngIf="selected !== states.INACTIVAS"
+        [ngClass]="{'col-6': selected === states.TODOS, 'col-12': selected === states.ACTIVAS }">
+        <mat-list dense>
+          <div mat-subheader>Activas</div>
+          <mat-list-item class="alertCard mt-3" *ngFor="let active of getActiveList"
+            [ngStyle]="{backgroundColor: getCardColor(active.degree)}">
 
 
             <img matListAvatar src="../../../assets/icons - Resources - EmergDesas/{{active.icon | lowercase}}.svg"
-            alt="">
+              alt="">
             <div mat-line>{{active.startDate | date :'dd/MM/yyyy'}}</div>
             <div mat-line>{{active.id }} {{active.city}}</div>
             <div mat-line> {{active.type }} - {{active.degree}}</div>
-    
-        </mat-list-item>
-      </mat-list>
-    </div>
+
+          </mat-list-item>
+        </mat-list>
+      </div>
 
       <!-- <mat-divider [vertical]="true"></mat-divider> -->
 
-      <div  *ngIf="selected !== states.ACTIVAS" [ngClass]="{'col-6': selected === states.TODOS, 'col-12': selected === states.INACTIVAS }">
+      <div *ngIf="selected !== states.ACTIVAS"
+        [ngClass]="{'col-6': selected === states.TODOS, 'col-12': selected === states.INACTIVAS }">
         <mat-list dense>
-        <div mat-subheader>Inactivas</div>
-        <mat-list-item *ngFor="let inactive of getInactiveList" class="alertCard mt-3" [ngStyle]="{backgroundColor: getCardColor(inactive.degree)}" >
-          <img matListAvatar src="../../../assets/icons - Resources - EmergDesas/{{inactive.icon | lowercase}}.svg"
-          alt="" class="img">
+          <div mat-subheader>Inactivas</div>
+          <mat-list-item *ngFor="let inactive of getInactiveList" class="alertCard mt-3"
+            [ngStyle]="{backgroundColor: getCardColor(inactive.degree)}">
+            <img matListAvatar src="../../../assets/icons - Resources - EmergDesas/{{inactive.icon | lowercase}}.svg"
+              alt="" class="img">
             <div mat-line>{{inactive.startDate | date :'dd/MM/yyyy'}} - {{inactive.endDate | date :'dd/MM/yyyy'}}</div>
             <div mat-line>{{inactive.id}} {{inactive.city}} </div>
             <div mat-line> {{inactive.type }} - {{inactive.degree}}</div>
-        </mat-list-item>
-      </mat-list>
-    </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
 
-</div>
+    </div>
   </mat-grid-tile>
   <!-- <mat-grid-tile *ngIf="isSelected">
     <div class="row">
@@ -82,77 +84,42 @@
     </mat-list>
   </div>
   </mat-grid-tile> -->
-    <mat-grid-tile class="tile" *ngIf="reports && reports.type.selected">
-      <ngx-charts-bar-horizontal
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="reports.type.data"
-      [gradient]="gradient"
-      [animations]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      (select)="onSelectType($event)">
-    </ngx-charts-bar-horizontal>
-    </mat-grid-tile>
+  <mat-grid-tile class="tile" *ngIf="reports && reports.type.selected">
+    <div class="center2">
+      <ngx-charts-bar-horizontal [view]="view" [scheme]="colorScheme" [results]="reports.type.data"
+        [gradient]="gradient" [animations]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
+        [xAxisTickFormatting]='formatingAxisX' [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" (select)="onSelectType($event)">
+      </ngx-charts-bar-horizontal>
+    </div>
+  </mat-grid-tile>
 
-    <mat-grid-tile class="tile" *ngIf="reports && reports.city.selected">
-      <ngx-charts-bar-horizontal
-  [view]="view"
-  [scheme]="colorScheme"
-  [results]="reports.city.data"
-  [gradient]="gradient"
-  [xAxis]="showXAxis"
-  [yAxis]="showYAxis"
-  [legend]="showLegend"
-  [showXAxisLabel]="showYAxisLabelCity"
-  [showYAxisLabel]="showYAxisLabel"
-  [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabelCity"
-  (select)="onSelectCity($event)">
-</ngx-charts-bar-horizontal>
+  <mat-grid-tile class="tile" *ngIf="reports && reports.city.selected">
+    <div class="center2">
+      <ngx-charts-bar-horizontal [view]="view" [scheme]="colorScheme" [results]="reports.city.data"
+        [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
+        [showXAxisLabel]="showYAxisLabelCity" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+        [xAxisTickFormatting]='formatingAxisX' [yAxisLabel]="yAxisLabelCity" (select)="onSelectCity($event)">
+      </ngx-charts-bar-horizontal>
+    </div>
 
-<!-- [xAxisTickFormatting] =  'formatingAxisX' -->
-    </mat-grid-tile>
-    <mat-grid-tile class="tile" *ngIf="reports && reports.degree.selected">
-      <div class="d-flex flex-column text-center">
-        <p>Grado de emergencias</p>
-        <ngx-charts-pie-chart
-        [view]="view"
-        [customColors]="barChartcustomColors"
-        [results]="reports.degree.data"
-        [gradient]="gradient"
-        [legend]="showLegend"
-        [animations]="gradient"
-        [legendPosition]="legendPosition"
-        [labels]="showLabels"
-        [explodeSlices]="true"
-        [doughnut]="isDoughnut"
-        (select)="onSelectDegree($event)"
-      >
+  </mat-grid-tile>
+  <mat-grid-tile class="tile" *ngIf="reports && reports.degree.selected">
+    <div class="d-flex flex-column text-center center2">
+      <p>Grado de emergencias</p>
+      <ngx-charts-pie-chart [view]="view" [customColors]="barChartcustomColors" [results]="reports.degree.data"
+        [gradient]="gradient" [legend]="showLegend" [animations]="gradient" [legendPosition]="legendPosition"
+        [labels]="showLabels" [explodeSlices]="true" [doughnut]="isDoughnut" (select)="onSelectDegree($event)">
       </ngx-charts-pie-chart>
     </div>
-    </mat-grid-tile>
-    <mat-grid-tile class="tile" *ngIf="reports && reports.state.selected">
-      <div class="d-flex flex-column text-center">
+  </mat-grid-tile>
+  <mat-grid-tile class="tile" *ngIf="reports && reports.state.selected">
+    <div class="d-flex flex-column text-center center2">
       <p>Estado de alertas</p>
-      <ngx-charts-pie-chart
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="reports.state.data"
-      [gradient]="gradient"
-      [legend]="showLegend"
-      [animations]="gradient"
-      [legendPosition]="legendPosition"
-      [labels]="showLabels"
-      [doughnut]="isDoughnut"
-      (select)="onSelectState($event)"
-    >
-    </ngx-charts-pie-chart>
-  </div>
-</mat-grid-tile>
-  </mat-grid-list>
+      <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="reports.state.data" [gradient]="gradient"
+        [legend]="showLegend" [animations]="gradient" [legendPosition]="legendPosition" [labels]="showLabels"
+        [doughnut]="isDoughnut" (select)="onSelectState($event)">
+      </ngx-charts-pie-chart>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>

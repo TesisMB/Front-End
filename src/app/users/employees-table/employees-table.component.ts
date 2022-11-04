@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {QueryList, ViewChildren} from '@angular/core';
-import { Observable} from 'rxjs';
+import { Observable, Subscription} from 'rxjs';
 
 import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {MatDialog} from '@angular/material/dialog';
@@ -10,7 +10,9 @@ import { Employee, User } from 'src/app/models';
 import { TableService } from 'src/app/services/_table.service/table.service';
 import {SorteableDirective, SortEvent} from '../../directives/sorteable.directive';
 import { UserService } from '../user.service';
-import { AuthenticationService } from 'src/app/services';
+import { AlertService, AuthenticationService } from 'src/app/services';
+import { RequestService } from 'src/app/resources/request/request.service';
+import { RequestTableService } from 'src/app/resources/request-table/request-table.service';
 
 @Component(
   {selector: 'ngbd-table-complete',
@@ -25,6 +27,7 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
   error: any = "";
   currentUser: any;
   loading = false;
+  handleRequest: Subscription;
 
 
 
@@ -34,7 +37,11 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
     public service: TableService,
     private userService: UserService,
     private authService: AuthenticationService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private requestService: RequestService,
+    public requestTableService: RequestTableService,
+    private alertService: AlertService,
+
     ) {
 
     
@@ -42,6 +49,8 @@ export class EmployeesTableComponent implements OnInit, OnDestroy {
 ngOnInit() {
     this.employees$ = this.service.employees$;
     this.total$ = this.service.total$;
+
+    this.getRequest("TODOS");
 }
   onShow(event){
     this.service.showAvailability = event.checked; 
@@ -73,6 +82,21 @@ ngOnInit() {
       console.log('The dialog was closed');
     });
   }
+
+
+  getRequest(condition){
+    this.handleRequest = this.requestService.getAll(condition)
+    .subscribe((x: any) =>{
+      this.requestTableService._uploadTable(x);
+      this.requestTableService._setCondition(condition);
+      console.log('x => ', x);
+    },
+  e => {
+    this.alertService.error('Ups..! error inesperado, vuelva a intentar mas tarde', {autoClose: true});
+  
+  } );
+  }
+
 //**********************REFACTORIZAR************
   generatePDF(){  
     // this.loading = true;

@@ -12,17 +12,17 @@ textarea:focus, input:focus{
   .pendiente{
       border: 1px solid white;
       border-radius: 300px;
-      background-color: rgb(255, 255, 11);
+      background-color: #ffff0b;
   }
 
   .aceptada{
     border: 1px solid white;
     border-radius: 300px;
-    background-color: rgba(103, 223, 147);
+    background-color: #67df93;
   }
 
   .rechazada{
     border: 1px solid white;
     border-radius: 300px;
-    background-color: rgb(244, 77, 65);
+    background-color: #f44d41;
   }

@@ -128,6 +128,11 @@ public _uploadTable(_request: RequestGet[]) {
 
 }
 
+ObtenerSolicitud(id){
+  const index =  this.request.findIndex(x => x.id === id);
+  return index;
+}
+
 generatePDF(id, tab): Observable<any> {
   const headers = new HttpHeaders().set('Accept','application/pdf');
   return this.http.get(environment.URL + 'resourcesrequest/' + 'pdf/' + id, 

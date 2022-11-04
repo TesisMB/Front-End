@@ -43,6 +43,7 @@ export class RecentHistoryComponent implements OnInit {
 
 
 
+
   getLastRequest(){
   const userID =  this.authService.currentUserValue.userID;
     this.handle = this.service.getAll(this.condition, 'solicitud')

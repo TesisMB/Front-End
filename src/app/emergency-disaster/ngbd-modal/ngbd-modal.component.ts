@@ -2,7 +2,7 @@ import { EmergencyDisasterService } from './../emergency-disaster.service';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
 import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as L from  'Leaflet';
+import L from 'leaflet';
 
 
 @Component({
