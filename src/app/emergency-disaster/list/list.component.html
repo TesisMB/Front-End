@@ -81,7 +81,7 @@
     <div *ngIf="(selectTypesEmergencyDisasterService.loading$  | async)" colspan="9" class="text-center">
         <span class="spinner-border spinner-border-lg align-center"></span>
     </div>
-    <div *ngIf="!(emergencyDisasterObservable | async).length && !(selectTypesEmergencyDisasterService.loading$  | async)"
+    <div *ngIf="!(selectTypesEmergencyDisasterService.loading$  | async)"
         colspan="9" class="text-center">
         <p class="align-center">No hay solicitudes.</p>
     </div>

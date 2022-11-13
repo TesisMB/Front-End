@@ -41,6 +41,7 @@ private _search$ = new Subject<void>();
 private _reports$ = new Subject<void>();
 private _total$ = new BehaviorSubject<number>(0);
 private _hasAvailability$ = new BehaviorSubject<boolean>(false);
+private _hasStatus$ = new BehaviorSubject<string>('');
 private _hasDonation$ = new BehaviorSubject<boolean>(false);
 private _state: SearchReport = {
   searchPath: 'name',
@@ -72,6 +73,7 @@ private _state: SearchReport = {
   get loading$ (){ return this._loading$.asObservable(); }
   get total$ (){ return this._total$.asObservable(); }
   get hasAvailability$ (){ return this._hasAvailability$.asObservable(); }
+  get hasStatus$ (){ return this._hasStatus$.asObservable(); }
   get hasDonation$ (){ return this._hasDonation$.asObservable(); }
   get searchPath() { return this._state.searchPath; }
   get searchType() { return this._state.searchType; }
@@ -87,6 +89,7 @@ private _state: SearchReport = {
   set data(value: any){this._setData(value);}
   set type(value: string){this._setType(value);}
   set hasAvailability(value: boolean){this._setAvailability(value);}
+  set hasStatus(value: string){this._setStatus(value);}
   set hasDonation(value: boolean){this._setDonation(value);}
 
   private _set(patch: Partial<SearchReport>) {
@@ -103,6 +106,12 @@ private _state: SearchReport = {
   private _setType(type:string){
     this._type$.next(type);
   }  
+
+ private _setStatus(status: string){
+  this._hasStatus$.next(status);
+  this._search$.next();
+  }
+
   private _setLocation(location: any | number){
     this._location$.next(location);
     this.searchLocation = location;
@@ -122,7 +131,7 @@ private _state: SearchReport = {
   private structuredDate(object:any ,path: any){
   return [...object.reduce( (mp, o) => {
     if (!mp.has(o[path])) mp.set(o[path], { name: name(path,o[path]), value: 0 });
-    path.includes('name') ? mp.get(o.name).value += o.quantity : mp.get(o[path]).value++;;
+    path.includes('name') ? mp.get(o.name).value += o.quantity : mp.get(o[path]).value++;
     return mp;
   }, new Map).values()];
 }
@@ -132,10 +141,21 @@ private _search(): Observable<SearchResult> {
   const {searchType,searchPath, searchTerm} = this._state;
   var data: any
   var total: number = 0;
+
+
+   // 1. filtrado por disponibilidad
+  if(this._hasStatus$.value){
+     data = this._backUpData$.value.filter(x => x.state === this._hasStatus$.value);
+  }
+
    // 1. filtrado por disponibilidad
   if(this._hasAvailability$.value){
-    data = this._backUpData$.value.filter(x => x.availability !== this._hasAvailability$.value);
+    let d = data ? data : this._backUpData$.value;
+
+    data = d.filter(x => x.availability !== this._hasAvailability$.value);
   }
+
+  
    // 2. filtrado por donación
 
   if(this._hasDonation$.value){

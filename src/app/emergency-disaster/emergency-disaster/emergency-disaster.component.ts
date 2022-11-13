@@ -31,7 +31,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   handleSU: Subscription;
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
-
+  isLoading: boolean = true;
   form: FormGroup;
 
 
@@ -54,6 +54,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   
   
   ngOnInit(): void {
+    this.selectTypesEmergencyDisasterService.loading = true;
     this.getTypeEmergencyDisaster();
     
     this.getEmergencyDisaster();
@@ -114,9 +115,11 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
         .subscribe(data => {
           this.emergencyDisaster = data;
           this.setEmergenciesDisaster(data);
+          this.isLoading = false;
          
      console.log('EmergencyDisaster - ListAll => ', data);
     }, error => {
+      this.isLoading = false;
       console.log('Error', error);
     })
   }

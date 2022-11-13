@@ -1,3 +1,4 @@
+import { ReportService } from 'src/app/services/_report.service/report.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
@@ -21,9 +22,9 @@ interface Recursos{
 }
 
 enum Condition {
-  TODOS = 'Todas',
-  ACEPTADAS = 'Aceptada',
-  RECHAZADAS = 'Rechazada',
+  TODOS = '',
+  ACEPTADAS = 'Activa',
+  RECHAZADAS = 'Inactiva',
   PENDIENTES = 'Pendiente'
 }
 interface ReportData{
@@ -55,7 +56,8 @@ class Reports{
 })
 export class EmergencyDisasterReportComponent implements OnInit {
   emergencyDisaster: EmergencyDisaster [];
-
+from: any;
+to: any;
 view: any[] = [700, 300];
  views: any[] = [500, 300];
 
@@ -158,7 +160,7 @@ numberCard = [
     vehiculos:  {data: null, selected: false},
   }
         
-  constructor(
+  constructor(public service : ReportService,
     private emergencyService: EmergencyDisasterService) {
    }
 
@@ -179,7 +181,10 @@ numberCard = [
        .subscribe(data => {
          this.dataClone = data;
          this.datos = data;
-         this.setAll();
+
+         this.service.searchPath = 'alertName';
+         this.service.data = data;
+        //  this.setAll();
     console.log('EmergencyDisaster - ListAll => ', data);
    }, error => {
      console.log('Error', error);
