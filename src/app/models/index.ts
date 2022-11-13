@@ -10,6 +10,7 @@ export * from './inUser.model';
 export * from './material';
 export * from './medicine';
 export * from './resources.model';
+export * from './reports.model';
 export * from './vehicle.model';
 export * from './volunteer.model';
 export * from './requestCart.model';

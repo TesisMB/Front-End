@@ -9,17 +9,23 @@
     <div class="d-flex flex-column p-3">
 
 
-
-      <div class="col-12 col-xs-12 col-sm-auto d-flex justify-content-between ">
-        <div class="align-items-center align-self-start bd-highlight child-toggle" id="search">
+      <div  class="col-12 col-xs-12 col-sm-auto d-flex" [ngClass]="reportService.searchType === 'table' ? 'justify-content-between' : 'justify-content-center'">
+        <!-- <div class="align-items-center align-self-start bd-highlight child-toggle" id="search">
           <mat-slide-toggle (change)="onShow($event)" color="warn">Mostrar recursos sin stock
           </mat-slide-toggle>
+        </div> -->
+        <div *ngIf="reportService.searchType === 'table'" class="d-flex form-control align-self-start align-items-center bd-highlight pr-3" id="search">
+          <label for="col-3 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
+          <input class="col-7 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
+          <span class="col-2 text-left" *ngIf="service.loading$ | async"><i
+              class="fas fa-spinner fa-lg fa-spin"></i></span>
         </div>
         <div class="title">
-          <h1>Stock de recursos</h1>
+          <h1 *ngIf="reportService.searchType !== 'table'">Stock de recursos</h1>
+          <h1 *ngIf="reportService.searchType === 'table'">Reportes de recursos</h1>
         </div>
         
-        <div class="">
+        <div *ngIf="reportService.searchType === 'table'" class="">
           <button mat-raised-button color="warn" [routerLink]="['/recursos','nuevo',type]">
             <mat-icon>add</mat-icon>
             Agregar {{type | lowercase}}
@@ -29,46 +35,7 @@
       </div>
 
 
-      <div class="col-12 col-xs-12 col-sm-auto d-flex justify-content-between ">
-        <div class="d-flex form-control align-self-start align-items-center bd-highlight pr-3" id="search">
-          <label for="col-3 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
-          <input class="col-7 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
-          <span class="col-2 text-left" *ngIf="service.loading$ | async"><i
-              class="fas fa-spinner fa-lg fa-spin"></i></span>
-        </div>
-        <mat-form-field appearance="outline" >
-          <mat-label>Localidad</mat-label>
-          <mat-select [(value)]="locationSelected" (selectionChange)="selectLocation($event.value)">
-            <mat-option value=''>Todos</mat-option>
-            <!-- <mat-select-trigger>
-              {{locationSelected.length ? locationSelected[0] : ''}}
-              <span *ngIf="locationSelected?.length > 1" class="example-additional-selection">
-                (+{{locationSelected.length - 1}} {{locationSelected.length === 2 ? 'otro' : 'otros'}})
-              </span>
-            </mat-select-trigger> -->
-            <!-- <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName"> -->
-              <!-- <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
-                {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
-              </mat-option> -->
-              <mat-option *ngFor="let locations of locations" [value]="locations.locationID">
-                {{locations.locationCityName | titlecase}}
-              </mat-option>
-            <!-- </mat-optgroup> -->
-            
-          </mat-select>
-        </mat-form-field>
-
-
-
-
-
-        <!-- <button type="button" class="btn btn-options  btn-sm" (click)="generatePDF()">
-          <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
-        </button> -->
-
-      </div>
-      <div class="col-12 d-flex align-items-end justify-content-end">
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <!--   <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
           <mat-icon>more_vert</mat-icon>
         </button> 
           <mat-menu #menu="matMenu">
@@ -76,41 +43,122 @@
             <mat-icon>pie_chart</mat-icon>
             <span>Reportes</span>
           </button>
-          <!-- <button disabled mat-menu-item (click)="openDialog('get')">
+          <button disabled mat-menu-item (click)="openDialog('get')">
             <mat-icon>picture_as_pdf</mat-icon>
             <span>Descargar **REFACTORIZAR**</span>
           </button>
           <button disabled mat-menu-item (click)="openDialog('getall')">
             <mat-icon>picture_as_pdf</mat-icon>
             <span>Descargar recursos de las filiales **REFACTORIZAR**</span>
-          </button> -->
+          </button> 
         </mat-menu> 
-      </div>
+      </div>-->
     </div>
 
   </form>
 
-  <!-- </div> -->
-  <div class="col-12">
-    <mat-tab-group mat-align-tabs="center" (selectedTabChange)="changeCondition($event)" color="warn">
-      <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab | titlecase">
-        <ng-template matTabContent>
+<div class="col-12 d-flex flex-row">
+  <div class="col-3">
+    <div class="d-flex flex-column justify-content-center align-items-start">
+        <p class="ml-5 mt-3"> Filtrar por:</p>
 
-
-          <stock-table  *ngIf="!isReport" [type]="type"></stock-table>
-          <stock-report *ngIf="isReport"></stock-report>
-
-
-        </ng-template>
-        <!-- <ng-template  matTabContent>
-
-
-          <stock-report></stock-report>
-
-
-        </ng-template> -->
-      </mat-tab>
-    </mat-tab-group>
-
+     
+<mat-form-field appearance="legacy">
+  <mat-label>Tipo de grafico</mat-label>
+  <mat-select [(ngModel)]="reportService.searchType">
+    <mat-option value="table">Lista de {{type | lowercase}}</mat-option>
+    <mat-option value="chart pie">Chart Pie</mat-option>
+    <mat-option value="chart pie advanced">Chart Pie Advanced</mat-option>
+    <mat-option value="barra horizontal">Barras Horizontales</mat-option>
+    <mat-option value="barra vertical">Barras Verticales</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="standard" >
+  <mat-label>Localidad</mat-label>
+  <mat-select [(value)]="locationSelected" (selectionChange)="selectLocation($event.value)">
+    <mat-option value=''>Todos</mat-option>
+    <!-- <mat-select-trigger>
+      {{locationSelected.length ? locationSelected[0] : ''}}
+      <span *ngIf="locationSelected?.length > 1" class="example-additional-selection">
+        (+{{locationSelected.length - 1}} {{locationSelected.length === 2 ? 'otro' : 'otros'}})
+      </span>
+    </mat-select-trigger> -->
+    <!-- <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName"> -->
+      <!-- <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
+        {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
+      </mat-option> -->
+      <mat-option *ngFor="let locations of locations" [value]="locations.locationID">
+        {{locations.locationCityName | titlecase}}
+      </mat-option>
+    <!-- </mat-optgroup> -->
+    
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="legacy">
+  <mat-label>Tipo de reporte</mat-label>
+  <!-- <mat-select [ngModel]="reportService.path$ | async" (selectionChange)="reportService.searchPath = $event.value"> -->
+    <mat-select [(ngModel)]="reportService.searchPath" [disabled]="reportService.searchType === 'table'">
+    <mat-option value="name">Cantidad de recursos</mat-option>
+    <mat-option value="locationCityName">Cantidad por ubicación</mat-option>
+    <mat-option value="donation">Cantidad de donaciones</mat-option>
+    <mat-option value="availability">Cantidad por stock</mat-option>
+  </mat-select>
+</mat-form-field>
+    <mat-checkbox
+    class="m-1"
+    [(ngModel)]="reportService.hasDonation"
+    (indeterminate)="false"
+    labelPosition="after"
+    >
+    <!-- (change) = "reportService.hasDonation = $event.value" -->
+  Mostrar donaciones
+</mat-checkbox>
+<mat-checkbox
+class="m-1"
+[(ngModel)]="reportService.hasAvailability"
+(indeterminate)="false"
+labelPosition="after"
+>
+<!-- (change)="reportService.hasAvailability = $event.value" -->
+Mostrar recursos sin stock
+</mat-checkbox>
+      <div class="d-flex justify-content-center justify-content-lg-start">
+        <button mat-raised-button color="primary"> Reestablecer filtros</button>
+      </div>
+    </div>
   </div>
+  
+    <!-- <mat-divider [vertical]="true"></mat-divider> -->
+  
+    <div class="col-9">
+      <mat-tab-group mat-align-tabs="center" (selectedTabChange)="changeCondition($event)" color="warn">
+        <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab | titlecase">
+  <ng-template *ngIf="(service.loading$ | async) || (reportService.loading$ | async); else elseTemplate" matTabContent>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+          
+          <ng-template matTabContent #elseTemplate>   
+      <stock-table  *ngIf="(reportService.type$ | async) === 'table'" [type]="type"></stock-table>
+      <stock-report *ngIf="(reportService.type$ | async) !== 'table'"></stock-report>
+    </ng-template>
+    <!-- <ng-template  matTabContent>
+  
+  
+      <stock-report></stock-report>
+  
+  
+    </ng-template> -->
+  </mat-tab>
+  </mat-tab-group>
+  
+  </div>
+
+
+  
+
+</div>
+
+
+
+
 </section>

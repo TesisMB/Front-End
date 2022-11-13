@@ -101,7 +101,7 @@
         </div>
     </mat-grid-tile>
 
-    <mat-grid-tile *ngIf="reports && reports.condition.selected">
+    <mat-grid-tile  *ngIf="reports && reports.condition.selected" class="tile">
         <div class="center">
             <ngx-charts-advanced-pie-chart [view]="view" [scheme]="colorScheme" [results]="reports.condition.data"
                 [gradient]="gradient" (select)="onSelectCity($event)"> (activate)="onActivate($event)"
@@ -115,7 +115,7 @@
 
 
 
-    <mat-grid-tile *ngIf="reports && reports.type.selected">
+    <mat-grid-tile *ngIf="reports && reports.type.selected" class="tile">
         <div class="center2 m-1">
 
             <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="reports.type.data"
@@ -127,7 +127,7 @@
     </mat-grid-tile>
 
 
-    <mat-grid-tile *ngIf="reports && reports.city.selected">
+    <mat-grid-tile *ngIf="reports && reports.city.selected" class="tile">
         <div class="center2">
 
             <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="reports.city.data"

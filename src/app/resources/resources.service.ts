@@ -11,8 +11,6 @@ import {SortColumn, SortDirection} from '../directives/sorteable.directive';
 import { DecimalPipe } from '@angular/common';
 import {compare, Operation } from 'fast-json-patch';
 import * as _ from 'lodash';
-import { constants } from 'buffer';
-import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 
 function matches(resource: Resource, term: string, pipe: PipeTransform) {
   return (resource.name).toLowerCase().includes(term.toLowerCase())
@@ -46,9 +44,12 @@ export class ResourcesService {
     params: new HttpParams() };
  
   private _resources$ = new BehaviorSubject<Resource[]>([]);
+  private _resourcesReport$ = new BehaviorSubject<Resource[]>([]);
  protected _type$ = new BehaviorSubject<string>('');
  private _loading$ = new BehaviorSubject<boolean>(true);
  private _search$ = new Subject<void>();
+ private _reports$ = new Subject<void>();
+ 
  private _total$ = new BehaviorSubject<number>(0);
  private resources: Resource[]= [];
  private _item$ = new BehaviorSubject<Resource>(null);
@@ -82,6 +83,19 @@ export class ResourcesService {
       this._resources$.next(result.data);
       this._total$.next(result.total);
     }, (error) => { console.log('Paso por el error => ',error);});
+
+
+    this._reports$.pipe(
+      tap(() => this._loading$.next(true)),
+      debounceTime(200),
+      switchMap(() => this._filter()),
+      delay(200),
+      tap(() => this._loading$.next(false))
+    ).subscribe(result => {
+      console.log('Paso por el filter => ',result);
+      this._resourcesReport$.next(result.data);
+      // this._total$.next(result.total);
+    }, (error) => { console.log('Paso por el error => ',error);});
   
     // this._search$.next();
 
@@ -90,6 +104,7 @@ export class ResourcesService {
 
 get resourcesValue(){  return this._resources$.value; }
 get resources$(){return this._resources$.asObservable();}
+get resourcesReport$(){return this._resourcesReport$.asObservable();}
 get item$() { return this._item$.asObservable(); }
 get total$() { return this._total$.asObservable(); }
 get loading$() { return this._loading$.asObservable(); }
@@ -171,12 +186,15 @@ public uploadTable(resources: Resource[]) {
        .pipe(map((resources: Resource[]) => {
           if(resources.length){
             this._resources$.next(resources);
+            this._resourcesReport$.next(resources);
+            
             this.resources = resources;
             this._search$.next();
-
+            this._reports$.next();
           }
           else{
             this._resources$.next(null);
+            this._resourcesReport$.next([]);
             this._loading$.next(false);
           }
           return resources;
@@ -273,7 +291,7 @@ public uploadTable(resources: Resource[]) {
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
   
     // 1. filtrado por disponibilidad
-     const resources = this._showAvailability$.value ? this.resources.filter(x => x.availability !== this._showAvailability$.value) : this.resources;
+    const resources = this._showAvailability$.value ?  this.resources : this.resources.filter(x => x.availability !== this._showAvailability$.value) ;
     
     // 1. sort
     let data = sort(resources, sortColumn, sortDirection);
@@ -285,6 +303,27 @@ public uploadTable(resources: Resource[]) {
   
     // 3. paginate
     data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+    return of({data, total});
+   }
+
+   private _filter(): Observable<SearchResult> {
+    
+    const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
+  
+    // 1. filtrado por disponibilidad
+    let resources = this._showAvailability$.value ?  this.resources : this.resources.filter(x => x.availability !== this._showAvailability$.value) ;
+    
+    // 1. sort
+    // let data = sort(resources, sortColumn, sortDirection);
+  
+    // 2. filter
+    // data = data.filter(employee => matches(employee, searchTerm, this.pipe));
+    let data = resources;
+
+    const total = data.length;
+  
+    // 3. paginate
+    // data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
     return of({data, total});
    }
 }

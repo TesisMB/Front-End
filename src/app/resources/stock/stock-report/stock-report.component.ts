@@ -4,11 +4,12 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { ResourcesService } from '../../resources.service';
+import { ReportService } from 'src/app/services/_report.service/stock-report.service';
 
 interface StockReports {
   id: number;
   location: string;
-  type: string;
+  availability: string;
   donation: string;
   name: string;
   startDate: string;
@@ -19,6 +20,7 @@ interface ReportData{
   name: string;
   value: number;
 }
+
 enum States {
   ACTIVAS = 'Activa',
   INACTIVAS = 'Inactiva',
@@ -32,7 +34,7 @@ enum Grades {
 }
 
 class Reports{
-  type: {data: ReportData[], selected: boolean};
+  availability: {data: ReportData[], selected: boolean};
   location: {data: ReportData[], selected: boolean};
   donation: {data: ReportData[], selected: boolean};
   name: {data: ReportData[], selected: boolean};
@@ -40,15 +42,20 @@ class Reports{
 
 const ACTIVE = 'Activa';
 const INACTIVE = 'Inactiva';
+const DONATION = 'Recursos donados';
+const BUYS = 'Recursos no donados';
 
 @Component({
   selector: 'stock-report',
   templateUrl: './stock-report.component.html',
-  styleUrls: ['./stock-report.component.css']
+  styleUrls: ['./stock-report.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StockReportComponent implements OnInit {
-  view: [number, number] = [400, 250];
-  view2: [number, number] = [600, 320];
+  view: [number, number] = [500, 400];
+  view2: [number, number] = [500, 400];
+  view3: [number, number] = [600, 400];
+  view4: [number, number] = [600, 400];
   data: any[] = null;
   dataClone: any[] = null;
   subscribe: Subscription;
@@ -61,10 +68,10 @@ export class StockReportComponent implements OnInit {
   yAxisLabel: string = 'Tipos alertas';
   showYAxisLabel: boolean = true;
   showYAxisLabelCity: boolean = true;
-  xAxisLabel: string = 'Participaciones';
+  xAxisLabel: string = 'Cantidad';
   yAxisLabelCity: string = 'Ciudad';
   showLabels: boolean = true;
-  isDoughnut: boolean = true;
+  isDoughnut: boolean = false;
   legendPosition: string = 'below';
   cols = 1;
   isChecked = true;
@@ -87,7 +94,7 @@ export class StockReportComponent implements OnInit {
   ];
 
   reports: Reports = {
-    type:   {data: null, selected: false},
+    availability:   {data: null, selected: false},
     location:   {data: null, selected: false},
     donation:  {data: null, selected: false},
     name: {data: null, selected: false},
@@ -101,16 +108,16 @@ export class StockReportComponent implements OnInit {
     },
   );
   filterState: any;
-  constructor(private service: ResourcesService) { }
+  constructor(private resourceService: ResourcesService, public service: ReportService) { }
 
    ngOnInit() {
-    this.getData();
+    // this.getData();
     // console.log('Reporte => ',this.reports);
     // this.setAll();
     this.control.valueChanges.subscribe(date => {
     this.formateDate();
     console.log('clone data => ',this.dataClone);
-    this.setAll();
+    // this.setAll();
     });
   }
   get getActiveList(){
@@ -122,7 +129,7 @@ export class StockReportComponent implements OnInit {
   }
 
   get isSelected(){
-   return !this.reports.type.selected && !this.reports.location.selected && !this.reports.name.selected && !this.reports.donation.selected;
+   return !this.reports.availability.selected && !this.reports.location.selected && !this.reports.name.selected && !this.reports.donation.selected;
   }
 
   get lstData(){
@@ -133,7 +140,7 @@ export class StockReportComponent implements OnInit {
   }
 
  getData(){
-    this.subscribe =  this.service.resources$
+    this.subscribe =  this.resourceService.resourcesReport$
                     .subscribe(
                       (data) => {
                         this.data = data;
@@ -152,16 +159,17 @@ export class StockReportComponent implements OnInit {
  */
  setAll(){
   this.reports.donation.data = [...this.dataClone.reduce( (mp, o) => {
-    if (!mp.has(o.donation)) mp.set(o.donation, { name: o.donation, value: 0 });
+    if (!mp.has(o.donation)) mp.set(o.donation, { name: (o.donation ? DONATION : BUYS), value: 0 });
     mp.get(o.donation).value++;
     return mp;
   }, new Map).values()];
 
-//   this.reports.type.data= [...this.dataClone.reduce( (mp, o) => {
-//     if (!mp.has(o.type)) mp.set(o.type, { name: o.type, value: 0});
-//     mp.get(o.type).value++;
-//     return mp;
-// }, new Map).values()];
+  console.log('Data de donation => ',this.reports.donation.data );
+  this.reports.availability.data= [...this.dataClone.reduce( (mp, o) => {
+    if (!mp.has(o.availability)) mp.set(o.availability, { name: o.availability ? 'Disponibles' : 'No Disponibles', value: 0});
+    mp.get(o.availability).value++;
+    return mp;
+}, new Map).values()];
 
 this.reports.location.data= [...this.dataClone.reduce( (mp, o) => {
   if (!mp.has(o.estates.locationCityName)) mp.set(o.estates.locationCityName, { name: o.estates.locationCityName, value: 0});
@@ -205,15 +213,15 @@ onSelectState(filter: any): void {
 }
 /**
  * @author Matias Roldán
- * @description Metodo que reduce la informaciòn y genera un mapa de valores para generar el reporte de type 
+ * @description Metodo que reduce la informaciòn y genera un mapa de valores para generar el reporte de availability 
  * @param data 
  * @return void
  */
 getType(data){
-  this.setVisible('type');  
-  this.reports.type.data= [...data.reduce( (mp, o) => {
-      if (!mp.has(o.type)) mp.set(o.type, { name: o.type, value: 0});
-      mp.get(o.type).value++;
+  this.setVisible('availability');  
+  this.reports.availability.data= [...data.reduce( (mp, o) => {
+      if (!mp.has(o.availability)) mp.set(o.availability, { name: o.availability, value: 0});
+      mp.get(o.availability).value++;
       return mp;
   }, new Map).values()];
   }
@@ -297,7 +305,7 @@ getType(data){
   }
 
   setVisible(value){
-    this.reports.type.selected = value === 'type';
+    this.reports.availability.selected = value === 'availability';
     this.reports.location.selected = value === 'location';
     this.reports.donation.selected = value === 'donation';
     this.reports.name.selected = value === 'name';
@@ -333,9 +341,9 @@ getType(data){
     // console.log('Fecha formateada => ',latest_date);
 
     
-     this.dataClone = dateForm.to ?
-     this.data.filter(f =>   moment(f.startDate).isBetween(startDate,isEndDate)) :
-     this.data.filter(f => moment(f.startDate).isAfter(startDate));
+    this.dataClone = dateForm.to ?
+    this.data.filter(f =>   moment(f.startDate).isBetween(startDate,isEndDate)) :
+    this.data.filter(f => moment(f.startDate).isAfter(startDate));
 
     console.log('clone data => ',this.dataClone);
   }

@@ -1,6 +1,6 @@
 
 
-  <mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-list cols="5" rowHeight="500px">
  <!--  <div class="button-group mt-2 text-center row col-12 justify-content-between">
       <mat-form-field appearance="outline">
         <mat-label>Estado</mat-label>
@@ -82,59 +82,99 @@
     </mat-list>
   </div>
   </mat-grid-tile> -->
-    <mat-grid-tile class="tile">
-      
+  <ng-container *ngIf="(service.loading$ | async); else elseTemplate">
+    <mat-grid-tile class="tile" colspan="5">
+    <mat-spinner></mat-spinner>
+    </mat-grid-tile>
+  </ng-container>
+
+    <ng-template #elseTemplate>
+    <mat-grid-tile class="tile" colspan="2">
+    </mat-grid-tile>
+  <mat-grid-tile class="tile" colspan="3">
+
+
+  <ng-container *ngIf="(service.type$ | async) === 'chart pie advanced'">
       <ngx-charts-advanced-pie-chart
+      
       [view]="view2"
+
       [scheme]="colorScheme"
-      [results]="reports.donation.data"
+      [results]="(service.data$ | async)"
       [gradient]="gradient"
       [animations]="gradient"
       (select)="onSelectType($event)">
     </ngx-charts-advanced-pie-chart>
+</ng-container>
+
+<ng-container *ngIf="(service.type$ | async) === 'barra vertical'">
+
+    <ngx-charts-bar-vertical
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="(service.data$ | async)"
+    [gradient]="gradient"
+    [xAxis]="showXAxis"
+    [yAxis]="showYAxis"
+    [legend]="showLegend"
+    [showXAxisLabel]="showYAxisLabelCity"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabelCity"
+    (select)="onSelectCity($event)">
+  </ngx-charts-bar-vertical>
+</ng-container>
+
+  <div *ngIf="(service.type$ | async) === 'chart pie'" class="d-flex flex-column text-center">
+    <p>Origen de los recursos</p>
+    <ngx-charts-pie-chart
+    [view]="view"
+    [customColors]="barChartcustomColors"
+    [results]="(service.data$ | async)"
+    [gradient]="gradient"
+    [legend]="showLegend"
+    [animations]="gradient"
+    [legendPosition]="legendPosition"
+    [labels]="showLabels"
+    [explodeSlices]="true"
+    [doughnut]="isDoughnut"
+    (select)="onSelectDegree($event)"
+  >
+  </ngx-charts-pie-chart>
+</div>
+<ng-container *ngIf="(service.type$ | async) === 'barra horizontal'">
+
+<ngx-charts-bar-horizontal
+[view]="view"
+[scheme]="colorScheme"
+[results]="(service.data$ | async)"
+[gradient]="true"
+[xAxis]="true"
+[yAxis]="true"
+[legend]="false"
+[showXAxisLabel]="false"
+[showYAxisLabel]="false"
+[xAxisLabel]="xAxisLabel"
+[yAxisLabel]="yAxisLabelCity"
+(select)="onSelectCity($event)">
+</ngx-charts-bar-horizontal>
+</ng-container>
     </mat-grid-tile>
 
-    <mat-grid-tile class="tile">
-      <ngx-charts-bar-horizontal
-  [view]="view"
-  [scheme]="colorScheme"
-  [results]="reports.location.data"
-  [gradient]="gradient"
-  [xAxis]="showXAxis"
-  [yAxis]="showYAxis"
-  [legend]="showLegend"
-  [showXAxisLabel]="showYAxisLabelCity"
-  [showYAxisLabel]="showYAxisLabel"
-  [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabelCity"
-  (select)="onSelectCity($event)">
-</ngx-charts-bar-horizontal>
+  </ng-template>
+
+    <!-- <mat-grid-tile class="tile"> -->
+
 
 <!-- [xAxisTickFormatting] =  'formatingAxisX' -->
-    </mat-grid-tile>
+    <!-- </mat-grid-tile>
     <mat-grid-tile class="tile">
-      <div class="d-flex flex-column text-center">
-        <p>Grado de emergencias</p>
-        <ngx-charts-pie-chart
-        [view]="view"
-        [customColors]="barChartcustomColors"
-        [results]="reports.donation.data"
-        [gradient]="gradient"
-        [legend]="showLegend"
-        [animations]="gradient"
-        [legendPosition]="legendPosition"
-        [labels]="showLabels"
-        [explodeSlices]="true"
-        [doughnut]="isDoughnut"
-        (select)="onSelectDegree($event)"
-      >
-      </ngx-charts-pie-chart>
-    </div>
+
     </mat-grid-tile>
-    <mat-grid-tile class="tile">
-      <div class="d-flex flex-column text-center">
-      <p>Estado de alertas</p>
-      <ngx-charts-pie-chart
+    <mat-grid-tile class="tile"> -->
+      <!-- <div class="d-flex flex-column text-center"> -->
+      <!-- <p>Cantidad</p> -->
+      <!-- <ngx-charts-pie-chart
       [view]="view"
       [scheme]="colorScheme"
       [results]="reports.name.data"
@@ -146,7 +186,8 @@
       [doughnut]="isDoughnut"
       (select)="onSelectState($event)"
     >
-    </ngx-charts-pie-chart>
-  </div>
-</mat-grid-tile>
-  </mat-grid-list>
+    </ngx-charts-pie-chart> -->
+
+  <!-- </div> -->
+<!-- </mat-grid-tile>
+  </mat-grid-list> -->

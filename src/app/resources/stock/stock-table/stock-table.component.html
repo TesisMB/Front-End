@@ -89,11 +89,11 @@
         </tr>
        
       </ng-container>
-      <tr *ngIf="!(resources$ | async).length || (loading$ | async)">
+      <tr *ngIf="!(resources$ | async) || (loading$ | async)">
         <td *ngIf="(loading$ | async)" colspan="13" class="text-center" >
           <span class="spinner-border spinner-border-lg align-center"></span>
         </td>
-        <td *ngIf="!(resources$ | async).length && !(loading$ | async)" colspan="13" class="text-center">
+        <td *ngIf="!(resources$ | async) && !(loading$ | async)" colspan="13" class="text-center">
           <p class="align-center">No hay {{type | lowercase}}.</p>
         </td>
       </tr>
