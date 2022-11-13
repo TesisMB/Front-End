@@ -32,6 +32,7 @@ import { DialogPDFComponent } from './monitoreo/dialog-pdf/dialog-pdf.component'
 import { MonitorioListComponent } from './monitoreo/monitorio-list/monitorio-list.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MomentModule } from 'ngx-moment';
+import { EmergencyDisasterReportComponent } from './emergency-disaster/emergency-disaster-report/emergency-disaster-report.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MomentModule } from 'ngx-moment';
     MonitoreoComponent,
     DialogPDFComponent,
     MonitorioListComponent,
+    EmergencyDisasterReportComponent,
     
   ],
   imports: [

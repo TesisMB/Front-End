@@ -1,0 +1,111 @@
+<mat-grid-list cols="cols" rowHeight="2:1" class="row justify-content-around" id="row-aside">
+    <div class=" d-flex justify-content-around row col-12 col-body">
+        <mat-form-field appearance=" outline">
+            <mat-label>Estado</mat-label>
+            <mat-select [(value)]="selected">
+                <mat-option [value]="condition.TODOS">Todas</mat-option>
+                <mat-option [value]="condition.ACEPTADAS">Activas</mat-option>
+                <mat-option [value]="condition.RECHAZADAS"> Inactivas</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="outline">
+            <mat-label>Por tipo</mat-label>
+            <mat-select [(value)]="selectedType" (selectionChange)="setVisible($event.value)">
+                <mat-option value="list">Lista de solicitudes</mat-option>
+                <mat-option value="condition">Por estado</mat-option>
+                <mat-option value="type">Por tipo de alerta</mat-option>
+                <mat-option value="city">Por ubicación</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha inicio</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha fin</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+
+
+    <div class="row justify-content-around">
+        <div class=" d-flex justify-content-around">
+            <ngx-charts-number-card [view]="view4" [scheme]="color" [results]="numberCard" [cardColor]="cardColor"
+                (select)="onSelect($event)">
+            </ngx-charts-number-card>
+        </div>
+
+
+        <div class="col-body">
+            <ngx-charts-bar-vertical [view]="views" [scheme]="colorScheme" [results]="reports.city.data"
+                [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [yAxisLabel]="yAxisLabel">
+                <!-- (select)="onSelectCity($event)"> -->
+            </ngx-charts-bar-vertical>
+        </div>
+
+        <div class="col-body">
+            <ngx-charts-pie-chart [scheme]="colorScheme" [results]="reports.alertName.data" [gradient]="gradient"
+                [legend]="showLegend" [legendPosition]="legendPosition" [labels]="showLabels"
+                (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"
+                [doughnut]="false" [view]="view" [legend]="false" [view]="views">
+            </ngx-charts-pie-chart>
+        </div>
+
+        <div class="col-body" style="margin-top: 3rem !important;">
+            <ngx-charts-pie-chart [scheme]="colorScheme" [results]="reports.state.data" [gradient]="gradient"
+                [legend]="showLegend" [legendPosition]="legendPosition" [labels]="showLabels" [doughnut]="isDoughnut"
+                (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"
+                [doughnut]="true" [view]="view" [legend]="false" [view]="views">
+            </ngx-charts-pie-chart>
+        </div>
+
+
+
+        <div class="col-body" style="margin-top: 3rem !important;">
+            <ngx-charts-bar-horizontal [view]="views" [scheme]="colorScheme" [results]="reports.type.data"
+                [gradient]="gradient" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [yAxisLabel]="yAxisLabel" (select)="onSelect($event)" [legend]="false"
+                (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+            </ngx-charts-bar-horizontal>
+        </div>
+
+        <div class="col-body" style="margin-top: 3rem !important;">
+            <ngx-charts-advanced-pie-chart [view]="view" [scheme]="colorScheme" [results]="single" [gradient]="gradient"
+                (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+            </ngx-charts-advanced-pie-chart>
+        </div>
+
+        <!--
+
+                <div class="col-body" style="margin-top: 3rem;">
+                    <ngx-charts-pie-chart [scheme]="colorScheme" [results]="data4" [gradient]="gradient"
+                        [legend]="showLegend" [legendPosition]="legendPosition" [labels]="showLabels"
+                        (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"
+                        [doughnut]="false" [view]="view" [legend]="false" [view]="views" [explodeSlices]="true">
+                    </ngx-charts-pie-chart>
+                </div>
+
+                <div class="col-body" style="margin-top: 3rem;">
+                    <ngx-charts-line-chart [view]="view3" [scheme]="colorScheme" [legend]="false"
+                        [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis"
+                        [yAxis]="yAxis" [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="multi"
+                        (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+                    </ngx-charts-line-chart>
+                </div> -->
+
+
+
+    </div>
+
+</mat-grid-list>

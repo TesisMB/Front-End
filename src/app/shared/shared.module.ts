@@ -26,7 +26,8 @@ import { UsersReportComponent } from './users-report/users-report.component';
 import { DatePickerRangeComponent } from '../directives/date-picker-range/date-picker-range';
 import { ResourcesRequestReportComponent } from '../users/report-resources-request/resources-request-report/resources-request-report.component';
 import { ResourcesRequestViewComponent } from '../users/report-resources-request/resources-request-view/resources-request-view.component';
-
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -55,6 +56,8 @@ import { ResourcesRequestViewComponent } from '../users/report-resources-request
     MaterialDesignModule,
     NgbModule,
     NgxChartsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     MaterialDesignModule,
