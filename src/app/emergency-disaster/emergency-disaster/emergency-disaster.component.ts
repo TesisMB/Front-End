@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 import {Observable, pipe, Subscription} from 'rxjs';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { EmergencyDisasterService } from '../emergency-disaster.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services';
 
 
@@ -32,12 +32,23 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
 
+  form: FormGroup;
+
+
+
+
   constructor(
     public selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
     private router: Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private fb: FormBuilder
     ) {
+
+      this.form = this.fb.group({
+        startDate: ['', Validators.required],
+        endDate: ['', Validators.required]
+      })
   }
 
   
@@ -46,6 +57,11 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
     this.getTypeEmergencyDisaster();
     
     this.getEmergencyDisaster();
+
+    
+      
+
+      
     /* this.selectTypesEmergencyDisasterService.selectTypesEmergencyDisaster$.subscribe(
       (idTypes: number) => this.id = idTypes);
       
@@ -55,6 +71,10 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
 
   }
 
+
+  EmergencyDisaster(){
+
+  }
 
   getTypeEmergencyDisaster(){
     this.selectTypesEmergencyDisasterService.getAll()
@@ -100,6 +120,10 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
       console.log('Error', error);
     })
   }
+
+
+
+
 
   setEmergenciesDisaster(emergencyDisaster: EmergencyDisaster[]){
     this.selectTypesEmergencyDisasterService.uploadTable(emergencyDisaster);

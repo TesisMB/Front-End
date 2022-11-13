@@ -14,6 +14,7 @@ import { saveAs } from 'file-saver';
 import { StatesService } from 'src/app/resources/states/states.service';
 import { map } from 'rxjs/operators';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import path from 'path';
 
 interface UsersInput {
   value: number;
@@ -171,6 +172,10 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.f.invalid) {
         console.log('form invalido');
           return;}
+
+    (this.user.persons.status) ?  this.user.userAvailability = true : this.user.userAvailability = false;
+    (this.user.persons.status) ? this.f.get('userAvailability').setValue(true) : this.f.get('userAvailability').setValue(false);
+
     
     this.loading = true;
 
@@ -207,7 +212,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updateUser(patch) {
-  
+    
     this.updateHandler =  this.userService.userUpdate(this.user.userID, patch, this.user )
           .pipe()
           .subscribe(
@@ -238,6 +243,18 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
     else {
     (this.model.userAvailability) ? this.f.get('userAvailability').setValue(false) : this.f.get('userAvailability').setValue(true);
+
+    // if(this.model.userAvailability === false){
+    //  this.f.get('userAvailability').setValue(false) 
+    //   this.f.get('persons.status').setValue(false)
+    // }else{
+    //   this.f.get('userAvailability').setValue(true) 
+    //   this.f.get('persons.status').setValue(true)
+    // } 
+
+    (this.user.userAvailability) ?  this.user.persons.status = true : this.user.persons.status = false;
+    (this.user.userAvailability) ? this.f.get('persons.status').setValue(true) : this.f.get('persons.status').setValue(false);
+
       this.patch();
   }},
     cancel =>{ 
@@ -247,6 +264,9 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   patch(){
+
+
+
     let patch = compare(this.model, this.user);
 
     patch = patch.filter( obj => obj.path !== "/roleName");
@@ -258,10 +278,10 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     patch = patch.filter( obj => obj.path !== "/emergencyDisastersReports");
     patch = patch.filter( obj => obj.path !== "/resourcesRequestReports");
     patch = patch.filter( obj => obj.path !== "/estates/locationAddress");
+
     
     console.log(patch);
     (patch.length !== 0) ? this.updateUser(patch) : this.loading = false;
-
   }
 
   deleteUser(id) {

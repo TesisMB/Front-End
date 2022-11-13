@@ -12,6 +12,7 @@
             </mat-slide-toggle>
         </div>
 
+
         <mat-form-field appearance="fill">
             <mat-label>Tipo de Emergencia</mat-label>
             <mat-select>
@@ -22,13 +23,28 @@
             </mat-select>
         </mat-form-field>
 
+
         <!-- Boton para agregar -->
         <div class="col-4 col-xs-4 col-sm-auto ">
             <button mat-raised-button color="warn" [routerLink]="['/emergencias','agregar']">
                 <mat-icon>add</mat-icon>
                 Agregar emergencia
             </button>
+
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item routerLink="reportes">
+                    <mat-icon>edit</mat-icon>
+                    <span>Reportes</span>
+                </button>
+            </mat-menu>
         </div>
+
+
+
     </div>
 
 

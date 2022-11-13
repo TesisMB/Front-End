@@ -190,7 +190,6 @@ export class ResourcesRequestReportComponent implements OnInit {
     console.log('Item clicked', JSON.parse(JSON.stringify(filter)));
     const city = this.dataClone.filter(d => d.city === f);
     this.ubicación(city);
-
   } 
 
 ubicación(data){

@@ -1,3 +1,4 @@
+import { EmergencyDisasterReportComponent } from './emergency-disaster-report/emergency-disaster-report.component';
 import { MapComponent } from './map/map.component';
 import { AddEmergencyDisasterComponent } from './add-emergency-disaster/add-emergency-disaster.component';
 import { EmergencyDisasterComponent } from './emergency-disaster/emergency-disaster.component';
@@ -29,6 +30,10 @@ const routes: Routes = [
       {
         path: 'ubicacion',
         component: MapComponent
+      },
+      {
+        path: 'reportes',
+        component: EmergencyDisasterReportComponent
       }
     ]
   }

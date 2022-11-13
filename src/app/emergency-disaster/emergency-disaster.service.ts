@@ -73,6 +73,26 @@ export class EmergencyDisasterService extends DataService {
     return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter');
 
   }
+}
+
+  getAllReport(params?: string): Observable<any> {
+    if(params){
+    const paramsObj = {
+      // userId: JSON.stringify(userId) || undefined,
+      limit: params || undefined
+    };
+    let parametro = new HttpParams({fromObject: paramsObj});
+    this.options.params = parametro;
+    return this.http.get<any>(environment.URL + this.patch+'/Reports', this.options);
+  }
+  else {
+    return this.http.get<any>(environment.URL + this.patch+'/Reports');
+  }
+
+
+  
+  
+  
 
 
   // .pipe(map(x => { 
