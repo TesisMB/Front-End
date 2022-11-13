@@ -28,6 +28,7 @@ import { ResourcesRequestReportComponent } from '../users/report-resources-reque
 import { ResourcesRequestViewComponent } from '../users/report-resources-request/resources-request-view/resources-request-view.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { FilterComponent } from './filter/filter.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ResourcesRequestReportComponent,
     ResourcesRequestViewComponent,
     DatePickerRangeComponent,
+    FilterComponent,
   ],
   imports: [
     CommonModule,
@@ -76,7 +78,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     UsersReportComponent,
     ResourcesRequestReportComponent,
     ResourcesRequestViewComponent,
-    NgxChartsModule],
+    NgxChartsModule,
+    FilterComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     TableService,

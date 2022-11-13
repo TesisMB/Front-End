@@ -17,4 +17,5 @@ export interface SearchResult {
     searchTerm: string;
     searchPath: string;
     searchType: string;
+    searchLocation: any | number;
   }

@@ -10,7 +10,7 @@ const TABS = ['materiales', 'medicamentos', 'vehiculos'];
 import { NgbdResourcesFiltersDialogComponentComponent} from '../ngbd-resources-filters-dialog-component/ngbd-resources-filters-dialog-component.component';
 import { MatDialog } from '@angular/material/dialog';
 import { StatesService } from '../states/states.service';
-import { ReportService } from 'src/app/services/_report.service/stock-report.service';
+import { ReportService } from 'src/app/services/_report.service/report.service';
 
 @Component({
   selector: 'stock',
@@ -18,12 +18,15 @@ import { ReportService } from 'src/app/services/_report.service/stock-report.ser
   styleUrls: ['./stock.component.css']
 })
 export class StockComponent implements OnInit, OnDestroy {
-  locations = [];
+  locations : any;
   estates = [];
   tabs = TABS;
   condition: boolean = false;
   type: string = 'materiales';
   handleRequest: Subscription;
+  handleLocation: Subscription;
+  handleDonation: Subscription;
+  handleAvailability: Subscription;
   locationSelected = '';
   reports = true;
   resource = null;
@@ -42,7 +45,10 @@ export class StockComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.service._setType(this.type);
     this.getResources();  
-    this.getLocations();  
+    this.getLocations(); 
+    this.handleLocation = this.reportService.location$.subscribe(location => this.selectLocation(location), error => console.error(error));
+    this.handleDonation = this.reportService.hasDonation$.subscribe(donation => {if(this.resource)this.onDonation(donation);}, error => console.error(error));
+    this.handleAvailability = this.reportService.hasAvailability$.subscribe(availability => {if(this.resource)this.onShow(availability);}, error => console.error(error));
   }
 get isReport(){
   return this.selectedType !== 'table';
@@ -73,7 +79,7 @@ selectLocation(event){
   }
 
   getResources(location?){
-    this.handleRequest = this.service.getAll(this.locationSelected)
+    this.handleRequest = this.service.getAll(location)
     .subscribe((x: Resource[]) =>{
       this.resource = x;
       // this.reportService.searchPath = 'donation';
@@ -81,6 +87,7 @@ selectLocation(event){
     // const resourcesFilters = x.filter(x => x.availability !== this.condition)
     // this.service.uploadTable(x);
     //this.service._setType(type);
+      
       console.log('x => ', x  );
     },
   e => {
@@ -89,11 +96,15 @@ selectLocation(event){
   } );
   }
   onShow(event){
-    this.service.showAvailability = event.checked;
-    this.getResources();
-    console.log('Evento => ', event.checked);
+    this.service.showAvailability = event;
+    // this.getResources();
+    console.log('Evento => ', event);
   }
-  
+  onDonation(event){
+    this.service.showDonation = event;
+    // this.getResources();
+    console.log('Evento => ', event);
+  }
   
   
   generatePDF(){ 
@@ -134,6 +145,10 @@ selectLocation(event){
 
   ngOnDestroy(): void {
       this.handleRequest.unsubscribe();
+      this.handleLocation.unsubscribe();
+      this.handleDonation.unsubscribe();
+      this.handleAvailability.unsubscribe();
+      
   }
 
 }

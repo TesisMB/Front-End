@@ -55,6 +55,7 @@ export class ResourcesService {
  private _item$ = new BehaviorSubject<Resource>(null);
  private _imgFile$ = new BehaviorSubject<File>(null);
  private _showAvailability$ = new BehaviorSubject<boolean>(false);
+ private _showDonation$ = new BehaviorSubject<boolean>(false);
 
 
 
@@ -120,6 +121,7 @@ set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
 set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
 set type(type: string) {this._setType(type);}
 set showAvailability(availability: any) {this._setAvailability(availability);}
+set showDonation(donation: any) {this._setDonation(donation);}
 set loading(load:any){this._setLoading(load);}
 
 private _set(patch: Partial<State>) {
@@ -136,6 +138,11 @@ public _setType(type:string){
 private _setAvailability(availability:boolean){
   console.log('EJecutando setAvailability => ', availability);
   this._showAvailability$.next(availability);
+  this._search$.next();
+}
+private _setDonation(donation:boolean){
+  console.log('EJecutando setDonation => ', donation);
+  this._showDonation$.next(donation);
   this._search$.next();
 }
 /**Se debe realizar una funcion para la cual se actualice la tabla despues de cambiar datos de usuario */
@@ -289,12 +296,21 @@ public uploadTable(resources: Resource[]) {
   private _search(): Observable<SearchResult> {
     
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
-  
+    var resources;
+  if(this._showAvailability$.value){
     // 1. filtrado por disponibilidad
-    const resources = this._showAvailability$.value ?  this.resources : this.resources.filter(x => x.availability !== this._showAvailability$.value) ;
-    
+    resources = this.resources.filter(x => x.availability !== this._showAvailability$.value) ;
+  }
+
+  if(this._showDonation$.value){
+    let d = resources ? resources : this.resources;
+    resources = this.resources.filter(x => x.donation === this._showDonation$.value) ;
+    }
+
+    let data = resources ? resources : this.resources;
+
     // 1. sort
-    let data = sort(resources, sortColumn, sortDirection);
+    data = sort(data, sortColumn, sortDirection);
   
     // 2. filter
     data = data.filter(employee => matches(employee, searchTerm, this.pipe));

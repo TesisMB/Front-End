@@ -35,6 +35,7 @@ private _data$ = new BehaviorSubject<any>([]);
 private _backUpData$ = new BehaviorSubject<any>([]);
 private _type$ = new BehaviorSubject<string>('table');
 private _path$ = new BehaviorSubject<string>('');
+private _location$ = new BehaviorSubject<any>('');
 private _loading$ = new BehaviorSubject<boolean>(true);
 private _search$ = new Subject<void>();
 private _reports$ = new Subject<void>();
@@ -44,7 +45,8 @@ private _hasDonation$ = new BehaviorSubject<boolean>(false);
 private _state: SearchReport = {
   searchPath: 'name',
   searchTerm: '',
-  searchType: 'table'
+  searchType: 'table',
+  searchLocation: '',
 };
   constructor(private pipe?: DecimalPipe)
       {
@@ -66,18 +68,22 @@ private _state: SearchReport = {
   get data$ (){ return this._data$.asObservable(); }
   get type$ (){ return this._type$.asObservable(); }
   get path$ (){ return this._path$.asObservable(); }
+  get location$ (){ return this._location$.asObservable(); }
   get loading$ (){ return this._loading$.asObservable(); }
   get total$ (){ return this._total$.asObservable(); }
   get hasAvailability$ (){ return this._hasAvailability$.asObservable(); }
   get hasDonation$ (){ return this._hasDonation$.asObservable(); }
   get searchPath() { return this._state.searchPath; }
   get searchType() { return this._state.searchType; }
+  get searchLocation() { return this._state.searchLocation; }
 
 
+  set searchLocation(searchLocation: number) { this._set({searchLocation});}
   set searchTerm(searchTerm: string) { this._set({searchTerm}); }
   set searchPath(searchPath: string) { this._set({searchPath}); }
   set searchType(searchType: string) { this._set({searchType}); }
   set loading(value: boolean){this._setLoading(value);}
+  set location(value: number | any){this._setLocation(value);}
   set data(value: any){this._setData(value);}
   set type(value: string){this._setType(value);}
   set hasAvailability(value: boolean){this._setAvailability(value);}
@@ -96,6 +102,11 @@ private _state: SearchReport = {
   }
   private _setType(type:string){
     this._type$.next(type);
+  }  
+  private _setLocation(location: any | number){
+    this._location$.next(location);
+    this.searchLocation = location;
+    // this._search$.next();
   }
   private _setAvailability(availability:boolean){
     console.log('EJecutando setAvailability => ', availability);
@@ -128,7 +139,6 @@ private _search(): Observable<SearchResult> {
    // 2. filtrado por donación
 
   if(this._hasDonation$.value){
-    debugger;
     let d = data ? data : this._backUpData$.value;
     data = d.filter(x => x.donation === this._hasDonation$.value);
   }

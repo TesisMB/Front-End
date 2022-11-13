@@ -1,0 +1,70 @@
+
+<div class="d-flex flex-column justify-content-center align-items-start">
+    <p class="ml-5 mt-3"> Filtrar por:</p>
+
+ 
+<mat-form-field appearance="legacy">
+<mat-label>Tipo de grafico</mat-label>
+<mat-select [(value)]="service.searchType">
+<mat-option value="table">Tabla</mat-option>
+<mat-option value="chart pie">Chart Pie</mat-option>
+<mat-option value="chart pie advanced">Chart Pie Advanced</mat-option>
+<mat-option value="barra horizontal">Barras Horizontales</mat-option>
+<mat-option value="barra vertical">Barras Verticales</mat-option>
+</mat-select>
+</mat-form-field>
+<mat-form-field appearance="standard" >
+<mat-label>Localidad</mat-label>
+<mat-select [value]="service.searchLocation" (selectionChange)="service.location = $event.value">
+<mat-option value=''>Todos</mat-option>
+<!-- <mat-select-trigger>
+  {{locationSelected.length ? locationSelected[0] : ''}}
+  <span *ngIf="locationSelected?.length > 1" class="example-additional-selection">
+    (+{{locationSelected.length - 1}} {{locationSelected.length === 2 ? 'otro' : 'otros'}})
+  </span>
+</mat-select-trigger> -->
+<!-- <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName"> -->
+  <!-- <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
+    {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
+  </mat-option> -->
+  <mat-option *ngFor="let locations of (locations | async)" [value]="locations.locationID">
+    {{locations.locationCityName | titlecase}}
+  </mat-option>
+<!-- </mat-optgroup> -->
+
+</mat-select>
+</mat-form-field>
+<mat-form-field appearance="legacy">
+<mat-label>Tipo de reporte</mat-label>
+<!-- <mat-select [ngModel]="service.path$ | async" (selectionChange)="service.searchPath = $event.value"> -->
+<mat-select [(value)]="service.searchPath" [disabled]="service.searchType === 'table'">
+<mat-option value="name">Cantidad de recursos</mat-option>
+<mat-option value="locationCityName">Cantidad por ubicación</mat-option>
+<mat-option value="donation">Cantidad de donaciones</mat-option>
+<mat-option value="availability">Cantidad por stock</mat-option>
+</mat-select>
+</mat-form-field>
+<mat-checkbox
+class="m-1"
+[(value)]="service.hasDonation"
+(change) = "service.hasDonation = $event.checked"
+(indeterminate)="false"
+labelPosition="after"
+>
+<!-- (change) = "service.hasDonation = $event.value" -->
+Mostrar donaciones
+</mat-checkbox>
+<mat-checkbox
+class="m-1"
+[(value)]="service.hasAvailability"
+(change) = "service.hasAvailability = $event.checked"
+(indeterminate)="false"
+labelPosition="after"
+>
+<!-- (change)="service.hasAvailability = $event.value" -->
+Mostrar recursos sin stock
+</mat-checkbox>
+  <div class="d-flex justify-content-center justify-content-lg-start">
+    <button mat-raised-button color="primary"> Reestablecer filtros</button>
+  </div>
+</div>

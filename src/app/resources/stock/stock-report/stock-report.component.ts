@@ -4,7 +4,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { ResourcesService } from '../../resources.service';
-import { ReportService } from 'src/app/services/_report.service/stock-report.service';
+import { ReportService } from 'src/app/services/_report.service/report.service';
 
 interface StockReports {
   id: number;
