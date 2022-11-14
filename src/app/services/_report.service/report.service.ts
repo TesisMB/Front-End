@@ -1,6 +1,6 @@
 import { Injectable, PipeTransform } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Resource,ReportData,Reports, SearchReport } from 'src/app/models/index';
+import { Resource,ReportData,Reports, SearchReport, User } from 'src/app/models/index';
 import { debounceTime, delay, filter, map, switchMap, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of, Subject, pipe } from 'rxjs';
 import { DecimalPipe } from '@angular/common';
@@ -31,11 +31,12 @@ function matches(term: string, pipe: PipeTransform, data: any, path: string) {
 })
 export class ReportService{
 public patch: string = '';
+private currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
 private _data$ = new BehaviorSubject<any>([]);
 private _backUpData$ = new BehaviorSubject<any>([]);
 private _type$ = new BehaviorSubject<string>('table');
 private _path$ = new BehaviorSubject<string>('');
-private _location$ = new BehaviorSubject<any>('');
+private _location$ = new BehaviorSubject<any>(this.currentUser.estates.locationID);
 private _loading$ = new BehaviorSubject<boolean>(true);
 private _search$ = new Subject<void>();
 private _reports$ = new Subject<void>();
@@ -47,7 +48,7 @@ private _state: SearchReport = {
   searchPath: 'name',
   searchTerm: '',
   searchType: 'table',
-  searchLocation: '',
+  searchLocation: this.currentUser.estates.locationID,
   from: '',
   to: '',
 };
@@ -138,7 +139,9 @@ private _state: SearchReport = {
     this._state.from = "";
     this._state.to = "";
     this._state.searchTerm = "";
-    this._setLocation('');
+    this._state.searchType = "table";
+    this._state.searchPath = "";
+    this._setLocation(this.currentUser.estates.locationID);
     this._search$.next();
   }
   private structuredDate(object:any ,path: any){

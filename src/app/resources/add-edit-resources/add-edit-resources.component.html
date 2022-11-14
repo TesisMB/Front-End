@@ -422,7 +422,12 @@
         <br />
         <mat-grid-tile>
 
-          <mat-checkbox formControlName="donation" [disabled]="isEdit">¿Es donación?</mat-checkbox>
+          <mat-checkbox *ngIf="!isEdit" formControlName="donation">¿Es donación?</mat-checkbox>
+
+          <p *ngIf="isEdit">
+            <span *ngIf="form.get('donation').value">Es donación</span>
+            <span *ngIf="!form.get('donation').value">No es donación</span>
+          </p>
 
         </mat-grid-tile>
         <br />

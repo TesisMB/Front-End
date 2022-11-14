@@ -165,6 +165,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.reportService.resetForm();
   }
 
 

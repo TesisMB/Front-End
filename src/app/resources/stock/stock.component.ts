@@ -3,7 +3,7 @@ import { AlertService } from './../../services/_alert.service/alert.service';
 import { ResourcesService } from './../resources.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { filter, map } from 'rxjs/operators';
-import { Resource } from 'src/app/models';
+import { Resource, User } from 'src/app/models';
 import { AuthenticationService } from 'src/app/services';
 import { UserService } from 'src/app/users';
 const TABS = ['materiales', 'medicamentos', 'vehiculos'];
@@ -27,7 +27,8 @@ export class StockComponent implements OnInit, OnDestroy {
   handleLocation: Subscription;
   handleDonation: Subscription;
   handleAvailability: Subscription;
-  locationSelected = null;
+  currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+  locationSelected = this.currentUser.estates.locationID;
   reports = true;
   resource = null;
   checked = true;
@@ -44,11 +45,12 @@ export class StockComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.service._setType(this.type);
-    this.getResources();  
-    this.getLocations(); 
-    this.handleLocation = this.reportService.location$.subscribe(location => {if(this.locationSelected !== null || location) this.selectLocation(location);}, error => console.error(error));
+    // this.reportService.location = this.currentUser.estates.locationID;
+    // this.getResources(this.currentUser.estates.locationID);  
+    this.handleLocation = this.reportService.location$.subscribe(location => {this.locationSelected=location; this.getResources(location); }, error => console.error(error));
     this.handleDonation = this.reportService.hasDonation$.subscribe(donation => {if(this.resource) this.onDonation(donation);}, error => console.error(error));
     this.handleAvailability = this.reportService.hasAvailability$.subscribe(availability => {if(this.resource) this.onShow(availability);}, error => console.error(error));
+    this.getLocations(); 
   }
 get isReport(){
   return this.selectedType !== 'table';
@@ -80,10 +82,10 @@ selectLocation(event){
   }
 
   getResources(location?){
-    this.handleRequest = this.service.getAll(location)
+    this.handleRequest = this.service.getAll(this.locationSelected)
     .subscribe((x: Resource[]) =>{
       this.resource = x;
-      // this.reportService.searchPath = 'donation';
+      this.reportService.searchPath = 'name';
       this.reportService.data = x;
     // const resourcesFilters = x.filter(x => x.availability !== this.condition)
     // this.service.uploadTable(x);
@@ -145,6 +147,7 @@ selectLocation(event){
   }
 
   ngOnDestroy(): void {
+      this.reportService.resetForm();
       this.handleRequest.unsubscribe();
       this.handleLocation.unsubscribe();
       this.handleDonation.unsubscribe();
