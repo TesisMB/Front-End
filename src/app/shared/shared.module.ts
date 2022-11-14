@@ -30,6 +30,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FilterComponent } from './filter/filter.component';
 import { EmergencyDisasterReportComponent } from '../emergency-disaster/emergency-disaster-report/emergency-disaster-report.component';
+import { EmergencyDisasterFilterComponent } from '../emergency-disaster/emergency-disaster-filter/emergency-disaster-filter.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { EmergencyDisasterReportComponent } from '../emergency-disaster/emergenc
     ResourcesRequestViewComponent,
     DatePickerRangeComponent,
     FilterComponent,
-    EmergencyDisasterReportComponent
+    EmergencyDisasterReportComponent,
+    EmergencyDisasterFilterComponent
   ],
   imports: [
     CommonModule,
@@ -82,7 +84,9 @@ import { EmergencyDisasterReportComponent } from '../emergency-disaster/emergenc
     ResourcesRequestViewComponent,
     NgxChartsModule,
     FilterComponent,
-    EmergencyDisasterReportComponent],
+    EmergencyDisasterReportComponent,
+    EmergencyDisasterFilterComponent
+  ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     TableService,

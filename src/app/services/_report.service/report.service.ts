@@ -143,7 +143,46 @@ private _state: SearchReport = {
   }
   private structuredDate(object:any ,path: any){
     var data = [];
-    if(path === 'recursos'){
+
+    if(path === 'victims'){
+      const numberDeaths = 'numberDeaths';
+      const numberAffected = 'numberAffected';
+      const numberFamiliesAffected = 'numberFamiliesAffected';
+      const materialsDamage = 'materialsDamage';
+      const affectedLocalities = 'affectedLocalities';
+      const evacuatedPeople = 'evacuatedPeople';
+      const affectedNeighborhoods = 'affectedNeighborhoods';
+      const assistedPeople = 'assistedPeople';
+      const recoveryPeople = 'recoveryPeople';
+
+      data = [...object.reduce( (mp, o) => {
+        if (!mp.has(numberDeaths)) mp.set(numberDeaths, { name: numberDeaths, value: 0});
+        mp.get(numberDeaths).value +=  o.victims.numberDeaths;
+        if (!mp.has(numberAffected)) mp.set(numberAffected, { name: numberAffected, value:0 });
+        mp.get(numberAffected).value +=  o.victims.numberAffected;
+        if (!mp.has(numberFamiliesAffected)) mp.set(numberFamiliesAffected, { name: numberFamiliesAffected, value: 0 });
+        mp.get(numberFamiliesAffected).value += o.victims.numberFamiliesAffected;
+     
+        if (!mp.has(materialsDamage)) mp.set(materialsDamage, { name: materialsDamage, value: 0});
+        mp.get(materialsDamage).value +=  o.victims.materialsDamage;
+        if (!mp.has(affectedLocalities)) mp.set(affectedLocalities, { name: affectedLocalities, value:0 });
+        mp.get(affectedLocalities).value +=  o.victims.affectedLocalities;
+        if (!mp.has(evacuatedPeople)) mp.set(evacuatedPeople, { name: evacuatedPeople, value: 0 });
+        mp.get(evacuatedPeople).value += o.victims.evacuatedPeople;
+
+        if (!mp.has(affectedNeighborhoods)) mp.set(affectedNeighborhoods, { name: affectedNeighborhoods, value: 0});
+        mp.get(affectedNeighborhoods).value +=  o.victims.affectedNeighborhoods;
+        if (!mp.has(assistedPeople)) mp.set(assistedPeople, { name: assistedPeople, value:0 });
+        mp.get(assistedPeople).value +=  o.victims.assistedPeople;
+        if (!mp.has(recoveryPeople)) mp.set(recoveryPeople, { name: recoveryPeople, value: 0 });
+        mp.get(recoveryPeople).value += o.victims.recoveryPeople;
+
+        return mp;
+      }, new Map).values()];
+
+    }
+
+    else if(path === 'recursos'){
       const materiales = 'materiales';
       const medicamentos = 'medicamentos';
       const vehiculos = 'vehiculos';

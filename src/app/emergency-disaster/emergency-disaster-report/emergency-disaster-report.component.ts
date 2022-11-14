@@ -128,6 +128,9 @@ numberCard = [
     condition = Condition;
     selected = this.condition.TODOS;
     selectedType: string = "list";
+    xAxisLabel: string = 'Cantidad';
+    yAxisLabelCity: string = 'Ciudad';
+    showYAxisLabelCity: boolean = true;
 
 
 
@@ -169,27 +172,27 @@ numberCard = [
    }
 
   ngOnInit(): void {
-    this.getReport();
+    //this.getReport();
     // this.getRecursos();
   }
 
  
 
-  getReport() {
-    this.emergencyService.getAllReport()
+//   getReport() {
+//     this.emergencyService.getAllReport()
 
-       .subscribe(data => {
-         this.dataClone = data;
-         this.datos = data;
+//        .subscribe(data => {
+//          this.dataClone = data;
+//          this.datos = data;
 
-         this.service.searchPath = 'alertName';
-         this.service.data = data;
-        //  this.setAll();
-    console.log('EmergencyDisaster - ListAll => ', data);
-   }, error => {
-     console.log('Error', error);
-   })
- }
+//          this.service.searchPath = 'alertName';
+//          this.service.data = data;
+//         //  this.setAll();
+//     console.log('EmergencyDisaster - ListAll => ', data);
+//    }, error => {
+//      console.log('Error', error);
+//    })
+//  }
 
 
 
@@ -276,5 +279,16 @@ this.reports.state.data= [...this.dataClone.reduce( (mp, o) => {
         return mp;
     }, new Map).values()];
     }
+
+    formatingAxisX(event: number){
+      if(typeof event === 'number'){
+        // event = Math.round(event);
+        console.log('Evento Formating => ', event);
+        return event % 1 === 0 ? event :  ''; 
+      }
+     return event;
+    }
   }
+
+
 

@@ -33,7 +33,6 @@ import { MonitorioListComponent } from './monitoreo/monitorio-list/monitorio-lis
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MomentModule } from 'ngx-moment';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
-import { EmergencyDisasterFilterComponent } from './emergency-disaster/emergency-disaster-filter/emergency-disaster-filter.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +41,6 @@ import { EmergencyDisasterFilterComponent } from './emergency-disaster/emergency
     MonitoreoComponent,
     DialogPDFComponent,
     MonitorioListComponent,
-    EmergencyDisasterFilterComponent,
     
   ],
   imports: [

@@ -1,1 +1,87 @@
-<p>emergency-disaster-filter works!</p>
+<div class="d-flex flex-column justify-content-center align-items-start">
+    <p class="ml-5 mt-3"> Filtrar por:</p>
+
+ 
+<mat-form-field appearance="legacy">
+<mat-label>Tipo de grafico</mat-label>
+<mat-select [(value)]="service.searchType">
+<mat-option value="table">Tabla</mat-option>
+<mat-option value="chart pie">Chart Pie</mat-option>
+<mat-option value="chart pie advanced">Chart Pie Advanced</mat-option>
+<mat-option value="barra horizontal">Barras Horizontales</mat-option>
+<mat-option value="barra vertical">Barras Verticales</mat-option>
+<mat-option value="charts gauge">Charts Gauge</mat-option>
+</mat-select>
+</mat-form-field>
+
+
+<!-- <mat-form-field appearance="standard" >
+<mat-label>Localidad</mat-label>
+<mat-select [value]="service.searchLocation" (selectionChange)="service.location = $event.value">
+<mat-option value=''>Todos</mat-option>
+
+  <mat-option *ngFor="let locations of (locations | async)" [value]="locations.locationID">
+    {{locations.locationCityName | titlecase}}
+  </mat-option>
+
+</mat-select>
+</mat-form-field> -->
+<mat-form-field appearance="legacy">
+<mat-label>Tipo de reporte</mat-label>
+    <mat-select [(value)]="service.searchPath" (selectionChange)="service.searchPath = $event.value" [disabled]="service.searchType === 'table'">
+     <mat-option value="alertName">Lista de solicitudes</mat-option>
+     <mat-option value="state">Por estado</mat-option>
+     <mat-option value="type">Por tipo de alerta</mat-option>
+     <mat-option value="city">Por ubicación</mat-option>
+     <mat-option value="recursos">Por recursos solicitados</mat-option>
+     <mat-option value="victims">Por victimas</mat-option>
+</mat-select>
+</mat-form-field>
+
+
+<mat-form-field appearance="standard">
+  <mat-label>Desde</mat-label>
+  <input matInput [matDatepicker]="from" (dateChange)="service.from = $event.value" [disabled]="service.searchType === 'table'">
+  <mat-hint>MM/DD/YYYY</mat-hint>
+  <mat-datepicker-toggle matSuffix [for]="from" [value]="service.from"></mat-datepicker-toggle>
+  <mat-datepicker #from></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field appearance="standard">
+  <mat-label>Hasta</mat-label>
+  <input matInput [matDatepicker]="to" (dateChange)="service.to = $event.value" [disabled]="service.searchType === 'table'">
+  <mat-hint>MM/DD/YYYY</mat-hint>
+  <mat-datepicker-toggle matSuffix [for]="to" [value]="service.to"></mat-datepicker-toggle>
+  <mat-datepicker #to></mat-datepicker>
+  </mat-form-field>
+
+<!-- <ng-container *ngIf="withoutDonation">
+<mat-checkbox
+class="m-1"
+[(value)]="service.hasDonation"
+(change) = "service.hasDonation = $event.checked"
+(indeterminate)="false"
+labelPosition="after"
+>
+Mostrar donaciones
+</mat-checkbox>
+</ng-container>
+
+<ng-container *ngIf="withoutStock">
+<mat-checkbox
+class="m-1"
+[(value)]="service.hasAvailability"
+(change) = "service.hasAvailability = $event.checked"
+(indeterminate)="false"
+labelPosition="after"
+>
+Mostrar recursos sin stock
+</mat-checkbox>
+</ng-container> -->
+<!-- 
+  <div class="d-flex justify-content-center justify-content-lg-start">
+    <button mat-raised-button color="primary" (click)="resetForm()"> Reestablecer filtros</button>
+  </div> -->
+</div>
+
+

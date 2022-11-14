@@ -10,6 +10,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { EmergencyDisasterService } from '../emergency-disaster.service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services';
+import { ReportService } from 'src/app/services/_report.service/report.service';
 
 
 @Component({
@@ -42,7 +43,8 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
     private emergencyDisasterService: EmergencyDisasterService,
     private router: Router,
     private authService: AuthenticationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public reportService : ReportService
     ) {
 
       this.form = this.fb.group({
@@ -116,7 +118,8 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
           this.emergencyDisaster = data;
           this.setEmergenciesDisaster(data);
           this.isLoading = false;
-         
+          this.reportService.searchPath = 'alertName';
+          this.reportService.data = data;         
      console.log('EmergencyDisaster - ListAll => ', data);
     }, error => {
       this.isLoading = false;
