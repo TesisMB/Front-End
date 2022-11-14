@@ -44,6 +44,26 @@
 <mat-option value="availability">Cantidad por stock</mat-option>
 </mat-select>
 </mat-form-field>
+
+<ng-container *ngIf="datepicker">
+  <mat-form-field appearance="standard">
+      <mat-label>Desde</mat-label>
+      <input matInput [matDatepicker]="from" (dateChange)="service.from = $event.value">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="from" [value]="service.from"></mat-datepicker-toggle>
+      <mat-datepicker #from></mat-datepicker>
+  </mat-form-field>
+  
+  <mat-form-field appearance="standard">
+      <mat-label>Hasta</mat-label>
+      <input matInput [matDatepicker]="to" (dateChange)="service.to = $event.value">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="to" [value]="service.to"></mat-datepicker-toggle>
+      <mat-datepicker #to></mat-datepicker>
+  </mat-form-field>
+</ng-container>
+
+<ng-container *ngIf="withoutDonation">
 <mat-checkbox
 class="m-1"
 [(value)]="service.hasDonation"
@@ -54,6 +74,9 @@ labelPosition="after"
 <!-- (change) = "service.hasDonation = $event.value" -->
 Mostrar donaciones
 </mat-checkbox>
+</ng-container>
+
+<ng-container *ngIf="withoutStock">
 <mat-checkbox
 class="m-1"
 [(value)]="service.hasAvailability"
@@ -64,7 +87,9 @@ labelPosition="after"
 <!-- (change)="service.hasAvailability = $event.value" -->
 Mostrar recursos sin stock
 </mat-checkbox>
+</ng-container>
+
   <div class="d-flex justify-content-center justify-content-lg-start">
-    <button mat-raised-button color="primary"> Reestablecer filtros</button>
+    <button mat-raised-button color="primary" (click)="resetForm()"> Reestablecer filtros</button>
   </div>
 </div>

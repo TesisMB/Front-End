@@ -27,7 +27,7 @@ export class StockComponent implements OnInit, OnDestroy {
   handleLocation: Subscription;
   handleDonation: Subscription;
   handleAvailability: Subscription;
-  locationSelected = '';
+  locationSelected = null;
   reports = true;
   resource = null;
   checked = true;
@@ -46,9 +46,9 @@ export class StockComponent implements OnInit, OnDestroy {
     this.service._setType(this.type);
     this.getResources();  
     this.getLocations(); 
-    this.handleLocation = this.reportService.location$.subscribe(location => this.selectLocation(location), error => console.error(error));
-    this.handleDonation = this.reportService.hasDonation$.subscribe(donation => {if(this.resource)this.onDonation(donation);}, error => console.error(error));
-    this.handleAvailability = this.reportService.hasAvailability$.subscribe(availability => {if(this.resource)this.onShow(availability);}, error => console.error(error));
+    this.handleLocation = this.reportService.location$.subscribe(location => {if(this.locationSelected !== null || location) this.selectLocation(location);}, error => console.error(error));
+    this.handleDonation = this.reportService.hasDonation$.subscribe(donation => {if(this.resource) this.onDonation(donation);}, error => console.error(error));
+    this.handleAvailability = this.reportService.hasAvailability$.subscribe(availability => {if(this.resource) this.onShow(availability);}, error => console.error(error));
   }
 get isReport(){
   return this.selectedType !== 'table';
@@ -67,6 +67,7 @@ set isReport(value: boolean){
       this.getResources();
   }
 selectLocation(event){
+  this.locationSelected = event;
   console.log('Localidad seleccionada! => ', event);
   this.service._setLoading(true);
   this.getResources(event);

@@ -48,6 +48,8 @@ private _state: SearchReport = {
   searchTerm: '',
   searchType: 'table',
   searchLocation: '',
+  from: '',
+  to: '',
 };
   constructor(private pipe?: DecimalPipe)
       {
@@ -78,12 +80,16 @@ private _state: SearchReport = {
   get searchPath() { return this._state.searchPath; }
   get searchType() { return this._state.searchType; }
   get searchLocation() { return this._state.searchLocation; }
+  get from() { return this._state.from; }
+  get to() { return this._state.to; }
 
 
   set searchLocation(searchLocation: number) { this._set({searchLocation});}
   set searchTerm(searchTerm: string) { this._set({searchTerm}); }
   set searchPath(searchPath: string) { this._set({searchPath}); }
   set searchType(searchType: string) { this._set({searchType}); }
+  set from(from: string | Date | any) { this._set({from}); }
+  set to(to: string | Date | any) { this._set({to}); }
   set loading(value: boolean){this._setLoading(value);}
   set location(value: number | any){this._setLocation(value);}
   set data(value: any){this._setData(value);}
@@ -128,6 +134,13 @@ private _state: SearchReport = {
     this._search$.next();
   }
 
+  public resetForm(){
+    this._state.from = "";
+    this._state.to = "";
+    this._state.searchTerm = "";
+    this._setLocation('');
+    this._search$.next();
+  }
   private structuredDate(object:any ,path: any){
     var data = [];
     if(path === 'recursos'){
@@ -157,7 +170,7 @@ return data;
 
 private _search(): Observable<SearchResult> {
     
-  const {searchType,searchPath, searchTerm} = this._state;
+  const {searchType,searchPath, searchTerm,searchLocation, from , to} = this._state;
   var data: any
   var total: number = 0;
 
@@ -167,7 +180,7 @@ private _search(): Observable<SearchResult> {
      data = this._backUpData$.value.filter(x => x.state === this._hasStatus$.value);
   }
 
-   // 1. filtrado por disponibilidad
+   // 2. filtrado por disponibilidad
   if(this._hasAvailability$.value){
     let d = data ? data : this._backUpData$.value;
 
@@ -175,23 +188,25 @@ private _search(): Observable<SearchResult> {
   }
 
   
-   // 2. filtrado por donación
+   // 3. filtrado por donación
 
   if(this._hasDonation$.value){
     let d = data ? data : this._backUpData$.value;
     data = d.filter(x => x.donation === this._hasDonation$.value);
   }
   data = data ? data : this._backUpData$.value;
-  // 3. filtrado por busqueda.
+  
+  // 4. filtrado por fecha.
+   data = (from || to) ? data.filter(data => formateDate((new Date()),from,to)) : data;
+  // 5. filtrado por busqueda.
   // data = data.filter(data => matches(searchTerm, this.pipe, data));
-
-  // 4. Estructuración de datos.
+  // 6. Estructuración de datos.
   data = this.structuredDate(data,searchPath);
   console.log('Data del search => ',data);
-  // 5. Sumatoria total de valores.
+  // 7. Sumatoria total de valores.
   data.forEach(element => total += element.value);
 
-  return of({data, total,searchType});
+  return of({data, total,searchType, searchLocation,searchPath,searchTerm,from,to});
  }
 
   }
