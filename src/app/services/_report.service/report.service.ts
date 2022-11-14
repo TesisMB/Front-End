@@ -129,11 +129,30 @@ private _state: SearchReport = {
   }
 
   private structuredDate(object:any ,path: any){
-  return [...object.reduce( (mp, o) => {
+    var data = [];
+    if(path === 'recursos'){
+      const materiales = 'materiales';
+      const medicamentos = 'medicamentos';
+      const vehiculos = 'vehiculos';
+
+      data = [...object.reduce( (mp, o) => {
+        if (!mp.has(materiales)) mp.set(materiales, { name: materiales, value: 0});
+        mp.get(materiales).value +=  o.recursos.materiales;
+        if (!mp.has(medicamentos)) mp.set(medicamentos, { name: medicamentos, value:0 });
+        mp.get(medicamentos).value +=  o.recursos.medicamentos;
+        if (!mp.has(vehiculos)) mp.set(vehiculos, { name: vehiculos, value: 0 });
+        mp.get(vehiculos).value += o.recursos.vehiculos;
+        return mp;
+      }, new Map).values()];
+    }
+    else {
+      data = [...object.reduce( (mp, o) => {
     if (!mp.has(o[path])) mp.set(o[path], { name: name(path,o[path]), value: 0 });
     path.includes('name') ? mp.get(o.name).value += o.quantity : mp.get(o[path]).value++;
     return mp;
   }, new Map).values()];
+}
+return data;
 }
 
 private _search(): Observable<SearchResult> {

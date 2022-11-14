@@ -17,6 +17,7 @@
                 <mat-option value="state">Por estado</mat-option>
                 <mat-option value="type">Por tipo de alerta</mat-option>
                 <mat-option value="city">Por ubicación</mat-option>
+                <mat-option value="recursos">Por recursos solicitados</mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -81,11 +82,11 @@
             </ngx-charts-bar-horizontal>
         </div>
 
-        <!-- <div *ngIf="service.searchPath === ''" class="col-body" style="margin-top: 3rem !important;">
-            <ngx-charts-advanced-pie-chart [view]="view" [scheme]="colorScheme" [results]="single" [gradient]="gradient"
+        <div *ngIf="service.searchPath === 'recursos'" class="col-body" style="margin-top: 3rem !important;">
+            <ngx-charts-advanced-pie-chart [view]="view" [scheme]="colorScheme" [results]="service.data$ | async" [gradient]="gradient"
                 (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
             </ngx-charts-advanced-pie-chart>
-        </div> -->
+        </div>
 
         <!--
 
