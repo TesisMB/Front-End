@@ -9,30 +9,35 @@
           aria-controls="v-pills-home" aria-selected="true">
           <i class="fas fa-user"></i><a>Información General</a>
         </div>
-      <hr>
-        <div *ngIf="originalUser.emergencyDisastersReports" class="nav-link" id="v-pills-reports-tab" data-toggle="pill" href="#v-pills-reports" role="tab"
-        aria-controls="v-pills-reports" aria-selected="false">
-        <i class="fas fa-chart-pie"></i><a>Reportes</a>
-      </div>
-
+        <hr>
+        <div *ngIf="originalUser.emergencyDisastersReports" class="nav-link" id="v-pills-reports-tab" data-toggle="pill"
+          href="#v-pills-reports" role="tab" aria-controls="v-pills-reports" aria-selected="false">
+          <i class="fas fa-chart-pie"></i><a>Reportes de participaciones</a>
+        </div>
+        <hr>
+        <div *ngIf="originalUser.resourcesRequestReports" class="nav-link" id="v-pills-reports-tab" data-toggle="pill"
+          href="#v-pills-reports-request" role="tab" aria-controls="v-pills-reports" aria-selected="false">
+          <i class="fas fa-chart-pie"></i><a>Reportes de solicitudes</a>
+        </div>
       </div>
     </div>
 
     <div class="tab-options col-10"
       style="background-color: #fff!Important; margin-left: 20px;  padding: 0; border-radius: 10px;">
       <div class="tab-content" id="v-pills-tabContent" style="background-color: #fff; border-radius: 10px;">
-        
-        
+
+
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"
-        style="background-color: #fff!Important;">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" style="background-color: #fff!Important; border-radius: 10px;"
-          style="display: flex; flex-direction: column; background: #fff;">
+          style="background-color: #fff!Important;">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()"
+            style="background-color: #fff!Important; border-radius: 10px;"
+            style="display: flex; flex-direction: column; background: #fff;">
             <div *ngIf="model" class="row">
               <div class="personal-tab col-6">
                 <h2 class="title">Información Personal</h2>
                 <p style="font-size: small;"><i class="fas fa-edit text-danger " style=" cursor: pointer;"
                     (click)="onUpdate(model)"></i> Editar Informacion</p>
-<!-- 
+                <!-- 
                   <div>
                     <img src="{{model.avatar}}" class="img-responsive" style="object-fit: cover !important;">
                   </div> -->
@@ -192,13 +197,23 @@
               </div>
             </div>
           </form>
-          </div>
-          <div class="tab-pane fade" id="v-pills-reports" role="tabpanel" style="background-color: #fff!Important; padding:10px" aria-labelledby="v-pills-reports-tab">
-            <ng-container *ngIf="originalUser.emergencyDisastersReports">
-              <app-users-report [data] ="originalUser.emergencyDisastersReports"></app-users-report>
-            </ng-container>
+        </div>
+        <div class="tab-pane fade" id="v-pills-reports" role="tabpanel"
+          style="background-color: #fff!Important; padding:10px" aria-labelledby="v-pills-reports-tab">
+          <ng-container *ngIf="originalUser.emergencyDisastersReports">
+            <app-users-report [data]="originalUser.emergencyDisastersReports"></app-users-report>
+          </ng-container>
 
-          </div>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-reports-request" role="tabpanel"
+          style="background-color: #fff!Important; padding:10px" aria-labelledby="v-pills-reports-tab">
+          <ng-container *ngIf="originalUser.resourcesRequestReports">
+            <resources-request-report [data]="originalUser.resourcesRequestReports">
+            </resources-request-report>
+          </ng-container>
+
+        </div>
 
       </div>
 

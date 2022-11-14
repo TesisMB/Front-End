@@ -2,6 +2,8 @@
 <!-- <span class="mr-3 text-center" *ngIf="selectTypesEmergencyDisasterService.loading$ | async"><i
         class="fas fa-spinner fa-lg fa-spin"></i></span> -->
 
+        
+
 
 <div class="card" *ngFor="let emergency of emergencyDisasterObservable | async index as i"
     [ngStyle]="{backgroundColor: getCardColor(emergency.alerts.alertID)}" #tooltip="matTooltip"
@@ -81,7 +83,7 @@
     <div *ngIf="(selectTypesEmergencyDisasterService.loading$  | async)" colspan="9" class="text-center">
         <span class="spinner-border spinner-border-lg align-center"></span>
     </div>
-    <div *ngIf="!(emergencyDisasterObservable | async).length && !(selectTypesEmergencyDisasterService.loading$  | async)"
+    <div *ngIf="!(selectTypesEmergencyDisasterService.loading$  | async)"
         colspan="9" class="text-center">
         <p class="align-center">No hay solicitudes.</p>
     </div>

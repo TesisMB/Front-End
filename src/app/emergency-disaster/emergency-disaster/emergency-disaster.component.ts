@@ -8,8 +8,9 @@ import { map } from 'rxjs/operators';
 import {Observable, pipe, Subscription} from 'rxjs';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { EmergencyDisasterService } from '../emergency-disaster.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services';
+import { ReportService } from 'src/app/services/_report.service/report.service';
 
 
 @Component({
@@ -31,21 +32,39 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   handleSU: Subscription;
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
+  isLoading: boolean = true;
+  form: FormGroup;
+
+
+
 
   constructor(
     public selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
     private router: Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private fb: FormBuilder,
+    public reportService : ReportService
     ) {
+
+      this.form = this.fb.group({
+        startDate: ['', Validators.required],
+        endDate: ['', Validators.required]
+      })
   }
 
   
   
   ngOnInit(): void {
+    this.selectTypesEmergencyDisasterService.loading = true;
     this.getTypeEmergencyDisaster();
     
     this.getEmergencyDisaster();
+
+    
+      
+
+      
     /* this.selectTypesEmergencyDisasterService.selectTypesEmergencyDisaster$.subscribe(
       (idTypes: number) => this.id = idTypes);
       
@@ -55,6 +74,10 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
 
   }
 
+
+  EmergencyDisaster(){
+
+  }
 
   getTypeEmergencyDisaster(){
     this.selectTypesEmergencyDisasterService.getAll()
@@ -94,12 +117,19 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
         .subscribe(data => {
           this.emergencyDisaster = data;
           this.setEmergenciesDisaster(data);
-         
+          this.isLoading = false;
+          this.reportService.searchPath = 'alertName';
+          this.reportService.data = data;         
      console.log('EmergencyDisaster - ListAll => ', data);
     }, error => {
+      this.isLoading = false;
       console.log('Error', error);
     })
   }
+
+
+
+
 
   setEmergenciesDisaster(emergencyDisaster: EmergencyDisaster[]){
     this.selectTypesEmergencyDisasterService.uploadTable(emergencyDisaster);
@@ -135,6 +165,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.reportService.resetForm();
   }
 
 

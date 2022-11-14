@@ -323,20 +323,20 @@ getType(data){
     // console.log('Fecha formateada => ',latest_date);
 
     
-     this.dataClone = dateForm.to ?
-     this.data.filter(f =>   moment(f.startDate).isBetween(startDate,isEndDate)) :
-     this.data.filter(f => moment(f.startDate).isAfter(startDate));
+  this.dataClone = dateForm.to ?
+  this.data.filter(f =>   moment(f.startDate).isBetween(startDate,isEndDate)) :
+  this.data.filter(f => moment(f.startDate).isAfter(startDate));
 
     console.log('clone data => ',this.dataClone);
   }
 
   
   formatingAxisX(event: number){
-  //   if(typeof event === 'number'){
-  //     event = Math.round(event);
-  //     console.log('Evento Formating => ', event);
-  //     return event;
-  //   }
-  //  return event;
+    if(typeof event === 'number'){
+      // event = Math.round(event);
+      console.log('Evento Formating => ', event);
+      return event % 1 === 0 ? event :  ''; 
+    }
+   return event;
   }
 }

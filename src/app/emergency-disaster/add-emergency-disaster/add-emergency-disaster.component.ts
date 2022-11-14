@@ -176,11 +176,12 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
       // this.alertService.success('Registro exitoso :)', { autoClose: true });
       this.openSnackBar(
         'Se ha registrado correctamente la alerta y se notifico a los voluntarios',
-        ':)',
+        'Entendido!',
         'center',
         'top',
         5000
       );
+      this.location.back();
       // this.stepper.reset();
         
       }, error =>{

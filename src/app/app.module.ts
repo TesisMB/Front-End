@@ -53,7 +53,6 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
     SharedModule,
     MaterialDesignModule,
     ResourcesModule,
-    EmergencyDisasterModule,
     ReportsModule,
     MomentModule,
     NgxMapboxGLModule.withConfig({

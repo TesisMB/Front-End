@@ -24,7 +24,13 @@ import { RecentNoStockComponent } from './recent-no-stock/recent-no-stock.compon
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { UsersReportComponent } from './users-report/users-report.component';
 import { DatePickerRangeComponent } from '../directives/date-picker-range/date-picker-range';
-
+import { ResourcesRequestReportComponent } from '../users/report-resources-request/resources-request-report/resources-request-report.component';
+import { ResourcesRequestViewComponent } from '../users/report-resources-request/resources-request-view/resources-request-view.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { FilterComponent } from './filter/filter.component';
+import { EmergencyDisasterReportComponent } from '../emergency-disaster/emergency-disaster-report/emergency-disaster-report.component';
+import { EmergencyDisasterFilterComponent } from '../emergency-disaster/emergency-disaster-filter/emergency-disaster-filter.component';
 
 
 @NgModule({
@@ -42,7 +48,12 @@ import { DatePickerRangeComponent } from '../directives/date-picker-range/date-p
     RecentMonitoreoComponent,
     RecentNoStockComponent,
     UsersReportComponent,
-    DatePickerRangeComponent
+    ResourcesRequestReportComponent,
+    ResourcesRequestViewComponent,
+    DatePickerRangeComponent,
+    FilterComponent,
+    EmergencyDisasterReportComponent,
+    EmergencyDisasterFilterComponent
   ],
   imports: [
     CommonModule,
@@ -51,6 +62,8 @@ import { DatePickerRangeComponent } from '../directives/date-picker-range/date-p
     MaterialDesignModule,
     NgbModule,
     NgxChartsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     MaterialDesignModule,
@@ -67,7 +80,13 @@ import { DatePickerRangeComponent } from '../directives/date-picker-range/date-p
     ReactiveFormsModule,
     ResourceModalComponent,
     UsersReportComponent,
-    NgxChartsModule],
+    ResourcesRequestReportComponent,
+    ResourcesRequestViewComponent,
+    NgxChartsModule,
+    FilterComponent,
+    EmergencyDisasterReportComponent,
+    EmergencyDisasterFilterComponent
+  ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     TableService,

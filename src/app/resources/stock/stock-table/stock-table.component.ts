@@ -1,3 +1,4 @@
+import { ReportService } from 'src/app/services/_report.service/report.service';
 import { ResourcesService } from './../../resources.service';
 import { AlertService } from './../../../services/_alert.service/alert.service';
 import { Component, OnInit, OnDestroy, Input, AfterViewInit, ViewChildren, QueryList, ViewEncapsulation } from '@angular/core';
@@ -23,7 +24,7 @@ export class StockTableComponent implements OnInit {
   resources$: Observable<Resource[]>;
   total$: Observable<number>;
   loading$: Observable<boolean>;
-  currentUser: User = this.authService.currentUserValue;
+  currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
   error: any = '';
 
   handleRequest: Subscription;
@@ -32,11 +33,12 @@ export class StockTableComponent implements OnInit {
   handleUpdate: Subscription;
   modalRef:any;
   @ViewChildren(SorteableDirective) headers: QueryList<SorteableDirective>;
-    constructor(private alertService: AlertService,
+    constructor(
       public service: ResourcesService,
+      private alertService: AlertService,
       private modalService: NgbModal,
       private authService: AuthenticationService,
-      
+      private reportService : ReportService,
       ) {}
 
   ngOnInit(): void {
@@ -44,13 +46,13 @@ export class StockTableComponent implements OnInit {
     this.total$ = this.service.total$;
     this.loading$ = this.service.loading$;
     // this.resources = this.service.resourcesValue;
+    // this.reportService.location = this.currentUser.estates.estateID;
   }
 
     get isAdmin(){       
        return this.currentUser.roleName === 'Admin';
       }
       get isCG(){
-        
         return this.currentUser.roleName ===  'Coordinador General';
        }
 

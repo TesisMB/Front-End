@@ -5,6 +5,7 @@
   <div class="col">
     <button mat-raised-button (click)="onBack()">Atrás</button>
   </div>
+
 </section>
 
 
@@ -14,13 +15,36 @@
   <section class="col-12 col-body">
 
 
-    <div class="pt-4 col-3 align-self-end">
+    <div class="pt-4 col-12 d-flex justify-content-between">
       <div class="d-flex form-control align-items-center bd-highlight pr-3" id="search">
         <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
         <input class="col-4 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
         <span class="col-4 text-center" *ngIf="service.loading$ | async"><i
             class="fas fa-spinner fa-lg fa-spin"></i></span>
       </div>
+      
+      <mat-form-field appearance="outline" >
+        <mat-label>Localidad</mat-label>
+        <mat-select [(value)]="locationSelected" (valueChange)="selectLocation($event)">
+          <mat-option value=''>Todos</mat-option>
+          <!-- <mat-select-trigger>
+            {{locationSelected.length ? locationSelected[0] : ''}}
+            <span *ngIf="locationSelected?.length > 1" class="example-additional-selection">
+              (+{{locationSelected.length - 1}} {{locationSelected.length === 2 ? 'otro' : 'otros'}})
+            </span>
+          </mat-select-trigger> -->
+          <!-- <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName"> -->
+            <!-- <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
+              {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
+            </mat-option> -->
+            <mat-option *ngFor="let locations of locations" [value]="locations.locationID">
+              {{locations.locationCityName | titlecase}}
+            </mat-option>
+          <!-- </mat-optgroup> -->
+          
+        </mat-select>
+      </mat-form-field>
+
     </div>
 
 <!-- [disabled]="loading" -->
@@ -41,7 +65,7 @@
     </div>
 
 
-    <div *ngIf="(data | async).length" class="campus-col">
+    <div *ngIf="(data | async)?.length" class="campus-col">
       <ul *ngFor="let item of data | async; let i = index;">
         <li>
           <div class="col mb-3">
@@ -192,9 +216,9 @@
     </div>
 
 
-    <div *ngIf="!(data | async).length">
+    <div *ngIf="!(data | async)?.length || (service.loading$ | async)">
       <!-- ******************* Spinner - se debe refactorizar  **************************-->
-      <div *ngIf="(service.loading$ | async) || !(data | async).length" colspan="7" class="text-center">
+      <div *ngIf="(service.loading$ | async)" colspan="7" class="text-center">
         <span class="spinner-border spinner-border-lg align-center"></span>
       </div>
 

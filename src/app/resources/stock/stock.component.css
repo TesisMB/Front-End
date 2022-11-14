@@ -12,17 +12,26 @@
     border: none;
 
 }
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
 textarea:focus, input:focus{
     outline: none;
   }
   
   .title {
     text-align: center;
-    margin: 40px 0;
+    padding: 10px 0;
+    width: 22vw;
+    /* border-radius: 10px;
+    border: 1px solid red;
+    padding: 10px; */
   }
   
   .title h1 {
     font-size: 35px !important;
+    width: 100%;
   }
   
   .child-2 {

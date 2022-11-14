@@ -101,8 +101,6 @@ openDialog(i, tipo: string){
   const dialogRef = this.dialog.open(NgbdEditDialogComponent);
   dialogRef.componentInstance.emergencyDisaster = this.selectTypesEmergencyDisasterService.emergencyDisasterObservableValue$[i];
   dialogRef.componentInstance.tipo = tipo;
-
-
 }
 
 

@@ -11,8 +11,6 @@ import {SortColumn, SortDirection} from '../directives/sorteable.directive';
 import { DecimalPipe } from '@angular/common';
 import {compare, Operation } from 'fast-json-patch';
 import * as _ from 'lodash';
-import { constants } from 'buffer';
-import { StringMapWithRename } from '@angular/compiler/src/compiler_facade_interface';
 
 function matches(resource: Resource, term: string, pipe: PipeTransform) {
   return (resource.name).toLowerCase().includes(term.toLowerCase())
@@ -46,14 +44,18 @@ export class ResourcesService {
     params: new HttpParams() };
  
   private _resources$ = new BehaviorSubject<Resource[]>([]);
+  private _resourcesReport$ = new BehaviorSubject<Resource[]>([]);
  protected _type$ = new BehaviorSubject<string>('');
  private _loading$ = new BehaviorSubject<boolean>(true);
  private _search$ = new Subject<void>();
+ private _reports$ = new Subject<void>();
+ 
  private _total$ = new BehaviorSubject<number>(0);
  private resources: Resource[]= [];
  private _item$ = new BehaviorSubject<Resource>(null);
  private _imgFile$ = new BehaviorSubject<File>(null);
  private _showAvailability$ = new BehaviorSubject<boolean>(false);
+ private _showDonation$ = new BehaviorSubject<boolean>(false);
 
 
 
@@ -78,17 +80,32 @@ export class ResourcesService {
       delay(200),
       tap(() => this._loading$.next(false))
     ).subscribe(result => {
+      console.log('Paso por el search => ',result);
       this._resources$.next(result.data);
       this._total$.next(result.total);
-    });
+    }, (error) => { console.log('Paso por el error => ',error);});
+
+
+    this._reports$.pipe(
+      tap(() => this._loading$.next(true)),
+      debounceTime(200),
+      switchMap(() => this._filter()),
+      delay(200),
+      tap(() => this._loading$.next(false))
+    ).subscribe(result => {
+      console.log('Paso por el filter => ',result);
+      this._resourcesReport$.next(result.data);
+      // this._total$.next(result.total);
+    }, (error) => { console.log('Paso por el error => ',error);});
   
-    this._search$.next();
+    // this._search$.next();
 
     this.vehiclesTypes$ = this.http.get<any>(environment.URL + 'typesvehicles').pipe(tap(x => console.log('Types of vehicles => ',x)));
   }
 
 get resourcesValue(){  return this._resources$.value; }
 get resources$(){return this._resources$.asObservable();}
+get resourcesReport$(){return this._resourcesReport$.asObservable();}
 get item$() { return this._item$.asObservable(); }
 get total$() { return this._total$.asObservable(); }
 get loading$() { return this._loading$.asObservable(); }
@@ -103,22 +120,29 @@ set searchTerm(searchTerm: string) { this._set({searchTerm}); }
 set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
 set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
 set type(type: string) {this._setType(type);}
-set showAvailability(availability: boolean) {this._setAvailability(availability);}
+set showAvailability(availability: any) {this._setAvailability(availability);}
+set showDonation(donation: any) {this._setDonation(donation);}
 set loading(load:any){this._setLoading(load);}
 
 private _set(patch: Partial<State>) {
   Object.assign(this._state, patch);
   this._search$.next();
 }
-private _setLoading(load){
-  this._loading$.next(load);
+public _setLoading(value : boolean){
+  this._loading$.next(value);
 }
 public _setType(type:string){
   this._type$.next(type);
   // this._search$.next();
 }
 private _setAvailability(availability:boolean){
+  console.log('EJecutando setAvailability => ', availability);
   this._showAvailability$.next(availability);
+  this._search$.next();
+}
+private _setDonation(donation:boolean){
+  console.log('EJecutando setDonation => ', donation);
+  this._showDonation$.next(donation);
   this._search$.next();
 }
 /**Se debe realizar una funcion para la cual se actualice la tabla despues de cambiar datos de usuario */
@@ -157,21 +181,28 @@ public uploadTable(resources: Resource[]) {
 }
 
 
-  getAll(userID: number) {
-    let paramaters = new HttpParams().append('userId', JSON.stringify(userID));
-    this.options.params = paramaters;
+  getAll(locationID?: any) {
+    // if(locationID){
+      
+      let paramaters = new HttpParams().append('locationId', JSON.stringify(locationID ? locationID : null));
+      this.options.params = paramaters;
+    // }
 
     return this.http
       .get<Resource[]>(environment.URL + this._type$.value, this.options)
        .pipe(map((resources: Resource[]) => {
           if(resources.length){
             this._resources$.next(resources);
+            this._resourcesReport$.next(resources);
+            
             this.resources = resources;
             this._search$.next();
-
+            this._reports$.next();
           }
           else{
             this._resources$.next(null);
+            this._resourcesReport$.next([]);
+            this._loading$.next(false);
           }
           return resources;
        }
@@ -263,13 +294,23 @@ public uploadTable(resources: Resource[]) {
     }
 
   private _search(): Observable<SearchResult> {
-    const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
-  
-    // 1. filtrado por disponibilidad
-     const resources = this.resources.filter(x => x.availability !== this._showAvailability$.value);
     
+    const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
+    var resources;
+  if(this._showAvailability$.value){
+    // 1. filtrado por disponibilidad
+    resources = this.resources.filter(x => x.availability !== this._showAvailability$.value) ;
+  }
+
+  if(this._showDonation$.value){
+    let d = resources ? resources : this.resources;
+    resources = this.resources.filter(x => x.donation === this._showDonation$.value) ;
+    }
+
+    let data = resources ? resources : this.resources;
+
     // 1. sort
-    let data = sort(this.resources, sortColumn, sortDirection);
+    data = sort(data, sortColumn, sortDirection);
   
     // 2. filter
     data = data.filter(employee => matches(employee, searchTerm, this.pipe));
@@ -278,6 +319,27 @@ public uploadTable(resources: Resource[]) {
   
     // 3. paginate
     data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+    return of({data, total});
+   }
+
+   private _filter(): Observable<SearchResult> {
+    
+    const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
+  
+    // 1. filtrado por disponibilidad
+    let resources = this._showAvailability$.value ?  this.resources : this.resources.filter(x => x.availability !== this._showAvailability$.value) ;
+    
+    // 1. sort
+    // let data = sort(resources, sortColumn, sortDirection);
+  
+    // 2. filter
+    // data = data.filter(employee => matches(employee, searchTerm, this.pipe));
+    let data = resources;
+
+    const total = data.length;
+  
+    // 3. paginate
+    // data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
     return of({data, total});
    }
 }

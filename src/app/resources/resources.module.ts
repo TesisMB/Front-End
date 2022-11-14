@@ -16,10 +16,11 @@ import { RequestTableComponent } from './request-table/request-table.component';
 import { StockComponent } from './stock/stock.component';
 import { StockTableComponent } from './stock/stock-table/stock-table.component';
 import { NgbdResourcesFiltersDialogComponentComponent } from './ngbd-resources-filters-dialog-component/ngbd-resources-filters-dialog-component.component';
+import { StockReportComponent } from './stock/stock-report/stock-report.component';
 
 
 @NgModule({
-  declarations: [ResourcesComponent, HistoryRequestComponent, RequestComponent, addEditResourcesComponent, ResourcesDetails, StatesComponent, LayoutResourcesComponent, ResourcesListComponent, CartComponent, RequestTableComponent, StockComponent, StockTableComponent, NgbdResourcesFiltersDialogComponentComponent],
+  declarations: [ResourcesComponent, HistoryRequestComponent, RequestComponent, addEditResourcesComponent, ResourcesDetails, StatesComponent, LayoutResourcesComponent, ResourcesListComponent, CartComponent, RequestTableComponent, StockComponent, StockTableComponent, NgbdResourcesFiltersDialogComponentComponent, StockReportComponent],
   imports: [
     SharedModule,
     ResourcesRoutingModule

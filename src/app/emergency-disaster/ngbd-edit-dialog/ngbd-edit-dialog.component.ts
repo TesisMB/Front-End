@@ -201,7 +201,8 @@ setRole(){
       patch = patch.filter( obj => obj.path !== "/locationsEmergenciesDisasters/locationLongitude");
       patch = patch.filter( obj => obj.path !== "/typesEmergenciesDisasters/typeEmergencyDisasterDescription");
       patch = patch.filter( obj => obj.path !== "/chatRooms/usersChatRooms/0");
-
+      patch = patch.filter( obj => obj.path !== "/resources_Requests/0");
+      
     
       console.log("Patch =>", patch);
 

@@ -7,7 +7,7 @@
 </div>
 <form [formGroup]="form" (ngSubmit)="requestResponse()">
 
-<div class="modal-body">
+<div *ngIf="resources" class="modal-body">
   <ng-container *ngIf="resources.description">
     <mat-form-field class="input-form-cart mt-4" appearance="outline">
       <mat-label>Razón de la solicitud</mat-label>

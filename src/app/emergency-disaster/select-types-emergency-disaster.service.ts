@@ -103,14 +103,15 @@ export class SelectTypesEmergencyDisasterService extends DataService{
   get page() { return this._state.page; }
   get pageSize() { return this._state.pageSize; }
   get searchTerm() { return this._state.searchTerm; }
+  get loading$() { return this._loading$.asObservable(); }
 
   set page(page: number) { this._set({page}); }
   set pageSize(pageSize: number) { this._set({pageSize}); }
   set searchTerm(searchTerm: string) { this._set({searchTerm}); }
   set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
   set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
+  set loading(loading: boolean) { this._setLoading(loading); }
 
-  get loading$() { return this._loading$.asObservable(); }
 
 
   private _set(patch: Partial<State>) {
@@ -129,7 +130,9 @@ export class SelectTypesEmergencyDisasterService extends DataService{
     this.selectTypes$.next(id);
     this._search$.next();
   }
-
+private _setLoading(value: boolean){
+  this._loading$.next(value);
+}
 
   get statusTypesEmergencyDisaster$(){
     return this.status$.asObservable();
@@ -153,6 +156,7 @@ export class SelectTypesEmergencyDisasterService extends DataService{
 
   setEmergencyDisaster (emrgencyDisaster: EmergencyDisaster[]){
     this.emergencyDisaster$.next(emrgencyDisaster);
+    this._search$.next();
   }
 
 
