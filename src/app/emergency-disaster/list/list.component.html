@@ -2,6 +2,8 @@
 <!-- <span class="mr-3 text-center" *ngIf="selectTypesEmergencyDisasterService.loading$ | async"><i
         class="fas fa-spinner fa-lg fa-spin"></i></span> -->
 
+        
+
 
 <div class="card" *ngFor="let emergency of emergencyDisasterObservable | async index as i"
     [ngStyle]="{backgroundColor: getCardColor(emergency.alerts.alertID)}" #tooltip="matTooltip"

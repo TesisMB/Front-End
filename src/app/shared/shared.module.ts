@@ -29,6 +29,7 @@ import { ResourcesRequestViewComponent } from '../users/report-resources-request
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FilterComponent } from './filter/filter.component';
+import { EmergencyDisasterReportComponent } from '../emergency-disaster/emergency-disaster-report/emergency-disaster-report.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { FilterComponent } from './filter/filter.component';
     ResourcesRequestViewComponent,
     DatePickerRangeComponent,
     FilterComponent,
+    EmergencyDisasterReportComponent
   ],
   imports: [
     CommonModule,
@@ -79,7 +81,8 @@ import { FilterComponent } from './filter/filter.component';
     ResourcesRequestReportComponent,
     ResourcesRequestViewComponent,
     NgxChartsModule,
-    FilterComponent],
+    FilterComponent,
+    EmergencyDisasterReportComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     TableService,
