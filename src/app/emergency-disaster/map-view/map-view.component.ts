@@ -4,6 +4,21 @@ import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone } from 
 import {Map, Popup, Marker} from 'mapbox-gl';
 //import { MapsAPILoader } from '@agm/core';
 
+const geoJSON = {
+  "type": "geojson",
+  "data": {
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": []
+    },
+    "properties": {
+        "title": "Mapbox DC",
+        "marker-symbol": "monument"
+    }
+}
+};
+
 @Component({
   selector: 'map-view',
   templateUrl: './map-view.component.html',
@@ -16,7 +31,7 @@ export class MapViewComponent implements OnInit, AfterViewInit {
   zoom: number;
   address: string;
   private geoCoder;
-
+  source = geoJSON;
   @ViewChild('search')
   public searchElementRef: ElementRef;
 

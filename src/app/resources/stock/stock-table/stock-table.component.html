@@ -66,7 +66,7 @@
               <button [routerLink]="['/recursos','editar',type]" [queryParams]="{ id: resources.id }" type="button" class="btn btn-option-success  btn-sm" ><mat-icon class="icon">mode_edit</mat-icon><p class="option-text">Actualizar</p> </button>
               
       
-              <button *ngIf="resources.availability; else isNotAvailable" type="button " class="btn btn-option-warning  btn-sm" (click)="changeStatus('Deshabilitar',$event, resources.id)" >
+              <button *ngIf="resources.enabled; else isNotAvailable" type="button " class="btn btn-option-warning  btn-sm" (click)="changeStatus('Deshabilitar',$event, resources.id)" >
                 <mat-icon class="icon">person_remove</mat-icon>
                 <p class="option-text">Deshabilitar</p>
               </button>

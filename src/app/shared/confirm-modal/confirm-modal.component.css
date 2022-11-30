@@ -1,3 +1,11 @@
 .modal-title {
     font-weight: bold;
 }
+
+textarea{
+    height: 150px;
+}
+
+.mat-field{
+    width: 465px !important;
+}

@@ -26,6 +26,15 @@
         </p>
         <p *ngIf="action ==='Habilitar'"><span class="text-info">Esta operación es reversible.</span>
           </p>
+
+          <mat-form-field class="example-full-width mat-field" appearance="fill" *ngIf="action ==='Deshabilitar'">
+            <!-- <mat-label for="emergencyDisasterInstruction">Descripción: </mat-label> -->
+            <mat-label>Razon: </mat-label>
+            <!-- <textarea matInput id="emergencyDisasterInstruction" name="emergencyDisasterInstruction"
+                formControlName="emergencyDisasterInstruction"></textarea> -->
+                <textarea matInput 
+                ></textarea>
+        </mat-form-field>
     <ng-template #withoutUser>
 
     </ng-template>

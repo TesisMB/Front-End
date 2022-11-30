@@ -123,7 +123,7 @@
 @media (min-width: 1200px) {
 
   .modal-xl {
-    max-width: 1500px;
+    max-width: 1500px !important;
   }
 }
 
@@ -135,6 +135,13 @@
 
 .modal-body {
   /* 100% = dialog height, 120px = header + footer */
-  max-height: calc(100% - 120px);
+  max-height: calc(100% - 120px) !important;
   overflow-y: scroll;
+}
+
+@media (min-width: 576px){
+  .modal-dialog {
+    max-width: 500px;
+    margin: 9.75rem auto !important;
+  }
 }

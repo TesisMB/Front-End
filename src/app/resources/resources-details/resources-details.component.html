@@ -65,7 +65,7 @@
             </form>
           </div>
           <div *ngIf="!item.volunteers" class="boton p-1">
-            <button class="btn btn-sm btn-danger" [disabled]="checkStock" (click)="onSubmit()">
+            <button class="btn btn-sm btn-danger" [disabled]="checkEnabled" (click)="onSubmit()">
               Solicitar
             </button>
             <hr />
@@ -247,10 +247,10 @@
                   <th scope="row">Disponibilidad</th>
 
                   <td>
-                    <span for="status" *ngIf="item.availability"><i [class.text-success]="item.availability"
+                    <span for="status" *ngIf="item.availability && item.enabled"><i [class.text-success]="item.availability"
                         class="fas fa-circle"></i>
                       Disponible</span>
-                    <span *ngIf="!item.availability"><i [class.text-danger]="!item.availability"
+                    <span *ngIf="!item.availability || !item.enabled"><i [class.text-danger]="!item.availability"
                         class="fas fa-circle"></i>
                       No disponible</span>
                   </td>

@@ -70,7 +70,7 @@
         <li>
           <div class="col mb-3">
             <div class="card"
-              [ngClass]="[item.availability  || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']">
+              [ngClass]="[item.availability  || item.enabled || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']">
 
 
               <a [routerLink]="['/recursos', 'lista', tipo, item.id]">
@@ -122,8 +122,12 @@
 
                   <div class="layer">
                     <div class="hov">
-                      <p>
+                      <p *ngIf = "!item.reason">
                         {{ item.description }}
+                      </p>
+
+                      <p *ngIf = "item.reason">
+                        {{item.reason}}
                       </p>
 
                       <ng-container
@@ -134,12 +138,16 @@
 
                         <span
                           [ngClass]="[item.availability == false || item.quantity <= 0 ? 'status-out_of_stock' : 'status-with_stock']">
-                          <button *ngIf="item.availability && item.quantity > 0">
+                          <button *ngIf="item.availability && item.quantity > 0 && item.enabled">
                             Cantidad : {{item.quantity | number}}
                           </button>
 
                           <button *ngIf="!item.availability || item.quantity <= 0">
                             SIN STOCK
+                          </button>
+
+                          <button *ngIf="item.enabled == false" class="black">
+                            Deshabilitado
                           </button>
 
                         </span>
@@ -186,12 +194,16 @@
                 <ng-template #volunteersStatus>
                   <span [ngClass]="[item.availability == false ? 'status-out_of_stock2' : 'status-with_stock2']">
 
-                    <p *ngIf="item.availability" class="disponible">
+                    <p *ngIf="item.availability  && item.enabled" class="disponible">
                       DISPONIBLE
                     </p>
 
-                    <p *ngIf="!item.availability" class="disponible">
+                    <p *ngIf="!item.availability && item.enabled" class="disponible">
                       NO DISPONIBLE
+                    </p>
+
+                    <p *ngIf="!item.enabled" class="disponible">
+                      Deshabilitado
                     </p>
 
                   </span>

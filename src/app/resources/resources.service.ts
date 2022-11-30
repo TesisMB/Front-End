@@ -161,7 +161,8 @@ public _setResources(patch:Resource){
 public changeStatusItem(id:string){
   let index = this.resources.findIndex( x => id == x.id);
   const clone = _.cloneDeep(this.resources[index]);
-  this.resources[index].availability = !this.resources[index].availability;
+  //this.resources[index].availability = !this.resources[index].availability;
+  this.resources[index].enabled = !this.resources[index].enabled;
   const patch = compare(clone , this.resources[index] );
   this._search$.next();
   return patch;
@@ -299,7 +300,7 @@ public uploadTable(resources: Resource[]) {
     var resources;
   if(this._showAvailability$.value){
     // 1. filtrado por disponibilidad
-    resources = this.resources.filter(x => x.availability !== this._showAvailability$.value) ;
+    resources = this.resources.filter(x => x.enabled !== this._showAvailability$.value) ;
   }
 
   if(this._showDonation$.value){

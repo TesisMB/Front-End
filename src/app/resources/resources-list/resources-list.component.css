@@ -160,6 +160,13 @@ span button {
   border: none;
 }
 
+.layer:hover .black{
+  bottom: 20%;
+  opacity: 1;
+  background: #000 !important;
+  border: none;
+}
+
 .layer:hover .hov span p {
   bottom: 30%;
   opacity: 1;

@@ -15,6 +15,8 @@ export class Resource {
   volunteers: Volunteer;
   estates: Estates;
   donation: boolean;
+  reason: string;
+  enabled: boolean;
 
   constructor(
     _id: string,
@@ -29,9 +31,9 @@ export class Resource {
     _volunteers: Volunteer,
     _estates: Estates,
     _donation: boolean,
+    _reason: string,
+    _enabled: boolean,
     _locationCityName?:string,
-  
-
   ) {
     this.id = _id;
     this.name = _name;
@@ -46,6 +48,8 @@ export class Resource {
     this.estates = _estates;
     this.donation = _donation;
     this.locationCityName = _locationCityName;
+    this.reason = _reason;
+    this.enabled = _enabled;
   }
 }
 

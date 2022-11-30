@@ -18,7 +18,43 @@
 </div> -->
 <div style="display:block">
 
-  <div #mapDiv class="map-container">
+  <!-- <div #mapDiv class="map-container">
+  </div> -->
+
+  <div class="map-container">
+    <!-- <div class="location map-frame"> -->
+      <!-- <div id="map">
+      </div>  -->
+      <!-- <map>
+      </map> -->
+      <!-- <div #mapDiv class="map-container">
+      </div> -->
+      <mgl-map #mapDiv class="map-container"
+      [style]="'mapbox://styles/mapbox/streets-v11'"
+      [zoom]="[14]"
+      [center]="this.placesService.userLocation"
+      doubleClickZoom="true">
+      <mgl-marker [lngLat]="this.placesService.userLocation">
+      </mgl-marker>
+       <!-- <mgl-layer
+         id="state-borders"
+         type="circle"
+         [source]="source"
+         [paint]="{
+           'circle-color': '#627BC1',
+           'circle-radius': 50,
+           'circle-opacity': 0.5,
+           'circle-pitch-scale' : 'viewport',
+           'circle-pitch-alignment':'viewport'
+         }"
+></mgl-layer>  -->
+<mgl-control mglNavigation></mgl-control>
+<mgl-control mglFullscreen></mgl-control>
+<mgl-control mglGeolocate showUserLocation="true" trackUserLocation="true"></mgl-control>
+
+<mgl-control mglScale unit="metric" position="top-right"></mgl-control>
+    </mgl-map>
+    <!-- </div> -->
   </div>
   <search-bar></search-bar>
 </div>

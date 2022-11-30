@@ -45,7 +45,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   user: User [];
   ubicacion: any;
   hasVictims: boolean = false;
-
+z
   constructor(   
     private location: Location,
     private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
