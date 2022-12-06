@@ -39,7 +39,7 @@
 
         <!-- Boton para agregar -->
         <div class="col-4 col-xs-4 col-sm-auto pt-4  align-self-end">
-            <button mat-raised-button color="warn" (click)="openDialog()">
+            <button [hidden]="(currentUser$ | async).roleName.includes('Encargado de Logistica')" mat-raised-button color="warn" (click)="openDialog()">
                 <mat-icon>add</mat-icon>
                 Agrega un PDF
             </button>

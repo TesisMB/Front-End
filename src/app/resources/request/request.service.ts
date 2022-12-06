@@ -1,33 +1,73 @@
-import { Parametros } from './../../models/Parametros';
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { DataService } from 'src/app/services';
+import { User } from 'src/app/models';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequestService extends DataService {
-
+private _condition$ = new BehaviorSubject<string>('');
+private _typesAlert$ = new BehaviorSubject<any[]>([]);
+private currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
   constructor(http: HttpClient) { 
     super(http, 'ResourcesRequest')
   }
 
+  get condition$() {
+    return this._condition$.asObservable();
+  }
+  get typesAlert$() {
+    return this._typesAlert$.asObservable();
+  }
+  set condition(condition: string){
+    this._condition$.next(condition);
+  }
+  set typesAlert(types: any[]){
+    this._typesAlert$.next(types);
+  }
+
   getAll(condition?:string, state?: string): Observable<any> {
+    let arrOfTypes = [];
+    let arrOfSolicitantes = [];
     if(condition){
-      
+      // this.condition = condition;
       const paramsObj = {
         // userId: JSON.stringify(userId) || undefined,
         Condition: condition || undefined,
-        state: state ||undefined
+        state: state || this.currentUser.estates.locationID.toString()
       };
       
       let parametro = new HttpParams({fromObject: paramsObj});
 
       
       this.options.params = parametro;
-      return this.http.get<any>(environment.URL + this.patch, this.options);
+      return this.http.get<any>(environment.URL + this.patch, this.options)
+      .pipe(map(
+        data => {
+          data.forEach(item =>{
+            // const types = {id: item.typeEmergencyDisasterID,name: item.typeEmergencyDisasterName};
+            const solicitantes = {id: item.createdBy, name: item.createdByEmployee}
+            arrOfTypes.push(item.typeEmergencyDisasterName.toLowerCase());
+            arrOfSolicitantes.push(solicitantes);
+          });
+          // arrOfTypes.push({
+          //   id: 8,
+          //   name: "Todos"
+          // });
+          arrOfSolicitantes.push({
+            id: -1,
+            name: "Todos"
+          });
+          
+          this.typesAlert = this.removeDuplicates(arrOfTypes);
+          // this.typesAlert = arrOfTypes;
+            return data;
+        }
+      ));
     }
     else {
       // const parametro = new HttpParams().append('userId', JSON.stringify(userId));
@@ -35,7 +75,9 @@ export class RequestService extends DataService {
       return this.http.get<any>(environment.URL + this.patch);
     }
   }
-
+  removeDuplicates(arr) {
+    return [...new Set(arr)];
+}
   rejectRequest(response){
   return  this.http.post<any>(environment.URL +  this.patch+'/acceptRejectRequest' , response);
   }

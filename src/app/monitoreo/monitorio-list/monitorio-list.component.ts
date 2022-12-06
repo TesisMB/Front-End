@@ -19,6 +19,8 @@ import { NgbdModalComponent } from 'src/app/users/ngbd-modal/ngbd-modal.componen
 import { saveAs } from 'file-saver';
 import { Files } from 'src/app/models/monitoreos';
 import { DialogPDFComponent } from '../dialog-pdf/dialog-pdf.component';
+import { AuthenticationService } from 'src/app/services';
+import { User } from 'src/app/models';
 
 @Component({
   selector: 'monitorio-list',
@@ -35,12 +37,14 @@ export class MonitorioListComponent implements OnInit {
   array= [];
   typesid: number;
   total$: Observable<number>;
+  currentUser$ : Observable<User>;
 
 
 
   constructor(
     public monitoreoService: MonitoreoService,
     private alertService: AlertService,
+    private authService: AuthenticationService,
     private modalService: NgbModal,
     public dialog: MatDialog,
     private router: Router) {
@@ -48,6 +52,8 @@ export class MonitorioListComponent implements OnInit {
       
     }
   ngOnInit(): void {
+    this.currentUser$ = this.authService.currentUser2;
+
     // this.files$ = this.monitoreoService.getAll();
      /*  this.selectTypesEmergencyDisasterService.TypesEvent.subscribe(data =>{
         this.typesid = data;

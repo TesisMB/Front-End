@@ -1,0 +1,52 @@
+<!-- <ng-container *ngIf="service"> -->
+    
+ <mat-accordion>
+    <mat-expansion-panel style="width: 100%" [disabled]="isDisabled" hideToggle>
+       <mat-expansion-panel-header>
+            <mat-panel-title>
+                <form class="col-12 col-xs-12 col-sm-auto d-flex pt-2">
+                    <div class="d-flex form-control align-self-start align-items-center bd-highlight pr-3" id="search">
+                            <span class="col-2 text-left">
+                               <button mat-icon-button ><mat-icon>search</mat-icon></button> 
+                            </span>
+                         <input class="col-10 input-search" type="text" name="any"
+                              (ngModel) = "searchTerm" placeholder="Buscar" (keyup)="search(searchTerm)" />
+                     </div>
+                </form>
+            </mat-panel-title>
+            <button *ngIf="service.searchType === 'table'" mat-raised-button color="warn" matTooltip="Historial de solicitudes" class="m-2"
+            (click)="changeToReport('reportes')">
+            <mat-icon>bar_chart</mat-icon>
+        </button>
+            <button *ngIf="service.searchType === 'reportes'" mat-raised-button color="warn" matTooltip="Historial de solicitudes" class="m-2"
+            (click)="changeToReport('table')">
+                <mat-icon>history</mat-icon>
+            </button>
+            <mat-panel-description>
+                <h2>
+                    Solicitudes de recursos
+                </h2>
+            </mat-panel-description>
+            <button mat-raised-button color="warn" matTooltip="Filtros" class="m-2" (click)="manageAccordion()">
+                <mat-icon>filter_alt</mat-icon>
+            </button>
+        </mat-expansion-panel-header>  
+
+        <mat-action-row>
+            <button mat-raised-button color="warn" (click)="service.resetForm()">
+                Reestablecer filtros
+            </button>
+        </mat-action-row>
+
+        <filter [datepicker]="true"
+                [withStock]="false"
+                [withDonation]="false"
+                [withResourceType]="false"
+                [withConditionType] = 'true'
+                [withAlertType] = 'true'
+                
+                >
+            </filter>
+    </mat-expansion-panel>
+</mat-accordion>
+<!-- </ng-container> -->

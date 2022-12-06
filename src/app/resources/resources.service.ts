@@ -2,7 +2,7 @@ import { AuthenticationService } from 'src/app/services';
 import { HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable, PipeTransform } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Resource } from '../models';
+import { Resource, User } from '../models';
 import { pipe } from 'rxjs';
 import { debounceTime, delay, filter, map, switchMap, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
@@ -42,11 +42,12 @@ export class ResourcesService {
   protected options = {
     headers: new HttpHeaders().set('Content-Type', 'application/json'),
     params: new HttpParams() };
- 
+private currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
   private _resources$ = new BehaviorSubject<Resource[]>([]);
   private _resourcesReport$ = new BehaviorSubject<Resource[]>([]);
- protected _type$ = new BehaviorSubject<string>('');
+ protected _type$ = new BehaviorSubject<string>('materiales');
  private _loading$ = new BehaviorSubject<boolean>(true);
+ private _location$ = new BehaviorSubject<any>(this.currentUser.estates.locationID);
  private _search$ = new Subject<void>();
  private _reports$ = new Subject<void>();
  
@@ -105,14 +106,17 @@ export class ResourcesService {
 
 get resourcesValue(){  return this._resources$.value; }
 get resources$(){return this._resources$.asObservable();}
+get type$(){return this._type$.asObservable();}
 get resourcesReport$(){return this._resourcesReport$.asObservable();}
 get item$() { return this._item$.asObservable(); }
 get total$() { return this._total$.asObservable(); }
 get loading$() { return this._loading$.asObservable(); }
 get imgFile$() { return this._imgFile$.asObservable(); }
+get location$() { return this._location$.asObservable(); }
 get page() { return this._state.page; }
 get pageSize() { return this._state.pageSize; }
 get searchTerm() { return this._state.searchTerm; }
+
 
 set page(page: number) { this._set({page}); }
 set pageSize(pageSize: number) { this._set({pageSize}); }
@@ -123,6 +127,8 @@ set type(type: string) {this._setType(type);}
 set showAvailability(availability: any) {this._setAvailability(availability);}
 set showDonation(donation: any) {this._setDonation(donation);}
 set loading(load:any){this._setLoading(load);}
+set location(locationID :any){this._setLocation(locationID);}
+set _resources(resources: any){ this.uploadTable(resources);}
 
 private _set(patch: Partial<State>) {
   Object.assign(this._state, patch);
@@ -131,9 +137,12 @@ private _set(patch: Partial<State>) {
 public _setLoading(value : boolean){
   this._loading$.next(value);
 }
+private _setLocation(value : any){
+  this._location$.next(value);
+}
 public _setType(type:string){
   this._type$.next(type);
-  // this._search$.next();
+  this.getAll(this._location$.value);
 }
 private _setAvailability(availability:boolean){
   console.log('EJecutando setAvailability => ', availability);

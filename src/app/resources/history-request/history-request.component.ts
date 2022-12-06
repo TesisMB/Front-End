@@ -39,6 +39,7 @@ changeCondition(event){
 }
 
 getRequest(condition){
+  this.service.loading = true;
   this.handleRequest = this.requestService.getAll(condition)
   .subscribe((x: any) =>{
   this.service._uploadTable(x);

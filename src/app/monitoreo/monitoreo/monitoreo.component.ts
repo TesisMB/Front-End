@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { MonitoreoService } from '../monitoreo.service';
 import { Files } from 'src/app/models/monitoreos';
+import { AuthenticationService } from 'src/app/services';
+import { User } from 'src/app/models';
 @Component({
   selector: 'monitoreo',
   templateUrl: './monitoreo.component.html',
@@ -15,12 +17,15 @@ data: any[] = [];
 handle: Subscription;
 isLoading = true;
 files$: Observable<Files[]>;
+currentUser$ : Observable<User>;
   constructor(
     private alertService: AlertService,
     private service: MonitoreoService,
+    private authService: AuthenticationService,
     public dialog: MatDialog) { 
 
       this.files$ = this.service.files$;
+      this.currentUser$ = this.authService.currentUser2;
   }
 
 

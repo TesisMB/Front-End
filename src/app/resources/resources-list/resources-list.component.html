@@ -22,35 +22,12 @@
         <span class="col-4 text-center" *ngIf="service.loading$ | async"><i
             class="fas fa-spinner fa-lg fa-spin"></i></span>
       </div>
-
-      <mat-form-field appearance="outline" >
-        <mat-label>Localidad</mat-label>
-        <mat-select [(value)]="locationSelected" (valueChange)="selectLocation($event)">
-          <mat-option value=''>Todos</mat-option>
-          <!-- <mat-select-trigger>
-            {{locationSelected.length ? locationSelected[0] : ''}}
-            <span *ngIf="locationSelected?.length > 1" class="example-additional-selection">
-              (+{{locationSelected.length - 1}} {{locationSelected.length === 2 ? 'otro' : 'otros'}})
-            </span>
-          </mat-select-trigger> -->
-          <!-- <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName"> -->
-            <!-- <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
-              {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
-            </mat-option> -->
-            <mat-option *ngFor="let locations of locations" [value]="locations.locationID">
-              {{locations.locationCityName | titlecase}}
-            </mat-option>
-          <!-- </mat-optgroup> -->
-
-        </mat-select>
-      </mat-form-field>
-
-    </div>
+          </div>
 
 <!-- [disabled]="loading" -->
     <div class="pt-4 col-3 align-self-end">
       <button
-       mat-stroked-button hidden color="warn"
+       mat-stroked-button hidden color="warn" 
         disabled
        (click)="generatePDF()"
         *ngIf="tipo == 'voluntarios'">
@@ -70,7 +47,7 @@
         <li>
           <div class="col mb-3">
             <div class="card"
-              [ngClass]="[item.availability  || item.enabled || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']">
+              [ngClass]="[item.availability  || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']">
 
 
               <a [routerLink]="['/recursos', 'lista', tipo, item.id]">
@@ -122,12 +99,8 @@
 
                   <div class="layer">
                     <div class="hov">
-                      <p *ngIf = "!item.reason">
+                      <p>
                         {{ item.description }}
-                      </p>
-
-                      <p *ngIf = "item.reason">
-                        {{item.reason}}
                       </p>
 
                       <ng-container
@@ -138,16 +111,12 @@
 
                         <span
                           [ngClass]="[item.availability == false || item.quantity <= 0 ? 'status-out_of_stock' : 'status-with_stock']">
-                          <button *ngIf="item.availability && item.quantity > 0 && item.enabled">
+                          <button *ngIf="item.availability && item.quantity > 0">
                             Cantidad : {{item.quantity | number}}
                           </button>
 
                           <button *ngIf="!item.availability || item.quantity <= 0">
                             SIN STOCK
-                          </button>
-
-                          <button *ngIf="item.enabled == false" class="black">
-                            Deshabilitado
                           </button>
 
                         </span>
@@ -194,16 +163,12 @@
                 <ng-template #volunteersStatus>
                   <span [ngClass]="[item.availability == false ? 'status-out_of_stock2' : 'status-with_stock2']">
 
-                    <p *ngIf="item.availability  && item.enabled" class="disponible">
+                    <p *ngIf="item.availability" class="disponible">
                       DISPONIBLE
                     </p>
 
-                    <p *ngIf="!item.availability && item.enabled" class="disponible">
+                    <p *ngIf="!item.availability" class="disponible">
                       NO DISPONIBLE
-                    </p>
-
-                    <p *ngIf="!item.enabled" class="disponible">
-                      Deshabilitado
                     </p>
 
                   </span>
@@ -242,9 +207,9 @@
       </div>
 
       <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-        <option [ngValue]="5">5 items por página</option>
-        <option [ngValue]="15">15 items por página</option>
-        <option [ngValue]="25">25 items por página</option>
+        <option [ngValue]="5">5 items por pagina</option>
+        <option [ngValue]="15">15 items por pagina</option>
+        <option [ngValue]="25">25 items por pagina</option>
         <option [ngValue]="(total$ | async)">Todos los items</option>
       </select>
     </div>

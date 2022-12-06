@@ -12,6 +12,7 @@ export interface Estates {
         scheduleDate: string;
         times: string;
              }];
+    locationID?: number;
 }
 export interface Location {
     locationID: number;

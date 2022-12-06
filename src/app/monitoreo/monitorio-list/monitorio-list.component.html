@@ -1,5 +1,5 @@
 <!-- Card -->
-<mat-card class="example-card">
+<mat-card class="example-card6">
   <mat-card-header class="d-flex flex-row align-items-center" style="width: 100%;">
     <!-- <div  > -->
     <!-- <div mat-card-avatar class="example-header-image pr-3">
@@ -42,7 +42,7 @@
 
         <!-- Anda mal - modificar -->
         <mat-grid-tile colspan="1" rowspan="2">
-          <button mat-icon-button [matMenuTriggerFor]="menu">
+          <button *ngIf="!(currentUser$ | async).roleName.includes('Encargado de Logistica')" mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
         </mat-grid-tile>
