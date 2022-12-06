@@ -28,7 +28,7 @@ export class CartComponent implements OnInit, OnDestroy {
   emergencies: any = {};
   handleEmergency: any;
 
-  constructor( 
+  constructor(
     private requestService: ResourcesDetailsService,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
@@ -67,7 +67,7 @@ export class CartComponent implements OnInit, OnDestroy {
   onSubmit(){
     if(this.form.valid){
    this.form.get('CreatedBy').patchValue(this.authService.currentUserValue.userID);
-   
+
     const submitData = this.form.value;
     this.isLoading();
     console.log('Datos pre-post: ', submitData);
@@ -79,7 +79,7 @@ createForm() {
   this.form = this.formBuilder.group({
     Description: [null, [Validators.maxLength(153)]],
     CreatedBy: [],
-    FK_EmergencyDisasterID: ['Seleccione una emergencia',[Validators.required, Validators.pattern("^[0-9]*$")]],
+    FK_EmergencyDisasterID: ['Seleccioné una alerta',[Validators.required, Validators.pattern("^[0-9]*$")]],
     resources_RequestResources_Materials_Medicines_Vehicles: this.formBuilder.array(
     this.request.request.map(item => this.createRequest(item)))
   });
@@ -137,9 +137,9 @@ createForm() {
      error =>{
     this.error = error;
     console.log('Error => ', error);
-    
+
     this.setMessageError(this.error);
-  
+
     //console.log('Error del post: ', error);
     this.isLoading();
   } );
@@ -229,7 +229,7 @@ createForm() {
     this.alertService.error(error.messages, { autoClose: true });
 
     }
-     
+
   }
 
   ngOnDestroy(): void {

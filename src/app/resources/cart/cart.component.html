@@ -46,7 +46,7 @@
     <ul class="list-group list-group-flush">
       <li class="list-group-item" *ngFor="let res of request['request']">
          <p>{{res.resource.name}}</p>
-         <p>{{res.quantity}}</p> 
+         <p>{{res.quantity}}</p>
         </li>
     </ul>
 </div> -->
@@ -76,7 +76,7 @@
                     <mat-form-field appearance="legacy" style="width: 85px;">
                       <mat-label>Cantidad</mat-label>
                       <input required matInput #input type="number" readonly [(ngModel)]="cloneRequest.request[i].quantity"
-                        name="quantity" formControlName="quantity" min="1" [max]="getMax(i)" 
+                        name="quantity" formControlName="quantity" min="1" [max]="getMax(i)"
                         [ngClass]="{'is-invalid': input.value <= 0}">
                       <span matSuffix class="text-muted"> &nbsp; uds. </span>
                       <!-- <mat-hint align="end">{{input.value}} / {{res.resource.quantity + res.quantity}}</mat-hint> -->
@@ -105,21 +105,24 @@
         </mat-option>
       </mat-optgroup>
     </mat-select>
-    <mat-label>Emergencia</mat-label> 
+    <mat-label>Emergencia</mat-label>
  <mat-error *ngIf="EmergencyIDForm">Dato obligatorio.</mat-error>-->
       <!-- </mat-form-field> -->
 
       <div class="input-form-cart">
         <select type="number" formControlName="FK_EmergencyDisasterID" class="custom-select custom-select-sm">
-          <option selected>Seleccione una emergencia</option>
+          <option selected>Seleccioné una alerta</option>
           <optgroup *ngFor="let group of emergencyGroups" [label]="group.name" [disabled]="group.disabled">
-            <option *ngFor="let emergency of  group.alerts" [value]="emergency.value">
+            <!-- <option *ngFor="let emergency of  group.alerts" [value]="emergency.value">
               {{emergency.viewValue}} - {{emergency.date | date :'dd/MM hh:mm a'}}</option>
-          </optgroup>
+          </optgroup> -->
+          <option *ngFor="let emergency of  group.alerts" [value]="emergency.value">
+            #{{emergency.date}} {{emergency.viewValue}}</option>
+        </optgroup>
         </select>
         <div *ngIf="f.FK_EmergencyDisasterID.touched && f.FK_EmergencyDisasterID.invalid">
           <mat-error *ngIf="f.FK_EmergencyDisasterID.errors.required">Este campo es requerido.</mat-error>
-          <mat-error *ngIf="f.FK_EmergencyDisasterID.errors.pattern">Seleccione una porfavor.</mat-error>
+          <mat-error *ngIf="f.FK_EmergencyDisasterID.errors.pattern">Seleccioné una porfavor.</mat-error>
         </div>
       </div>
 

@@ -22,7 +22,7 @@
         <span class="col-4 text-center" *ngIf="service.loading$ | async"><i
             class="fas fa-spinner fa-lg fa-spin"></i></span>
       </div>
-      
+
       <mat-form-field appearance="outline" >
         <mat-label>Localidad</mat-label>
         <mat-select [(value)]="locationSelected" (valueChange)="selectLocation($event)">
@@ -41,7 +41,7 @@
               {{locations.locationCityName | titlecase}}
             </mat-option>
           <!-- </mat-optgroup> -->
-          
+
         </mat-select>
       </mat-form-field>
 
@@ -50,7 +50,7 @@
 <!-- [disabled]="loading" -->
     <div class="pt-4 col-3 align-self-end">
       <button
-       mat-stroked-button hidden color="warn" 
+       mat-stroked-button hidden color="warn"
         disabled
        (click)="generatePDF()"
         *ngIf="tipo == 'voluntarios'">
@@ -242,9 +242,9 @@
       </div>
 
       <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-        <option [ngValue]="5">5 items por pagina</option>
-        <option [ngValue]="15">15 items por pagina</option>
-        <option [ngValue]="25">25 items por pagina</option>
+        <option [ngValue]="5">5 items por página</option>
+        <option [ngValue]="15">15 items por página</option>
+        <option [ngValue]="25">25 items por página</option>
         <option [ngValue]="(total$ | async)">Todos los items</option>
       </select>
     </div>

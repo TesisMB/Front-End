@@ -19,7 +19,7 @@
 
     <div class="col-4 col-xs-4 col-sm-auto align-self-end">
 <!--  [disabled]="loading"-->
-      <button mat-stroked-button hidden color="warn" style="margin-right: 10px;" disabled 
+      <button mat-stroked-button hidden color="warn" style="margin-right: 10px;" disabled
         (click)="generatePDF()">
         <span class="text-center" *ngIf="loading">
           <i class="fas fa-spinner fa-lg fa-spin"> </i>
@@ -103,9 +103,9 @@
     </ngb-pagination>
 
     <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-      <option [ngValue]="4">4 personas por pagina</option>
-      <option [ngValue]="6">6 personas por pagina</option>
-      <option [ngValue]="10">10 personas por pagina</option>
+      <option [ngValue]="4">4 personas por página</option>
+      <option [ngValue]="6">6 personas por página</option>
+      <option [ngValue]="10">10 personas por página</option>
     </select>
   </div>
 </form>

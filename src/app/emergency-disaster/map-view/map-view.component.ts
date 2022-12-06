@@ -2,7 +2,9 @@ import { MapService } from './../map.service';
 import { PlacesService } from './../places.service';
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import {Map, Popup, Marker} from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl';
 //import { MapsAPILoader } from '@agm/core';
+import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 const geoJSON = {
   "type": "geojson",
@@ -34,14 +36,14 @@ export class MapViewComponent implements OnInit, AfterViewInit {
   source = geoJSON;
   @ViewChild('search')
   public searchElementRef: ElementRef;
-
+  map: Map;
   @ViewChild ('mapDiv')
   mapDivElement!: ElementRef;
   private debounceTimer ?: NodeJS.Timeout;
 
   constructor(private placesService: PlacesService,
               private mapService: MapService,
-              
+
 ){}              //private mapsAPILoader: MapsAPILoader,
               //private ngZone: NgZone) { }
 
@@ -49,28 +51,67 @@ export class MapViewComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
 
     if(!this.placesService.userLocation) throw Error('No hay placesServices.userLocation');
-    
 
-    const map = new Map({
+
+    this.map = new Map({
       container: this.mapDivElement.nativeElement, // container ID
-      //style: 'mapbox://styles/mapbox/streets-v11', // style URL
-      style: 'mapbox://styles/mapbox/satellite-v9', // style URL
+      style: 'mapbox://styles/mapbox/streets-v11', // style URL
       center: this.placesService.userLocation, // starting position [lng, lat]
       zoom: 14 // starting zoom
   });
 
-  const popUp = new Popup()
-        .setHTML(`
-          <h5>Ubicaciòn actual</h5>
-        `);
+  // const popUp = new Popup()
+  //       .setHTML(`
+  //         <h5>Ubicaciòn actual</h5>
+  //       `);
 
-  new Marker({color: 'red'})
-  .setLngLat(this.placesService.userLocation)
-  .setPopup(popUp)
+  // new Marker({color: 'red'})
+  // .setLngLat(this.placesService.userLocation)
+  // .setPopup(popUp)
 
-  .addTo(map);
+  // .addTo(this.map);
 
-  this.mapService.setMap(map);
+
+  this.map.addControl(new mapboxgl.FullscreenControl());
+
+  this.map.addControl(new mapboxgl.NavigationControl());
+
+
+
+    // Add the control to the map.
+  //   map.addControl(
+  //     new MapboxGeocoder({
+  //         accessToken: mapboxgl.accessToken,
+  //         mapboxgl: mapboxgl,
+
+  //         marker: {
+  //           color: 'orange'
+  //         },
+  //     }
+  //     )
+  // );
+
+
+
+//   map.on('load', () => {
+//     map.addLayer({
+//         id: 'terrain-data',
+//         type: 'line',
+//         source: {
+//             type: 'vector',
+//             url: 'mapbox://mapbox.mapbox-terrain-v2'
+//         },
+//         'source-layer': 'contour'
+//     });
+// });
+
+  // map.addControl(new mapboxgl.GeolocateControl({
+  //   showUserLocation: true,
+  //   trackUserLocation: true
+  // }));
+
+
+  this.mapService.setMap(this.map);
   }
 
   ngOnInit(): void {
@@ -124,7 +165,7 @@ export class MapViewComponent implements OnInit, AfterViewInit {
 
   // onQueryChange(query: string = ''){
   //   if(this.debounceTimer) clearTimeout(this.debounceTimer);
-    
+
   //   this.debounceTimer = setTimeout(() => {
   //     this.placesService.getPlacesByQuery(query);
   //   }, 350);
@@ -157,6 +198,16 @@ export class MapViewComponent implements OnInit, AfterViewInit {
 
   //   });
 
+  // }
+
+
+  // crearMarcador(lng: number, lat: number){
+
+  //   const marker = new mapboxgl.Marker({
+  //     draggable: true
+  //     })
+  //     .setLngLat([lng, lat])
+  //     .addTo(this.map);
   // }
 
 

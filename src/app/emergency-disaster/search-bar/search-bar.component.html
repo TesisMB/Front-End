@@ -2,16 +2,15 @@
     <div class="search">
         <!--         <mat-icon routerLink="/emergencias/agregar-emergencia-desastre">arrow_back</mat-icon>
  -->
-        <input type="text" class="form-control" placeholder="Buscar lugar" #txtQuery
+        <input type="text" class="form-control" placeholder="Buscar lugar" #txtQuery value="{{place}}"
             (keyup)="onQueryChange(txtQuery.value)">
 
-        <btn-my-location></btn-my-location>
+        <btn-my-location (eventoLocation)="getMensaje2($event)"></btn-my-location>
 
-    </div>
+        <mat-icon (click)="goToMyLocation()">location_on</mat-icon>
+          </div>
 
-
-    <search-result></search-result>
-
+    <search-result (evento)="getMensaje($event)"></search-result>
 
 
 </div>

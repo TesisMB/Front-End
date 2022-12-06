@@ -2,9 +2,9 @@
     <div>
 
         <div *ngIf="tipo == 'solicitudes'">
-            <h4>Seleccione el tipo de solicitud a consultar</h4>
+            <h4>Seleccioné el tipo de solicitud a consultar</h4>
             <mat-form-field appearance="fill">
-                <mat-label>Seleccione una opción</mat-label>
+                <mat-label>Seleccioné una opción</mat-label>
                 <mat-select [(value)]="selected" (valueChange)="select()">
                     <mat-option value="Aceptada">Aceptadas</mat-option>
                     <mat-option value="Rechazada">Rechazadas</mat-option>
@@ -36,7 +36,7 @@
 
 
         <mat-form-field appearance="fill" style="margin-top: 3rem;">
-            <mat-label>Seleccione una fecha desde </mat-label>
+            <mat-label>Seleccioné una fecha desde </mat-label>
             <input matInput [max]="maxDate" [matDatepicker]="picker" (dateChange)="dates($event)">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -45,7 +45,7 @@
 
 
         <mat-form-field appearance="fill" style="margin-left: 20px;">
-            <mat-label>Seleccione una fecha hasta</mat-label>
+            <mat-label>Seleccioné una fecha hasta</mat-label>
             <input matInput [matDatepicker]="mypicker" [max]="maxDate" (dateChange)="dateEnd($event)">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="mypicker"></mat-datepicker-toggle>
@@ -58,8 +58,8 @@
         <button
         hidden
          mat-stroked-button
-          color="warn" 
-          style="margin-right: 10px;" 
+          color="warn"
+          style="margin-right: 10px;"
           disabled
           (click)="generatePDF()"
           >

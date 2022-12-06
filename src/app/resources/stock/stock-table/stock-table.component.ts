@@ -64,7 +64,9 @@ export class StockTableComponent implements OnInit {
     modalRef.componentInstance.action = reason;
   
     modalRef.result.then(
-      ()=> {
+      (x)=> {
+        console.log("Reason ", x);
+
         if (reason ==='Eliminar'){
             this.deleteItem(id);
   }

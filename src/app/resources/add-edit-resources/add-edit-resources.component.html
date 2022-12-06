@@ -105,7 +105,7 @@
           <mat-form-field appearance="outline">
             <mat-label>Sucursal</mat-label>
             <mat-select formControlName="fk_EstateID" name="fk_EstateID" [required]="!isEdit">
-              <mat-option>-- Seleccione su lugar de trabajo --</mat-option>
+              <mat-option>-- Seleccioné su lugar de trabajo --</mat-option>
               <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName">
                 <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
                   {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
@@ -211,7 +211,7 @@
           <mat-form-field appearance="outline">
             <mat-label>Responsable</mat-label>
             <mat-select formControlName="fK_EmployeeID" name="fK_EmployeeID" required>
-              <mat-option>-- Seleccione al responsable del vehiculo --</mat-option>
+              <mat-option>-- Seleccioné al responsable del vehiculo --</mat-option>
               <mat-optgroup *ngFor="let role of userList" [label]="role.role">
                 <mat-option *ngFor="let user of role['users']" [value]="user.value">
                   {{user.viewValue| titlecase}}
@@ -269,7 +269,7 @@
 
               Introduzca un año posterior al actual
             </mat-error>
-            <!--                 
+            <!--
               <input matInput [matDatepicker]="dp"
               [disabled]="isEdit"
               required
@@ -345,7 +345,7 @@
             <!-- <mat-select
                         [disabled]="isEdit"
                       formControlName="Fk_BrandID"
-                      
+
                         name="Fk_BrandID"
                         required
                       >
@@ -353,7 +353,7 @@
                           *ngFor="let u of vehiclesBrands; index as i"
                           (onSelectionChange)="handleChangeTypes(i)"
                             [value]="u.fK_BrandID"
-                            
+
                           >
                            {{u.brandsName | uppercase}}
                           </mat-option>
@@ -387,7 +387,7 @@
                               <mat-option
                               *ngFor="let u of vehiclesBrands"
                                 [value]="u.fK_ModelID"
-                                
+
                               >
                                {{u.modelName | uppercase}}
                               </mat-option>
@@ -478,7 +478,7 @@
 
       <!-- <mat-grid-tile  *ngIf="vehicleForm"  [formGroup]="vehicleForm">
               <mat-form-field appearance="outline">
-                  
+
                   <mat-label>Ciudad</mat-label>
                   <mat-select [formControl]="formUser.get('FK_LocationID')" name="FK_LocationID">
                     <mat-option *ngFor="let location of locations" [value]="location.locationID" required>
@@ -495,11 +495,11 @@
               <mat-form-field  appearance="outline">
                 <mat-label>Sucursal</mat-label>
                 <mat-select
-                  
+
                   [formControl]="formUser.get('FK_EstateID')"
                   name="FK_EstateID"
                 >
-                  <mat-option>-- Seleccione su lugar de trabajo --</mat-option>
+                  <mat-option>-- Seleccioné su lugar de trabajo --</mat-option>
                   <mat-optgroup
                     *ngFor="let locations of estates"
                     [label]="locations.locationCityName"
@@ -509,7 +509,7 @@
                       [value]="estate.estateID"
                       required
                     >
-                      {{ estate.estateTypes}} 
+                      {{ estate.estateTypes}}
                     </mat-option>
                   </mat-optgroup>
                 </mat-select>
@@ -520,7 +520,7 @@
                 </mat-error>
               </mat-form-field>
             </mat-grid-tile>
-            <br /> 
+            <br />
           </mat-grid-list>-->
 
       <!-- <div>
@@ -549,7 +549,7 @@
               <span *ngIf="!loading">Finalizar</span>
             </button>
           </div>
-          
+
       </mat-step>
         </mat-horizontal-stepper> -->
     </form>

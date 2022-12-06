@@ -4,7 +4,7 @@
     <form [formGroup]="f" id="form">
 
     <mat-grid-list cols="12" rowHeight="100px">
-            <mat-grid-tile 
+            <mat-grid-tile
             colspan="6"
             rowspan="1">
             <!-- <div class="col col-head"> -->
@@ -14,8 +14,8 @@
                     <mat-select
                       [formControl]="alertID"
                       name="type">
-                    <mat-option selected>Seleccione una alerta</mat-option>
-         
+                    <mat-option selected>Seleccioné una alerta</mat-option>
+
                     <mat-optgroup *ngFor="let group of emergencyGroups" [label]="group.name" [disabled]="group.disabled">
                       <mat-option
                       *ngFor="let emergency of  group.alerts"
@@ -42,8 +42,8 @@
            Selecciona el archivo</button>
 
     </mat-grid-tile>
-    <mat-grid-tile 
-    *ngIf="data.isEdit" 
+    <mat-grid-tile
+    *ngIf="data.isEdit"
     colspan="6"
     rowspan="1">
       <mat-form-field appearance="outline">
@@ -53,11 +53,11 @@
           readonly
           [value]="data.file.createdByEmployee"
         />
-        
+
       </mat-form-field>
-    </mat-grid-tile> 
-    <mat-grid-tile 
-    *ngIf="data.isEdit" 
+    </mat-grid-tile>
+    <mat-grid-tile
+    *ngIf="data.isEdit"
     colspan="6"
     rowspan="1">
     <mat-form-field appearance="outline">
@@ -67,7 +67,7 @@
       readonly
       [value]="data.file.createDate"
       />
-      
+
     </mat-form-field>
   </mat-grid-tile>
   <mat-grid-tile
@@ -75,7 +75,7 @@
   rowspan="1"
   *ngIf="progressInfos.length">
   <div *ngFor="let progressInfo of progressInfos">
-    <span *ngIf="message.length">{{ message }} </span>                                
+    <span *ngIf="message.length">{{ message }} </span>
     <mat-toolbar class="progress-bar">
       <mat-progress-bar
         color="accent"
@@ -101,8 +101,8 @@
 
 </form>
     <!-- </mat-card> -->
- 
-   
+
+
   </div>
 
 

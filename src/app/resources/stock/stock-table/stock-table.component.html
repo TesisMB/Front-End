@@ -1,5 +1,5 @@
 
-  
+
   <table class="table table-striped">
     <thead>
       <tr>
@@ -47,7 +47,7 @@
 
           <!-- <td><a matTooltip="Información del encargado" matTooltipPosition="above" color="warn"
               (click)="openModal('employee',resources.users.userID)" aria-label="Información del encargado">
-  
+
               <ngb-highlight [result]="resources.answeredByEmployee" [term]="service.searchTerm"></ngb-highlight>
             </a></td> -->
           <!-- <td>
@@ -64,8 +64,8 @@
 
             <ng-template   #popMenu >
               <button [routerLink]="['/recursos','editar',type]" [queryParams]="{ id: resources.id }" type="button" class="btn btn-option-success  btn-sm" ><mat-icon class="icon">mode_edit</mat-icon><p class="option-text">Actualizar</p> </button>
-              
-      
+
+
               <button *ngIf="resources.enabled; else isNotAvailable" type="button " class="btn btn-option-warning  btn-sm" (click)="changeStatus('Deshabilitar',$event, resources.id)" >
                 <mat-icon class="icon">person_remove</mat-icon>
                 <p class="option-text">Deshabilitar</p>
@@ -83,11 +83,11 @@
               <!-- <button type="button" class="btn btn-option  btn-sm" ><mat-icon class="icon">picture_as_pdf</mat-icon><p class="option-text">Descargar</p></button> -->
 
             </ng-template>
-          </td> 
+          </td>
 
 
         </tr>
-       
+
       </ng-container>
       <tr *ngIf="!(resources$ | async) || (loading$ | async)">
         <td *ngIf="(loading$ | async)" colspan="13" class="text-center" >
@@ -98,18 +98,18 @@
         </td>
       </tr>
 
-    
+
     </tbody>
   </table>
   <div class="d-flex justify-content-between p-2">
     <ngb-pagination
       [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
     </ngb-pagination>
-  
+
     <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-      <option [ngValue]="5">5 items por pagina</option>
-      <option [ngValue]="15">15 items por pagina</option>
-      <option [ngValue]="25">25 items por pagina</option>
+      <option [ngValue]="5">5 items por página</option>
+      <option [ngValue]="15">15 items por página</option>
+      <option [ngValue]="25">25 items por página</option>
       <option [ngValue]="(total$ | async)">Todos los items</option>
     </select>
   </div>
