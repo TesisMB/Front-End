@@ -50,7 +50,7 @@ const name = (path: string, value: boolean | number | any) =>
     ? value
       ? 'Recursos donados'
       : 'Recursos no donados'
-    : path.includes('availability')
+    : path === 'availability' || path === 'enabled'
     ? value
       ? 'Disponibles'
       : 'No Disponibles'
@@ -324,7 +324,7 @@ export class ReportService {
                 p.includes('name')
                   ? (mp.get(o.name).value += o.quantity)
                   : mp.get(o[subStr[0]][subStr[1]]).value++;
-                
+
                 return mp;
               }, new Map())
               .values(),
@@ -337,7 +337,7 @@ export class ReportService {
               .reduce((mp, o) => {
 
                 if(Array.isArray(o[p])){
-                  mp = this.keyStructured(o[p]);                
+                  mp = this.keyStructured(o[p]);
                 }
                 else {
                   if (!mp.has(o[p]))
@@ -386,21 +386,21 @@ export class ReportService {
           }, new Map())
           .values(),
       ];
-      
+
     }
     return data;
   }
 
   keyStructured(object: any):any{
     var data = {};
-    
+
       var arrayKeys = object.length
         ? Object.keys(object[0])
         : Object.keys(object);
 
-      
+
       arrayKeys = arrayKeys.filter((x) => x != 'id' && x != 'fK_Resource_RequestID');
-    
+
     return data = [
       ...object
         .reduce((mp, o) => {
@@ -408,11 +408,11 @@ export class ReportService {
             if (!mp.has(key)) mp.set(key, { name: key, value: 0});
             mp.get(key).value += o[key] ? o[key].quantity : 0;
           });
-          return mp; 
+          return mp;
         }, new Map()).values()
     ];
   }
-  
+
 
   private _search(): Observable<SearchResult> {
     const {searchAlertType, searchType, searchPath, searchTerm, searchLocation, from, to } =

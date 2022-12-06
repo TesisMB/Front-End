@@ -120,8 +120,8 @@ export class MapService {
   }
 
   crearMarcador(lng: number, lat: number){
-    this.deletePlaces()
-    this.deletePlace()
+    // this.deletePlaces()
+    // this.deletePlace()
 
     this.marker = new mapboxgl.Marker({
       draggable: true

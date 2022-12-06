@@ -34,7 +34,7 @@
         </ng-template>
         <!-- ********************** Fin del Carrito ***********************-->
       </div>
-      <!-- <div class="col-2"> 
+      <!-- <div class="col-2">
       <div class="d-flex justify-content-end" *ngIf="notifications.hasNotifications; else isNot"><button [autoClose]="'outside'"  [ngbPopover]="popNotify"
           popoverClass="notifications" container="body" mat-icon-button>
           <mat-icon class="icons" color="warn" matBadge="{{notifications.number}}" matBadgeColor="primary" matBadgePosition="before" matBadgeSize="medium">notifications_active</mat-icon>
@@ -43,7 +43,7 @@
       <ng-template #isNot><button [ngbPopover]="popNotify" [autoClose]="'outside'" popoverClass="notifications"
           container="body" mat-icon-button class="mr-4">
           <mat-icon class="icons" color="warn">notifications</mat-icon>
-        </button></ng-template> 
+        </button></ng-template>
       </div> -->
       <div class="d-flex flex-column">
         <div class="d-flex align-items-center mt-1 name text-right">
@@ -79,7 +79,7 @@
             <li>
               <a routerLink="/perfil"><i class="fas fa-id-card"></i>Perfil</a>
             </li>
-            <li *ngIf="!isLogistica">
+            <li *ngIf="isCEyD">
               <span style="max-width: 180px">
                 <a routerLink="/recursos/historial"><i class="fas fa-clipboard-list"></i>Historial de
                   solicitudes</a>

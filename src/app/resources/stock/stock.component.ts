@@ -141,11 +141,11 @@ export class StockComponent implements OnInit, OnDestroy {
 
   private changePath() {
     if (this.type.includes('materiales')) {
-      this.reportService.searchPath = ['name', 'locationCityName', 'donation', 'availability', 'materials.brand'];
+      this.reportService.searchPath = ['name', 'locationCityName', 'donation', 'enabled', 'materials.brand'];
     } else if (this.type.includes('medicamentos')) {
-      this.reportService.searchPath = ['name', 'locationCityName', 'donation', 'availability', 'medicines.medicineDrug', 'medicines.medicineLab'];
+      this.reportService.searchPath = ['name', 'locationCityName', 'donation', 'enabled', 'medicines.medicineDrug', 'medicines.medicineLab'];
     } else if (this.type.includes('vehiculos')) {
-      this.reportService.searchPath = ['name', 'locationCityName', 'donation', 'availability', 'vehicles.brandName', 'vehicles.vehicleUtility', 'vehicles.type', 'vehicles.employeeName'];
+      this.reportService.searchPath = ['name', 'locationCityName', 'donation', 'enabled', 'vehicles.brandName', 'vehicles.vehicleUtility', 'vehicles.type', 'vehicles.employeeName'];
     }
   }
 
@@ -173,7 +173,7 @@ export class StockComponent implements OnInit, OnDestroy {
     if (this.handleAvailability) {
       this.handleAvailability.unsubscribe();
     }
-    
+
 
   }
 

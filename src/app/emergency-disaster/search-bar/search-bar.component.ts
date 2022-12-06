@@ -64,7 +64,7 @@ export class SearchBarComponent implements OnInit {
     if(!this.placesService.isUserLocationReady) throw Error('No hay ubicación de usuario');
     if(!this.mapService.isMapReady) throw Error('No hay mapa disponible');
 
-    //this.mapService.crearMarcador(this.placesService.userLocation[0], this.placesService.userLocation[1]);
+    this.mapService.crearMarcador(this.placesService.userLocation[0], this.placesService.userLocation[1]);
     //  this.mapService.flyTo(this.placeService.userLocation);
   }
 }

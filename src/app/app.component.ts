@@ -41,13 +41,13 @@ private _mobileQueryListener: () => void;
               }
 
               ngOnInit(): void {
-              this.getCurrentUser();  
+              this.getCurrentUser();
               }
-        
+
               hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
-              
-              get isLogistica () {
-                return this.currentUser.roleName === RoleName.Logistica;
+
+              get isCEyD () {
+                return this.currentUser.roleName === RoleName.CEyD;
                }
                get isRequest(){
                 const cart: Cart = JSON.parse(localStorage.getItem('cart'));
@@ -62,13 +62,13 @@ private _mobileQueryListener: () => void;
               .subscribe((x:User) => {
                 this.currentUser = x
               },
-              err => { 
+              err => {
                 this.error = err;
                 console.log(err);
               });
             }
 
-          logout() { 
+          logout() {
             this.cartService.clearCartRequest();
             this.authenticationService.logout();
           }
@@ -76,5 +76,5 @@ private _mobileQueryListener: () => void;
            ngOnDestroy(): void {
             this.handler.unsubscribe();
             this.mobileQuery.removeListener(this._mobileQueryListener);
-          }   
+          }
 }
