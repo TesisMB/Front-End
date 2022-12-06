@@ -1,98 +1,117 @@
-
-
-
-
-
 <section class="row justify-content-around col-body" id="row-aside">
-  <!-- <div class="row justify-content-between p-3"> -->
-  <form class="col-12">
-    <div class="d-flex flex-column p-3">
-
-
-      <div  class="col-12 col-xs-12 col-sm-auto d-flex" [ngClass]="reportService.searchType === 'table' ? 'justify-content-between' : 'justify-content-center'">
-        <!-- <div class="align-items-center align-self-start bd-highlight child-toggle" id="search">
-          <mat-slide-toggle (change)="onShow($event)" color="warn">Mostrar recursos sin stock
-          </mat-slide-toggle>
-        </div> -->
-        <div *ngIf="reportService.searchType === 'table'" class="d-flex form-control align-self-start align-items-center bd-highlight pr-3" id="search">
-          <label for="col-3 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
-          <input class="col-7 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
-          <span class="col-2 text-left" *ngIf="service.loading$ | async"><i
-              class="fas fa-spinner fa-lg fa-spin"></i></span>
-        </div>
-        <div class="title">
-          <h1 *ngIf="reportService.searchType !== 'table'">Stock de recursos</h1>
-          <h1 *ngIf="reportService.searchType === 'table'">Reportes de recursos</h1>
-        </div>
-        
-        <div *ngIf="reportService.searchType === 'table'" class="">
-          <button mat-raised-button color="warn" [routerLink]="['/recursos','nuevo',type]">
+  <div class="col-12 d-flex flex-column justify-content-start">
+    <mat-accordion>
+      <mat-expansion-panel
+        style="width: 100%"
+        [disabled]="isDisabled"
+        hideToggle
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <form class="col-12 col-xs-12 col-sm-auto d-flex pt-2">
+              <div
+                class="d-flex form-control align-self-start align-items-center bd-highlight pr-3"
+                id="search"
+              >
+                <ng-container
+                  *ngIf="
+                    (service.loading$ | async) ||
+                      (reportService.loading$ | async);
+                    else searchTemplate
+                  "
+                >
+                  <span class="col-2 text-left"
+                    ><i class="fas fa-spinner fa-lg fa-spin"></i
+                  ></span>
+                </ng-container>
+                <ng-template #searchTemplate>
+                  <span class="col-2 text-left"
+                    ><mat-icon>search</mat-icon></span
+                  >
+                </ng-template>
+                <input
+                  class="col-10 input-search"
+                  type="text"
+                  name="searchTerm"
+                  [(ngModel)]="service.searchTerm"
+                  placeholder="Buscar {{ type | titlecase }}"
+                />
+              </div>
+            </form>
+          </mat-panel-title>
+          <button
+            mat-raised-button
+            color="warn"
+            matTooltip="Agregar nuevo recurso"
+            class="m-2"
+            [routerLink]="['/recursos', 'nuevo', type]"
+          >
             <mat-icon>add</mat-icon>
-            Agregar {{type | lowercase}}
           </button>
-        </div>
+          <mat-panel-description>
+            <h2 *ngIf="reportService.searchType === 'table'">
+              Stock de recursos
+            </h2>
+            <h2 *ngIf="reportService.searchType !== 'table'">
+              Reportes de recursos
+            </h2>
+          </mat-panel-description>
+          <button *ngIf="reportService.searchType === 'table'" mat-raised-button color="warn" matTooltip="Historial de solicitudes" class="m-2"
+          (click)="reportService.searchType = 'reportes'">
+          <mat-icon>bar_chart</mat-icon>
+      </button>
+          <button *ngIf="reportService.searchType === 'reportes'" mat-raised-button color="warn" matTooltip="Historial de solicitudes" class="m-2"
+          (click)="reportService.searchType = 'table'">
+              <mat-icon>history</mat-icon>
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            matTooltip="Filtros"
+            class="m-2"
+            (click)="manageAccordion()"
+          >
+            <mat-icon>filter_alt</mat-icon>
+          </button>
+        </mat-expansion-panel-header>
 
+        <mat-action-row>
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="reportService.resetForm()"
+          >
+            Reestablecer filtros
+          </button>
+        </mat-action-row>
+
+        <filter
+          [datepicker]="false"
+          [withStock]="true"
+          [withDonation]="true"
+          [withResourceType]="true"
+        ></filter>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <ng-container
+      *ngIf="
+        (service.loading$ | async) || (reportService.loading$ | async);
+        else elseTemplate
+      "
+    >
+      <div class="d-flex align-items-center justify-content-center m-5">
+        <mat-spinner color="warn"></mat-spinner>
       </div>
-
-
-      <!--   <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon>more_vert</mat-icon>
-        </button> 
-          <mat-menu #menu="matMenu">
-          <button  mat-menu-item (click)="reports = !reports">
-            <mat-icon>pie_chart</mat-icon>
-            <span>Reportes</span>
-          </button>
-          <button disabled mat-menu-item (click)="openDialog('get')">
-            <mat-icon>picture_as_pdf</mat-icon>
-            <span>Descargar **REFACTORIZAR**</span>
-          </button>
-          <button disabled mat-menu-item (click)="openDialog('getall')">
-            <mat-icon>picture_as_pdf</mat-icon>
-            <span>Descargar recursos de las filiales **REFACTORIZAR**</span>
-          </button> 
-        </mat-menu> 
-      </div>-->
-    </div>
-
-  </form>
-
-<div class="col-12 d-flex flex-row">
-  <div class="col-3">
-    <filter [datepicker] ="false" [withoutStock]="true" [withoutDonation]="true"></filter>
-  </div>
-  
-    <!-- <mat-divider [vertical]="true"></mat-divider> -->
-  
-    <div class="col-9">
-      <mat-tab-group mat-align-tabs="center" (selectedTabChange)="changeCondition($event)" color="warn">
-        <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab | titlecase">
-  <ng-template *ngIf="(service.loading$ | async) || (reportService.loading$ | async); else elseTemplate" matTabContent>
-    <mat-spinner></mat-spinner>
-  </ng-template>
-          
-          <ng-template matTabContent #elseTemplate>   
-      <stock-table  *ngIf="(reportService.type$ | async) === 'table'" [type]="type"></stock-table>
-      <stock-report *ngIf="(reportService.type$ | async) !== 'table'"></stock-report>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <stock-table
+        *ngIf="(reportService.type$ | async) === 'table'"
+        [type]="type"
+      ></stock-table>
+      <stock-report
+        *ngIf="(reportService.type$ | async) !== 'table'"
+      ></stock-report>
     </ng-template>
-    <!-- <ng-template  matTabContent>
-  
-  
-      <stock-report></stock-report>
-  
-  
-    </ng-template> -->
-  </mat-tab>
-  </mat-tab-group>
-  
   </div>
-
-
-  
-
-</div>
-
-
-
-
 </section>

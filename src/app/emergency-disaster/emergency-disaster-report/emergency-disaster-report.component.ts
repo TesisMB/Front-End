@@ -1,5 +1,5 @@
 import { ReportService } from 'src/app/services/_report.service/report.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
 import { EmergencyDisasterService } from '../emergency-disaster.service';
@@ -54,7 +54,7 @@ class Reports{
   templateUrl: './emergency-disaster-report.component.html',
   styleUrls: ['./emergency-disaster-report.component.css']
 })
-export class EmergencyDisasterReportComponent implements OnInit {
+export class EmergencyDisasterReportComponent implements OnInit , OnDestroy{
   emergencyDisaster: EmergencyDisaster [];
 from: any;
 to: any;
@@ -288,7 +288,10 @@ this.reports.state.data= [...this.dataClone.reduce( (mp, o) => {
       }
      return event;
     }
+  ngOnDestroy(): void {
+    this.service.data = [];
   }
+}
 
 
 

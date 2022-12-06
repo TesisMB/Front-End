@@ -22,30 +22,7 @@
         <span class="col-4 text-center" *ngIf="service.loading$ | async"><i
             class="fas fa-spinner fa-lg fa-spin"></i></span>
       </div>
-      
-      <mat-form-field appearance="outline" >
-        <mat-label>Localidad</mat-label>
-        <mat-select [(value)]="locationSelected" (valueChange)="selectLocation($event)">
-          <mat-option value=''>Todos</mat-option>
-          <!-- <mat-select-trigger>
-            {{locationSelected.length ? locationSelected[0] : ''}}
-            <span *ngIf="locationSelected?.length > 1" class="example-additional-selection">
-              (+{{locationSelected.length - 1}} {{locationSelected.length === 2 ? 'otro' : 'otros'}})
-            </span>
-          </mat-select-trigger> -->
-          <!-- <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName"> -->
-            <!-- <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
-              {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
-            </mat-option> -->
-            <mat-option *ngFor="let locations of locations" [value]="locations.locationID">
-              {{locations.locationCityName | titlecase}}
-            </mat-option>
-          <!-- </mat-optgroup> -->
-          
-        </mat-select>
-      </mat-form-field>
-
-    </div>
+          </div>
 
 <!-- [disabled]="loading" -->
     <div class="pt-4 col-3 align-self-end">

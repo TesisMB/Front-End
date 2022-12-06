@@ -31,6 +31,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FilterComponent } from './filter/filter.component';
 import { EmergencyDisasterReportComponent } from '../emergency-disaster/emergency-disaster-report/emergency-disaster-report.component';
 import { EmergencyDisasterFilterComponent } from '../emergency-disaster/emergency-disaster-filter/emergency-disaster-filter.component';
+import { ReportModalComponent } from './report-modal/report-modal.component';
+import { AccordionFilterComponent } from './accordion-filter/accordion-filter.component';
 
 
 @NgModule({
@@ -53,12 +55,15 @@ import { EmergencyDisasterFilterComponent } from '../emergency-disaster/emergenc
     DatePickerRangeComponent,
     FilterComponent,
     EmergencyDisasterReportComponent,
-    EmergencyDisasterFilterComponent
+    EmergencyDisasterFilterComponent,
+    ReportModalComponent,
+    AccordionFilterComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
+    FormsModule,
     MaterialDesignModule,
     NgbModule,
     NgxChartsModule,
@@ -85,7 +90,9 @@ import { EmergencyDisasterFilterComponent } from '../emergency-disaster/emergenc
     NgxChartsModule,
     FilterComponent,
     EmergencyDisasterReportComponent,
-    EmergencyDisasterFilterComponent
+    EmergencyDisasterFilterComponent,
+    ReportModalComponent,
+    AccordionFilterComponent
   ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

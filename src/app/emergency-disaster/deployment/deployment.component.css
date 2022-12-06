@@ -216,7 +216,7 @@ tr.example-element-row:not(.example-expanded-row):active {
     margin-top: 3rem;
 }
 
-.example-card {
+.example-card7 {
     width: 200px;
     max-height: 200px;
     display: flex;
@@ -226,11 +226,11 @@ tr.example-element-row:not(.example-expanded-row):active {
     margin: 1rem;
 }
 
-.example-card p {
+.example-card7 p {
     text-transform: capitalize;
 }
 
-.example-card p span {
+.example-card7 p span {
     display: block;
     font-size: 30px;
     margin-top: 1rem;

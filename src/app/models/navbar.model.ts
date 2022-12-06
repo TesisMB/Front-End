@@ -110,12 +110,12 @@ export interface FoodNode {
       icon:'fas fa-clipboard-list' ,
       role:['Admin','Coordinador General','Encargado de Logistica']
     },
-    {
-      name: 'Historial de solicitudes',
-      patch:'/recursos/historial',
-      icon:'fas fa-clipboard-list' ,
-      role:['Admin','Coordinador General','Encargado de Logistica']
-    },
+    // {
+    //   name: 'Historial de solicitudes',
+    //   patch:'/recursos/historial',
+    //   icon:'fas fa-clipboard-list' ,
+    //   role:['Admin','Coordinador General','Encargado de Logistica']
+    // },
     {
       name: 'Alertas',
       patch:'/emergencias',
@@ -134,6 +134,6 @@ export interface FoodNode {
       patch:'/monitoreo',
       icon:'fas fa-tv' ,
       disabled: false,
-      role:['Admin','Coordinador General','Coord. de Emergencias']
+      role:['Admin','Coordinador General','Coord. de Emergencias','Encargado de Logistica']
     },
 ];

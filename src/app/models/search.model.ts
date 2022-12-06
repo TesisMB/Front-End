@@ -9,6 +9,7 @@ export interface SearchResult {
     searchLocation?: any | number;
     from?: Date | string | any;
     to?: Date | string | any;
+    originalData? : any;
     
   }
   export interface State {
@@ -21,9 +22,10 @@ export interface SearchResult {
 
   export interface SearchReport {
     searchTerm: string;
-    searchPath: string;
+    searchPath: string | string[] | any;
     searchType: string;
     searchLocation: any | number;
+    searchAlertType?: string;
     from?: Date | string | any;
     to?: Date | string | any;
   }

@@ -12,7 +12,7 @@ import * as _ from 'lodash';
 import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
 import { saveAs } from 'file-saver';
 import { StatesService } from 'src/app/resources/states/states.service';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import path from 'path';
 
@@ -278,7 +278,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     patch = patch.filter( obj => obj.path !== "/emergencyDisastersReports");
     patch = patch.filter( obj => obj.path !== "/resourcesRequestReports");
     patch = patch.filter( obj => obj.path !== "/estates/locationAddress");
-
+    patch = patch.filter(obj=> obj.path !== '/estates/locationID');
     
     console.log(patch);
     (patch.length !== 0) ? this.updateUser(patch) : this.loading = false;

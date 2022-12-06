@@ -1,24 +1,130 @@
-<section class="title">
-  <h1>Solicitudes de recursos</h1>
+<section class="row justify-content-around col-body" id="row-aside">
+  <div class="col-12 d-flex flex-column justify-content-start">
+    <accordion-filter [(searchTerm)]="service.searchTerm" (searchTermEvent)="service.searchTerm = $event" (searchTypeEvent)="reportService.searchType = $event" [route]="'historial'"></accordion-filter>
+    <!-- <mat-accordion>
+      <mat-expansion-panel
+        style="width: 100%"
+        [disabled]="false"
+        hideToggle
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <form class="col-12 col-xs-12 col-sm-auto d-flex pt-2">
+              <div
+                class="d-flex form-control align-self-start align-items-center bd-highlight pr-3"
+                id="search"
+              >
+                <ng-container
+                  *ngIf="
+                    (service.loading$ | async)
+                    else searchTemplate
+                  "
+                >
+                  <span class="col-2 text-left"
+                    ><i class="fas fa-spinner fa-lg fa-spin"></i
+                  ></span>
+                </ng-container>
+                <ng-template #searchTemplate>
+                  <span class="col-2 text-left"
+                    ><mat-icon>search</mat-icon></span
+                  >
+                </ng-template>
+                <input
+                  class="col-10 input-search"
+                  type="text"
+                  name="searchTerm"
+                  [(ngModel)]="service.searchTerm"
+                  placeholder="Buscar"
+                />
+              </div>
+            </form>
+          </mat-panel-title>
+          <button
+            mat-raised-button
+            color="warn"
+            matTooltip="Historial de solicitudes"
+            class="m-2"
+            [routerLink]="['/recursos', 'historial']"
+          >
+            <mat-icon>history</mat-icon>
+          </button>
+          <mat-panel-description>
+            <h2>
+              Solicitudes de recursos
+            </h2>
+          </mat-panel-description>
+          <button
+            mat-raised-button
+            color="warn"
+            matTooltip="Filtros"
+            class="m-2"
+            
+          >
+            <mat-icon>filter_alt</mat-icon>
+          </button>
+        </mat-expansion-panel-header>
+
+        <mat-action-row>
+          <button
+            mat-raised-button
+            color="warn"
+          (click)="reportService.resetForm()"
+          >
+            Reestablecer filtros
+          </button>
+        </mat-action-row>
+
+        <filter
+          [datepicker]="true"
+          [withStock]="false"
+          [withDonation]="false"
+          [withResourceType]="false"
+        ></filter>
+      </mat-expansion-panel>
+    </mat-accordion> -->
+
+    <ng-container
+      *ngIf="
+        (service.loading$ | async) || (reportService.loading$ | async);
+        else elseTemplate
+      "
+    >
+      <div class="d-flex align-items-center justify-content-center m-5">
+        <mat-spinner color="warn"></mat-spinner>
+      </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <request-table *ngIf="(reportService.type$ | async) == 'table'"></request-table>
+      <request-report
+        *ngIf="(reportService.type$ | async) === 'reportes'"
+      ></request-report>    </ng-template>
+  </div>
 </section>
 
 
+
+<!-- <div class="title">
+  <h1>Solicitudes de recursos</h1>
+</div>
 <section class="row justify-content-around col-body" id="row-aside">
+  <div class="col-12">
+    <div class="mb-3 d-flex flex-row justify-content-between">
+      <div class="pt-4 col-xs-3 col-sm-auto col-3 align-self-end">
+  <form>
+  
+        <div class="d-flex form-control align-items-center bd-highlight pr-3" id="search">
+          <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
+          <input class="col-8 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
+        </div>
+    </form>
+  
+      </div>
 
-  <!-- <mat-form-field appearance="fill">
-    <mat-label>Solicitudes por emergencias</mat-label>
-    <mat-select> -->
-  <!-- <mat-option *ngFor="let emergency of emergencyDisaster"
-          [value]="emergency.typesEmergenciesDisasters.typeEmergencyDisasterID">
-          {{emergency.typesEmergenciesDisasters.typeEmergencyDisasterName}}
-        </mat-option> -->
-  <!-- </mat-select>
-  </mat-form-field> -->
-
-
-
-  <div class="col-10">
+      <div class="bd-highlight ml-3 col-xs-3 col-sm-auto col-3 align-self-end" *ngIf="(currentUser | async ).roleName !== 'Encargado de Logistica'">
+        <mat-slide-toggle color="warn" (change)="onShow($event)">Mostrar mis solicitudes</mat-slide-toggle>
+      </div>
+      </div>
     <request-table></request-table>
   </div>
 
-</section>
+</section> -->

@@ -1,3 +1,4 @@
+import { ReportService } from 'src/app/services/_report.service/report.service';
 import { ResourceModalComponent } from './../../shared/resource-modal/resource-modal.component';
 import { AlertService } from './../../services/_alert.service/alert.service';
 import { UserService } from './../../users/user.service';
@@ -39,18 +40,21 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
       public service: RequestTableService,
       private modalService: NgbModal,
       private userService: UserService,
-      private authenticateService: AuthenticationService
+      private authenticateService: AuthenticationService,
+      public reportService: ReportService
       ) {}
 
   ngOnInit(): void {
+    
     this.request$  = this.service.request$;
     this.total$ = this.service.total$;
     this.loading$ = this.service.loading$;
     this.request = this.service.requestValue;
+
   }
 
     get isAdmin(){       
-       return this.currentUser.roleName === 'Admin' || this.currentUser.roleName ===  'Coordinador General';
+      return this.currentUser.roleName === 'Admin' || this.currentUser.roleName ===  'Coordinador General';
       }
 
   ngAfterViewInit(){}
@@ -76,9 +80,8 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
         const modalRef = this.modalService.open(NgbdModalComponent, { size: 'xl' });
         modalRef.componentInstance.user = x;
         }, 
-         e => {
-           this.alertService.error('Error, usuario no inicializado :(', {autoClose: true});
-
+        e => {
+          this.alertService.error('Error, usuario no inicializado :(', {autoClose: true});
         } );
     }
 
@@ -105,6 +108,8 @@ generatePDF(){
     if( this.handleUser){
       this.handleUser.unsubscribe();
     }
+    // this.service._uploadTable([]);
+
 
   }
 }

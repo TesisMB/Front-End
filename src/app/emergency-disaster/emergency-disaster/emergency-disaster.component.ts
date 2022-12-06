@@ -34,7 +34,8 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   serializedDate = new FormControl(new Date().toISOString());
   isLoading: boolean = true;
   form: FormGroup;
-
+  handleAlerts: Subscription;
+  handleTypes: Subscription;
 
 
 
@@ -80,7 +81,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
   getTypeEmergencyDisaster(){
-    this.selectTypesEmergencyDisasterService.getAll()
+    this.handleTypes = this.selectTypesEmergencyDisasterService.getAll()
     .pipe(
       map((x) =>{
         x.forEach(item =>{
@@ -112,13 +113,13 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
 
   
   getEmergencyDisaster() {
-     this.emergencyDisasterService.getAllWithoutFilter()
+     this.handleAlerts = this.emergencyDisasterService.getAllWithoutFilter()
  
         .subscribe(data => {
           this.emergencyDisaster = data;
           this.setEmergenciesDisaster(data);
           this.isLoading = false;
-          this.reportService.searchPath = 'alertName';
+          // this.reportService.searchPath = 'alertName';
           this.reportService.data = data;         
      console.log('EmergencyDisaster - ListAll => ', data);
     }, error => {
@@ -165,7 +166,9 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.reportService.resetForm();
+    this.reportService.resetForm(true);
+    this.handleTypes.unsubscribe();
+    this.handleAlerts.unsubscribe();
   }
 
 
