@@ -41,9 +41,9 @@ private _mobileQueryListener: () => void;
               }
 
               ngOnInit(): void {
-              this.getCurrentUser();  
+              this.getCurrentUser();
               }
-        
+
               hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
               
               get isCEyD() {
@@ -65,13 +65,13 @@ private _mobileQueryListener: () => void;
               .subscribe((x:User) => {
                 this.currentUser = x
               },
-              err => { 
+              err => {
                 this.error = err;
                 console.log(err);
               });
             }
 
-          logout() { 
+          logout() {
             this.cartService.clearCartRequest();
             this.authenticationService.logout();
           }
@@ -79,5 +79,5 @@ private _mobileQueryListener: () => void;
            ngOnDestroy(): void {
             this.handler.unsubscribe();
             this.mobileQuery.removeListener(this._mobileQueryListener);
-          }   
+          }
 }

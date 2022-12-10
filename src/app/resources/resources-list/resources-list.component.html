@@ -27,7 +27,7 @@
 <!-- [disabled]="loading" -->
     <div class="pt-4 col-3 align-self-end">
       <button
-       mat-stroked-button hidden color="warn" 
+       mat-stroked-button hidden color="warn"
         disabled
        (click)="generatePDF()"
         *ngIf="tipo == 'voluntarios'">
@@ -47,7 +47,7 @@
         <li>
           <div class="col mb-3">
             <div class="card"
-              [ngClass]="[item.availability  || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']">
+              [ngClass]="[item.availability  || item.enabled || item.quantity > 0 ? 'card-with_stock' : 'card-out_of_stock']">
 
 
               <a [routerLink]="['/recursos', 'lista', tipo, item.id]">
@@ -99,8 +99,12 @@
 
                   <div class="layer">
                     <div class="hov">
-                      <p>
+                      <p *ngIf = "!item.reason">
                         {{ item.description }}
+                      </p>
+
+                      <p *ngIf = "item.reason">
+                        {{item.reason}}
                       </p>
 
                       <ng-container
@@ -111,12 +115,16 @@
 
                         <span
                           [ngClass]="[item.availability == false || item.quantity <= 0 ? 'status-out_of_stock' : 'status-with_stock']">
-                          <button *ngIf="item.availability && item.quantity > 0">
+                          <button *ngIf="item.availability && item.quantity > 0 && item.enabled">
                             Cantidad : {{item.quantity | number}}
                           </button>
 
                           <button *ngIf="!item.availability || item.quantity <= 0">
                             SIN STOCK
+                          </button>
+
+                          <button *ngIf="item.enabled == false" class="black">
+                            Deshabilitado
                           </button>
 
                         </span>
@@ -171,6 +179,10 @@
                       NO DISPONIBLE
                     </p>
 
+                    <!-- <p *ngIf="!item.enabled" class="disponible">
+                      Deshabilitado
+                    </p> -->
+
                   </span>
                 </ng-template>
 
@@ -192,7 +204,6 @@
       </ul>
     </div>
 
-
     <div *ngIf="!(data | async)?.length || (service.loading$ | async)">
       <!-- ******************* Spinner - se debe refactorizar  **************************-->
       <div *ngIf="(service.loading$ | async)" colspan="7" class="text-center">
@@ -207,10 +218,10 @@
       </div>
 
       <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-        <option [ngValue]="5">5 items por pagina</option>
-        <option [ngValue]="15">15 items por pagina</option>
-        <option [ngValue]="25">25 items por pagina</option>
-        <option [ngValue]="(total$ | async)">Todos los items</option>
+        <option [ngValue]="5">5 recursos por página</option>
+        <option [ngValue]="15">15 recursos por página</option>
+        <option [ngValue]="25">25 recursos por página</option>
+        <option [ngValue]="(total$ | async)">Todos los recursos</option>
       </select>
     </div>
 

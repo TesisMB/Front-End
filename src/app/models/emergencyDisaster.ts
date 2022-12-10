@@ -12,7 +12,6 @@ export interface EmergencyDisaster {
     emergencyDisasterStartDate: string;
     emergencyDisasterEndDate: Date;
     emergencyDisasterInstruction: string;
-    Fk_EmplooyeeID: number;
     FK_TypeEmergencyID: number,
     FK_AlertID: number,
     Fk_LocationID: number,
@@ -29,7 +28,7 @@ export interface EmergencyDisaster {
     }
 
     typesEmergenciesDisasters: TypesEmergencyDisaster;
-    
+
     alerts: Alerts
 
     employees:{
@@ -40,7 +39,7 @@ export interface EmergencyDisaster {
           userAvailability: boolean;
           userDni: string;
         }
-        
+
         usersChatRooms:[
         {
             userID: number;
@@ -75,7 +74,7 @@ export interface EmergencyDisaster {
                 resources_RequestResources_Materials_Medicines_Vehicles: [{
                     id: number;
                     fk_Resource_RequestID: number;
-                
+
                     materials: Material,
                     medicines:Medicine,
                     vehicles: Vehicle
@@ -94,7 +93,7 @@ export interface AlertsInput {
     viewValue: string;
     date?: Date;
   }
-  
+
  export interface AlertArray {
     disabled?: boolean;
     name: string;

@@ -3,7 +3,7 @@ import { SignalRService } from './../../services/_signal-r.service/signal-r.serv
 import { Component, OnInit, Output, OnDestroy } from '@angular/core';
 import { AuthenticationService } from 'src/app/services';
 import { RoleName, User } from 'src/app/models';
-const ROLES_AUTORIZADOS = ['Encargado de Logistica', 'Coord. General', 'Admin','Coord. De Gestión de Riesgo'];
+const ROLES_AUTORIZADOS = ['Enc. De logística', 'Coord. General', 'Admin', 'Coord. De Gestión de Riesgo'];
 
 @Component({
   selector: 'home',
@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getCurrentUser();
   //    this.hubService.notificacion.subscribe(notif => {
-  //      console.log('****Recepción del mje****'); 
+  //      console.log('****Recepción del mje****');
   //     console.log(notif);
   //   });
    }
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.currentUser = x;
 
       this.condition = this.authRoles.includes(x.roleName);
-     }, 
+     },
        e => {
       });
   }

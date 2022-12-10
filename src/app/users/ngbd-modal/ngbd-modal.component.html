@@ -27,7 +27,7 @@
           *ngIf="user.roleName !== 'Voluntario'">
           <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
         </button>
-      
+
         <button type="button" class="btn btn-options  btn-sm" disabled (click)="generatePDF(isVolunteer)"
           *ngIf="user.roleName === 'Voluntario'">
           <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
@@ -58,9 +58,31 @@
 <div mat-dialog-content class="d-flex">
   <div class="col-4 d-flex flex-column Justify-content-center align-items-center info-personal pt-5">
     <h2>{{user.persons.firstName | titlecase}}, {{user.persons.lastName | titlecase}}</h2>
-    <div class="avatar">
-      <img src="{{user.avatar}}" alt="">
+      <!-- <img src="{{user.avatar}}" alt=""> -->
+      <div class="">
+        <div class="">
+          <input type="file" (change)="selectFiles($event)" class="fileInputProfile">
+          <div class="img-space">
+
+            <ng-container *ngIf="previews else elseTemplate">
+              <img [src]="previews" class="img-responsive">
+            </ng-container>
+            <ng-template #elseTemplate class="avatar">
+              <img src="{{user.avatar}}" class="img-responsive">
+            </ng-template>
+          </div>
+        </div>
+
+        <div *ngFor="let progressInfo of progressInfos" class="col-12 mt-2">
+          <span *ngIf="message.length">{{ message }} </span>
+          <mat-toolbar class="progress-bar">
+            <mat-progress-bar color="accent" [value]="progressInfo.value"></mat-progress-bar>
+            <span class="progress">{{ progressInfo.value }}%</span>
+          </mat-toolbar>
+        </div>
     </div>
+
+
     <div class="p-2">
       <p class="m-2">Documento: {{user.userDni}}</p>
       <!-- <p class="m-2">Genero: {{user.persons.gender}}</p> -->
@@ -85,7 +107,7 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
 
-        <!-- <mat-tab label="Información personal"> 
+        <!-- <mat-tab label="Información personal">
         <div class="personal col-sm">
           <ng-container formGroupName="persons">
             <div class="form-row">
@@ -93,11 +115,11 @@
                 <label for="firstName" class="first"><strong class="info">Nombre</strong></label>
                 <input type="text" formControlName="firstName" required name="firstName" id="firstName"
                   class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('persons.firstName').errors }">
-  
+
                 <div *ngIf="submitted && f.get('persons.firstName').errors" class="invalid-feedback">
                   <div *ngIf="f.get('persons.firstName').errors.required"><small>*Campo requerido</small> </div>
                   <div *ngIf="f.get('persons.firstName').errors.pattern"><small>*Nombre invalido</small> </div>
-  
+
                 </div>
               </div>
 
@@ -108,23 +130,23 @@
                 <div *ngIf="submitted && f.get('persons.lastName').errors" class="invalid-feedback">
                   <div *ngIf="f.get('persons.lastName').errors.required"><small>*Campo requerido</small></div>
                   <div *ngIf="f.get('persons.lastName').errors.pattern"><small>*Apellido invalido</small> </div>
-  
+
                 </div>
               </div>
-              
+
               <div class="form-group col-2">
                 <label for="dni" class="first"><strong class="info">Documento</strong></label>
                 <p readonly class="form-control">{{user.userDni}}</p>
               </div>
             </div>
-  
+
             <div class="form-row">
             </div>
           </ng-container>
           <div class="form-row">
           </div>
-  
-  
+
+
           <ng-container formGroupName="persons">
             <div class="form-row">
               <div class="form-group col">
@@ -140,22 +162,22 @@
                 </div>
               </div>
             </div>
-  
+
             <div class="form-row">
               <div class="form-group col">
                 <label for="birthdate" class="first"><strong class="info">Fecha de nacimiento</strong></label>
                 <input type="datetime" formControlName="birthdate" readonly required name="birthdate" id="birthdate"
                   class="form-control" [ngModel]="user.persons.birthdate"
                   [ngClass]="{ 'is-invalid': submitted && f.get('persons.birthdate').errors }">
-  
+
                 <div *ngIf="submitted && f.get('persons.birthdate').errors" class="invalid-feedback">
                   <div *ngIf="f.get('persons.birthdate').errors.required"><small>*Campo requerido</small></div>
                 </div>
               </div>
             </div>
           </ng-container>
-  
-        </div>  
+
+        </div>
       </mat-tab> -->
         <!-- Informacion de contacto -->
 
@@ -252,7 +274,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="legacy" formGroupName="estates">
-              <mat-label>Ciudad</mat-label>
+              <mat-label>Ubicación</mat-label>
               <mat-select formControlName="locationCityName" name="FK_EstateID">
                 <!-- [required]="!isEdit" -->
 
@@ -275,10 +297,10 @@
       <div class="form-group col-6">
 
         <mat-form-field appearance="legacy" formGroupName="estates">
-          <mat-label>Ciudad</mat-label>
+          <mat-label>Ubicación</mat-label>
           <mat-select formControlName="locationCityName" name="FK_EstateID">
             <!-- [required]="!isEdit" -->
-    
+
             <mat-option *ngFor="let locations of locations" [value]="locations.locationCityName">
               {{locations.locationCityName | titlecase}}
             </mat-option>
@@ -341,9 +363,9 @@
       </div>
     <input type="time" formControlName="startTime" class="form-control info">
     <input type="time" formControlName="endTime" class="form-control info">
-    
+
   </div>
-  </div> 
+  </div>
 </div> -->
 
                     <!-- ************************ FIN - Form Array ***************** -->

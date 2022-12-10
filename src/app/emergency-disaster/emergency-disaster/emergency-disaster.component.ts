@@ -54,8 +54,8 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
       this.isLoading = this.service.loading$;
   }
 
-  
-  
+
+
   ngOnInit(): void {
     this.getEmergencyDisaster();
     

@@ -3,7 +3,7 @@ import { EmergencyDisasterService } from './../../emergency-disaster/emergency-d
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services';
 
-const TITLE = 'Ultimas alertas';
+const TITLE = 'Últimas alertas';
 
 @Component({
   selector: 'recent-alert',
@@ -39,7 +39,7 @@ export class RecentAlertComponent implements OnInit {
     }
     else{
       return '#D5F5E3';
-  
+
       }
   }
 

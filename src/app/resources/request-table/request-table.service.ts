@@ -15,7 +15,7 @@ import * as moment from 'moment';
 
 
 
-const ROLES = ['Encargado de Logistica', 'Admin', 'Coord. General'];
+const ROLES = ['Enc. De logística', 'Admin', 'Coord. General'];
 const compare = (v1: string | number | any, v2: string | number | any) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
 // const formateDate = (date, from, to?) =>
@@ -66,7 +66,7 @@ export class RequestTableService {
     sortDirection: ''
   };
 
-  constructor(private pipe: DecimalPipe, private authService: AuthenticationService, protected http: HttpClient) {    
+  constructor(private pipe: DecimalPipe, private authService: AuthenticationService, protected http: HttpClient) {
     this._search$.pipe(
     tap(() => this._loading$.next(true)),
     debounceTime(200),
@@ -155,7 +155,7 @@ ObtenerSolicitud(id){
 
 generatePDF(id, tab?): Observable<any> {
   const headers = new HttpHeaders().set('Accept','application/pdf');
-  return this.http.get(environment.URL + 'resourcesrequest/' + 'pdf/' + id, 
+  return this.http.get(environment.URL + 'resourcesrequest/' + 'pdf/' + id,
       {
         headers: headers,
         responseType: 'blob'
@@ -167,13 +167,13 @@ generatePDF(id, tab?): Observable<any> {
 private _search(): Observable<SearchResult> {
   const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
   // const to = this.reportService.to;
-  // const from= this.reportService.from; 
+  // const from= this.reportService.from;
   // 1. filtrado por usuario
   var req = this._request$.value;
   if(this._filter$.value || !ROLES.includes(this.currentUser.roleName)){
     req = this._request$.value.filter(x => x.createdBy === this.currentUser.userID);
   }
-  
+
   // 1. sort
   let data = sort(req, sortColumn, sortDirection);
 
@@ -200,9 +200,9 @@ private _search(): Observable<SearchResult> {
 
 
  openDialog(){
-  
+
  }
 
-  
+
   }
-    
+

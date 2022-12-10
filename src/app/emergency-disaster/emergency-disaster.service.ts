@@ -25,13 +25,13 @@ export class EmergencyDisasterService extends DataService {
     super(http, 'EmergenciesDisasters');
   }
 
-  
+
   public get ListarAlertas(): Alerts[]{
-    
+
     const array = Object.values(AlertDegree);
 
     let alerts: Alerts[] ;
-    
+
     alerts = array.map((alert,i) => {  return new Alerts(i+1, alert, alert);});
 
     return alerts;
@@ -90,12 +90,12 @@ export class EmergencyDisasterService extends DataService {
   }
 
 
-  
-  
-  
 
 
-  // .pipe(map(x => { 
+
+
+
+  // .pipe(map(x => {
     //   const items = x.filter(f => f.alerts.alertDegree != 'Controlado');
     //    return items;
     // }));
@@ -105,7 +105,7 @@ export class EmergencyDisasterService extends DataService {
 
   generatePDFEmergency(id): Observable<any> {
     const headers = new HttpHeaders().set('Accept','application/pdf');
-    return this.http.get(environment.URL + this.patch + '/pdf/' + id, 
+    return this.http.get(environment.URL + this.patch + '/pdf/' + id,
         {
           headers: headers,
           responseType: 'blob'
@@ -126,7 +126,7 @@ getAlerts(): Observable<any> {
       emergency.value = e.emergencyDisasterID;
       // emergency.viewValue = e.locationsEmergenciesDisasters.locationMunicipalityName + ' - '+ e.locationsEmergenciesDisasters.locationDepartmentName;
        emergency.viewValue = e.locationsEmergenciesDisasters.locationCityName;
-      emergency.date = e.emergencyDisasterStartDate;
+      emergency.date = e.emergencyDisasterID;
       const index = arrayEmergencies.findIndex(x =>
         x.name === e.typesEmergenciesDisasters.typeEmergencyDisasterName
       );
@@ -145,8 +145,8 @@ getAlerts(): Observable<any> {
     );
 }
 
-getByIdWithoutFilter(id: number): Observable<any> {
-  return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter/' + id);
+getByIdWithoutFilter(id: number, status: boolean): Observable<any> {
+  return this.http.get<any>(environment.URL + this.patch+'/WithoutFilter/' + id + '/' + status);
 }
 
   patchEmergencyDisaster(emergencyDisaster: EmergencyDisaster, operations: Operation[],): Observable<any> {

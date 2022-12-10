@@ -1,3 +1,5 @@
+import { MapService } from './../map.service';
+import { Reverse } from './../../models/reverse';
 import { AuthenticationService } from './../../services/_authentication/authentication.service';
 import { UserService } from './../../users/user.service';
 import { PlacesService } from './../places.service';
@@ -13,8 +15,8 @@ import { Ubicacion } from 'src/app/models/Parametros';
 import { Employee, User } from 'src/app/models';
 import { AlertService } from 'src/app/services';
 import { Location } from '@angular/common';
-import { Subscription } from 'rxjs';
-import {   
+import { Observable, Subscription } from 'rxjs';
+import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -34,6 +36,8 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   subscriber3: Subscription;
   subscriber4: Subscription;
   subscriber5: Subscription;
+  subscriber6: Subscription;
+  subscriber7: Subscription;
   locationB: boolean = false;
   addEmergencyDisaster: FormGroup;
   alerts: Alerts[];
@@ -45,24 +49,30 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   user: User [];
   ubicacion: any;
   hasVictims: boolean = false;
+  LocationObservable: Observable<Feature>;
+  locationCity: any;
+  loading = false;
 
-  constructor(   
+
+  constructor(
     private location: Location,
     private selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
     private emergencyDisasterService: EmergencyDisasterService,
     private fb: FormBuilder,
     private placesService: PlacesService,
+    private napService: MapService,
     private authenticationService: AuthenticationService,
     private userService : UserService,
     private alertService: AlertService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+
     ) {
 
       this.addEmergencyDisaster = this.fb.group({
         FK_TypeEmergencyID: ['', Validators.required],
         FK_AlertID: ['', Validators.required],
         Fk_EmplooyeeID: ['', Validators.required],
-        emergencyDisasterInstruction: ['', Validators.required],        
+        emergencyDisasterInstruction: ['', Validators.required],
         locationsEmergenciesDisasters: this.fb.group({
           locationCityName: [, [Validators.required]],
           locationDepartmentName: [],
@@ -117,7 +127,10 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
     this.alerts = this.emergencyDisasterService.ListarAlertas;
     this.getTypeEmergencyDisaster();
 
-    
+     this.addLocation();
+
+
+
   }
 
 
@@ -126,7 +139,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
   getUser(){
-    this.subscriber2 = this.userService.getAll().subscribe(data => {
+    this.subscriber2 = this.userService.getUser().subscribe(data => {
       this.user = data;
       this.user = this.user.filter(a => a.roleName == "Coord. De Gestión de Riesgo");
     }, error =>{
@@ -134,10 +147,40 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
     })
   }
 
+
+  addLocation(){
+    this.subscriber7  = this.placesService.placeSubject$.subscribe(resp => {
+      if(resp){
+        this.napService.crearMarcador(resp.center[0], resp.center[1]);
+      }
+    }, err =>{
+      console.log(err);
+    });
+  }
+
   addEmergencyDisasterFunction(){
+    this.subscriber6 = this.napService.reverseSubject$.subscribe(resp => {
+      if(resp){
+        console.log('ACA ESTO YO rep232 => ', resp);
+        this.getLocation2(resp);
+      }else{
+        this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationLongitude').patchValue(null);
+        this.addEmergencyDisaster.get('locationsEmergenciesDisasters.LocationLatitude').patchValue(null);
+        this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(null);
+        }
+    },
+    err =>{
+      console.log(err);
+    });
+
     this.subscriber3 = this.placesService.placeSubject$.subscribe(resp => {
       if(resp){
+
         this.getLocation(resp);
+      }else{
+        this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationLongitude').patchValue(null);
+        this.addEmergencyDisaster.get('locationsEmergenciesDisasters.LocationLatitude').patchValue(null);
+        this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(null);
       }
     }, err => {
       console.log(err);
@@ -156,24 +199,31 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
     console.log("Place Name", placeObservable.place_name);
   }
-    
-  
+
+
+  getLocation2(placeObservable){
+    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationLongitude').patchValue(placeObservable.features[0].center[0]);
+    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.LocationLatitude').patchValue(placeObservable.features[0].center[1]);
+    this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(placeObservable.features[0].place_name);
+  }
+
 
   postEmergencyDisaster(){
     console.log('Formulario =>', this.addEmergencyDisaster.valid);
 
     if(this.addEmergencyDisaster.valid){
-
+      this.loading = true;
      // this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(this.ubicacion.municipio.nombre);
-      
+
       this.addEmergencyDisaster.get('FK_EstateID').patchValue(this.currentUser.estates.estateID);
 
-      
+
       const emergency = this.addEmergencyDisaster.value;
       console.log('Formulario =>', emergency);
-      
+
       this.subscriber4 =   this.emergencyDisasterService.register(emergency).subscribe( () =>{
       // this.alertService.success('Registro exitoso :)', { autoClose: true });
+      this.loading = false;
       this.openSnackBar(
         'Se ha registrado correctamente la alerta y se notifico a los voluntarios',
         'Entendido!',
@@ -183,7 +233,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
       );
       this.location.back();
       // this.stepper.reset();
-        
+
       }, error =>{
         // this.alertService.error('Ocurrio un error :(', { autoClose: true });
         this.openSnackBar(
@@ -193,13 +243,14 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
           'top',
           5000
         );
+        this.loading = false;
         console.log("Error en el formulario!!!", error);
       });
     }
-    
+
     else if(this.errorMap){
       this.openSnackBar(
-        'El formulario esta incompleto, por favor seleccione la ubicación de la alerta',
+        'El formulario esta incompleto, por favor Seleccioné la ubicación de la alerta',
         'Entendido!',
         'center',
         'top',
@@ -223,7 +274,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
         })
 
           console.log('arraytypeEmergencyDisaster []', this.arraytypeEmergencyDisaster);
-          
+
           return x;
       }))
     .subscribe(data =>{
@@ -235,7 +286,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
   mapa(){
-  
+
     /* this.router.navigate(['emergencias/ubicacion']); */
   }
 

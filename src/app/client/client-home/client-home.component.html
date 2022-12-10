@@ -1,139 +1,244 @@
-<client-navbar></client-navbar>
-<section class="pages">
+   <!-- Header -->
+   <div class="contenedor">
+    <header>
+        <nav class="nav">
+            <a href="#" class="logo"><img src="https://i.imgur.com/je6opQM.png" /></a>
+            <input type="checkbox" id="hamburguer-toggle">
+            <label class="hamburguer-wrapper" for="hamburguer-toggle">
+                <span class="hamburguer"></span>
+            </label>
+            <div class="navbar">
+                <ul class="nav-list">
+                    <li><a href="https://www.cruzroja.org.ar/cruz-roja-argentina/" class="link-principal">cruz roja argentina</a></li>
+                    <li><a href="https://www.cruzroja.org.ar/filiales/" class="link-principal">filiales</a></li>
+                    <li><a href="https://www.cruzroja.org.ar/voluntariado/" class="link-principal">sumate</a></li>
+                    <li><a href="https://www.cruzroja.org.ar/dona/" class="link-principal">colabora</a></li>
+                    <li><a (click)="login()" class="link-principal link">SICREYD</a></li>
+                </ul>
+            </div>
+        </nav>
 
-  <app-carousel></app-carousel>
+        <div class="titulo">
+            <h2>sumate!</h2>
+        </div>
+        <div class="button">
+            <button class="btn"><a href="https://www.cruzroja.org.ar/voluntariado/">al voluntariado</a></button>
+            <button class="btn"><a href="https://www.cruzroja.org.ar/dona/">con tu apoyo</a></button>
+        </div>
+      </header>
+</div>
 
+<section class="Argentina contenedor Emergencias">
+    <div class="Argentina-text">
+        <a href="https://www.cruzroja.org.ar/pda.argentinaserecupera.pdf">
+            <h2>#ArgentinaSeRecupera</h2>
+        </a>
+    </div>
 </section>
 
 <!-- Cruz Roja Covid -->
-<section class="contenido-covid contenedor1">
-  <section class="textos-covid">
-    <h2>En Emergencia | Covid-19</h2>
-    <a href="https://www.cruzroja.org.ar/wp-content/uploads/2020/04/covid-19arg-pda-arg.pdf">Ver más</a>
-  </section>
-  <img src="../../../assets/img-client/CruzRoja -Ilustracion.png" alt="">
+<section class="contenido-covid contenedor">
+    <section class="textos-covid">
+        <h2>en emergencia | covid-19</h2>
+        <a class="btn2" href="https://www.cruzroja.org.ar/wp-content/uploads/2020/04/covid-19arg-pda-arg.pdf">Ver más</a>
+    </section>
+    <img src="https://i.imgur.com/GdTMbAr.png" alt="" />
 </section>
-
 
 <!-- Estudios -->
-<section class="rcp-estudios">
-  <div class="contenedor1">
+<section class="rcp-estudios contenedor">
     <div class="contenedor-articulo">
-      <div class="articulo">
-        <i class="fas fa-notes-medical"></i>
-        <p>Aprende primeros auxilios</p>
-        <a href="https://www.cruzroja.org.ar/newDesign/primeros-auxilios/">Ver cursos y filiales</a>
-      </div>
+        <div class="articulo">
+            <img src="https://i.imgur.com/4DjnHdY.png" class="imagen">
+            <p>aprende primeros auxilios</p>
+            <a href="https://www.cruzroja.org.ar/newDesign/primeros-auxilios/">Ver cursos y filiales</a>
+        </div>
 
-      <div class="articulo">
-        <i class="fas fa-user-graduate"></i>
-        <p>Estudia en Cruz Roja</p>
-        <a href="https://institutocruzrojacordoba.net.ar/">Ver escuelas y carreras</a>
-      </div>
+        <div class="articulo">
+            <img src="https://i.imgur.com/ULC5ixr.png" alt="" class="imagen">
+          <p>estudiá en Cruz Roja</p>
+            <a href="https://institutocruzrojacordoba.net.ar/">Ver escuelas y carreras</a>
+        </div>
     </div>
-  </div>
-</section>
-
-
-<!-- Parallax -->
-
-<section class="Emergencias contenedor1">
-  <section class="textos">
-    <h2>Emergencias</h2>
-
-    <p>Acompañamos a las comunidades
-      antes, durante y después de
-      emergencias y desastres.</p>
-
-    <a href="https://www.cruzroja.org.ar/emergencias/">Ver más</a>
-  </section>
-</section>
-
-<!-- Campañas -->
-<section class="campañas">
-  <div class="contenedor1">
-    <div class="contenedor-articulo">
-      <div class="articulo">
-        <img class="convivir" src="../../../assets/img-client/vidadona.png" alt="">
-        <p class="donacion"> Sumate a nuestro banco virtual de donantes de sangre</p>
-        <a href="#">Ver más</a>
-      </div>
-
-      <div class="articulo">
-        <img src="../../../assets/img-client/convivir.png" alt="">
-        <p class="prevencion">Centros de Prevención, Asesoramiento y Diagnóstico de VIH</p>
-        <a href="#">Ver más</a>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- Servicios -->
-<section class="servicio contenedor1">
-  <section class="textos-servicio">
-    <h2>Servicio de teleasistencia para
-      adultos mayores y personas con discapacidad</h2>
+<section class="servicio contenedor">
+    <div class="textos-servicio">
+        <h2>
+            Servicio de teleasistencia para adultos mayores y personas con discapacidad
+        </h2>
 
-    <p>Las 24 horas los
-      365 días del año</p>
-    <a href="https://cruzroja.org.ar/cruzrojatecuida/">Ver más</a>
-  </section>
-  <img src="../../../assets/img-client/abuelos.jpg" alt="">
-</section>
-
-
-
-
-<section class="rcp-app">
-  <div class="contenedor1">
-
-    <div class="contenedor-rcp-app">
-      <div class="articulo-rcp-app">
-        <i class="fas fa-briefcase-medical"></i>
-        <p>Prestaciones de Primeros Auxilios en eventos masivos</p>
-        <p>prestaciones@cruzroja.org.ar</p>
-        <a class="link-rcp" href="https://www.cruzroja.org.ar/prestaciones-primeros-auxilios/">Ver más</a>
-      </div>
-
-      <div class="articulo-rcp-app">
-        <h2>Nuestra Aplicacion</h2>
-        <p class="upper">Bajate la app</p>
-        <p>Aprende a salvar vidas</p>
-        <img src="../../../assets/img-client/APP.png" class="img-app">
-
-        <div class="store">
-          <a href="https://itunes.apple.com/ar/app/primeros-auxilios-ifrc/id1312876691?mt=8"><img
-              src="../../../assets/img-client/APPSTORE.png"></a>
-
-          <a href="https://play.google.com/store/apps/details?id=com.cube.gdpc.fa"><img
-              src="../../../assets/img-client/GOOGLEPLAY.png"></a>
-        </div>
-      </div>
-
+        <p>Las 24 horas los 365 días del año</p>
+        <a class="btn2" href="https://cruzroja.org.ar/cruzrojatecuida/">Ver más</a>
     </div>
-  </div>
+    <img src="https://i.imgur.com/M85wZ9n.jpg" alt="" class="imagen"/>
 </section>
 
 
+<!-- Campañas -->
+<section class="rcp-estudios contenedor">
+    <div class="contenedor-articulo">
+        <div class="articulo articulo2">
+            <img class="fas" src="https://i.imgur.com/xoKsjwJ.png" alt="" />
+
+            <div class="text">
+                <p>
+                    Sumate a nuestro banco virtual de donantes de sangre
+                </p>
+                <a class="btn2" href="#">Ver más</a>
+            </div>
+        </div>
+
+        <div class="articulo articulo2">
+            <img class="fas" src="https://i.imgur.com/ztQtqyG.png" alt="" />
+            <div class="text">
+                <p>
+                    Centros de Prevención, Asesoramiento y Diagnóstico de VIH
+                </p>
+                <a class="btn2" href="#">Ver más</a>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Programas -->
-<section class="programa">
-  <div class="contenedor1">
-    <div class="contenedor-articulo-programas">
-
-      <div class="articulo-programa">
-        <img class="migrantes" src="../../../assets/img-client/migrantes.png" alt="">
-        <p>Programa de asistencia y apoyo a migrantes</p>
-        <a href="#">Ver más</a>
-      </div>
-
-      <div class="articulo-programa">
-        <img src="../../../assets/img-client/familia.jpg">
-        <p>Programa de restablecmiento de contacto entre familiares</p>
-        <a href="#">Ver más</a>
-      </div>
+<section class="servicio contenedor programa">
+    <div class="textos-servicio textos-programa">
+        <h2>Programa de asistencia y apoyo a migrantes</h2>
+        <a class="btn2" Href="# ">Ver más</a>
     </div>
-  </div>
+    <img  src="https://i.imgur.com/szLN92l.jpg" alt=" " style="width: 25%" />
 </section>
 
-<app-footer></app-footer>
+<section class="rcp-app contenedor">
+    <div class="contenedor-rcp-app">
+        <div class="articulo-rcp-app articulo">
+          <img src="https://i.imgur.com/3v7opjN.png" class="imagen">
+          <p>Prestaciones de Primeros Auxilios en eventos masivos</p>
+            <p>prestaciones@cruzroja.org.ar</p>
+            <a class="btn2" href="https://www.cruzroja.org.ar/prestaciones-primeros-auxilios/ ">Ver más</a >
+           </div>
+
+            <div class="articulo-rcp-app">
+                    <p >Bajate la app</p>
+                    <p>Aprende a salvar vidas</p>
+                    <img src="https://i.imgur.com/Wy2NfEw.png" class="img-app " />
+
+                <div class="store ">
+                        <a href="https://itunes.apple.com/ar/app/primeros-auxilios-ifrc/id1312876691?mt=8 "><img src="https://i.imgur.com/u0IgKS9.png"/></a>
+            <a href="https://play.google.com/store/apps/details?id=com.cube.gdpc.fa "><img src="https://i.imgur.com/fOmVaOc.png" /></a>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section class="servicio contenedor programa">
+    <div class=" textos-servicio textos-programa ">
+        <h2>Programa de restablecmiento de contacto entre familiares</h2>
+        <a class="btn2 " href="# ">ver más</a>
+    </div>
+    <img src="https://i.imgur.com/WMGfAsF.png" style="width: 28%;" />
+</section>
+
+
+<section class="Emergencias contenedor">
+    <div class="textos">
+        <h2>Emergencias</h2>
+        <p>
+            Acompañamos a las comunidades antes, durante y después de emergencias y desastres.
+        </p>
+        <a href="https://www.cruzroja.org.ar/emergencias/">Ver más</a>
+    </div>
+</section>
+
+<!-- Materiales -->
+<section class="materiales contenedor ">
+    <div class="materiales-text">
+        <h2>
+            Materiales
+        </h2>
+        <p>
+            para descargar
+        </p>
+    </div>
+    <a href="https://www.cruzroja.org.ar/materiales/ "><img src="https://i.imgur.com/wNng2fw.png"></a>
+</section>
+
+
+
+
+
+
+
+
+
+
+<!-- Empresas -->
+<section class="empresas contenedor">
+    <h2>contamos con el apoyo de</h2>
+    <div class="empresas-cards">
+        <div class="empresa">
+            <img src="https://i.imgur.com/EnbbREw.png" alt="">
+        </div>
+        <div class="empresa">
+            <img src="https://i.imgur.com/Rw4WbXE.png" alt="">
+        </div>
+        <div class="empresa">
+            <img src="https://i.imgur.com/jwjdH8q.png" alt="">
+        </div>
+        <div class="empresa">
+            <img src="https://i.imgur.com/6ds0MTe.png" alt="">
+        </div>
+        <div class="empresa">
+            <img src="https://i.imgur.com/Hsqp9y4.png" alt="">
+        </div>
+        <div class="empresa">
+            <img src="https://i.imgur.com/myPPkSH.png" alt="">
+        </div>
+        <div class="empresa">
+            <img src="https://i.imgur.com/5HYShBE.png" alt="">
+        </div>
+        <div class="empresa">
+            <img src="https://i.imgur.com/n4ydNzH.png" alt="">
+        </div>
+        <div class="empresa">
+            <img src="https://i.imgur.com/oesHjbW.png" alt="">
+        </div>
+        <div class="empresa">
+            <img src="https://i.imgur.com/G4dOENN.png" alt="">
+        </div>
+    </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="footer contenedor">
+    <div class="footer-container">
+        <div class="footer-text">
+            <p class="footer-contact">27 de Abril 1161, córdoba, argentina.</p>
+        </div>
+
+        <div class="footer-text">
+            <a class="footer-contact email" href="#" target="_blank ">tesis.mb.unc@gmail.com</a>
+            <p class="footer-contact tel">+54 351 423-1798</p>
+        </div>
+
+        <div class="footer-text social-icons">
+            <h5 class="footer-contact">seguinos</h5>
+            <a class="footer-contact icons" href="http://www.instagram.com/crargcordoba " target="_blank ">
+              <img src="https://i.imgur.com/3MgLWeH.png" width="15">
+            </a>
+            <a class="footer-contact icons" href="http://www.twitter.com/CRA_CBA " target="_blank ">
+              <img src="https://i.imgur.com/JiyeVyo.png" width="15">
+            </a>
+            <a class="footer-contact icons" href="http://www.facebook.com/cruzrojacba/ " target="_blank ">
+              <img src="https://i.imgur.com/DqSFSkX.png" width="15">
+            </a>
+
+            <p class="copyright footer-contact">©2021 by UNC - Argentina</p>
+        </div>
+
+    </div>
+
+</footer>

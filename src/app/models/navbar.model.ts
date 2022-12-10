@@ -6,15 +6,15 @@ export interface FoodNode {
     role: any[],
     disabled?: boolean
   }
-  
-  
-  
+
+
+
   export interface Notifications{
     hasNotifications: boolean,
     number: number
   }
  export interface Notifys{
-   
+
         id: number,
         message: string,
         state: boolean,
@@ -44,13 +44,13 @@ export interface FoodNode {
       url: null
     }
   ];
-  
+
   export const TREE_DATA: FoodNode[] = [
     {
       name: 'Inicio',
       patch:'/',
       icon:'fas fa-home' ,
-      role:['Admin','Coord. General','Coord. De Gestión de Riesgo', 'Encargado de Logistica']
+      role:['Admin','Coord. General','Coord. De Gestión de Riesgo', 'Enc. De logística']
     },
     {
       name: 'Usuarios',
@@ -76,25 +76,25 @@ export interface FoodNode {
       name: 'Gestión de recursos',
       patch: 'recursos',
       icon:'fas fa-first-aid',
-      role:['Admin','Coord. General','Encargado de Logistica','Coord. De Gestión de Riesgo'],
+      role:['Admin','Coord. General','Enc. De logística','Coord. De Gestión de Riesgo'],
       children: [
         {
           name: 'Medicamentos',
           patch:'/recursos/lista/medicamentos',
           icon:'fas fa-capsules',
-          role:['Admin','Coord. General','Encargado de Logistica','Coord. De Gestión de Riesgo']
+          role:['Admin','Coord. General','Enc. De logística','Coord. De Gestión de Riesgo']
         },
         {
           name: 'Materiales',
           patch:'/recursos/lista/materiales',
           icon:'fas fa-thermometer',
-          role:['Admin','Coord. General','Encargado de Logistica','Coord. De Gestión de Riesgo']
+          role:['Admin','Coord. General','Enc. De logística','Coord. De Gestión de Riesgo']
         },
         {
           name: 'Vehiculos',
           patch:'/recursos/lista/vehiculos',
           icon:'fas fa-ambulance',
-          role:['Admin','Coord. General','Encargado de Logistica','Coord. De Gestión de Riesgo']
+          role:['Admin','Coord. General','Enc. De logística','Coord. De Gestión de Riesgo']
         },
       ]
     },
@@ -102,19 +102,19 @@ export interface FoodNode {
       name: 'Stock',
       patch:'/recursos/stock',
       icon:'fas fa-list-alt',
-      role:['Admin','Coord. General','Encargado de Logistica']
+      role:['Admin','Coord. General','Enc. De logística']
     },
     {
       name: 'Solicitudes',
       patch:'/recursos/solicitudes',
       icon:'fas fa-clipboard-list' ,
-      role:['Admin','Coord. General','Encargado de Logistica']
+      role:['Admin','Coord. General','Enc. De logística']
     },
     // {
     //   name: 'Historial de solicitudes',
     //   patch:'/recursos/historial',
     //   icon:'fas fa-clipboard-list' ,
-    //   role:['Admin','Coord. General','Encargado de Logistica']
+    //   role:['Admin','Coord. General','Enc. De logística']
     // },
     {
       name: 'Alertas',
@@ -134,6 +134,6 @@ export interface FoodNode {
       patch:'/monitoreo',
       icon:'fas fa-tv' ,
       disabled: false,
-      role:['Admin','Coord. General','Coord. De Gestión de Riesgo','Encargado de Logistica']
+      role:['Admin','Coord. General','Coord. De Gestión de Riesgo','Enc. De logística']
     },
 ];

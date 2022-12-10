@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     eyeHide = true;
     currentUser: User;
     handler: any;
-    
+
 
     constructor(
         private formBuilder: FormBuilder,
@@ -37,22 +37,22 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-     
+
         this.loginForm = this.formBuilder.group({
             userDni: ['', Validators.required],
             userPassword: ['', Validators.required]
 
         });
-           
+
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
     // convenience getter for easy access to form fields
     get f() { return this.loginForm.controls; }
-    
 
 
-    
+
+
 
     onSubmit() {
         this.submitted = true;
@@ -74,7 +74,8 @@ export class LoginComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                  this.alertService.error('Ha ingresado el usuario o la contraseña incorrectamente');
+                  this.alertService.errorForEmployee(error);
+                  //this.alertService.error('Ha ingresado el usuario o la contraseña incorrectamente');
                   this.loading = false;
                 });
     }

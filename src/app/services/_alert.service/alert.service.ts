@@ -44,12 +44,14 @@ export class AlertService {
   }
   errorForEmployee(error: any){
     if(error.type == 'C'){
-        
+
         this.error(error.message, { autoClose: true });
     }
-    else {
+    else if (error.type == 'M'){
     this.error(error[1].messages[0], { autoClose: true });
-    }  
+    }else{
+      this.error('Ha ingresado el usuario o la contraseña incorrectamente');
+    }
 }
 
 errorForRegister(error){
@@ -60,7 +62,7 @@ errorForRegister(error){
         error.forEach(e => {
             this.error(e.messages, { autoClose: true });
         });
-        } 
+        }
 }
 
 }

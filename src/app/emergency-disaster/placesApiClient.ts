@@ -15,8 +15,8 @@ export class PlacesApiClient extends HttpClient{
         super(handler);
     }
 
-    public override 
-    get<T>(url: string, 
+    public override
+    get<T>(url: string,
         options: {params?: HttpParams | {
         [param: string]: string | string[];
     };
@@ -28,7 +28,7 @@ export class PlacesApiClient extends HttpClient{
         return super.get<T>(url, {
             params: {
                 country: 'ar',
-                limit: '2',
+                limit: '4',
                 language: 'es',
                 /* types: 'place,neighborhood', */
                 access_token:  environment.key,

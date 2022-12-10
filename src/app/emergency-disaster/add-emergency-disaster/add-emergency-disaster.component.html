@@ -13,7 +13,7 @@
 <section class="col-body" id="row-aside">
 
 
-    
+
     <form [formGroup]="addEmergencyDisaster">
         <div class="row col-12 ">
             <div class="col-12 ml-4">
@@ -22,10 +22,10 @@
                     ¿La
                     alerta presenta daños materiales, heridos y/ò
                     victimas mortales? </mat-checkbox>
-                
+
                 </div>
-     
-                       
+
+
                         <div class="col-12 p-3 d-flex justify-content-around">
                         <mat-form-field appearance="outline">
                             <mat-label>Tipo de alerta</mat-label>
@@ -35,12 +35,12 @@
                                     {{emergency.name}}
                                 </mat-option>
                             </mat-select>
-        
+
                             <mat-error *ngIf="formEmergency.get('FK_TypeEmergencyID').hasError('required')">
                                 El responsable es<strong> requerida</strong>
                             </mat-error>
                         </mat-form-field>
-        
+
                         <mat-form-field appearance="outline">
                             <mat-label>Grado de la alerta</mat-label>
                             <mat-select formControlName="FK_AlertID">
@@ -48,13 +48,13 @@
                                     {{item.alertDegree}}
                                 </mat-option>
                             </mat-select>
-        
+
                             <mat-error *ngIf="formEmergency.get('FK_AlertID').hasError('required')">
                                 El responsable es<strong> requerida</strong>
                             </mat-error>
                         </mat-form-field>
-        
-        
+
+
                         <mat-form-field appearance="outline">
                             <mat-label for="Fk_EmplooyeeID">Encargado</mat-label>
                             <mat-select formControlName="Fk_EmplooyeeID">
@@ -64,33 +64,33 @@
                                     {{item.persons.lastName}}
                                 </mat-option>
                             </mat-select>
-        
+
                             <mat-error *ngIf="formEmergency.get('Fk_EmplooyeeID').hasError('required')">
                                 El responsable es<strong> requerida</strong>
                             </mat-error>
                         </mat-form-field>
                     </div>
-        
-        
+
+
                     <div class="col-12 d-flex align-items-center">
-                <div class="col-6">
+                <div class="col-8">
                     <div class="d-flex align-items-center">
                         <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
                             <mat-icon> location_on</mat-icon>
                         </button>
                         <h3>Ubicación</h3>
                     </div>
-                    
+
                     <map>
                     </map>
                     <!-- <mat-error *ngIf="errorMap">
                        La ubicación es<strong> requerida</strong>
                     </mat-error> -->
             </div>
-            <div class="d-flex col-6">
+            <div class="d-flex col-4">
 
-              
-                    
+
+
                     <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label for="emergencyDisasterInstruction">Descripción</mat-label>
                         <textarea matInput id="emergencyDisasterInstruction" name="emergencyDisasterInstruction"
@@ -101,7 +101,7 @@
                     </mat-form-field>
                 </div>
             </div>
-            
+
                 <!-- <div class="d-flex flex-column col-12"> -->
                     <div class="d-flex flex-column col-6 input">
                 <div *ngIf="hasVictims" formGroupName="victims" class="d-flex flex-wrap p-3 justify-content-between">
@@ -114,7 +114,7 @@
                             </mat-error>
                         </mat-form-field>
                     <!-- </div> -->
-                    
+
                     <!-- <div class="p-2"> -->
                         <mat-form-field appearance="outline" class="infos">
                             <mat-label>Nro. Barrios afectadas</mat-label>
@@ -124,7 +124,7 @@
                             </mat-error>
                         </mat-form-field>
                     <!-- </div> -->
-    
+
                     <!-- <div class="p-2"> -->
                         <mat-form-field appearance="outline" class="infos">
                             <mat-label>Nro. Personas heridas</mat-label>
@@ -208,12 +208,24 @@
         <!-- </div> -->
 
 
+        <div class="col-12 d-flex justify-content-end">
+        <button mat-raised-button type="submit" color="primary"
+        mat-button
+        type="submit"
+        [disabled]="loading"
+        (click)="postEmergencyDisaster()"
+      >
+        <span class="text-center" *ngIf="loading">
+          <i class="fas fa-spinner fa-lg fa-spin"> </i>
+        </span>
+        <span *ngIf="!loading">Finalizar</span>
+      </button>
+        </div>
 
-
-            <div class="col-12 d-flex justify-content-end">
+            <!-- <div class="col-12 d-flex justify-content-end">
                 <button  mat-raised-button type="submit" color="primary"
                     (click)="postEmergencyDisaster()">Crear</button>
-            </div>
+            </div> -->
 
         </div>
 

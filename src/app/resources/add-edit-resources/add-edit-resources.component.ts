@@ -19,8 +19,8 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 const TYPES = [
   {value: 'materiales', viewValue:'Material'},
-  {value: 'medicamentos', viewValue:'Farmacia'},
-  {value: 'vehiculos', viewValue:'Vehiculo'}
+  {value: 'medicamentos', viewValue:'Medicamento'},
+  {value: 'vehiculos', viewValue:'vehículo'}
   ];
 
   const VEHICLES_UTILITYS =['Transporte','Uso particular','Carga', 'Emergencias'];
@@ -44,7 +44,7 @@ const TYPES = [
     value: number;
     viewValue: string;
   }
-  
+
   interface UsersGroup {
     disabled?: boolean;
     role: string;
@@ -129,7 +129,7 @@ imageInfos?: Observable<any>;
   get vehicleForm(){ return this.form.get('vehicles');}
   get isEdit(){return this.action === 'editar'}
 
-  setPicklist(){ 
+  setPicklist(){
     this.vehicleForm.get('fK_EmployeeID').patchValue(this.vehicles.fK_EmployeeID);
     console.log('Ingreso a picklist');
     this.vehicleForm.get('Fk_TypeVehicleID').patchValue(this.vehicles.fk_TypeVehicleID);
@@ -149,7 +149,7 @@ imageInfos?: Observable<any>;
         this.action = params.get('action');
         this.type = params.get('tipo');
         this.createForm();
-        
+
         this.getForm(this.type);
         this.form.disable();
       });
@@ -201,7 +201,7 @@ imageInfos?: Observable<any>;
           medicineDrug: ['',[Validators.required]],
           medicineWeight: ['',[Validators.required, Validators.min(1), Validators.max(999)]],
           medicineUnits: ['',[Validators.required]],
-          
+
         }));
       } else if(type ==='vehiculos'){
         this.form.addControl('vehicles', this.formGroup.group({
@@ -213,10 +213,10 @@ imageInfos?: Observable<any>;
           brandName: ['',[Validators.required, Validators.maxLength(15)]],
           modelName: ['',[Validators.required, Validators.maxLength(15)]]
         }),);
-          
+
 
         this.form.removeControl('name');
-          
+
       }
       if(this.isEdit){
         this.formType.setValue(this.type);
@@ -226,8 +226,8 @@ imageInfos?: Observable<any>;
       }
         if(!this.isEdit){
         this.form.get('quantity').patchValue(1);
-      } 
-  } 
+      }
+  }
 
   private getItem(id){
     this.subscription = this.service.getById(id, this.type)
@@ -247,7 +247,7 @@ imageInfos?: Observable<any>;
   }
   private getLocations(){
     this.stateService.getAll()
-    .pipe(map(x => 
+    .pipe(map(x =>
     x.filter( estates => this.currentUser.estates.locationCityName == estates.locationCityName)))
     .subscribe(
       data => {
@@ -273,9 +273,9 @@ imageInfos?: Observable<any>;
 
   private getUsers(){
     const arrayUsers: UsersGroup[] = [];
-   
 
-    this.userService.getAll()
+
+    this.userService.getUser()
     .pipe(
     tap(x => console.log('Usuarios before filter => ', x)),
     map((x:User[]) => {
@@ -388,7 +388,7 @@ error => {
       this.selectedFiles = event.target.files;
     //  this.previews = "";
       if (this.selectedFiles && this.selectedFiles[0]) {
-        
+
         const numberOfFiles = this.selectedFiles.length;
         for (let i = 0; i < numberOfFiles; i++) {
           const reader = new FileReader();

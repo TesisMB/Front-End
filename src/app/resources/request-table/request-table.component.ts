@@ -45,7 +45,7 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
       ) {}
 
   ngOnInit(): void {
-    
+
     this.request$  = this.service.request$;
     this.total$ = this.service.total$;
     this.loading$ = this.service.loading$;
@@ -53,16 +53,16 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-    get isAdmin(){       
+    get isAdmin(){
       return this.currentUser.roleName === 'Admin' || this.currentUser.roleName ===  'Coord. General';
       }
 
   ngAfterViewInit(){}
 
   onShow(event){
-    this.service.filter = event.checked; 
+    this.service.filter = event.checked;
   }
-  
+
   openModal(patch, i){
     if(patch === 'info'){
       const modalRef = this.modalService.open(ResourceModalComponent, { size: 'lg', centered: true, scrollable: true });
@@ -79,14 +79,14 @@ export class RequestTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(x =>{
         const modalRef = this.modalService.open(NgbdModalComponent, { size: 'xl' });
         modalRef.componentInstance.user = x;
-        }, 
+        },
         e => {
           this.alertService.error('Error, usuario no inicializado :(', {autoClose: true});
         } );
     }
 
-    
-generatePDF(){ 
+
+generatePDF(){
   //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
     let fileName = `${this.authenticateService.currentUserValue.persons.firstName} ${this.authenticateService.currentUserValue.persons.lastName}`;
     this.service.generatePDF(this.authenticateService.currentUserValue.estates.estateID, this.title).subscribe(res => {
@@ -101,7 +101,7 @@ generatePDF(){
   openDialog(tipo: string){
     const dialogRef = this.dialog.open(NgbdResourcesFiltersDialogComponentComponent);
     dialogRef.componentInstance.tipo = tipo;
-  
+
   }
 
   ngOnDestroy(): void {

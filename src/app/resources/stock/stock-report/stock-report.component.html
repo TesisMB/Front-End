@@ -20,7 +20,7 @@
         <mat-card-content>
           <ngx-charts-advanced-pie-chart
             [view]="view2"
-            [scheme]="colorScheme" 
+            [scheme]="colorScheme"
             [results]=" (service.data$ | async).name"
             [gradient]="gradient"
             [animations]="gradient"
@@ -66,7 +66,7 @@
         <mat-card-content>
           <ngx-charts-advanced-pie-chart
             [view]="view2"
-            [scheme]="colorScheme" 
+            [scheme]="colorScheme"
             [results]=" (service.data$ | async).medicineDrug"
             [gradient]="gradient"
             [animations]="gradient"
@@ -137,7 +137,7 @@
         <mat-card-content>
           <ngx-charts-advanced-pie-chart
             [view]="view2"
-            [scheme]="colorScheme" 
+            [scheme]="colorScheme"
             [results]="(service.data$ | async).employeeName"
             [gradient]="gradient"
             [animations]="gradient"
@@ -238,9 +238,9 @@
           </mat-card-content>
         </mat-card>
       </mat-grid-tile>
-        
+
       </ng-container>
-      
+
       <ng-container *ngIf="(service.data$ | async).donation"
       >
       <mat-grid-tile class="tile" colspan="3" rowspan="1">
@@ -274,8 +274,33 @@
     </mat-grid-tile>
       </ng-container>
 
-     
-        
+
+
+      <ng-container *ngIf="(service.data$ | async).enabled">
+      <mat-grid-tile class="tile" [colspan]="3" rowspan="1">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title class="d-flex flex-wrap justify-content-between">
+            <p>{{resourceService.type$ | async | titlecase}} por disponibilidad</p>
+            <button mat-icon-button (click)="openDialog('enabled')"><mat-icon>info</mat-icon></button>
+          </mat-card-title>
+          <mat-card-subtitle>{{service.type$ | async}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <ngx-charts-advanced-pie-chart
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="(service.data$ | async).enabled"
+          [gradient]="gradient"
+          [animations]="gradient"
+        (select)="onSelect($event.name,'enabled')"
+        >
+        </ngx-charts-advanced-pie-chart>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+      </ng-container>
+
       <ng-container *ngIf="(service.data$ | async).availability">
       <mat-grid-tile class="tile" [colspan]="3" rowspan="1">
       <mat-card class="example-card">
@@ -289,7 +314,7 @@
         <mat-card-content>
           <ngx-charts-advanced-pie-chart
           [view]="view"
-          [scheme]="colorScheme" 
+          [scheme]="colorScheme"
           [results]="(service.data$ | async).availability"
           [gradient]="gradient"
           [animations]="gradient"
@@ -364,7 +389,7 @@
         </mat-card>
       </mat-grid-tile>
         </ng-container>
-        
+
       <ng-container *ngIf="(service.data$ | async).medicineDrug">
           <mat-grid-tile class="tile" [colspan]="3" rowspan="1">
             <mat-card class="example-card">
@@ -397,10 +422,10 @@
               </mat-card-content>
             </mat-card>
           </mat-grid-tile>
-            
+
         </ng-container>
 
-       
+
 
 
 

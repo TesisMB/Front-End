@@ -3,23 +3,25 @@
     <span>Espere por favor...</span>
 </div>
 
+
 <div class="list-group mt-2" *ngIf="places.length && !isLoadingPlaces" id="style-2">
     <li *ngFor="let place of places" class="list-group-item item-group-item-action pointer"
-        [class.active]="place.id === selectedId" (click)="flyTo(place)">
-        <h6>{{place.text_es}}</h6>
+        #tooltip="matTooltip"
+        matTooltip="{{place.place_name}}" matTooltipPosition="right" (click)="getLugar(place)" >
+        <!-- <h6>{{place.text_es}}</h6> -->
         <p>
             {{place.place_name}}
         </p>
 
-        <button (click)="getLugar(place)" class="btn btn-sm" type="button"
-            [ngClass]="(place.id === selectedId) ? 'btn-outline-light': 'btn-outline-primary'">
-            Seleccionar
-        </button>
+        <!-- <button (click)="getLugar(place)" class="btn btn-sm" type="button">
+        Seleccionar
+      </button> -->
 
-        <!-- <button (click)="getDirections(place)" class="btn btn-sm"
-            [ngClass]="(place.id === selectedId) ? 'btn-outline-light': 'btn-outline-primary'">
-            Direcciones
-        </button> -->
-
+      <!-- <button (click)="getDirections(place)" class="btn btn-sm"
+        [ngClass]="(place.id === selectedId) ? 'btn-outline-light': 'btn-outline-primary'">
+                [ngClass]="(place.id === selectedId) ? 'btn-outline-light': 'btn-outline-primary'">
+                Direcciones
+            </button> -->
     </li>
 </div>
+

@@ -5,7 +5,7 @@
 
 
   <div class="col-4 text-center">
-    <h1>Informe de emergencia</h1>
+    <h1>Informe de alerta</h1>
   </div>
 
 </section>
@@ -32,7 +32,7 @@
             <mat-icon class="icon">picture_as_pdf</mat-icon> **REFACTORIZAR**
           </button>
         </div>
-        <!-- 
+        <!--
           <button mat-fab color="warn" aria-label="Example icon button with a home icon" [disabled]="loading"
             (click)="generatePDF(emergencyDisaster.emergencyDisasterID)">
             <span class="text-center" *ngIf="loading">
@@ -80,7 +80,7 @@
               <p class="text-right">
                 <mat-icon>calendar_today</mat-icon>
                 <span class="calendar-end" *ngIf="!emergencyDisaster.emergencyDisasterEndDate">
-                  Esta emergencia no
+                  Esta alerta no
                   ha sido finalizada</span>
 
                 <span class="calendar-end" *ngIf="emergencyDisaster.emergencyDisasterEndDate">Fecha final:
@@ -122,11 +122,11 @@
                  'circle-pitch-scale' : 'viewport',
                  'circle-pitch-alignment':'viewport'
                }"
-  ></mgl-layer> 
+  ></mgl-layer>
   <mgl-control mglNavigation></mgl-control>
   <mgl-control mglFullscreen></mgl-control>
   <mgl-control mglGeolocate showUserLocation="true" trackUserLocation="true"></mgl-control>
-  
+
   <mgl-control mglScale unit="metric" position="top-right"></mgl-control>
           </mgl-map>
           <!-- </div> -->
@@ -134,7 +134,7 @@
 
 
           <!-- <div style="display:block">
-  
+
           </div> -->
 
         <div *ngIf="emergencyDisaster" class="instruction">

@@ -1,3 +1,4 @@
+import { Reverse } from './../models/reverse';
 import { MapService } from './map.service';
 import { PlacesApiClient } from './placesApiClient';
 import { Places, Feature } from './../models/places';
@@ -17,6 +18,7 @@ export class PlacesService {
   public isLoadingPlaces: boolean = false;
   public places: Feature[] = [];
   private _placeSubject: BehaviorSubject<Feature> = new BehaviorSubject<Feature>(null);
+  private _placeSubject2: BehaviorSubject<Reverse> = new BehaviorSubject<Reverse>(null);
 
 
   get isUserLocationReady():boolean{
@@ -27,12 +29,12 @@ export class PlacesService {
   constructor(private placeApi: PlacesApiClient,
               private mapService: MapService,
               protected http: HttpClient,
-    ) { 
+    ) {
     console.log("Localizacion: ", this.getUserLocation());
   }
 
-  
-  
+
+
   getLocation(lat: number, lon: number){
     return this.http.get<any>(`https://apis.datos.gob.ar/georef/api/ubicacion?lat=${lat}&lon=${lon}`);
 }
@@ -45,15 +47,22 @@ set alertLocation(coords){
   this.userLocation = coords;
 }
 
-
   get placeSubject$(){
     return this._placeSubject.asObservable();
   }
 
+
   setPlace(place: Feature){
     this._placeSubject.next(place);
     console.log("Lugar Observable =>", place);
+    this.deletePlaces();
   }
+
+  // setPlaceReverse(place: Reverse){
+  //   this._placeSubject2.next(place);
+  //   console.log("Lugar Observable =>", place);
+  //   this.deletePlaces();
+  // }
 
 
   public async getUserLocation() : Promise<[number, number]>{
@@ -61,7 +70,7 @@ set alertLocation(coords){
 
       navigator.geolocation.getCurrentPosition(
           ({coords}) =>
-           { 
+           {
              this.userLocation = [coords.longitude, coords.latitude]
              resolve(this.userLocation);
           },
@@ -70,7 +79,6 @@ set alertLocation(coords){
             reject();
           }
       );
-
     });
   }
 
@@ -80,7 +88,7 @@ set alertLocation(coords){
       this.places = [];
       return;
     } */
- 
+
     if(!this.userLocation) throw Error('No hay userLocation');
     this.isLoadingPlaces = true;
 
@@ -101,7 +109,13 @@ set alertLocation(coords){
   }
 
 
+  deletePlace(place: Feature){
+    console.log("Eliminado!!")
+    this.places = [place];
+  }
+
   deletePlaces(){
+    console.log("Eliminado!!")
     this.places = [];
   }
 }

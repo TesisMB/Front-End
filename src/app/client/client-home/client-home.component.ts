@@ -25,4 +25,10 @@ currentUser: User;
   ngOnInit(): void {
   }
 
+  login() {
+    this.router.navigate(['/cliente/login']);
+
+}
+
+
 }

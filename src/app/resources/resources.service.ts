@@ -50,7 +50,7 @@ private currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
  private _location$ = new BehaviorSubject<any>(this.currentUser.estates.locationID);
  private _search$ = new Subject<void>();
  private _reports$ = new Subject<void>();
- 
+
  private _total$ = new BehaviorSubject<number>(0);
  private resources: Resource[]= [];
  private _item$ = new BehaviorSubject<Resource>(null);
@@ -98,7 +98,7 @@ private currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
       this._resourcesReport$.next(result.data);
       // this._total$.next(result.total);
     }, (error) => { console.log('Paso por el error => ',error);});
-  
+
     // this._search$.next();
 
     this.vehiclesTypes$ = this.http.get<any>(environment.URL + 'typesvehicles').pipe(tap(x => console.log('Types of vehicles => ',x)));
@@ -164,13 +164,15 @@ public _setResources(patch:Resource){
     this._resources$.next([]);
     this._type$.next('');
   //  this._search$.next();
-    
+
   }
 
-public changeStatusItem(id:string){
+public changeStatusItem(id:string, reason: string){
   let index = this.resources.findIndex( x => id == x.id);
   const clone = _.cloneDeep(this.resources[index]);
-  this.resources[index].availability = !this.resources[index].availability;
+  //this.resources[index].availability = !this.resources[index].availability;
+  this.resources[index].enabled = !this.resources[index].enabled;
+  this.resources[index].reason = reason;
   const patch = compare(clone , this.resources[index] );
   this._search$.next();
   return patch;
@@ -192,7 +194,7 @@ public uploadTable(resources: Resource[]) {
 
   getAll(locationID?: any) {
     // if(locationID){
-      
+
       let paramaters = new HttpParams().append('locationId', JSON.stringify(locationID ? locationID : null));
       this.options.params = paramaters;
     // }
@@ -203,7 +205,7 @@ public uploadTable(resources: Resource[]) {
           if(resources.length){
             this._resources$.next(resources);
             this._resourcesReport$.next(resources);
-            
+
             this.resources = resources;
             this._search$.next();
             this._reports$.next();
@@ -227,7 +229,7 @@ public uploadTable(resources: Resource[]) {
   }
   update(patch ,id, operations?: Operation[]) {
     return this.http.patch(environment.URL + patch+ '/' + id, operations)
-    .pipe(map( x => {    
+    .pipe(map( x => {
     return x
     }));
   }
@@ -244,7 +246,7 @@ public uploadTable(resources: Resource[]) {
     return this.http.request(req);
   }
 
-  
+
   generatePDFResources(startDate: String, tipo: String, endDate: String, userId: number): Observable<any> {
     // let paramaters = new HttpParams().append('startDate', JSON.stringify(startDate));
     // this.options.params = paramaters;
@@ -265,11 +267,11 @@ public uploadTable(resources: Resource[]) {
    else{
       url = environment.URL + 'estates' + '/pdf/?dateStart=' + startDate + '&userId' + userId + '&getall=todas';
     }
-    
+
 
 
     const headers = new HttpHeaders().set('Accept','application/pdf');
-    return this.http.get(url, 
+    return this.http.get(url,
         {
           headers: headers,
           responseType: 'blob'
@@ -291,10 +293,10 @@ public uploadTable(resources: Resource[]) {
     }));
   }
 
-  
+
   generatePDF(id): Observable<any> {
     const headers = new HttpHeaders().set('Accept','application/pdf');
-    return this.http.get(environment.URL + 'pdf/' + id, 
+    return this.http.get(environment.URL + 'pdf/' + id,
         {
           headers: headers,
           responseType: 'blob'
@@ -303,7 +305,7 @@ public uploadTable(resources: Resource[]) {
     }
 
   private _search(): Observable<SearchResult> {
-    
+
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
     var resources;
   if(this._showAvailability$.value){
@@ -320,33 +322,33 @@ public uploadTable(resources: Resource[]) {
 
     // 1. sort
     data = sort(data, sortColumn, sortDirection);
-  
+
     // 2. filter
     data = data.filter(employee => matches(employee, searchTerm, this.pipe));
-  
+
     const total = data.length;
-  
+
     // 3. paginate
     data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
     return of({data, total});
    }
 
    private _filter(): Observable<SearchResult> {
-    
+
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
-  
+
     // 1. filtrado por disponibilidad
     let resources = this._showAvailability$.value ?  this.resources : this.resources.filter(x => x.availability !== this._showAvailability$.value) ;
-    
+
     // 1. sort
     // let data = sort(resources, sortColumn, sortDirection);
-  
+
     // 2. filter
     // data = data.filter(employee => matches(employee, searchTerm, this.pipe));
     let data = resources;
 
     const total = data.length;
-  
+
     // 3. paginate
     // data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
     return of({data, total});

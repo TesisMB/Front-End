@@ -117,7 +117,7 @@ a {
 
 .title h1 {
   margin-top: 2rem;
-  font-size: 35px;
+  font-size: 40px;
 }
 
 textarea:focus, input:focus{
@@ -157,6 +157,13 @@ span button {
   bottom: 20%;
   opacity: 1;
   background: #000;
+  border: none;
+}
+
+.layer:hover .black{
+  bottom: 20%;
+  opacity: 1;
+  background: #000 !important;
   border: none;
 }
 

@@ -11,7 +11,7 @@ import { Observable, throwError } from 'rxjs';
 export class DataService {
   protected options = {
     headers: new HttpHeaders().set('Content-Type', 'application/json'),
-    params: new HttpParams() 
+    params: new HttpParams()
   };
 
 
@@ -60,7 +60,6 @@ export class DataService {
           // update stored user if the logged in user updated their own record
           if (id == this.authenticateService.currentUserValue.userID) {
             // update local storage
-
             const user = _.pick(
               params,
               _.keys(this.authenticateService.currentUserValue)
@@ -89,13 +88,13 @@ export class DataService {
 
   //         return x;
   //       })
-  //     ); 
+  //     );
   }
 
 
   generatePDF(id): Observable<any> {
     const headers = new HttpHeaders().set('Accept','application/pdf');
-    return this.http.get(environment.URL + this.patch + '/pdf/' + id, 
+    return this.http.get(environment.URL + this.patch + '/pdf/' + id,
         {
           headers: headers,
           responseType: 'blob'
@@ -103,10 +102,10 @@ export class DataService {
       );
     }
 
-    
+
   generatePDFCredential(id): Observable<any> {
     const headers = new HttpHeaders().set('Accept','application/pdf');
-    return this.http.get(environment.URL + this.patch + '/credential/' + id, 
+    return this.http.get(environment.URL + this.patch + '/credential/' + id,
         {
           headers: headers,
           responseType: 'blob'
@@ -114,10 +113,10 @@ export class DataService {
       );
     }
 
-        
+
   generatePDFEmployees(id): Observable<any> {
     const headers = new HttpHeaders().set('Accept','application/pdf');
-    return this.http.get(environment.URL + this.patch + '/getall/pdf/' + id, 
+    return this.http.get(environment.URL + this.patch + '/getall/pdf/' + id,
         {
           headers: headers,
           responseType: 'blob'
@@ -127,33 +126,33 @@ export class DataService {
 
     generatePDFVolunteers(id): Observable<any> {
       const headers = new HttpHeaders().set('Accept','application/pdf');
-      return this.http.get(environment.URL + 'voluntarios' + '/getall/pdf/' + id, 
+      return this.http.get(environment.URL + 'voluntarios' + '/getall/pdf/' + id,
           {
             headers: headers,
             responseType: 'blob'
           }
         );
       }
-  
+
       generatePDFVolunteer(id): Observable<any> {
         const headers = new HttpHeaders().set('Accept','application/pdf');
-        return this.http.get(environment.URL + 'voluntarios/' + 'pdf/' + id, 
+        return this.http.get(environment.URL + 'voluntarios/' + 'pdf/' + id,
             {
               headers: headers,
               responseType: 'blob'
             }
           );
         }
- 
 
-  private handleError(err) {  
-    let errorMessage: string;  
-    if (err.error instanceof ErrorEvent) {  
-      errorMessage = `An error occurred: ${err.error.message}`;  
-    } else {  
-      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;  
-    }  
-    console.error(err);  
-    return throwError(errorMessage);  
-  }  
+
+  private handleError(err) {
+    let errorMessage: string;
+    if (err.error instanceof ErrorEvent) {
+      errorMessage = `An error occurred: ${err.error.message}`;
+    } else {
+      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
+    }
+    console.error(err);
+    return throwError(errorMessage);
+  }
 }

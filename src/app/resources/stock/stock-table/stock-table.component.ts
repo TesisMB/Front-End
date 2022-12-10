@@ -49,7 +49,7 @@ export class StockTableComponent implements OnInit {
     // this.reportService.location = this.currentUser.estates.estateID;
   }
 
-    get isAdmin(){       
+    get isAdmin(){
        return this.currentUser.roleName === 'Admin';
       }
       get isCG(){
@@ -58,25 +58,27 @@ export class StockTableComponent implements OnInit {
 
   ngAfterViewInit(){}
 
-  changeStatus(reason: string, event, id:string){ 
-    console.log(event); 
+  changeStatus(reason: string, event, id:string){
+    console.log(event);
     // this.service.loading(true);
     //Se abre el modal de confirmacion.
     const modalRef = this.modalService.open(ConfirmModalComponent);
     modalRef.componentInstance.action = reason;
-  
+
     modalRef.result.then(
-      ()=> {
+      (x)=> {
+        console.log("Reason ", x);
+
         if (reason ==='Eliminar'){
             this.deleteItem(id);
   }
     else {
-      this.updateItem(id)
+      this.updateItem(id, x)
     }},
-    cancel =>{ 
+    cancel =>{
       // this.service.loading(false);
       console.log('Acción cancelada con: ' + cancel);
-    }); 
+    });
   }
 //   openModal(patch, i){
 //     if(patch === 'info'){
@@ -94,7 +96,7 @@ export class StockTableComponent implements OnInit {
     //   .subscribe(x =>{
     //     const modalRef = this.modalService.open(NgbdModalComponent, { size: 'xl' });
     //     modalRef.componentInstance.user = x;
-    //     }, 
+    //     },
     //      e => {
     //        this.alertService.error('Error, usuario no inicializado :(', {autoClose: true});
 
@@ -115,8 +117,8 @@ private deleteItem(id){
   });
 }
 
-private updateItem(id){
-const patch = this.service.changeStatusItem(id);  
+private updateItem(id,x){
+const patch = this.service.changeStatusItem(id, x);
 this.handleUpdate =  this.service.update(this.type,id,patch )
 .pipe(first())
 .subscribe(

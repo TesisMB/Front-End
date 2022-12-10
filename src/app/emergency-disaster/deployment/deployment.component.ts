@@ -20,8 +20,8 @@ const geoJSON = {
     }
 }
 };
- 
-          
+
+
 @Component({
   selector: 'deployment',
   templateUrl: './deployment.component.html',
@@ -69,7 +69,7 @@ firstFormGroup: FormGroup;
   }
 
   getEmergencyById(){
-    this.emergencyDisasterService.getByIdWithoutFilter(this.id)
+    this.emergencyDisasterService.getByIdWithoutFilter(this.id, true)
     .subscribe
     (data =>{
       this.emergencyDisaster = data;
@@ -85,7 +85,7 @@ firstFormGroup: FormGroup;
             roleName: element.roleName,
             name: element.name,
           }
-  
+
           this.users.push(user);
         });
       }
@@ -93,7 +93,7 @@ firstFormGroup: FormGroup;
       console.log("Usuarios involucrados", this.users);
 
       this.resourcesRequest = this.emergencyDisaster.resources_Requests.filter(a => a.condition === 'Aceptada');
-      
+
       console.log('Recursos', this.resourcesRequest);
 
       this.resourcesRequest.forEach(element => {
@@ -114,7 +114,7 @@ firstFormGroup: FormGroup;
     })
   }
 
-  generatePDF(id: number){  
+  generatePDF(id: number){
     this.loading = true;
     //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
       //let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;

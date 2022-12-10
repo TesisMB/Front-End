@@ -8,17 +8,29 @@ h6 {
 
 p {
     font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 250px;
+    color: #000;
 }
 
 
-.list-group {
+/* .list-group {
     overflow-y: scroll !important;
     overflow-x: hidden !important;
     max-height: 270px;
     height: 342px;
     position: absolute;
+} */
+
+button{
+  border: 1px solid #ccc;
 }
 
+li:hover{
+  background: rgb(218, 211, 211);
+}
 
 /* #style-2::-webkit-scrollbar-track
 {
@@ -36,7 +48,7 @@ p {
 #style-2::-webkit-scrollbar-thumb
 {
 	border-radius: 10px;
-    
+
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #D62929;
 } */

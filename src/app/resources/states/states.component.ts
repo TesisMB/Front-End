@@ -17,7 +17,7 @@ export class StatesComponent implements OnInit {
 
   get role(){
   const roleName = this.authService.currentUserValue.roleName;
-    return (roleName === 'Encargado de Logistica');
+    return (roleName === 'Enc. De logística');
   }
 
 }

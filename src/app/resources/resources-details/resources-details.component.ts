@@ -43,9 +43,9 @@ export class ResourcesDetails implements OnInit {
     private alertService: AlertService,
 
     ) {
-      
+
     }
-    
+
     ngOnInit(): void {
       this.id = this.route.snapshot.params.id;
     this.type = this.route.snapshot.params.tipo;
@@ -59,17 +59,18 @@ export class ResourcesDetails implements OnInit {
   //   if(this.checkStock) {
   //   this.form.disable();
   // }
-    
-    
+
+
 
   }
   // get availability(){
   //   return this.item.volunteers ? this.item.volunteers.status : this.item.availability;
   //  }
-  
+
     get f(){ return this.form.controls;}
-    get checkStock(){ return (!this.item.availability || (this.item.quantity <= 0 && this.item.quantity != null));}
-    get isLogistica(){return this.authenticationService.currentUserValue.roleName === 'Encargado de Logistica'}
+    get checkEnabled(){return !this.item.enabled || !this.item.availability || (this.item.quantity <= 0 && this.item.quantity != null);}
+    get checkStock(){ return (!this.item.availability || !this.item.enabled || (this.item.quantity <= 0 && this.item.quantity != null));}
+    get isLogistica(){return this.authenticationService.currentUserValue.roleName === 'Enc. De logística'}
     getParams() {
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
@@ -88,15 +89,15 @@ export class ResourcesDetails implements OnInit {
 
   getErrorMessage() {
     if (this.f.quantity.hasError('required')) {
-      return 'Seleccione la cantidad ha solicitar.';
+      return 'Seleccioné la cantidad ha solicitar.';
     }
     else if(this.f.quantity.hasError('max')) {
-      return 'La cantidad maxima de stock disponible es ' + this.item.quantity; 
+      return 'La cantidad maxima de stock disponible es ' + this.item.quantity;
     }
 
     else if(this.f.quantity.hasError('min')) {
-      return 'La cantidad minima para solicitar es 1'; 
-    } 
+      return 'La cantidad minima para solicitar es 1';
+    }
    }
 
   getItems() {
@@ -133,7 +134,7 @@ export class ResourcesDetails implements OnInit {
 
 
  onSubmit(){
-   
+
   // this.submitted = true;
    if(this.form.valid){
    const quantity: number = this.form.get('quantity').value || 1;
@@ -148,12 +149,12 @@ export class ResourcesDetails implements OnInit {
     state: false,
     request:[{
       resource: this.item,
-      quantity: quantity 
+      quantity: quantity
     }]
    };
    console.log('Item solicitado: ', request);
    this.requestService.setRequest(request);
-   
+
    this.form.reset();
   }
   if(this.checkStock){
@@ -180,7 +181,7 @@ getUser(id){
   .subscribe(x =>{
     const modalRef = this.modalService.open(NgbdModalComponent, { size: 'xl' });
     modalRef.componentInstance.user = x;
-    }, 
+    },
      e => {
        this.alertService.error('Error, usuario no inicializado :(', {autoClose: true});
 
@@ -188,7 +189,7 @@ getUser(id){
 }
 
 
- generatePDF(){ 
+ generatePDF(){
 
   //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
     //let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;

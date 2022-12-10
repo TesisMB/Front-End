@@ -13,11 +13,12 @@
     </p>
     <p *ngIf="action ==='Deshabilitar'">El usuario no podrá ingresar más a la plataforma.
       <span class="text-warning">Esta operación es reversible.</span>
-      </p>
-      <p *ngIf="action ==='Habilitar'">El usuario tendra acceso a la plataforma.
-        <span class="text-info">Esta operación es reversible.</span>
-        </p>
-      </ng-template>
+    </p>
+    <p *ngIf="action ==='Habilitar'">El usuario tendra acceso a la plataforma.
+      <span class="text-info">Esta operación es reversible.</span>
+    </p>
+  </ng-template>
+  <ng-template #withoutUser>
       <p><strong>¿Está seguro que quiere {{action | lowercase}}?</strong></p>
       <p *ngIf="action ==='Eliminar'">Toda información asociada será eliminada permanentemente.
       <span class="text-danger">Esta operación es irreversible.</span>
@@ -26,12 +27,29 @@
         </p>
         <p *ngIf="action ==='Habilitar'"><span class="text-info">Esta operación es reversible.</span>
           </p>
-    <ng-template #withoutUser>
+        </ng-template>
 
-    </ng-template>
-    
+        <form [formGroup]="form" *ngIf="action ==='Deshabilitar'">
+
+          <mat-form-field class="example-full-width mat-field" appearance="fill" *ngIf="action ==='Deshabilitar'">
+            <mat-label>Razon: </mat-label>
+            <textarea id="some-value" name="reason"
+            formControlName="reason"
+            (change)="doTextareaValueChange($event)" matInput></textarea>
+          </mat-form-field>
+
+          <mat-error *ngIf="formD.get('reason').hasError('required')">
+            La razón es<strong> requerida</strong>
+          </mat-error>
+        </form>
+
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancelar</button>
-    <button type="button" ngbAutofocus class="btn" [ngClass]="action === 'Habilitar' ? 'btn-success' : 'btn-danger'" (click)="modal.close('Ok click')">Ok</button>
+
+    <button [disabled]="form.invalid" type="button" ngbAutofocus class="btn" [ngClass]="action === 'Deshabilitar' ? 'btn-danger' : 'btn-success'" (click)="closeModal()"
+    *ngIf="action ==='Deshabilitar'"
+    >Ok</button>
+    <button type="button" ngbAutofocus class="btn" [ngClass]="action !== 'Deshabilitar' ? 'btn-success' : 'btn-danger'" (click)="closeModal()"
+    *ngIf="action !=='Deshabilitar'" >Ok</button>
   </div>

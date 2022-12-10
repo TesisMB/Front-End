@@ -18,7 +18,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 export class AddEditComponent implements OnInit, OnDestroy, AfterViewInit {
   form: FormGroup;
   id: number;
- 
+
   updateHandler: any;
   getHandler: any;
   error: any ="";
@@ -42,7 +42,7 @@ imageInfos?: Observable<any>;
       private alertService: AlertService,
       private authenticationService: AuthenticationService
   ) {
-   
+
     this.id = this.authenticationService.currentUserValue.userID;
 
   }
@@ -60,8 +60,8 @@ imageInfos?: Observable<any>;
       status: [{value: '', disabled: true }, [Validators.required]],
       avatar: [{value: '', disabled: true }],
       });
-           
-     
+
+
   }
 
   // getter para acortar el acceso a la variable
@@ -78,7 +78,7 @@ imageInfos?: Observable<any>;
       else {
           this.form.disable();
       }
-    
+
   }
 
   onSubmit() {
@@ -93,7 +93,7 @@ imageInfos?: Observable<any>;
       }
     this.loading = true;
 
-    const patch = compare(this.originalUser, this.model);  
+    const patch = compare(this.originalUser, this.model);
     console.log('Patch: '+patch);
     if(this.passwordMatchValidator() && patch.length !== 0){
            this.updateUser(patch);
@@ -105,7 +105,7 @@ imageInfos?: Observable<any>;
    private getInfo() {
     this.getHandler = this.UserService.getById(this.id)
     .pipe(first())
-    .subscribe((x: User) => { 
+    .subscribe((x: User) => {
                 this.originalUser = x;
                 this.model = _.cloneDeep(this.originalUser);
                 this.f.phone.setValue(x.persons.phone);
@@ -143,7 +143,7 @@ imageInfos?: Observable<any>;
  this.form.get('email').valueChanges.subscribe(data => this.model.persons.email = data);
 this.form.get('status').valueChanges.subscribe(data => this.model.persons.status = data);
 this.form.get('avatar').valueChanges.subscribe(data => this.model.avatar = data);
-} 
+}
 
 resetForm (): void{
   this.form.reset({
@@ -167,7 +167,7 @@ selectFiles(event: any): void {
   this.selectedFiles = event.target.files;
 //  this.previews = "";
   if (this.selectedFiles && this.selectedFiles[0]) {
-    
+
     const numberOfFiles = this.selectedFiles.length;
     for (let i = 0; i < numberOfFiles; i++) {
       const reader = new FileReader();

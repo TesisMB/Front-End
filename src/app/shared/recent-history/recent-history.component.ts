@@ -15,8 +15,8 @@ import { ResourceModalComponent } from '../resource-modal/resource-modal.compone
   styleUrls: ['./recent-history.component.css']
 })
 export class RecentHistoryComponent implements OnInit {
-  @Input() condition; 
-  @Input() title = 'Ultimas solicitudes';
+  @Input() condition;
+  @Input() title = 'Últimas solicitudes';
   data : any = [];
   handle : Subscription;
   isLoading = true;
@@ -56,7 +56,7 @@ export class RecentHistoryComponent implements OnInit {
           this.requestService._uploadTable(data);
           this.requestService._setCondition(this.condition);
           this.isLoading = false;
-    
+
         },
         err => {
           this.error = err;
