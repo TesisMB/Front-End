@@ -22,6 +22,15 @@
             (click)="changeToReport('table')">
                 <mat-icon>history</mat-icon>
             </button>
+            <button
+            mat-raised-button
+            color="warn"
+            matTooltip="Agregar nueva alerta"
+            class="m-2"
+            [routerLink]="['/emergencias','agregar']"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
             <button *ngIf="service.searchType === 'reportes' && service.currentRoute === 'emergencias'" mat-raised-button color="warn" matTooltip="Listado de alertas" class="m-2"
             (click)="changeToReport('table')">
                 <mat-icon>medical_services</mat-icon>
