@@ -40,8 +40,8 @@
 
             <div class="form-row">
                 <div class="form-group col">
-                    <label for="Fk_EmplooyeeID" class="first"><strong class="info">Responsable: </strong></label>
-                    <select formControlName="Fk_EmplooyeeID" (change)="changeEmployeedID()" class="form-control info">
+                    <label for="fk_EmplooyeeID" class="first"><strong class="info">Responsable: </strong></label>
+                    <select formControlName="fk_EmplooyeeID" (change)="changeEmployeedID()" class="form-control info">
                         <option *ngFor=" let item of user" [value]="item.userID">
                             {{item.userDni}} -
                             {{item.persons.firstName}}

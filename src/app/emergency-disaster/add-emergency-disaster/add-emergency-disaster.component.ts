@@ -51,6 +51,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   hasVictims: boolean = false;
   LocationObservable: Observable<Feature>;
   locationCity: any;
+  loading = false;
 
 
   constructor(
@@ -138,7 +139,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
   getUser(){
-    this.subscriber2 = this.userService.getAll().subscribe(data => {
+    this.subscriber2 = this.userService.getUser().subscribe(data => {
       this.user = data;
       this.user = this.user.filter(a => a.roleName == "Coord. De Gestión de Riesgo");
     }, error =>{
@@ -211,7 +212,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
     console.log('Formulario =>', this.addEmergencyDisaster.valid);
 
     if(this.addEmergencyDisaster.valid){
-
+      this.loading = true;
      // this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(this.ubicacion.municipio.nombre);
 
       this.addEmergencyDisaster.get('FK_EstateID').patchValue(this.currentUser.estates.estateID);
@@ -222,6 +223,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
       this.subscriber4 =   this.emergencyDisasterService.register(emergency).subscribe( () =>{
       // this.alertService.success('Registro exitoso :)', { autoClose: true });
+      this.loading = false;
       this.openSnackBar(
         'Se ha registrado correctamente la alerta y se notifico a los voluntarios',
         'Entendido!',
@@ -241,6 +243,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
           'top',
           5000
         );
+        this.loading = false;
         console.log("Error en el formulario!!!", error);
       });
     }

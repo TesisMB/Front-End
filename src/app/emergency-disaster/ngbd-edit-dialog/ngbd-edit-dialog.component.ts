@@ -91,13 +91,14 @@ export class NgbdEditDialogComponent implements OnInit {
 
 
     this.emergencyDisasterForm.patchValue(this.emergencyDisaster);
-    this.model = _.cloneDeep(this.emergencyDisaster);
+    this.emergencyDisaster.FK_AlertID = id.alertID;
 
+    this.model = _.cloneDeep(this.emergencyDisaster);
     console.log("MODELO!!! ", this.model);
     //this.cloneForm = this.emergencyDisasterForm.value;
 
     if(this.tipo === 'Finalizar' ){
-      this.f.controls['Fk_EmplooyeeID'].disable();
+      this.f.controls['fk_EmplooyeeID'].disable();
       this.f.controls['FK_AlertID'].disable();
     }
 
@@ -119,7 +120,7 @@ get alertID(){ return this.emergencyDisasterForm.get('FK_AlertID') }
 
 get alertName(){ return this.emergencyDisasterForm.get('alerts.alertDegree') }
 
-get EmplooyeeID(){ return this.emergencyDisasterForm.get('Fk_EmplooyeeID') }
+get EmplooyeeID(){ return this.emergencyDisasterForm.get('fk_EmplooyeeID') }
 
 get EndDate(){ return this.emergencyDisasterForm.get('emergencyDisasterEndDate') }
 
@@ -228,7 +229,7 @@ setRole(){
       emergencyDisasterStartDate: [],
       emergencyDisasterEndDate: [],
       emergencyDisasterInstruction:['', [Validators.required]],
-      Fk_EmplooyeeID: ['', [Validators.required]],
+      fk_EmplooyeeID: ['', [Validators.required]],
       FK_AlertID: [],
       employees: this.fb.group({
         employeeID: [],
@@ -319,7 +320,7 @@ setRole(){
   }
 
   getUser(){
-    this.userService.getAll().subscribe(data => {
+    this.userService.getUser().subscribe(data => {
       this.user = data;
 
       this.user = this.user.filter(a => a.roleName == "Coord. De Gestión de Riesgo");

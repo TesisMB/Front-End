@@ -21,24 +21,26 @@
   background-color: white;
   border-radius: 10px;
 }
-.title {
-  text-align: center;
-  margin-bottom: 2%;
-  color: black;
 
+
+.atras{
+  margin-right: 1rem;
 }
 
-
-.title h2 {
-  font-size: 40px;
-  margin-top: 5%;
- 
+.button{
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
 }
-/* 
+
+.texto{
+  margin-top: 10px;
+}
+/*
 
 .form-left {
   background: #bd2d2d;
-  
+
   padding: 0;
   height: 540px;
 }
@@ -172,7 +174,7 @@ form input {
   flex-flow: row wrap;
   padding: 0 20px 0 20px;
   position: relative;
- 
+
 
 }
 
@@ -284,3 +286,195 @@ a {
      }
 
 } */
+
+
+
+.img-space {
+  background-color: white;
+  height: 200px;
+  width: 13rem;
+  padding: 10px;
+  min-height: 175px;
+
+}
+
+.fileInputProfileWrap {
+  width: 100%;
+  height: auto;
+}
+
+.fileInputProfile {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 99;
+  opacity: 0;
+}
+
+.fileInputProfile[disabled]+.img-space {
+  pointer-events: none;
+  cursor: not-allowed !important;
+}
+
+.img-space img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  cursor: pointer;
+  border-radius: 15px;
+
+}
+
+.Name-Lastname {
+  font-size: 18px;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.progress {
+  width: 50px;
+  color: black;
+  line-height: normal !important;
+}
+
+.Email {
+  text-align: center;
+}
+
+.active {
+  background: #F7F7F7 !Important;
+}
+
+.nav-link {
+  color: #000 !Important;
+  font-size: 14px !Important;
+  padding: 15px 35px;
+  cursor: pointer;
+}
+
+.nav-link i {
+  padding-right: 10px;
+}
+
+
+strong {
+  display: flex;
+  margin-bottom: 0;
+}
+
+
+
+.info, .Email {
+  font-size: 14px;
+}
+
+.tab-options {
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 3;
+}
+
+.title h1 {
+  margin-top: 2rem;
+  font-size: 40px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 2%;
+  color: black;
+}
+
+
+
+.nombreInput,
+.apellidoInput,
+.telefonoInput,
+.direccionInput,
+.correoInput,
+.fechaInput,
+.correoInput,
+.passwordInput,
+.statusInput {
+  width: 50%;
+  padding: 4px 6px;
+  margin-bottom: 1rem;
+}
+
+.statusInput {
+  width: 40%;
+}
+
+.enviar {
+  width: 30%;
+  background: #9ea0a3;
+  transition: 0.3s ease-in-out;
+  border: none;
+  outline: none;
+  margin-bottom: 1rem;
+  margin-top: 15px;
+  padding: 10px 10px;
+  box-shadow: 0px 0px 30px -7px rgba(0, 0, 0, 0.75);
+
+}
+
+.tab-content {
+  border-radius: 10px;
+}
+
+.ngContainer {
+  transition: 1s linear;
+}
+
+.cancelar {
+  color: #000;
+  text-decoration: none;
+  margin-bottom: 15px;
+}
+
+.enviar:hover {
+  background: #b71c1c;
+  transform: translateY(5px);
+  color: #fff;
+}
+
+.personal {
+  padding: 25px 0 0 50px;
+}
+
+.general {
+  padding: 25px 0 0 50px;
+
+}
+
+.work {
+  padding: 25px 0 0 0;
+}
+
+.form-group {
+  margin: 0;
+}
+
+.row {
+  margin-left: 0;
+}
+
+
+.progress-bar {
+  padding: 0;
+  background: transparent;
+}
+
+img {
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+}
+
+.btn{
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+}

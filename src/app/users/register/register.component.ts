@@ -8,6 +8,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { first } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { MatStepper } from '@angular/material/stepper';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { ResourcesService } from 'src/app/resources/resources.service';
 const PATCH_LOCATIONS = 'estates';
 @Component({
 selector: 'register',
@@ -30,17 +32,28 @@ export class RegisterComponent implements OnInit, OnDestroy {
     minDate: Date;
     maxDate: Date;
     patch = PATCH_LOCATIONS;
+    selectedFiles?: FileList;
+    selectedFileNames: string= "";
+    progressInfos: any[] = [];
+    message: string = "";
+    previews: string = "";
+    imageInfos?: Observable<any>;
+
+
+
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
         private route: ActivatedRoute,
         private userService: UserService,
         private alertService: AlertService,
+        private service: ResourcesService,
+
     ) {
-    //   if(this.user.users.roleName=='Admin'){ 
+    //   if(this.user.users.roleName=='Admin'){
     //   this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !=='Voluntario');
     //   this.canReset = true;
-    // }  
+    // }
     // else {
     //   this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !=='Voluntario' && 'Admin');
     //   this.canReset = false
@@ -53,7 +66,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.getLocations(this.patch);
       this.roles = this.userService.listarRoles;
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      
+
 
       this.registerForm = this.formBuilder.group({
         // users: this.formBuilder.group({
@@ -61,6 +74,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           FK_RoleID:    ['', [Validators.required]],
           FK_EstateID:    ['', [Validators.required]],
           FK_LocationID: ['', [Validators.required]],
+          avatar: [],
         persons: this.formBuilder.group({
           lastName: ['',[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
           firstName:['',[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
@@ -74,7 +88,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         // }),
       });
 
-      
+
        this.formUser.get('FK_LocationID').valueChanges.subscribe(value =>{
          this.estates = this.locations.filter(x => x.locationID === value);
          return console.log('Sucursales => ', this.estates);
@@ -111,8 +125,66 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
         this.loading = true;
         this.register();
-        
+
     }
+
+
+    selectFiles(event: any): void {
+      this.message = "";
+      this.progressInfos = [];
+      this.selectedFileNames = "";
+      this.selectedFiles = event.target.files;
+    //  this.previews = "";
+      if (this.selectedFiles && this.selectedFiles[0]) {
+
+        const numberOfFiles = this.selectedFiles.length;
+        for (let i = 0; i < numberOfFiles; i++) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            console.log(e.target.result);
+            this.previews = e.target.result;
+          };
+          reader.readAsDataURL(this.selectedFiles[i]);
+          this.selectedFileNames = this.selectedFiles[i].name;
+        }
+         this.uploadFiles();
+      }
+    }
+
+    uploadFiles(): void {
+      this.message = "";
+      if (this.selectedFiles) {
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+           this.upload(i, this.selectedFiles[i]);
+        }
+      }
+    }
+
+
+
+    upload(idx: number, file: File): void {
+      this.progressInfos[idx] = { value: 0, fileName: file.name };
+      if (file) {
+        this.service.upload(file)
+        .subscribe(
+          (event: any) => {
+           if (event.type === HttpEventType.UploadProgress) {
+             this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+           } else if (event instanceof HttpResponse) {
+           this.registerForm.get('avatar').patchValue(event.body);
+              // const msg = 'Se cargó la imagen exitosamente!: ' + file.name;
+              // this.message = msg;
+             this.imageInfos = this.service.getFiles();
+             }
+          },
+          (err: any) => {
+            this.progressInfos[idx].value = 0;
+            const msg = 'No se ha podido cargar la imagen: ' + file.name;
+            this.message = msg;
+          });
+      }
+    }
+
 
   private register(){
     if(this.isVoluntario){
@@ -134,7 +206,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                 this.loading = false;
                 this.stepper.reset();
 
-              
+
           },
           error => {
               this.error = error;
@@ -156,7 +228,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       )
     }
-        
+
     // onSelectFile(event) {
     //   if (event.target.files && event.target.files[0]) {
     //     let reader = new FileReader();

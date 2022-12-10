@@ -1,6 +1,6 @@
 <header>
   <div class="col-12 title">
-    <h2>Registro de personal</h2>
+    <h1>Registro de usuario</h1>
 </div>
 </header>
 <div class="row justify-content-around" id="row-aside">
@@ -10,12 +10,43 @@
         <mat-step
           [stepControl]="formPerson"
           formGroupName="persons"
-          errorMessage="Datos son requeridos."
-        >
+          errorMessage="Datos son requeridos.">
           <ng-template matStepLabel>Datos personales</ng-template>
 
+
+
+
+
+
           <mat-grid-list cols="4" rowHeight="100px">
-            <mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="3">
+
+              <div class="imagen-class row ">
+                <div class="custom-file fileInputProfileWrap col-12">
+                  <input type="file" (change)="selectFiles($event)" class="fileInputProfile">
+                  <div class="img-space">
+
+                    <ng-container *ngIf="previews else elseTemplate">
+                      <img [src]="previews" class="img-responsive">
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                      <img src="https://i.imgur.com/S9HJEwF.png" class="img-responsive">
+                    </ng-template>
+                  </div>
+                </div>
+
+                <div *ngFor="let progressInfo of progressInfos" class="col-12 mt-2">
+                  <span *ngIf="message.length">{{ message }} </span>
+                  <mat-toolbar class="progress-bar">
+                    <mat-progress-bar color="accent" [value]="progressInfo.value"></mat-progress-bar>
+                    <span class="progress">{{ progressInfo.value }}%</span>
+                  </mat-toolbar>
+                </div>
+              </div>
+
+            </mat-grid-tile>
+
+            <mat-grid-tile colspan="1" rowspan="1">
               <mat-form-field appearance="outline">
                 <mat-label>Nombre</mat-label>
                 <input
@@ -207,9 +238,10 @@
             <br />
 
           </mat-grid-list>
-          <div>
+          <div class="btn">
             <button mat-button routerLink="/" type="button">Cancelar</button>
-            <button mat-button matStepperNext type="button">Siguiente</button>
+            <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+            <!-- <button mat-button matStepperNext type="button">Siguiente</button> -->
           </div>
         </mat-step>
 
@@ -314,21 +346,21 @@
             <br />
           </mat-grid-list>
 
-          <div>
-            <button mat-button matStepperPrevious type="button">Atras</button>
-            <button mat-button matStepperNext type="button">Siguiente</button>
+          <div class="btn">
+            <button mat-raised-button matStepperPrevious type="button" class="atras">Atras</button>
+            <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
           </div>
         </mat-step>
         <mat-step>
           <ng-template matStepLabel>Ultimo paso</ng-template>
           <div>
-            <p>Le recomendamos que revise los datos antes de finalizar</p>
+            <p class="text-center texto">Le recomendamos que revise los datos antes de finalizar</p>
           </div>
-          <div class="">
-            <button mat-button matStepperPrevious type="button">Atras</button>
+          <div class="button">
+            <button mat-raised-button matStepperPrevious type="button">Atras</button>
             <button mat-button (click)="stepper.reset()">Resetear</button>
 
-            <button
+            <button mat-raised-button color="primary"
               mat-button
               type="submit"
               [disabled]="loading"

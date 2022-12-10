@@ -1,7 +1,7 @@
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DataService } from '../services/data.service';
 import { Injectable} from '@angular/core';
-import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { AuthenticationService } from '../services';
 import { Group, Role, RoleName, Input } from '../models';
 import { environment } from 'src/environments/environment';
@@ -22,6 +22,18 @@ const array = Object.values(RoleName);
 let roles: Role[];
   roles = array.map((role,i) => {  return new Role(i+1, role);});
   return roles;
+}
+
+
+getUser(limit?: string ) {
+  if(limit){
+  let paramaters = new HttpParams().append('limit', limit);
+  this.options.params = paramaters;
+}
+  return this.http.get<any>(
+    environment.URL + this.patch + '/' + 'Select/',
+    this.options
+    );
 }
 
 

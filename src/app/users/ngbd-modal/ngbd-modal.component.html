@@ -58,9 +58,31 @@
 <div mat-dialog-content class="d-flex">
   <div class="col-4 d-flex flex-column Justify-content-center align-items-center info-personal pt-5">
     <h2>{{user.persons.firstName | titlecase}}, {{user.persons.lastName | titlecase}}</h2>
-    <div class="avatar">
-      <img src="{{user.avatar}}" alt="">
+      <!-- <img src="{{user.avatar}}" alt=""> -->
+      <div class="">
+        <div class="">
+          <input type="file" (change)="selectFiles($event)" class="fileInputProfile">
+          <div class="img-space">
+
+            <ng-container *ngIf="previews else elseTemplate">
+              <img [src]="previews" class="img-responsive">
+            </ng-container>
+            <ng-template #elseTemplate class="avatar">
+              <img src="{{user.avatar}}" class="img-responsive">
+            </ng-template>
+          </div>
+        </div>
+
+        <div *ngFor="let progressInfo of progressInfos" class="col-12 mt-2">
+          <span *ngIf="message.length">{{ message }} </span>
+          <mat-toolbar class="progress-bar">
+            <mat-progress-bar color="accent" [value]="progressInfo.value"></mat-progress-bar>
+            <span class="progress">{{ progressInfo.value }}%</span>
+          </mat-toolbar>
+        </div>
     </div>
+
+
     <div class="p-2">
       <p class="m-2">Documento: {{user.userDni}}</p>
       <!-- <p class="m-2">Genero: {{user.persons.gender}}</p> -->

@@ -211,7 +211,7 @@
           <mat-form-field appearance="outline">
             <mat-label>Responsable</mat-label>
             <mat-select formControlName="fK_EmployeeID" name="fK_EmployeeID" required>
-              <mat-option>-- Seleccioné al responsable del vehiculo --</mat-option>
+              <mat-option>-- Seleccioné al responsable del vehículo --</mat-option>
               <mat-optgroup *ngFor="let role of userList" [label]="role.role">
                 <mat-option *ngFor="let user of role['users']" [value]="user.value">
                   {{user.viewValue| titlecase}}
@@ -454,7 +454,6 @@
                 <span class="progress">{{ progressInfo.value }}%</span>
               </mat-toolbar>
             </div>
-
           </div>
 
         </mat-grid-tile>

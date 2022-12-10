@@ -15,6 +15,9 @@ import { StatesService } from 'src/app/resources/states/states.service';
 import { map, filter } from 'rxjs/operators';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import path from 'path';
+import { ResourcesService } from 'src/app/resources/resources.service';
+import { Observable } from 'rxjs';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 interface UsersInput {
   value: number;
@@ -53,6 +56,13 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   locations = [];
   estates = [];
 
+  selectedFiles?: FileList;
+  selectedFileNames: string= "";
+  progressInfos: any[] = [];
+  message: string = "";
+  previews: string = "";
+  imageInfos?: Observable<any>;
+
   constructor(
     // public dialogRef: MatDialogRef<NgbdModalComponent>,
     // @Inject(MAT_DIALOG_DATA) public data: any,
@@ -62,7 +72,9 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     private userService: UserService,
     private alertService: AlertService,
     private stateService: StatesService,
-    private authenticationService: AuthenticationService ) {
+    private authenticationService: AuthenticationService,
+    private service: ResourcesService,
+    ) {
     }
 
     @Input() user: User = null;
@@ -199,6 +211,64 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log('isAdmin ? => ', this.isAdmin);
 
   }
+
+  selectFiles(event: any): void {
+    this.message = "";
+    this.progressInfos = [];
+    this.selectedFileNames = "";
+    this.selectedFiles = event.target.files;
+  //  this.previews = "";
+    if (this.selectedFiles && this.selectedFiles[0]) {
+
+      const numberOfFiles = this.selectedFiles.length;
+      for (let i = 0; i < numberOfFiles; i++) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          console.log(e.target.result);
+          this.previews = e.target.result;
+        };
+        reader.readAsDataURL(this.selectedFiles[i]);
+        this.selectedFileNames = this.selectedFiles[i].name;
+      }
+       this.uploadFiles();
+    }
+  }
+
+  uploadFiles(): void {
+    this.message = "";
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+         this.upload(i, this.selectedFiles[i]);
+      }
+    }
+  }
+
+
+
+  upload(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+    if (file) {
+      this.service.upload(file)
+      .subscribe(
+        (event: any) => {
+         if (event.type === HttpEventType.UploadProgress) {
+           this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+         } else if (event instanceof HttpResponse) {
+         this.form.get('avatar').patchValue(event.body);
+            //const msg = 'Se cargó la imagen exitosamente!: ' + file.name;
+            //this.message = msg;
+           this.imageInfos = this.service.getFiles();
+           }
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = 0;
+          const msg = 'No se ha podido cargar la imagen: ' + file.name;
+          this.message = msg;
+        });
+    }
+  }
+
+
 
   onNoClick(): void {
     // this.dialogRef.close();

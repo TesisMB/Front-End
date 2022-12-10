@@ -107,9 +107,9 @@
     </ngb-pagination>
 
     <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-      <option [ngValue]="5">5 items por página</option>
-      <option [ngValue]="15">15 items por página</option>
-      <option [ngValue]="25">25 items por página</option>
-      <option [ngValue]="(total$ | async)">Todos los items</option>
+      <option [ngValue]="5">5 recursos por página</option>
+      <option [ngValue]="15">15 recursos por página</option>
+      <option [ngValue]="25">25 recursos por página</option>
+      <option [ngValue]="(total$ | async)">Todos los recursos</option>
     </select>
   </div>

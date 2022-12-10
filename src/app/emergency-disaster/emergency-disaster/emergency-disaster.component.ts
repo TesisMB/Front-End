@@ -54,21 +54,21 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
       })
   }
 
-  
-  
+
+
   ngOnInit(): void {
     this.selectTypesEmergencyDisasterService.loading = true;
     this.getTypeEmergencyDisaster();
-    
+
     this.getEmergencyDisaster();
 
-    
-      
 
-      
+
+
+
     /* this.selectTypesEmergencyDisasterService.selectTypesEmergencyDisaster$.subscribe(
       (idTypes: number) => this.id = idTypes);
-      
+
 
       this.selectTypesEmergencyDisasterService.statusTypesEmergencyDisaster$.subscribe(
         (idTypes: boolean) => this.status = idTypes); */
@@ -97,9 +97,9 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
           name: "Todos"
         }
         );
-          
+
           console.log('arraytypeEmergencyDisaster []', this.arraytypeEmergencyDisaster);
-          
+
           return x;
       }))
     .subscribe(data =>{
@@ -111,16 +111,16 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   }
 
 
-  
+
   getEmergencyDisaster() {
      this.handleAlerts = this.emergencyDisasterService.getAllWithoutFilter()
- 
+
         .subscribe(data => {
           this.emergencyDisaster = data;
           this.setEmergenciesDisaster(data);
           this.isLoading = false;
           // this.reportService.searchPath = 'alertName';
-          this.reportService.data = data;         
+          this.reportService.data = data;
      console.log('EmergencyDisaster - ListAll => ', data);
     }, error => {
       this.isLoading = false;
