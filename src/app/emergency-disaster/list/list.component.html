@@ -79,13 +79,13 @@
     <span class="spinner-border spinner-border-lg align-center"></span>
 </div> -->
 
-<div *ngIf="!(emergencyDisasterObservable | async).length || (selectTypesEmergencyDisasterService.loading$  | async)">
-    <div *ngIf="(selectTypesEmergencyDisasterService.loading$  | async)" colspan="9" class="text-center">
+<div *ngIf="!(emergencyDisasterObservable | async).length || (reportLoading$  | async) || (selectTypesEmergencyDisasterService.loading$  | async)">
+    <div *ngIf="(selectTypesEmergencyDisasterService.loading$  | async) || (reportLoading$  | async)" colspan="9" class="text-center">
         <span class="spinner-border spinner-border-lg align-center"></span>
     </div>
-    <div *ngIf="!(selectTypesEmergencyDisasterService.loading$  | async)"
+    <div *ngIf="!(selectTypesEmergencyDisasterService.loading$  | async) && !(reportLoading$  | async)"
         colspan="9" class="text-center">
-        <p class="align-center">No hay solicitudes.</p>
+        <p class="align-center">No hay alertas.</p>
     </div>
 </div>
 

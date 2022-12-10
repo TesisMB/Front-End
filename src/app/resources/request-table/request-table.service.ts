@@ -15,7 +15,7 @@ import * as moment from 'moment';
 
 
 
-const ROLES = ['Encargado de Logistica', 'Admin', 'Coordinador General'];
+const ROLES = ['Encargado de Logistica', 'Admin', 'Coord. General'];
 const compare = (v1: string | number | any, v2: string | number | any) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
 // const formateDate = (date, from, to?) =>
@@ -192,6 +192,9 @@ private _search(): Observable<SearchResult> {
 
   // 3. paginate
   data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+  console.log('data paginate => ',data);
+  console.log('pageSize => ',pageSize);
+  console.log('page => ',page);
   return of({data, total});
  }
 

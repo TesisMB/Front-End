@@ -3,6 +3,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { EmergencyDisaster } from 'src/app/models/emergencyDisaster';
 import { EmergencyDisasterService } from '../emergency-disaster.service';
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface AlertsReports {
   emergencyDisasterID: number;
@@ -48,6 +50,13 @@ class Reports{
   recursos: {data: ReportData[], selected: boolean};
   }
 
+  interface convertDate {
+    day?:string | Date;
+    month?:string| Date;
+    year?:string| Date;
+    startDate?:string| Date;
+    endDate?:string| Date;
+  }
 
 @Component({
   selector: 'emergency-disaster-report',
@@ -58,9 +67,12 @@ export class EmergencyDisasterReportComponent implements OnInit , OnDestroy{
   emergencyDisaster: EmergencyDisaster [];
 from: any;
 to: any;
-view: any[] = [700, 300];
- views: any[] = [500, 300];
-
+originalData: EmergencyDisaster[] = [];
+handleService : Subscription;
+handleDate : convertDate[] = [];
+view: [number, number] = [500, 400];
+view2: [number, number] = [1000, 400];
+typeAndYear : any = null;
   single = [
   {
     "name": "Germany",
@@ -116,7 +128,13 @@ numberCard = [
   yAxisLabel: string = 'Ciudad';
   showYAxisLabel: boolean = true;
   // xAxisLabel: string = 'Population';
+  barChartcustomColors = 
+  [
+    { name: "Moderado", value: '#C7B42C' },
+    { name: "Urgente", value: '#A10A28' },
+    { name: "Controlado", value: '#5AA454' },
 
+  ];
     // options
     legend: boolean = true;
     animations: boolean = true;
@@ -172,62 +190,28 @@ numberCard = [
    }
 
   ngOnInit(): void {
-    //this.getReport();
-    // this.getRecursos();
-  }
-
- 
-
-//   getReport() {
-//     this.emergencyService.getAllReport()
-
-//        .subscribe(data => {
-//          this.dataClone = data;
-//          this.datos = data;
-
-//          this.service.searchPath = 'alertName';
-//          this.service.data = data;
-//         //  this.setAll();
-//     console.log('EmergencyDisaster - ListAll => ', data);
-//    }, error => {
-//      console.log('Error', error);
-//    })
-//  }
-
-
-
- setAll(){
-  this.reports.city.data= [...this.dataClone.reduce( (mp, o) => {
-    if (!mp.has(o.city)) mp.set(o.city, { name: o.city, value: 0});
-    mp.get(o.city).value++;
-    return mp;
-  }, new Map).values()];
-
-  this.reports.type.data= [...this.dataClone.reduce( (mp, o) => {
-    if (!mp.has(o.type)) mp.set(o.type, { name: o.type, value: 0});
-    mp.get(o.type).value++;
-    return mp;
-}, new Map).values()];
-
-this.reports.alertName.data= [...this.dataClone.reduce( (mp, o) => {
-  if (!mp.has(o.alertName))  mp.set(o.alertName, { name: o.alertName, value: 0});
-  mp.get(o.alertName).value++;
-  return mp;
-}, new Map).values()];
-
-this.reports.state.data= [...this.dataClone.reduce( (mp, o) => {
-  if (!mp.has(o.state))  mp.set(o.state, { name: o.state, value: 0});
-  mp.get(o.state).value++;
-  return mp;
-}, new Map).values()];
-
-
-
-
-}
-
-  onSelect(data): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+    this.handleService = this.service.originalData$
+    .pipe(map((data) => {
+      data.forEach(d =>
+        {
+          var startDate = new Date(d.emergencyDisasterStartDate);
+          if(d.emergencyDisasterEndDate){
+            var endDate = new Date(d.emergencyDisasterEndDate);
+          }
+          // const [day, month, year] = d.emergencyDisasterStartDate.split('/');
+           this.handleDate.push({startDate,endDate});
+          
+        });
+        return data
+      }))
+      .subscribe(data => {
+        this.originalData = data;
+        // this.typeAndYear = this.getComplexData(data);
+      console.log('Data original de stock report => ',data);
+      // console.log('Date data => ',this.typeAndYear);
+    }, error => {
+      console.error(error);
+    });
   }
 
   onActivate(data): void {
@@ -288,8 +272,100 @@ this.reports.state.data= [...this.dataClone.reduce( (mp, o) => {
       }
      return event;
     }
+
+
+    get day(){
+      return [...this.handleDate.reduce((mp, o) => {
+        if (!mp.has(o.day))
+        mp.set(o.day, { name: o.day, value: 0 })
+        mp.get(o.day).value++;
+        return mp;
+    }, new Map())
+    .values()
+    ];
+    }
+    get month(){
+      return [...this.handleDate.reduce((mp, o) => {
+        if (!mp.has(o.month))
+        mp.set(o.month, { name: o.month, value: 0 })
+        mp.get(o.month).value++;
+        return mp;
+    }, new Map())
+    .values()
+    ];
+    }
+    get year(){
+      return [...this.handleDate.reduce((mp, o) => {
+        if (!mp.has(o.year))
+        mp.set(o.year, { name: o.year, value: 0 })
+        mp.get(o.year).value++;
+        return mp;
+    }, new Map())
+    .values()
+    ];
+    }
+    
+    
+    getComplexData(data){
+      return [... data.reduce((pv, cv) => {
+        const currentYear =this.convertYear(cv.requestDate);
+        if(!pv.has(cv.typeEmergencyDisasterName))
+        {
+          pv.set(cv.typeEmergencyDisasterName,
+            {name: cv.typeEmergencyDisasterName,
+            series: [{name: currentYear, value: 0}]});
+        }
+          pv.get(cv.typeEmergencyDisasterName).series
+          .map(d => {
+            d.name === currentYear ? d.value++ : pv.get(cv.typeEmergencyDisasterName).series.push({name: currentYear, value: 1});
+            //   pv.get(cv.typeEmergencyDisasterName).series.map(x => if(x.name.equals(currentYear)))
+          });
+        
+        return pv;
+      }, new Map()).values()];
+    }
+    
+      onSelect(data: string | any, path: string): void {
+        console.log({data,path});
+        // const complexData = this.getComplexData();
+        // console.log('complex data=> ',complexData);
+    
+        data = this.formatingFilterData(data,path);
+        if(path.includes('.')){
+          var subStr = path.split('.');
+        }  
+        let newData = this.originalData.filter((d, o) => {
+        if(subStr){
+          return d[subStr[0]][subStr[1]] === data;
+        }  else {
+          return d[path] == data;
+        }
+        });
+        this.service.data = newData;
+        // this.requestService. = newData;
+        console.log(newData);
+      }
+    
+      formatingFilterData(data: any, path: string): any {
+        if(path.includes('donation') || path.includes('availability')){
+          data = !data.includes('no');  
+        }else if(path.includes('.')){
+          let subStr = path.split('.');
+        }
+        return data;
+      }
+    
+      convertYear(date){
+        const [day, month, year] = date.split('/');
+    
+        return year;
+      }
+    
+      onSelectComplex(event){
+        console.log('On Select Complex Data => ',event);
+      }
   ngOnDestroy(): void {
-    this.service.data = [];
+    // this.service.data = [];
   }
 }
 

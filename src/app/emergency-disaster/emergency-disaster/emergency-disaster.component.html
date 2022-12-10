@@ -1,19 +1,14 @@
-<section class="title">
-    <h1>Alertas</h1>
-</section>
-
-
 <section class="row justify-content-around col-body" id="row-aside">
+    <div class="col-12 d-flex flex-column justify-content-start">
+      <accordion-filter [(searchTerm)]="service.searchTerm" (searchTermEvent)="service.searchTerm = $event" (searchTypeEvent)="reportService.searchType = $event" [route]="'alerts'"></accordion-filter>
 
-    <div class="d-flex justify-content-around row col-12">
-
-        <div class="child-toggle" *ngIf="(reportService.type$ | async) === 'table'">
+        <!-- <div class="child-toggle" *ngIf="(reportService.type$ | async) === 'table'">
             <mat-slide-toggle color="warn" (change)="getcheckStatus($event)">Mostrar emergencias inactivas
             </mat-slide-toggle>
-        </div>
+        </div> -->
 
 
-        <mat-form-field appearance="fill" *ngIf="(reportService.type$ | async) === 'table'">
+        <!-- <mat-form-field appearance="fill" *ngIf="(reportService.type$ | async) === 'table'">
             <mat-label>Tipo de Emergencia</mat-label>
             <mat-select>
                 <mat-option *ngFor="let emergency of arraytypeEmergencyDisaster" [value]="emergency.id"
@@ -21,15 +16,15 @@
                     {{emergency.name}}
                 </mat-option>
             </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
 
 
         <!-- Boton para agregar -->
-        <div class="col-4 col-xs-4 col-sm-auto ">
+        <!-- <div class="col-4 col-xs-4 col-sm-auto ">
             <button mat-raised-button color="warn" [routerLink]="['/emergencias','agregar']">
                 <mat-icon>add</mat-icon>
                 Agregar emergencia
-            </button>
+            </button> -->
 
             <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
@@ -41,32 +36,48 @@
                     <span>Reportes</span>
                 </button>
             </mat-menu> -->
-        </div>
+        <!-- </div>
 
 
 
-    </div>
+    </div> -->
 
-    <div class="col-12 d-flex flex-row">
+    <!-- <div class="col-12 d-flex flex-row">
 
     <div class="col-3">
-        <emergency-disaster-filter [datepicker] ="false" ></emergency-disaster-filter>
+        <emergency-disaster-filter [datepicker] ="false" ></emergency-disaster-filter> -->
         <!-- <filter></filter> -->
-      </div>
+      <!-- </div>
       
 
     <div class="col-9">
             <list  *ngIf="(reportService.type$ | async) === 'table'"></list>
-            <emergency-disaster-report *ngIf="(reportService.type$ | async) !== 'table'"></emergency-disaster-report>
+            <emergency-disaster-report *ngIf="(reportService.type$ | async) !== 'table'"></emergency-disaster-report> -->
 
         <!-- <ng-container *ngIf="isLoading; else elseTemplate" > -->
             <!-- <list></list> -->
         <!-- </ng-container> -->
         <!-- <ng-template #elseTemplate>
             <mat-spinner></mat-spinner>
-          </ng-template> -->
+          </ng-template> 
         
+    </div>-->
+    <ng-container
+    *ngIf="
+      (service.loading$ | async) || (reportService.loading$ | async);
+      else elseTemplate
+    "
+  >
+    <div class="d-flex align-items-center justify-content-center m-5">
+      <mat-spinner color="warn"></mat-spinner>
     </div>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <list *ngIf="(reportService.type$ | async) == 'table'"></list>
+    <emergency-disaster-report
+      *ngIf="(reportService.type$ | async) === 'reportes'"
+    ></emergency-disaster-report>    </ng-template>
+
     </div>
 
 

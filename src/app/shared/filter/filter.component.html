@@ -10,7 +10,7 @@
       </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="withConditionType" appearance="legacy">
+      <mat-form-field *ngIf="service.currentRoute === 'solicitudes'" appearance="legacy">
         <mat-label>Estado</mat-label>
         <mat-select [value]="(requestCondition | async)" (selectionChange)="changeRequestType($event.value)">
           <!-- <mat-option value="">Todos</mat-option> -->
@@ -20,6 +20,16 @@
         <mat-option value="Rechazada">Rechazado</mat-option>
         </mat-select>
         </mat-form-field>
+
+        <mat-form-field *ngIf="service.currentRoute === 'emergencias'" appearance="legacy">
+          <mat-label>Estado</mat-label>
+          <mat-select [(value)]="service.alertStatus" (selectionChange)="changeAlertState($event.value)">
+            <!-- <mat-option value="">Todos</mat-option> -->
+          <mat-option value="">Todas</mat-option>
+          <mat-option value="Activa">Activas</mat-option>
+          <mat-option value="Inactiva">Finalizadas</mat-option>
+          </mat-select>
+          </mat-form-field>
 <!-- 
     <mat-form-field appearance="legacy">
     <mat-label>Tipo de grafico</mat-label>
@@ -30,7 +40,7 @@
     </mat-form-field> -->
     <mat-form-field *ngIf="withAlertType" appearance="legacy" >
       <mat-label>Tipo de alerta</mat-label>
-      <mat-select [value]="service.searchAlertType" (selectionChange)="changeAlertType($event.value)">
+      <mat-select [(value)]="service.alertType" (selectionChange)="changeAlertType($event.value)">
     <mat-option value=''>Todos</mat-option>
     <mat-option *ngFor="let types of (requestAlertType | async)" [value]="types">
       {{types | titlecase}}
@@ -38,27 +48,16 @@
   </mat-select>
 </mat-form-field>
 
-    <mat-form-field *ngIf="withLocation" appearance="legacy" >
+    <!-- <mat-form-field *ngIf="service.currentRoute === 'solicitudes'" appearance="legacy" >
     <mat-label>Localidad</mat-label>
     <mat-select [value]="service.searchLocation" (selectionChange)="changeLocationCity($event.value)">
-    <mat-option value=''>Todos</mat-option>
-<!-- <mat-select-trigger>
-  {{locationSelected.length ? locationSelected[0] : ''}}
-  <span *ngIf="locationSelected?.length > 1" class="example-additional-selection">
-    (+{{locationSelected.length - 1}} {{locationSelected.length === 2 ? 'otro' : 'otros'}})
-  </span>
-</mat-select-trigger> -->
-<!-- <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName"> -->
-  <!-- <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
-    {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
-  </mat-option> -->
-  <mat-option *ngFor="let locations of (locations | async)" [value]="locations.locationID">
-    {{locations.locationCityName | titlecase}}
-  </mat-option>
-<!-- </mat-optgroup> -->
-
+      <mat-option value=''>Todos</mat-option>
+      <mat-option *ngFor="let locations of (locations | async)" [value]="locations.locationID">
+        {{locations.locationCityName | titlecase}}
+      </mat-option> 
 </mat-select>
-</mat-form-field>
+</mat-form-field>-->
+
 <ng-container *ngIf="datepicker">
   <mat-form-field appearance="legacy">
       <mat-label>Desde</mat-label>

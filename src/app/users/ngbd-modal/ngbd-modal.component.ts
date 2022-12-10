@@ -132,7 +132,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.authenticationService.currentUserValue.roleName ===  'Admin';
   }
   get isCGeneral(){
-    return  this.authenticationService.currentUserValue.roleName ===  'Coordinador General';
+    return  this.authenticationService.currentUserValue.roleName ===  'Coord. General';
   }
 
   get isNotVolunteer(){

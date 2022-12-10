@@ -32,7 +32,7 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
   handleSU: Subscription;
   date = new FormControl(new Date());
   serializedDate = new FormControl(new Date().toISOString());
-  isLoading: boolean = true;
+  isLoading: Observable<boolean>;
   form: FormGroup;
   handleAlerts: Subscription;
   handleTypes: Subscription;
@@ -40,10 +40,8 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    public selectTypesEmergencyDisasterService : SelectTypesEmergencyDisasterService,
-    private emergencyDisasterService: EmergencyDisasterService,
+    public service : SelectTypesEmergencyDisasterService,
     private router: Router,
-    private authService: AuthenticationService,
     private fb: FormBuilder,
     public reportService : ReportService
     ) {
@@ -51,108 +49,63 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
       this.form = this.fb.group({
         startDate: ['', Validators.required],
         endDate: ['', Validators.required]
-      })
+      });
+      this.service.loading = true;
+      this.isLoading = this.service.loading$;
   }
 
   
   
   ngOnInit(): void {
-    this.selectTypesEmergencyDisasterService.loading = true;
-    this.getTypeEmergencyDisaster();
-    
     this.getEmergencyDisaster();
-
     
-      
-
-      
-    /* this.selectTypesEmergencyDisasterService.selectTypesEmergencyDisaster$.subscribe(
-      (idTypes: number) => this.id = idTypes);
-      
-
-      this.selectTypesEmergencyDisasterService.statusTypesEmergencyDisaster$.subscribe(
-        (idTypes: boolean) => this.status = idTypes); */
-
   }
-
-
-  EmergencyDisaster(){
-
-  }
-
-  getTypeEmergencyDisaster(){
-    this.handleTypes = this.selectTypesEmergencyDisasterService.getAll()
-    .pipe(
-      map((x) =>{
-        x.forEach(item =>{
-          const types = {
-            id: item.typeEmergencyDisasterID,
-            name: item.typeEmergencyDisasterName
-          };
-          this.arraytypeEmergencyDisaster.push(types);
-        })
-
-        this.arraytypeEmergencyDisaster.push({
-          id: 8,
-          name: "Todos"
-        }
-        );
-          
-          console.log('arraytypeEmergencyDisaster []', this.arraytypeEmergencyDisaster);
-          
-          return x;
-      }))
-    .subscribe(data =>{
-      this.typeEmergencyDisaster = data;
-      console.log('typeEmergencyDisaster => ', this.typeEmergencyDisaster);
-    }, error =>{
-      console.log("Error =>", error);
-    })
-  }
-
-
   
   getEmergencyDisaster() {
-     this.handleAlerts = this.emergencyDisasterService.getAllWithoutFilter()
- 
-        .subscribe(data => {
-          this.emergencyDisaster = data;
-          this.setEmergenciesDisaster(data);
-          this.isLoading = false;
-          // this.reportService.searchPath = 'alertName';
-          this.reportService.data = data;         
-     console.log('EmergencyDisaster - ListAll => ', data);
-    }, error => {
-      this.isLoading = false;
-      console.log('Error', error);
-    })
+    this.handleAlerts = this.service.getAllWithoutFilter()
+    .subscribe(data => {
+      this.emergencyDisaster = data;
+      this.getAlertsFromTable();
+          console.log('EmergencyDisaster - ListAll => ', data);
+      }, error => {
+        console.log('Error', error);
+      });
   }
+private getAlertsFromTable(){
+  this.handleSU = this.reportService.originalData$.subscribe(
+    alerts => {
+      this.service.uploadTable(alerts);
+      
+    },
+    error => {
+      console.error(error);
+    }
+  )
+}
 
 
 
+  // setEmergenciesDisaster(emergencyDisaster: EmergencyDisaster[]){
+  //   this.service.uploadTable(emergencyDisaster);
+  // }
 
-
-  setEmergenciesDisaster(emergencyDisaster: EmergencyDisaster[]){
-    this.selectTypesEmergencyDisasterService.uploadTable(emergencyDisaster);
-  }
-
-  selectTypes(id: number){
-    console.log("data => ", id);
-     this.selectTypesEmergencyDisasterService.setTypes(id);
-    /*this.selectTypesEmergencyDisasterService.TypesEvent.emit(id); */
-  }
+  // selectTypes(id: number){
+  //   console.log("data => ", id);
+  //   this.service.setTypes(id);
+  //   /*this.service.TypesEvent.emit(id); */
+  // }
 
 
 /*   slideToogle(select : string){
     console.log("Checked: ", select);
-    this.selectTypesEmergencyDisasterService.setStatus(event.checked);
+    this.service.setStatus(event.checked);
 
   } */
 
 
-  getcheckStatus(event) {
-    this.selectTypesEmergencyDisasterService.setStatus(event.checked);
-  }
+  // getcheckStatus(event) {
+  //   this.service.setStatus(event.checked);
+  // }
 
   currentDate(event){
     const value = event.value;
@@ -167,9 +120,15 @@ export class EmergencyDisasterComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.reportService.resetForm(true);
-    this.handleTypes.unsubscribe();
+    // this.handleTypes.unsubscribe();
     this.handleAlerts.unsubscribe();
+    if(this.handleSU){
+      this.handleSU.unsubscribe();
+    }
   }
-
+  searchTerm(event){
+    console.log('Llego el evento! => ',event);
+    this.service.searchTerm = event;
+  }
 
 }

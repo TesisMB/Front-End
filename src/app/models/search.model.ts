@@ -25,7 +25,8 @@ export interface SearchResult {
     searchPath: string | string[] | any;
     searchType: string;
     searchLocation: any | number;
-    searchAlertType?: string;
+    alertStatus?: string;
+    alertType?: string;
     from?: Date | string | any;
     to?: Date | string | any;
   }

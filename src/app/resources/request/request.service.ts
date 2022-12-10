@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { DataService } from 'src/app/services';
 import { User } from 'src/app/models';
 import { map } from 'rxjs/operators';
+import { ReportService } from 'src/app/services/_report.service/report.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class RequestService extends DataService {
 private _condition$ = new BehaviorSubject<string>('');
 private _typesAlert$ = new BehaviorSubject<any[]>([]);
 private currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
-  constructor(http: HttpClient) { 
+  constructor(http: HttpClient, private reportService: ReportService) { 
     super(http, 'ResourcesRequest')
   }
 
@@ -51,7 +52,7 @@ private currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
           data.forEach(item =>{
             // const types = {id: item.typeEmergencyDisasterID,name: item.typeEmergencyDisasterName};
             const solicitantes = {id: item.createdBy, name: item.createdByEmployee}
-            arrOfTypes.push(item.typeEmergencyDisasterName.toLowerCase());
+            arrOfTypes.push(item.typeEmergencyDisasterName);
             arrOfSolicitantes.push(solicitantes);
           });
           // arrOfTypes.push({
@@ -59,11 +60,13 @@ private currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
           //   name: "Todos"
           // });
           arrOfSolicitantes.push({
-            id: -1,
+            id: '',
             name: "Todos"
           });
-          
+          arrOfTypes = this.removeDuplicates(arrOfTypes);
+          console.log(arrOfTypes);
           this.typesAlert = this.removeDuplicates(arrOfTypes);
+          this.reportService.alertTypes =arrOfTypes;
           // this.typesAlert = arrOfTypes;
             return data;
         }

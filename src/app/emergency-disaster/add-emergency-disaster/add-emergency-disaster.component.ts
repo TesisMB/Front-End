@@ -128,7 +128,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   getUser(){
     this.subscriber2 = this.userService.getAll().subscribe(data => {
       this.user = data;
-      this.user = this.user.filter(a => a.roleName == "Coord. de Emergencias");
+      this.user = this.user.filter(a => a.roleName == "Coord. De Gestión de Riesgo");
     }, error =>{
       console.log(error);
     })

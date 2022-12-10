@@ -10,21 +10,28 @@
                                <button mat-icon-button ><mat-icon>search</mat-icon></button> 
                             </span>
                          <input class="col-10 input-search" type="text" name="any"
-                              (ngModel) = "searchTerm" placeholder="Buscar" (keyup)="search(searchTerm)" />
+                              [(ngModel)] = "searchTerm" placeholder="Buscar" (keyup)="search(searchTerm)" />
                      </div>
                 </form>
             </mat-panel-title>
-            <button *ngIf="service.searchType === 'table'" mat-raised-button color="warn" matTooltip="Historial de solicitudes" class="m-2"
+            <button *ngIf="service.searchType === 'table'" mat-raised-button color="warn" matTooltip="Reportes" class="m-2"
             (click)="changeToReport('reportes')">
             <mat-icon>bar_chart</mat-icon>
         </button>
-            <button *ngIf="service.searchType === 'reportes'" mat-raised-button color="warn" matTooltip="Historial de solicitudes" class="m-2"
+            <button *ngIf="service.searchType === 'reportes' && service.currentRoute === 'solicitudes'" mat-raised-button color="warn" matTooltip="Historial de solicitudes" class="m-2"
             (click)="changeToReport('table')">
                 <mat-icon>history</mat-icon>
             </button>
+            <button *ngIf="service.searchType === 'reportes' && service.currentRoute === 'emergencias'" mat-raised-button color="warn" matTooltip="Listado de alertas" class="m-2"
+            (click)="changeToReport('table')">
+                <mat-icon>medical_services</mat-icon>
+            </button>
             <mat-panel-description>
-                <h2>
+                <h2 *ngIf="service.currentRoute == 'solicitudes'">
                     Solicitudes de recursos
+                </h2>
+                <h2 *ngIf="service.currentRoute ==  'emergencias'">
+                    Alertas
                 </h2>
             </mat-panel-description>
             <button mat-raised-button color="warn" matTooltip="Filtros" class="m-2" (click)="manageAccordion()">

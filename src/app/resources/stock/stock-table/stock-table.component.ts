@@ -53,7 +53,7 @@ export class StockTableComponent implements OnInit {
        return this.currentUser.roleName === 'Admin';
       }
       get isCG(){
-        return this.currentUser.roleName ===  'Coordinador General';
+        return this.currentUser.roleName ===  'Coord. General';
        }
 
   ngAfterViewInit(){}

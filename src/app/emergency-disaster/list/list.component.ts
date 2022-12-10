@@ -1,3 +1,4 @@
+import { ReportService } from './../../services/_report.service/report.service';
 import { Router } from '@angular/router';
 import { SelectTypesEmergencyDisasterService } from './../select-types-emergency-disaster.service';
 import { NgbdModalComponent } from '../ngbd-modal/ngbd-modal.component';
@@ -29,6 +30,9 @@ export class ListComponent implements OnInit {
   array= [];
   typesid: number;
   total$: Observable<number>;
+  reportLoading$: Observable<boolean>;
+  reportTotal$: Observable<number>;
+  reportData$: Observable<any>;
 
 
 
@@ -38,8 +42,11 @@ export class ListComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private emergencyDisasterService: EmergencyDisasterService,
+    private service: ReportService
     ) {
-
+     this.reportLoading$=this.service.loading$;
+     this.reportTotal$=this.service.total$;
+     this.reportData$ =this.service.originalData$;
       
     }
     

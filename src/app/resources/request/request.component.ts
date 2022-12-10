@@ -50,9 +50,8 @@ export class RequestComponent implements OnInit, OnDestroy {
     this.handleRequest = this.requestService.getAll(condition).subscribe(
       (x: any) => {
         this.getReportData();
-        this.service._uploadTable(x);
         this.reportService.data = x;
-        this.request = x;
+        // this.request = x;
 
         //this.service._setCondition(this.condition);
         console.log('x => ', x);
@@ -68,15 +67,15 @@ export class RequestComponent implements OnInit, OnDestroy {
 
   getReportData(){
     this.handleReport = this.reportService.originalData$.subscribe(report =>{
-      if(!isUndefined(report)){
-        const results = isEqual(report.sort(), this.request.sort());
-        if (!results) {
-          console.log('GetReportData => ', report);
+      // if(!isUndefined(report)){
+      //   const results = isEqual(report.sort(), this.request.sort());
+      //   if (!results) {
+          // console.log('GetReportData => ', report);
           this.request = report;
           this.service._uploadTable(report);
-          }
-      }
-    })
+          // }
+      // }
+    });
   }
   onShow(event){
     this.service.filter = event.checked; 
@@ -87,9 +86,13 @@ export class RequestComponent implements OnInit, OnDestroy {
    }
 
   ngOnDestroy(): void {
-    this.handleRequest.unsubscribe();
-    this.handleReport.unsubscribe();
     this.reportService.resetForm(true);
-    this.handleCondition.unsubscribe();
+    this.handleReport.unsubscribe();
+    // if(this.handleRequest){
+      this.handleRequest.unsubscribe();
+    // }
+    // if(this.handleCondition){
+      this.handleCondition.unsubscribe();
+    // }
   }
 }

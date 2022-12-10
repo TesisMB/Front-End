@@ -1,140 +1,207 @@
-<mat-grid-list cols="5" rowHeight="500px">
-    
-    <ng-container *ngIf="(service.loading$ | async); else elseTemplate">
-        <mat-grid-tile class="tile" colspan="5">
+<mat-grid-list cols="6" rowHeight="600px">
+    <ng-container *ngIf="service.loading$ | async; else elseTemplate">
+      <mat-grid-tile class="tile" colspan="6" rowspan="3">
         <mat-spinner></mat-spinner>
-        </mat-grid-tile>
-      </ng-container>
-    
-        <ng-template #elseTemplate>
-        <!-- <mat-grid-tile class="tile" colspan="2">
-        </mat-grid-tile> -->
-      <mat-grid-tile class="tile" colspan="5">      
-    <!-- <ng-container *ngIf="(service.loading$ | async); else elseTemplate">
-        <mat-grid-tile class="tile" colspan="5">
-        <mat-spinner></mat-spinner>
-        </mat-grid-tile>
-      </ng-container>
-    
-        <ng-template #elseTemplate>
-        <mat-grid-tile class="tile" colspan="2">
-        </mat-grid-tile>
-      <mat-grid-tile class="tile" colspan="3"> -->
-    
-    
-    <!-- <div class=" d-flex justify-content-around row col-12 col-body">
-        <mat-form-field appearance=" outline">
-            <mat-label>Estado</mat-label>
-            <mat-select [value]="service.hasStatus$ | async" (selectionChange)="service.hasStatus = $event.value">
-                <mat-option [value]="condition.TODOS">Todas</mat-option>
-                <mat-option [value]="condition.ACEPTADAS">Activas</mat-option>
-                <mat-option [value]="condition.RECHAZADAS"> Inactivas</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-
-        <mat-form-field appearance="outline">
-            <mat-label>Por tipo</mat-label>
-            <mat-select [(value)]="service.searchPath" (selectionChange)="service.searchPath = $event.value">
-                <mat-option value="alertName">Lista de solicitudes</mat-option>
-                <mat-option value="state">Por estado</mat-option>
-                <mat-option value="type">Por tipo de alerta</mat-option>
-                <mat-option value="city">Por ubicación</mat-option>
-                <mat-option value="recursos">Por recursos solicitados</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Fecha inicio</mat-label>
-            <input matInput [matDatepicker]="service.from">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Fecha fin</mat-label>
-            <input matInput [matDatepicker]="service.to">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-    </div> -->
-
-
-
-    
-        <!-- <div class=" d-flex justify-content-around">
-            <ngx-charts-number-card [view]="view4" [scheme]="color" [results]="numberCard" [cardColor]="cardColor"
-                (select)="onSelect($event)">
-            </ngx-charts-number-card>
-        </div> -->
-
-        <ng-container *ngIf="(service.type$ | async) === 'barra vertical'">
-
-        <!-- <div *ngIf="service.searchPath === 'city'" class="col-body"> -->
-            <ngx-charts-bar-vertical [view]="views" [scheme]="colorScheme" [results]="service.data$ | async"
-                [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
-                (select)="onSelectCity($event)"
-                [showXAxisLabel]="showYAxisLabelCity"
-                [showYAxisLabel]="showYAxisLabel"
-                [xAxisLabel]="xAxisLabel"
-                [yAxisLabel]="yAxisLabelCity"
-                [yAxisTickFormatting]='formatingAxisX'>
-            </ngx-charts-bar-vertical>
-        <!-- </div> -->
-        </ng-container>
-
-
-        <ng-container *ngIf="(service.type$ | async) === 'chart pie'">
-            <ngx-charts-pie-chart [scheme]="colorScheme" [results]="service.data$ | async" [gradient]="gradient"
-                [legend]="showLegend" [legendPosition]="legendPosition" [labels]="showLabels" [doughnut]="isDoughnut"
-                (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"
-                [doughnut]="true" [view]="view" [legend]="false" [view]="views">
-            </ngx-charts-pie-chart>
-        </ng-container>
-
-
-        <ng-container *ngIf="(service.type$ | async) === 'barra horizontal'">
-
-            <ngx-charts-bar-horizontal [view]="views" [scheme]="colorScheme" [results]="service.data$ | async"
-                [gradient]="gradient" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel" [yAxisLabel]="yAxisLabel" (select)="onSelect($event)" [legend]="false"
-                (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
-            </ngx-charts-bar-horizontal>
-        </ng-container>
-
-        <ng-container *ngIf="(service.type$ | async) === 'chart pie advanced'">
-            <ngx-charts-advanced-pie-chart [view]="view" [scheme]="colorScheme" [results]="service.data$ | async" [gradient]="gradient"
-                (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+      </mat-grid-tile>
+    </ng-container>
+  
+    <ng-template #elseTemplate>
+  
+      <ng-container *ngIf="(service.data$ | async).type">
+        <mat-grid-tile class="tile" colspan="6" rowspan="1">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title class="d-flex flex-wrap justify-content-between">
+              <p>Alertas por tipo</p>
+            </mat-card-title>
+            <mat-card-subtitle>{{service.type$ | async}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <ngx-charts-advanced-pie-chart
+              [view]="view2"
+              [scheme]="colorScheme" 
+              [results]=" (service.data$ | async).type"
+              [gradient]="gradient"
+              [animations]="gradient"
+            (select)="onSelect($event.name,'type')"
+            >
             </ngx-charts-advanced-pie-chart>
-        </ng-container>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      </ng-container>
+      <ng-container *ngIf="(service.data$ | async).type">
+        <mat-grid-tile class="tile" colspan="6" rowspan="1">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title class="d-flex flex-wrap justify-content-between">
+                <p>Alerta por tipo</p>
+            </mat-card-title>
+            <mat-card-subtitle>{{service.type$ | async}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <ngx-charts-pie-grid
+            [view]="view2"
+            [scheme]="colorScheme"
+            [results]="(service.data$ | async).type"
+            (select)="onSelect($event.name,'type')">
+          </ngx-charts-pie-grid>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      </ng-container>
 
-        <ng-container *ngIf="(service.type$ | async) === 'charts gauge'">
+      <ng-container *ngIf="(service.data$ | async).createdByEmployee">
+        <mat-grid-tile class="tile" colspan="6" rowspan="1">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title class="d-flex flex-wrap justify-content-between">
+              <p>{{service.type$ | async | titlecase}} por solicitante</p>
+            </mat-card-title>
+            <mat-card-subtitle>{{service.type$ | async}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <ngx-charts-advanced-pie-chart
+              [view]="view2"
+              [scheme]="colorScheme" 
+              [results]="(service.data$ | async).createdByEmployee"
+              [gradient]="gradient"
+              [animations]="gradient"
+            (select)="onSelect($event.name,'createdByEmployee')"
+            >
+            </ngx-charts-advanced-pie-chart>
+          </mat-card-content>
+        </mat-card>
+  
+      </mat-grid-tile>
+      </ng-container>
+      <ng-container *ngIf="(service.data$ | async).city"
+      >
+      <mat-grid-tile class="tile" colspan="6" rowspan="1">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title class="d-flex flex-wrap justify-content-between">
+            <p>{{service.type$ | async | titlecase}} por solicitante</p>
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{service.type$ | async}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <ngx-charts-tree-map
+          [view]="view2"
+          [scheme]="colorScheme"
+          [results]="(service.data$ | async).city"
+          [gradient]="gradient"
+          [animations]="gradient"
+          (select)="onSelect($event.name,'city')">
+        </ngx-charts-tree-map>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    </ng-container>
 
-        <ngx-charts-gauge
+    <ng-container *ngIf="typeAndYear"
+    >
+    <mat-grid-tile class="tile" colspan="3" rowspan="1">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title class="d-flex flex-wrap justify-content-between">
+          <p>Tipo alerta / Cantidad Solicitudes x año</p>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{service.type$ | async}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <ngx-charts-bar-horizontal-normalized
         [view]="view"
         [scheme]="colorScheme"
-        [results]="single"
-        [legendPosition]="legendPosition"
-        (select)="onSelect($event)"
-        (activate)="onActivate($event)"
-        (deactivate)="onDeactivate($event)" [results]="service.data$ | async"
+        [results]="typeAndYear"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+            [legendPosition]="legendPosition"
+            [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        (select)="onSelectComplex($event)">
+      </ngx-charts-bar-horizontal-normalized>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+    </ng-container> 
+
+        <ng-container *ngIf="(service.data$ | async).state"
         >
-      </ngx-charts-gauge>
-        </ng-container>
-    <!-- 
-                <div class="col-body" style="margin-top: 3rem;">
-                    <ngx-charts-line-chart [view]="view3" [scheme]="colorScheme" [legend]="false"
-                        [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis"
-                        [yAxis]="yAxis" [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="multi"
-                        (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
-                    </ngx-charts-line-chart>
-                </div> -->
+        <mat-grid-tile class="tile" colspan="3" rowspan="1">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title class="d-flex flex-wrap justify-content-between">
+              <p>Alertas por estado</p>
+            </mat-card-title>
+            <mat-card-subtitle>
+              {{service.type$ | async}}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <ngx-charts-pie-chart
+            [view]="view"
+            [customColors]="barChartcustomColors"
+            [results]="(service.data$ | async).state"
+            [gradient]="gradient"
+            [legend]="showLegend"
+            [animations]="gradient"
+            [legendPosition]="legendPosition"
+            [labels]="showLabels"
+            [explodeSlices]="true"
+              (select)="onSelect($event.name,'state')"
+              [doughnut]="isDoughnut"
+          >
+          </ngx-charts-pie-chart>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+        </ng-container> 
+        <ng-container *ngIf="(service.data$ | async).alertName"
+        >
+        <mat-grid-tile class="tile" colspan="3" rowspan="1">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title class="d-flex flex-wrap justify-content-between">
+              <p>Alertas por nivel</p>
+            </mat-card-title>
+            <mat-card-subtitle>
+              {{service.type$ | async}}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <ngx-charts-pie-chart
+            [view]="view"
+            [customColors]="barChartcustomColors"
+            [results]="(service.data$ | async).alertName"
+            [gradient]="gradient"
+            [legend]="showLegend"
+            [animations]="gradient"
+            [legendPosition]="legendPosition"
+            [labels]="showLabels"
+            [explodeSlices]="true"
+              (select)="onSelect($event.name,'alertName')"
+              [doughnut]="true"
+          >
+          </ngx-charts-pie-chart>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+        </ng-container> 
+    </ng-template>
 
 
-            </mat-grid-tile>
-
-        </ng-template>
-
-</mat-grid-list>
+  
+    <!-- [xAxisTickFormatting] =  'formatingAxisX' -->
+    <!-- [yAxisTickFormatting]='formatingAxisX'> -->
+  </mat-grid-list
+  >
+  

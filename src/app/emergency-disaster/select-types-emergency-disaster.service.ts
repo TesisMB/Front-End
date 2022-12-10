@@ -1,14 +1,16 @@
-import { switchMap, delay, debounceTime, tap } from 'rxjs/operators';
+import { switchMap, delay, debounceTime, tap, map } from 'rxjs/operators';
 import { EmergencyDisaster } from './../models/emergencyDisaster';
-import { Observable, BehaviorSubject, of, Subject } from 'rxjs';
+import { Observable, BehaviorSubject, of, Subject, forkJoin } from 'rxjs';
 import { DataService } from 'src/app/services';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, Output, EventEmitter, PipeTransform } from '@angular/core';
 import { SortDirection } from '@angular/material/sort';
 import { SortColumn } from '../directives/sorteable.directive';
 import { DecimalPipe } from '@angular/common';
 import _ from 'lodash';
 import {compare, Operation } from 'fast-json-patch';
+import { environment } from 'src/environments/environment';
+import { ReportService } from '../services/_report.service/report.service';
 
 
 interface SearchResult{
@@ -22,6 +24,7 @@ interface State {
   searchTerm: string;
   sortColumn: SortColumn;
   sortDirection: SortDirection;
+  alertStatus? : string;
 }
 
   
@@ -40,8 +43,13 @@ function sort(emergencyDisaster: EmergencyDisaster[], column: SortColumn, direct
 
 
 
-function matches(emergencyDisaster: EmergencyDisaster, term: string, pipe: PipeTransform) {
-  return emergencyDisaster.typesEmergenciesDisasters.typeEmergencyDisasterName.includes(term)
+function matches(data: EmergencyDisaster, term: string, pipe: PipeTransform) {
+  return data.alertName?.toLowerCase().includes(term)
+  || data.city?.toLowerCase().includes(term)
+  || data.state?.toLowerCase().includes(term)
+  || data.type?.toLowerCase().includes(term)
+  || pipe.transform(data.emergencyDisasterID).includes(term)
+  || data.employeeName?.toLowerCase().includes(term);
 }
 
 
@@ -61,6 +69,7 @@ export class SelectTypesEmergencyDisasterService extends DataService{
   private selectTypes$: BehaviorSubject<number> = new BehaviorSubject<number>(8); 
 
   private emergencyDisaster$: BehaviorSubject<EmergencyDisaster[]> = new BehaviorSubject<EmergencyDisaster[]>([]); 
+  private _types$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]); 
   
   private status$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); 
   
@@ -79,10 +88,10 @@ export class SelectTypesEmergencyDisasterService extends DataService{
     pageSize: 4,
     searchTerm: '',
     sortColumn: '',
-    sortDirection: ''
+    sortDirection: '',
+    alertStatus: 'Activa'
   };
-  
-  constructor(http: HttpClient, private pipe: DecimalPipe) { 
+  constructor(http: HttpClient, private pipe: DecimalPipe, private reportService: ReportService) { 
     super(http, 'typesEmergenciesDisasters');
 
     this._search$.pipe(
@@ -96,13 +105,14 @@ export class SelectTypesEmergencyDisasterService extends DataService{
       this._total$.next(result.total);
     });
 
-    this._search$.next();
+    // this._search$.next();
   }
 
   get total$() { return this._total$.asObservable(); }
   get page() { return this._state.page; }
   get pageSize() { return this._state.pageSize; }
   get searchTerm() { return this._state.searchTerm; }
+  get alertStatus() { return this._state.alertStatus; }
   get loading$() { return this._loading$.asObservable(); }
 
   set page(page: number) { this._set({page}); }
@@ -110,13 +120,18 @@ export class SelectTypesEmergencyDisasterService extends DataService{
   set searchTerm(searchTerm: string) { this._set({searchTerm}); }
   set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
   set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
-  set loading(loading: boolean) { this._setLoading(loading); }
+  set alertStatus(alertStatus: string) { this._setAlertStatus({alertStatus}); }
+  set loading(value: boolean) {   this._loading$.next(value);  }
 
 
 
   private _set(patch: Partial<State>) {
     Object.assign(this._state, patch);
     this._search$.next();
+  }
+  private _setAlertStatus(patch: Partial<State>) {
+    Object.assign(this._state, patch);
+    // this._search$.next();
   }
 
 
@@ -148,11 +163,17 @@ private _setLoading(value: boolean){
   get  emergencyDisasterObservable$ (){
     return this.emergencyDisaster$.asObservable();
   }
-  
+  get  types$ (){
+    return this._types$.asObservable();
+  }
   get  emergencyDisasterObservableValue$ (){
     return this.emergencyDisaster$.value;
   }
 
+  set  emergencyDisasterObservableValue (alerts){
+    this.emergencyDisaster = alerts;
+    this.emergencyDisaster$.next(alerts);
+  }
 
   setEmergencyDisaster (emrgencyDisaster: EmergencyDisaster[]){
     this.emergencyDisaster$.next(emrgencyDisaster);
@@ -197,6 +218,7 @@ private _setLoading(value: boolean){
   public uploadTable(EmergencyDisaster: EmergencyDisaster[]) {
     this.emergencyDisaster = EmergencyDisaster;
     this.emergencyDisaster$.next(EmergencyDisaster);
+    console.log('Actualizadas las alertas de la tabla.');
     this._search$.next();
   }
   
@@ -204,22 +226,21 @@ private _setLoading(value: boolean){
   status(EmergencyDisasterClone: EmergencyDisaster[]){
     
     
-    if(this.status$.value){
-      EmergencyDisasterClone = EmergencyDisasterClone.filter(data => data.emergencyDisasterEndDate !== null)
-    }else if(!this.status$.value){
-      
-      EmergencyDisasterClone = EmergencyDisasterClone.filter(data => data.emergencyDisasterEndDate === null)
+    if(this._state.alertStatus){
+      EmergencyDisasterClone = EmergencyDisasterClone.filter(data => data.state === this._state.alertStatus)
     }
-    
     return  EmergencyDisasterClone;
     
   }
   
     private filterTypes(): Observable<SearchResult>{
   
-      const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
-  
-      let emergency = this.status(this.emergencyDisaster);
+      const {alertStatus,sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
+      var emergency = this.emergencyDisaster;
+
+      // if(alertStatus){
+      // emergency = this.emergencyDisaster.filter(data => data.state === this._state.alertStatus);
+      // }
       emergency = this.selectType(emergency)
   
   
@@ -228,6 +249,7 @@ private _setLoading(value: boolean){
       data = data.filter(employee => matches(employee, searchTerm, this.pipe));
 
       const total = data.length;
+
   
       data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
   
@@ -243,6 +265,48 @@ private _setLoading(value: boolean){
     
   }
 
+  getAllWithoutFilter(params?: string): Observable<any> {
+    
+    // this._loading$.next(true);
+  const  path : string  = "EmergenciesDisasters";
+    if(params){
+    const paramsObj = {
+      // userId: JSON.stringify(userId) || undefined,
+      limit: params || undefined
+    };
+    let parametro = new HttpParams({fromObject: paramsObj});
+    this.options.params = parametro;
+  }
+  // else {
+    return this.http.get<any>(environment.URL + path+'/WithoutFilter', this.options)
+      .pipe(
+        map(
+          alertas => {
+            let arrayTypes = [];
+            alertas.forEach(item =>{
+              // const types = {
+              //   id: item.typesEmergenciesDisasters.typeEmergencyDisasterID,
+              arrayTypes.push(item.typesEmergenciesDisasters.typeEmergencyDisasterName);
+              
+              // arrayTypes.push(types);
+            });
+            // arrayTypes.push("Todos");
+            arrayTypes = this.removeDuplicates(arrayTypes);
+            console.log('Array types => ',arrayTypes);
+            this.reportService.alertTypes = arrayTypes;
+            this.reportService.data = alertas;
+            this.emergencyDisaster = alertas;
+            this.emergencyDisaster$.next(alertas);
+            return alertas
+          }
+          ));
+    // return this.http.get<any>(environment.URL + path+'/WithoutFilter').pipe(map(alertas => {this.setEmergencyDisaster(alertas); return alertas}));
+
+  // }
+}
+removeDuplicates(arr) {
+  return [...new Set(arr)];
+}
 }
 
 

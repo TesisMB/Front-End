@@ -1,4 +1,4 @@
-import { Injectable, PipeTransform } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID, PipeTransform } from '@angular/core';
 import {
   Resource,
   ReportData,
@@ -15,11 +15,12 @@ import {
   filter,
 } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of, Subject, pipe } from 'rxjs';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe,formatDate } from '@angular/common';
 import * as moment from 'moment';
 import { SearchResult, State } from 'src/app/models';
 import { NavigationEnd, Router } from '@angular/router';
 import { isString } from 'lodash';
+import { notStrictEqual } from 'assert';
 
 
 
@@ -27,13 +28,22 @@ const compares = (v1: string | number | any, v2: string | number | any) =>
   v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 function formateDate(date, from, to?) {
   if(isString(date)){
-  const [day,month, year] = date.split('/');
-
-  console.log(month); // 👉️ "07"
-  console.log(day); // 👉️ "21"
-  console.log(year); // 👉️ "2024"
-
-  date = new Date(+year, +month - 1, +day);
+    if(!date.includes('/')){
+      date = new Date(date);
+      console.log('first Date',date); // 👉️ "07"
+      date = new Date( date.getFullYear(), date.getMonth(),  date.getDate());
+      console.log('Second Date ',date); // 👉️ "07"
+    } else {
+      console.log(date); // outputs 2020-05-02  
+      const [day,month, year] = date.split('/');
+      console.log(month); // 👉️ "07"
+      console.log(day); // 👉️ "21"
+      console.log(year); // 👉️ "2024"
+      date = new Date(+year, +month - 1, +day);
+    }
+  // let momentVariable = moment(date, 'DD/MM/YYYY');  
+  // let stringvalue = momentVariable.format('DD/MM/YYYY'); 
+// let curr = formatDate(date, 'DD/MM/YYYY' ,this.locale);
   }
   var isMoment: boolean = false;
   if(to && from){
@@ -79,6 +89,8 @@ export class ReportService {
   private _hasAvailability$ = new BehaviorSubject<boolean>(false);
   private _hasStatus$ = new BehaviorSubject<string>('');
   private _hasDonation$ = new BehaviorSubject<boolean>(false);
+  private _alertTypes$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]); 
+
   private _state: SearchReport = {
     searchPath: 'name',
     searchTerm: '',
@@ -86,9 +98,10 @@ export class ReportService {
     searchLocation: this.currentUser.estates.locationID,
     from: '',
     to: '',
-    searchAlertType: '',
+    alertStatus: 'Activa',
+    alertType:''
   };
-  constructor(private router: Router, private pipe?: DecimalPipe) {
+  constructor(private router: Router,@Inject(LOCALE_ID) public locale: string, private pipe?: DecimalPipe,) {
     this._search$
       .pipe(
         tap(() => this._loading$.next(true)),
@@ -118,8 +131,8 @@ export class ReportService {
           this.path = 'name';
         } else if (event.url.includes('emergencias')) {
           this.currentRoute = 'emergencias';
-          this._state.searchPath = 'alertName';
-          this.path = 'alertName';
+          this._state.searchPath = ['alertName','type','city','state'];
+          this.path = ['alertName','type','city','state'];
           this.datePath = 'emergencyDisasterStartDate';
         } else if (event.url.includes('solicitudes')) {
           this.currentRoute = 'solicitudes';
@@ -180,14 +193,27 @@ export class ReportService {
   get to() {
     return this._state.to;
   }
-  get searchAlertType() {
-    return this._state.searchAlertType;
+  get alertType() {
+    return this._state.alertType;
+  }
+  get alertStatus() {
+    return this._state.alertStatus;
+  }
+  get alertTypes$ (){
+    return this._alertTypes$.asObservable();
+  }
+
+  set alertTypes(types: string[]){
+    this._alertTypes$.next(types);
   }
   set searchLocation(searchLocation: number) {
     this._set({ searchLocation });
   }
-  set searchAlertType(searchAlertType: string) {
-    this._set({ searchAlertType });
+  set alertStatus(alertStatus: string) {
+    this._set({ alertStatus });
+  }
+  set alertType(alertType: string) {
+    this._set({ alertType });
   }
   set searchTerm(searchTerm: string) {
     this._set({ searchTerm });
@@ -225,6 +251,7 @@ export class ReportService {
   set hasDonation(value: boolean) {
     this._setDonation(value);
   }
+  
 
   private _set(patch: Partial<SearchReport>) {
     Object.assign(this._state, patch);
@@ -235,6 +262,7 @@ export class ReportService {
   }
   private _setData(data: any) {
     this._backUpData$.next(data);
+    console.log('Se seteo nueva data de backup');
     this._search$.next();
   }
   private _setLoading(value: boolean) {
@@ -268,7 +296,8 @@ export class ReportService {
     this._state.from = '';
     this._state.to = '';
     this._state.searchTerm = '';
-    this._state.searchAlertType = '';
+    this._state.alertStatus = 'Activa';
+    this._state.alertType = '';
     if(destroy){
       this._state.searchType = 'table';
       this._backUpData$.next([]);
@@ -299,6 +328,14 @@ export class ReportService {
       || data.locationDepartmentName?.toLowerCase().includes(term)
       || pipe.transform(data.id).includes(term);
     }
+    if(this.currentRoute === 'emergencias'){
+      dataSearch = data.alertName.toLowerCase().includes(term)
+                  || data.city.toLowerCase().includes(term)
+                  || data.state.toLowerCase().includes(term)
+                  || data.type.toLowerCase().includes(term)
+                  || pipe.transform(data.emergencyDisasterID).includes(term)
+                  || data.employeeName?.toLowerCase().includes(term);
+    }   
     return dataSearch
   }
 
@@ -307,7 +344,7 @@ export class ReportService {
     var data = {};
 
     //Estructuraciòn de datos en el caso de dashboard (multiples reportes)
-    if (Array.isArray(path)) {
+    if (Array.isArray(path) && !(path.includes('victims') || path.includes('recursos'))) {
       path.forEach((p) => {
         //Reduce en el caso de que sea deep object, solamente 1 nivel.
         if (p.includes('.')) {
@@ -415,7 +452,7 @@ export class ReportService {
   
 
   private _search(): Observable<SearchResult> {
-    const {searchAlertType, searchType, searchPath, searchTerm, searchLocation, from, to } =
+    const {alertType,alertStatus, searchType, searchPath, searchTerm, searchLocation, from, to } =
       this._state;
     var originalData: any;
     var total: number = 0;
@@ -448,11 +485,17 @@ export class ReportService {
         ? originalData.filter((data) => formateDate(data[this.datePath], from, to))
         : originalData;
     // 5. filtrado por busqueda.
-    // data = data.filter(data => matches(searchTerm, this.pipe, data));
+    originalData = originalData.filter(data => this.matches(searchTerm, this.pipe, data));
 
     // 5. filtrado por tipo alerta.
-    if(searchAlertType){
-      originalData = originalData.filter(data => this.matches(searchAlertType, this.pipe, data));
+    if(alertStatus && this.currentRoute === 'emergencias'){
+      originalData = originalData.filter(data => data.state == alertStatus);
+    }
+
+    if(alertType){
+      originalData = this.currentRoute === 'emergencias' 
+      ? originalData.filter(data => data.type === alertType)
+      :originalData.filter(data => data.typeEmergencyDisasterName === alertType);
     }
 
     // 6. Estructuración de datos.
@@ -473,7 +516,8 @@ export class ReportService {
       searchTerm,
       from,
       to,
-      searchAlertType
+      alertStatus,
+      alertType
     });
   }
 }

@@ -83,6 +83,10 @@ export interface EmergencyDisaster {
     }]
 
     victims: Victim;
+    alertName?: string;
+    city?: string;
+    state?: string;
+    type?: string;
 }
 
 export interface AlertsInput {

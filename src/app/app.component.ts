@@ -46,10 +46,13 @@ private _mobileQueryListener: () => void;
         
               hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
               
-              get isLogistica () {
+              get isCEyD() {
+                return this.currentUser.roleName === RoleName.CEyD;
+              }
+              get isLogistica() {
                 return this.currentUser.roleName === RoleName.Logistica;
-               }
-               get isRequest(){
+              }
+              get isRequest(){
                 const cart: Cart = JSON.parse(localStorage.getItem('cart'));
                 return cart ? cart.request.length : false;
               }
