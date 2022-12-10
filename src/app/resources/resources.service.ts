@@ -167,11 +167,12 @@ public _setResources(patch:Resource){
 
   }
 
-public changeStatusItem(id:string){
+public changeStatusItem(id:string, reason: string){
   let index = this.resources.findIndex( x => id == x.id);
   const clone = _.cloneDeep(this.resources[index]);
   //this.resources[index].availability = !this.resources[index].availability;
   this.resources[index].enabled = !this.resources[index].enabled;
+  this.resources[index].reason = reason;
   const patch = compare(clone , this.resources[index] );
   this._search$.next();
   return patch;

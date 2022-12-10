@@ -58,7 +58,7 @@
             color="warn"
             matTooltip="Filtros"
             class="m-2"
-            
+
           >
             <mat-icon>filter_alt</mat-icon>
           </button>
@@ -111,16 +111,16 @@
     <div class="mb-3 d-flex flex-row justify-content-between">
       <div class="pt-4 col-xs-3 col-sm-auto col-3 align-self-end">
   <form>
-  
+
         <div class="d-flex form-control align-items-center bd-highlight pr-3" id="search">
           <label for="col-4 table-filtering-search" class="pr-3 col-form-label">Busqueda</label>
           <input class="col-8 input-search" type="text" name="searchTerm" [(ngModel)]="service.searchTerm">
         </div>
     </form>
-  
+
       </div>
 
-      <div class="bd-highlight ml-3 col-xs-3 col-sm-auto col-3 align-self-end" *ngIf="(currentUser | async ).roleName !== 'Encargado de Logistica'">
+      <div class="bd-highlight ml-3 col-xs-3 col-sm-auto col-3 align-self-end" *ngIf="(currentUser | async ).roleName !== 'Enc. De logística'">
         <mat-slide-toggle color="warn" (change)="onShow($event)">Mostrar mis solicitudes</mat-slide-toggle>
       </div>
       </div>

@@ -16,6 +16,7 @@
   FK_RoleID: number;
   FK_EstateID: number;
   avatar: string;
+  reason: string;
  }
 
  export interface UserRequest {

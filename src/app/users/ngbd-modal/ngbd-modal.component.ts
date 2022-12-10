@@ -41,7 +41,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   loading = false;
   canReset: boolean = true;
   form: FormGroup;
-  
+
   updateHandler: any;
   deleteHandler: any;
   formHandler: any;
@@ -64,19 +64,19 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     private stateService: StatesService,
     private authenticationService: AuthenticationService ) {
     }
-  
+
     @Input() user: User = null;
 
-    
+
   ngOnInit() {
 
     //elimino el valor Voluntario y Admin y deshabilito la opcion de resetear password.
-    
-    if(this.user.roleName=='Admin'){ 
+
+    if(this.user.roleName=='Admin'){
       //this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !=='Voluntario');
       this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !== 'Voluntario');
       this.canReset = true;
-    }  
+    }
     else if(this.user.roleName=='Voluntario'){
       this.roles = this.userService.listarRoles.filter(roles => roles.RoleName === 'Voluntario');
       this.canReset = true;
@@ -107,7 +107,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // agrego los horarios al formArray
     this.user.estates.estatesTimes.forEach(times => staffs.push(this.userService._employeeForm.group(times)));
-    
+
     //clono al usuario original
     this.model = _.cloneDeep(this.user);
 
@@ -132,7 +132,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.authenticationService.currentUserValue.roleName ===  'Admin';
   }
   get isCGeneral(){
-    return  this.authenticationService.currentUserValue.roleName ===  'Coordinador General';
+    return  this.authenticationService.currentUserValue.roleName ===  'Coord. General';
   }
 
   get isNotVolunteer(){
@@ -176,7 +176,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     (this.user.persons.status) ?  this.user.userAvailability = true : this.user.userAvailability = false;
     (this.user.persons.status) ? this.f.get('userAvailability').setValue(true) : this.f.get('userAvailability').setValue(false);
 
-    
+
     this.loading = true;
 
     //Compara los cambios realizados del modelo clonado al principio
@@ -187,7 +187,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     //Subscripcion que captura todos los cambios realizados en el formulario
     // y los guarda en el usuario
     this.formHandler = this.f.valueChanges
-    .subscribe((change: User) => 
+    .subscribe((change: User) =>
       {
       this.user = change;
     },
@@ -202,17 +202,17 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onNoClick(): void {
     // this.dialogRef.close();
-  } 
+  }
   onClick(){
     //metodo que habilita y deshabilita el formulario, se ejecuta al clickear en el boton Actualizar Datos
     (this.form.disabled)?this.form.enable():this.form.disable();
-    // if(this.user.roleName ==='Voluntario'){    
+    // if(this.user.roleName ==='Voluntario'){
     //   this.f.controls['roleName'].disable();
       // }
   }
 
   private updateUser(patch) {
-    
+
     this.updateHandler =  this.userService.userUpdate(this.user.userID, patch, this.user )
           .pipe()
           .subscribe(
@@ -229,15 +229,15 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
               });
   }
 
-  changeStatus(reason: string){  
+  changeStatus(reason: string){
     this.loading = true;
     //Se abre el modal de confirmacion.
     const modalRef = this.modalService.open(ConfirmModalComponent);
     modalRef.componentInstance.user = this.model;
     modalRef.componentInstance.action = reason;
-  
+
     modalRef.result.then(
-      ()=> {
+      (x)=> {
         if (reason ==='Eliminar'){
             this.deleteUser(this.model.userID);
   }
@@ -245,22 +245,26 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     (this.model.userAvailability) ? this.f.get('userAvailability').setValue(false) : this.f.get('userAvailability').setValue(true);
 
     // if(this.model.userAvailability === false){
-    //  this.f.get('userAvailability').setValue(false) 
+    //  this.f.get('userAvailability').setValue(false)
     //   this.f.get('persons.status').setValue(false)
     // }else{
-    //   this.f.get('userAvailability').setValue(true) 
+    //   this.f.get('userAvailability').setValue(true)
     //   this.f.get('persons.status').setValue(true)
-    // } 
+    // }
+    if(x){
+      this.user.reason = x;
+     this.f.get('reason').setValue(x);
+    }
 
     (this.user.userAvailability) ?  this.user.persons.status = true : this.user.persons.status = false;
     (this.user.userAvailability) ? this.f.get('persons.status').setValue(true) : this.f.get('persons.status').setValue(false);
 
       this.patch();
   }},
-    cancel =>{ 
+    cancel =>{
       this.loading = false;
       console.log('Acción cancelada con: ' + cancel);
-    }); 
+    });
   }
 
   patch(){
@@ -279,7 +283,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
     patch = patch.filter( obj => obj.path !== "/resourcesRequestReports");
     patch = patch.filter( obj => obj.path !== "/estates/locationAddress");
     patch = patch.filter(obj=> obj.path !== '/estates/locationID');
-    
+
     console.log(patch);
     (patch.length !== 0) ? this.updateUser(patch) : this.loading = false;
   }
@@ -302,17 +306,17 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     //*************REFACTORIZAR ************/
-  generatePDF(role){ 
+  generatePDF(role){
     if(role == true){
       this.generateEmployeePDF();
     }else{
       this.generateVolunteerPDF();
     }
   }
-  
+
     //*************REFACTORIZAR ************/
 
-  generateEmployeePDF(){  
+  generateEmployeePDF(){
      //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
      let fileName = `${this.user.persons.firstName} ${this.user.persons.lastName}`;
      this.userService.generatePDF(this.user.userID).subscribe(res => {
@@ -325,7 +329,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
         //*************REFACTORIZAR ************/
 
- generateVolunteerPDF(){ 
+ generateVolunteerPDF(){
 
   //let fileName = `${this.user.users.persons.firstName} ${this.user.users.persons.lastName}`;
     //let fileName = `${this.currentUser.persons.firstName} ${this.currentUser.persons.lastName}`;
@@ -340,7 +344,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
 
-  
+
   resetPassword(){
     const e = {email: this.user.persons.email}
     this.resetHandler = this.authenticationService.sendEmail(e)
@@ -355,7 +359,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
    private getLocations(){
      this.stateService.getAll()
-     .pipe(map(x => 
+     .pipe(map(x =>
      x.filter( estates => this.user.estates.locationCityName == estates.locationCityName)))
      .subscribe(
        data => {
@@ -365,7 +369,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
          });
          console.log(data);
          console.log(this.estates);
-  
+
        },
        error => {
          console.log(error);

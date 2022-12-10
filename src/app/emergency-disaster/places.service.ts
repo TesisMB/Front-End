@@ -79,7 +79,6 @@ set alertLocation(coords){
             reject();
           }
       );
-
     });
   }
 

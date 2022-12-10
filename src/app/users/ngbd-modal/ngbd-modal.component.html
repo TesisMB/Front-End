@@ -27,7 +27,7 @@
           *ngIf="user.roleName !== 'Voluntario'">
           <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
         </button>
-      
+
         <button type="button" class="btn btn-options  btn-sm" disabled (click)="generatePDF(isVolunteer)"
           *ngIf="user.roleName === 'Voluntario'">
           <mat-icon class="icon">picture_as_pdf</mat-icon><span class="option-text">Descargar datos</span>
@@ -85,7 +85,7 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
 
-        <!-- <mat-tab label="Información personal"> 
+        <!-- <mat-tab label="Información personal">
         <div class="personal col-sm">
           <ng-container formGroupName="persons">
             <div class="form-row">
@@ -93,11 +93,11 @@
                 <label for="firstName" class="first"><strong class="info">Nombre</strong></label>
                 <input type="text" formControlName="firstName" required name="firstName" id="firstName"
                   class="form-control" [ngClass]="{ 'is-invalid': submitted && f.get('persons.firstName').errors }">
-  
+
                 <div *ngIf="submitted && f.get('persons.firstName').errors" class="invalid-feedback">
                   <div *ngIf="f.get('persons.firstName').errors.required"><small>*Campo requerido</small> </div>
                   <div *ngIf="f.get('persons.firstName').errors.pattern"><small>*Nombre invalido</small> </div>
-  
+
                 </div>
               </div>
 
@@ -108,23 +108,23 @@
                 <div *ngIf="submitted && f.get('persons.lastName').errors" class="invalid-feedback">
                   <div *ngIf="f.get('persons.lastName').errors.required"><small>*Campo requerido</small></div>
                   <div *ngIf="f.get('persons.lastName').errors.pattern"><small>*Apellido invalido</small> </div>
-  
+
                 </div>
               </div>
-              
+
               <div class="form-group col-2">
                 <label for="dni" class="first"><strong class="info">Documento</strong></label>
                 <p readonly class="form-control">{{user.userDni}}</p>
               </div>
             </div>
-  
+
             <div class="form-row">
             </div>
           </ng-container>
           <div class="form-row">
           </div>
-  
-  
+
+
           <ng-container formGroupName="persons">
             <div class="form-row">
               <div class="form-group col">
@@ -140,22 +140,22 @@
                 </div>
               </div>
             </div>
-  
+
             <div class="form-row">
               <div class="form-group col">
                 <label for="birthdate" class="first"><strong class="info">Fecha de nacimiento</strong></label>
                 <input type="datetime" formControlName="birthdate" readonly required name="birthdate" id="birthdate"
                   class="form-control" [ngModel]="user.persons.birthdate"
                   [ngClass]="{ 'is-invalid': submitted && f.get('persons.birthdate').errors }">
-  
+
                 <div *ngIf="submitted && f.get('persons.birthdate').errors" class="invalid-feedback">
                   <div *ngIf="f.get('persons.birthdate').errors.required"><small>*Campo requerido</small></div>
                 </div>
               </div>
             </div>
           </ng-container>
-  
-        </div>  
+
+        </div>
       </mat-tab> -->
         <!-- Informacion de contacto -->
 
@@ -252,7 +252,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="legacy" formGroupName="estates">
-              <mat-label>Ciudad</mat-label>
+              <mat-label>Ubicación</mat-label>
               <mat-select formControlName="locationCityName" name="FK_EstateID">
                 <!-- [required]="!isEdit" -->
 
@@ -275,10 +275,10 @@
       <div class="form-group col-6">
 
         <mat-form-field appearance="legacy" formGroupName="estates">
-          <mat-label>Ciudad</mat-label>
+          <mat-label>Ubicación</mat-label>
           <mat-select formControlName="locationCityName" name="FK_EstateID">
             <!-- [required]="!isEdit" -->
-    
+
             <mat-option *ngFor="let locations of locations" [value]="locations.locationCityName">
               {{locations.locationCityName | titlecase}}
             </mat-option>
@@ -341,9 +341,9 @@
       </div>
     <input type="time" formControlName="startTime" class="form-control info">
     <input type="time" formControlName="endTime" class="form-control info">
-    
+
   </div>
-  </div> 
+  </div>
 </div> -->
 
                     <!-- ************************ FIN - Form Array ***************** -->

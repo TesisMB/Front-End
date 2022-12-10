@@ -67,7 +67,7 @@ export class NgbdEditDialogComponent implements OnInit {
     //this.emergencyDisaster.resources_Requests.forEach(times => resourcesRequests.push(this.fb.group(times)));
 
 
-    
+
 /*     const emergency = {
           emergencyDisasterID: this.emergencyDisaster.emergencyDisasterID,
           emergencyDisasterInstruction: this.emergencyDisaster.emergencyDisasterInstruction,
@@ -76,21 +76,24 @@ export class NgbdEditDialogComponent implements OnInit {
           victims: this.emergencyDisaster.victims
     }; */
 
-  
+
     let employee =  this.emergencyDisaster.fk_EmplooyeeID;
     this.EmplooyeeID.patchValue(employee);
 
-    
+
     let id = this.alerts.find(alertDegree => alertDegree.alertID === this.emergencyDisaster.alerts.alertID);
     this.emergencyDisaster.alerts.alertID = id.alertID;
+    // this.emergencyDisaster.FK_AlertID = id.alertID;
     this.alertID.patchValue(id.alertID);
 
 
 
 
-  
+
     this.emergencyDisasterForm.patchValue(this.emergencyDisaster);
     this.model = _.cloneDeep(this.emergencyDisaster);
+
+    console.log("MODELO!!! ", this.model);
     //this.cloneForm = this.emergencyDisasterForm.value;
 
     if(this.tipo === 'Finalizar' ){
@@ -142,7 +145,7 @@ setRole(){
     }
     else{
       return '#D5F5E3';
-  
+
       }
   }
 
@@ -151,7 +154,7 @@ setRole(){
     this.dialogRef.close();
   }
 
-  
+
 
   status(tipo: string){
     if(tipo === 'Editar'){
@@ -192,8 +195,8 @@ setRole(){
       patch = patch.filter( obj => obj.path !== "/chatRooms/usersChatRooms");
       patch = patch.filter( obj => obj.path !== "/chatRooms/messages");
       patch = patch.filter( obj => obj.path !== "/chatRooms/dateMessage");
-      
-      
+
+
       patch = patch.filter( obj => obj.path !== "/employees");
       patch = patch.filter( obj => obj.path !== "/resources_Requests");
       patch = patch.filter( obj => obj.path !== "/resources_RequestResources_Materials_Medicines_Vehicles");
@@ -202,8 +205,8 @@ setRole(){
       patch = patch.filter( obj => obj.path !== "/typesEmergenciesDisasters/typeEmergencyDisasterDescription");
       patch = patch.filter( obj => obj.path !== "/chatRooms/usersChatRooms/0");
       patch = patch.filter( obj => obj.path !== "/resources_Requests/0");
-      
-    
+
+
       console.log("Patch =>", patch);
 
    /*    let alert = (this.alerts.find(alertDegree => alertDegree.alertDegree === this.alertName.value));
@@ -211,7 +214,7 @@ setRole(){
       this.alertID.patchValue(alert.alertID);
 
      let employee =  (this.user.find(user => user.employeeID == this.EmplooyeeID.value));
-      this.emergencyDisaster.employees.employeeID = employee.employeeID; 
+      this.emergencyDisaster.employees.employeeID = employee.employeeID;
       this.EmplooyeeID.patchValue(employee.employeeID); */
 
       this.patch(patch);
@@ -305,7 +308,7 @@ setRole(){
         this.fb.group({
         id: [],
         fk_Resource_RequestID: [],
-    
+
         materials: [],
         medicines: [],
         vehicles: []
@@ -319,7 +322,7 @@ setRole(){
     this.userService.getAll().subscribe(data => {
       this.user = data;
 
-      this.user = this.user.filter(a => a.roleName == "Coord. de Emergencias");
+      this.user = this.user.filter(a => a.roleName == "Coord. De Gestión de Riesgo");
     }, error =>{
       console.log(error);
     })
@@ -329,7 +332,7 @@ setRole(){
   patch(value){
     this.emergencyDisasterService.patchEmergencyDisaster(this.emergencyDisaster, value).subscribe(data =>{
       this.alertService.success('Actualizado correctamente :)', { autoClose: true });
-      
+
       this.selectTypesEmergencyDisasterService._setEmployee(this.emergencyDisasterForm.value);
 
       this.model = _.cloneDeep(this.emergencyDisaster);

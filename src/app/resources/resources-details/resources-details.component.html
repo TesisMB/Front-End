@@ -5,8 +5,8 @@
     </div>
     <div class="col-4">
       <h1 class="title">
-      <span *ngIf="!item.volunteers">Detalle del producto</span>  
-      <span *ngIf="item.volunteers">Perfil de {{item.name | titlecase}}</span>  
+      <span *ngIf="!item.volunteers">Detalle del producto</span>
+      <span *ngIf="item.volunteers">Perfil de {{item.name | titlecase}}</span>
       </h1>
     </div>
 
@@ -21,7 +21,7 @@
       </button>
 
       <button mat-raised-button color="warn"
-       *ngIf="type == 'voluntarios' && item" 
+       *ngIf="type == 'voluntarios' && item"
        (click)="openModal('employee', item.id)" >
         Modificar información
       </button>
@@ -40,10 +40,16 @@
 
         <div class="stock">
           <ng-container *ngIf="!item.volunteers && !item.vehicles">
-            <div class="btn btn-sm" type="button" [ngClass]="[checkStock ?  'btn-danger' : 'btn-success']">
+            <div class="btn btn-sm" type="button" *ngIf="item.enabled"
+            [ngClass]="[checkStock ?  'btn-danger' : 'btn-success']">
               <span id="stock" *ngIf="!checkStock">Stock disponible</span>
               <span id="stock" *ngIf="checkStock">Sin stock</span>
             </div>
+
+            <div class="btn btn-sm btn-danger" type="button" *ngIf="!item.enabled">
+              <span id="stock">Deshabilitado</span>
+            </div>
+
             <span style="font-size: 13px;" class="text-muted pt-2">Cantidad total: {{item.quantity}}</span>
           </ng-container>
 
@@ -89,9 +95,9 @@
           </ng-template>
 
         </div> -->
-        <div class="descripcion">
+        <div class="descripcion" *ngIf="!item.reason">
           <span>
-            <h3 class="title">Descripción</h3>
+            <h3 class="title" >Descripción</h3>
           </span>
           <ng-container *ngIf="item.description; then hasDescription else notDescription"></ng-container>
           <ng-template #hasDescription>
@@ -101,6 +107,32 @@
             <p class="p-3 text-center">No hay descripción</p>
           </ng-template>
         </div>
+
+        <!-- <div *ngIf="!item.volunteers">
+
+          <div class="descripcion" *ngIf="item.enabled">
+            <span>
+              <h3 class="title" >Descripción</h3>
+            </span>
+            <ng-container *ngIf="item.description; then hasDescription else notDescription"></ng-container>
+            <ng-template #hasDescription>
+              <p class="p-3 text-justify">{{item.description}}</p>
+            </ng-template>
+            <ng-template #notDescription>
+            <p class="p-3 text-center">No hay descripción</p>
+          </ng-template>
+        </div> -->
+
+        <div class="descripcion" *ngIf="item.reason">
+          <span>
+            <h3 class="title" >Razón</h3>
+          </span>
+          <p class="p-3 text-justify">{{item.reason}}</p>
+        </div>
+   <!-- </div> -->
+
+
+
       </aside>
     </section>
     <section class="center row">

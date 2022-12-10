@@ -4,15 +4,15 @@ export class Role {
 constructor(_roleID: number, _RoleName:RoleName){
   this.roleID = _roleID;
   this.RoleName = _RoleName;
-}  
+}
 }
 
 
 export enum RoleName {
   Admin = 'Admin',
-  CoordinadorGeneral = 'Coordinador General',
-  CEyD = 'Coord. de Emergencias',
-  Logistica = 'Encargado de Logistica',
+  CoordinadorGeneral = 'Coord. General',
+  CEyD = 'Coord. De Gestión de Riesgo',
+  Logistica = 'Enc. De logística',
   Voluntario = 'Voluntario' ,
 }
 

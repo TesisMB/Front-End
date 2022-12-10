@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./resource-modal.component.css']
 })
 export class ResourceModalComponent implements OnInit, OnDestroy {
-@Input() show: boolean; 
+@Input() show: boolean;
 @Input() resources: RequestGet;
 status: boolean = false;
 form: FormGroup;
@@ -45,7 +45,7 @@ handleDelete: Subscription;
     this.form.get('reason').patchValue(this.resources.reason);
   }
   }
-  get isLogistica(){return this.authService.currentUserValue.roleName == 'Encargado de Logistica';}
+  get isLogistica(){return this.authService.currentUserValue.roleName == 'Enc. De logística';}
   get f(){ return this.form.controls}
   get reasonError(){return this.form.get('reason').getError('required');}
   get getCondition(){return this.resources.condition === 'Pendiente';}
@@ -67,14 +67,14 @@ handleDelete: Subscription;
         this.alertService.success(`Petición ${this.resources.condition.toLowerCase()} con exito!`, {autoClose: true});
 
       },
-      error => { 
+      error => {
         if(error == 'Internal server error'){
         this.alertService.error('Ups! Ha ocurrido un error, vuelva a intentarlo mas tarde.', {autoClose: true});
       }
       else{
         this.alertService.error(error.message, {autoClose: true});
       }});
-    
+
     this.modal.close();
    }
    else{

@@ -34,11 +34,12 @@ export class SearchBarComponent implements OnInit {
     });
   }
 
+  //ACA ESTA
   getMensaje2(e){
     this.place = e;
     console.log("vacio!!! ", e);
+    this.mapService.deletePlaces();
     this.mapService.deletePlace();
-    //this.mapService.deletePlaces();
   }
 
   getMensaje(e){
@@ -47,6 +48,10 @@ export class SearchBarComponent implements OnInit {
   }
 
   onQueryChange(query: string = ''){
+    if(query === ''){
+      this.placesService.setPlace(null);
+    }
+
 
     if(this.debounceTimer) clearTimeout(this.debounceTimer);
 

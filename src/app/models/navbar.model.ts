@@ -6,15 +6,15 @@ export interface FoodNode {
     role: any[],
     disabled?: boolean
   }
-  
-  
-  
+
+
+
   export interface Notifications{
     hasNotifications: boolean,
     number: number
   }
  export interface Notifys{
-   
+
         id: number,
         message: string,
         state: boolean,
@@ -44,31 +44,31 @@ export interface FoodNode {
       url: null
     }
   ];
-  
+
   export const TREE_DATA: FoodNode[] = [
     {
       name: 'Inicio',
       patch:'/',
       icon:'fas fa-home' ,
-      role:['Admin','Coordinador General','Coord. de Emergencias', 'Encargado de Logistica']
+      role:['Admin','Coord. General','Coord. De Gestión de Riesgo', 'Enc. De logística']
     },
     {
       name: 'Usuarios',
       patch:'empleados',
       icon:'fas fa-users' ,
-      role:['Admin','Coordinador General', ,'Coord. de Emergencias'],
+      role:['Admin','Coord. General', ,'Coord. De Gestión de Riesgo'],
       disabled: true,
       children: [
         {name: 'Lista de usuarios',
         patch:'/empleados',
         icon:'fas fa-user-plus',
-        role:['Admin','Coordinador General']
+        role:['Admin','Coord. General']
       },
       {
         name: 'Lista de voluntarios',
         patch:'/recursos/lista/voluntarios',
         icon:'fas fa-hands-helping',
-        role:['Admin','Coordinador General','Coord. de Emergencias']
+        role:['Admin','Coord. General','Coord. De Gestión de Riesgo']
       }
     ]
     },
@@ -76,25 +76,25 @@ export interface FoodNode {
       name: 'Gestión de recursos',
       patch: 'recursos',
       icon:'fas fa-first-aid',
-      role:['Admin','Coordinador General','Encargado de Logistica','Coord. de Emergencias'],
+      role:['Admin','Coord. General','Enc. De logística','Coord. De Gestión de Riesgo'],
       children: [
         {
           name: 'Medicamentos',
           patch:'/recursos/lista/medicamentos',
           icon:'fas fa-capsules',
-          role:['Admin','Coordinador General','Encargado de Logistica','Coord. de Emergencias']
+          role:['Admin','Coord. General','Enc. De logística','Coord. De Gestión de Riesgo']
         },
         {
           name: 'Materiales',
           patch:'/recursos/lista/materiales',
           icon:'fas fa-thermometer',
-          role:['Admin','Coordinador General','Encargado de Logistica','Coord. de Emergencias']
+          role:['Admin','Coord. General','Enc. De logística','Coord. De Gestión de Riesgo']
         },
         {
           name: 'Vehiculos',
           patch:'/recursos/lista/vehiculos',
           icon:'fas fa-ambulance',
-          role:['Admin','Coordinador General','Encargado de Logistica','Coord. de Emergencias']
+          role:['Admin','Coord. General','Enc. De logística','Coord. De Gestión de Riesgo']
         },
       ]
     },
@@ -102,38 +102,38 @@ export interface FoodNode {
       name: 'Stock',
       patch:'/recursos/stock',
       icon:'fas fa-list-alt',
-      role:['Admin','Coordinador General','Encargado de Logistica']
+      role:['Admin','Coord. General','Enc. De logística']
     },
     {
       name: 'Solicitudes',
       patch:'/recursos/solicitudes',
       icon:'fas fa-clipboard-list' ,
-      role:['Admin','Coordinador General','Encargado de Logistica']
+      role:['Admin','Coord. General','Enc. De logística']
     },
     // {
     //   name: 'Historial de solicitudes',
     //   patch:'/recursos/historial',
     //   icon:'fas fa-clipboard-list' ,
-    //   role:['Admin','Coordinador General','Encargado de Logistica']
+    //   role:['Admin','Coord. General','Enc. De logística']
     // },
     {
       name: 'Alertas',
       patch:'/emergencias',
       icon:'fas fa-briefcase-medical' ,
-      role:['Admin','Coordinador General','Coord. de Emergencias'],
+      role:['Admin','Coord. General','Coord. De Gestión de Riesgo'],
     },
     // {
     //   name: 'Reportes',
     //   patch:'/reportes',
     //   icon:'fas fa-chart-pie' ,
     //   disabled: false,
-    //   role:['Admin','Coordinador General']
+    //   role:['Admin','Coord. General']
     // },
     {
       name: 'Monitoreo',
       patch:'/monitoreo',
       icon:'fas fa-tv' ,
       disabled: false,
-      role:['Admin','Coordinador General','Coord. de Emergencias','Encargado de Logistica']
+      role:['Admin','Coord. General','Coord. De Gestión de Riesgo','Enc. De logística']
     },
 ];

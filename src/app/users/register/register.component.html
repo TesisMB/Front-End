@@ -67,7 +67,7 @@
             <br />
             <mat-grid-tile>
               <mat-form-field appearance="outline">
-                <mat-label>Ciudad</mat-label>
+                <mat-label>Ubicación</mat-label>
                 <input
                   matInput
                   placeholder="Ex. Córdoba"
@@ -75,7 +75,7 @@
                   required
                 />
                 <mat-error *ngIf="formPerson.get('locationName').hasError('required')">
-                  La ciudad es <strong>requerida</strong>
+                  La Ubicación es <strong>requerida</strong>
                 </mat-error>
                 <mat-error
                 *ngIf="formPerson.get('locationName').hasError('maxlength') &&
@@ -270,14 +270,14 @@
             <mat-grid-tile>
               <mat-form-field appearance="outline">
 
-                  <mat-label>Ciudad</mat-label>
+                  <mat-label>Ubicación</mat-label>
                   <mat-select [formControl]="formUser.get('FK_LocationID')" name="FK_LocationID">
                     <mat-option *ngFor="let location of locations" [value]="location.locationID" required>
                       {{location.locationCityName}}
                     </mat-option>
                   </mat-select>
                   <mat-error *ngIf="formUser.get('FK_LocationID').hasError('required')">
-                   La ciudad es <strong>requerida</strong>
+                   La Ubicación es <strong>requerida</strong>
                   </mat-error>
                 </mat-form-field>
               </mat-grid-tile>

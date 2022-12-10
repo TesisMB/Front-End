@@ -3,7 +3,7 @@ import { SignalRService } from './../../services/_signal-r.service/signal-r.serv
 import { Component, OnInit, Output, OnDestroy } from '@angular/core';
 import { AuthenticationService } from 'src/app/services';
 import { RoleName, User } from 'src/app/models';
-const ROLES_AUTORIZADOS = ['Encargado de Logistica', 'Coordinador General', 'Admin', 'Coord. de Emergencias'];
+const ROLES_AUTORIZADOS = ['Enc. De logística', 'Coord. General', 'Admin', 'Coord. De Gestión de Riesgo'];
 
 @Component({
   selector: 'home',

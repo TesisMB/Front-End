@@ -65,6 +65,7 @@ return this._employeeForm.group({
       createdate: [],
       userAvailability: [{},[Validators.required]],
       userID: [{},[Validators.required]],
+      reason: [],
       FK_EstateID: [],
     });
 }

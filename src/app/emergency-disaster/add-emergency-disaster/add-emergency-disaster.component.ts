@@ -140,7 +140,7 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
   getUser(){
     this.subscriber2 = this.userService.getAll().subscribe(data => {
       this.user = data;
-      this.user = this.user.filter(a => a.roleName == "Coord. de Emergencias");
+      this.user = this.user.filter(a => a.roleName == "Coord. De Gestión de Riesgo");
     }, error =>{
       console.log(error);
     })
@@ -174,7 +174,12 @@ export class AddEmergencyDisasterComponent implements OnInit, OnDestroy {
 
     this.subscriber3 = this.placesService.placeSubject$.subscribe(resp => {
       if(resp){
+
         this.getLocation(resp);
+      }else{
+        this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationLongitude').patchValue(null);
+        this.addEmergencyDisaster.get('locationsEmergenciesDisasters.LocationLatitude').patchValue(null);
+        this.addEmergencyDisaster.get('locationsEmergenciesDisasters.locationCityName').patchValue(null);
       }
     }, err => {
       console.log(err);

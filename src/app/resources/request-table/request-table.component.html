@@ -5,9 +5,9 @@
     <tr>
       <!-- <th scope="col">#</th> -->
       <th scope="col">#Legajo</th>
-      <th scope="col">Numero de emergencia</th>
-      <th scope="col">Tipo de emergencia</th>
-      <th scope="col">Ciudad</th>
+      <th scope="col">Número de alerta</th>
+      <th scope="col">Tipo de alerta</th>
+      <th scope="col">Ubicación</th>
       <th scope="col">Estado</th>
       <th scope="col">Solicitante</th>
       <th scope="col">Encargado</th>
@@ -77,8 +77,8 @@
   </ngb-pagination>
 
   <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-    <option [ngValue]="2">2 items per page</option>
-    <option [ngValue]="4">4 items per page</option>
-    <option [ngValue]="6">6 items per page</option>
+    <option [ngValue]="2">2 items por página</option>
+    <option [ngValue]="4">4 items por página</option>
+    <option [ngValue]="6">6 items por página</option>
   </select>
 </div>

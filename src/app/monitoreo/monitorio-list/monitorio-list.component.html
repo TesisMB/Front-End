@@ -8,10 +8,10 @@
             </span>
     </div>
       <mat-card-title style="width: inherit;"><h2>Monitoreo</h2></mat-card-title>
-        <div class="d-flex justify-content-end align-items-start"> 
+        <div class="d-flex justify-content-end align-items-start">
         <div class="example-header-image pl-3">
         <button mat-icon-button [routerLink]="['monitoreo']">
-           <mat-icon>chevron_right</mat-icon> 
+           <mat-icon>chevron_right</mat-icon>
             </button>
     </div>
   </div> -->
@@ -42,7 +42,7 @@
 
         <!-- Anda mal - modificar -->
         <mat-grid-tile colspan="1" rowspan="2">
-          <button *ngIf="!(currentUser$ | async).roleName.includes('Encargado de Logistica')" mat-icon-button [matMenuTriggerFor]="menu">
+          <button *ngIf="!(currentUser$ | async).roleName.includes('Enc. De logística')" mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
         </mat-grid-tile>

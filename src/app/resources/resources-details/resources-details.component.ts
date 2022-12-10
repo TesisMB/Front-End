@@ -70,7 +70,7 @@ export class ResourcesDetails implements OnInit {
     get f(){ return this.form.controls;}
     get checkEnabled(){return !this.item.enabled || !this.item.availability || (this.item.quantity <= 0 && this.item.quantity != null);}
     get checkStock(){ return (!this.item.availability || !this.item.enabled || (this.item.quantity <= 0 && this.item.quantity != null));}
-    get isLogistica(){return this.authenticationService.currentUserValue.roleName === 'Encargado de Logistica'}
+    get isLogistica(){return this.authenticationService.currentUserValue.roleName === 'Enc. De logística'}
     getParams() {
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
