@@ -190,7 +190,7 @@
 font-size: 40px;
 }
     #perfil {
-      
+
       display: flex;
       align-items: center;
        /* width: 320px; */
@@ -199,7 +199,7 @@ font-size: 40px;
       display: flex;
       justify-content: center;
       margin-right: 1rem
-      
+
     }
 .name, .role{
   font-size: 14px;
@@ -245,7 +245,7 @@ font-size: 40px;
     }
 
     .title {
-      margin: 0 10px;
+      margin: 0 !important;
     }
 
     .dos {
