@@ -99,11 +99,11 @@
 
                   <div class="layer">
                     <div class="hov">
-                      <p *ngIf = "!item.reason">
+                      <p *ngIf = "!item.reason && !item.enabled">
                         {{ item.description }}
                       </p>
 
-                      <p *ngIf = "item.reason">
+                      <p *ngIf = "item.reason && item.enabled">
                         {{item.reason}}
                       </p>
 

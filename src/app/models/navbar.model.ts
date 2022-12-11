@@ -129,11 +129,11 @@ export interface FoodNode {
     //   disabled: false,
     //   role:['Admin','Coord. General']
     // },
-    {
-      name: 'Monitoreo',
-      patch:'/monitoreo',
-      icon:'fas fa-tv' ,
-      disabled: false,
-      role:['Admin','Coord. General','Coord. De Gestión de Riesgo','Enc. De logística']
-    },
+    // {
+    //   name: 'Monitoreo',
+    //   patch:'/monitoreo',
+    //   icon:'fas fa-tv' ,
+    //   disabled: false,
+    //   role:['Admin','Coord. General','Coord. De Gestión de Riesgo','Enc. De logística']
+    // },
 ];

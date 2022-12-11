@@ -74,9 +74,9 @@ export class LoginComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                  this.alertService.errorForEmployee(error);
-                  //this.alertService.error('Ha ingresado el usuario o la contraseña incorrectamente');
+                  this.alertService.error('Ha ingresado el usuario o la contraseña incorrectamente');
                   this.loading = false;
+                  this.alertService.errorForEmployee(error);
                 });
     }
 

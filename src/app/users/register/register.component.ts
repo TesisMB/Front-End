@@ -82,7 +82,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           birthdate: ['',[Validators.required]],
           phone:    ['',[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
           email:    ['',[Validators.required,Validators.email]],
-          address: ['',[Validators.required, Validators.maxLength(20)]],
+          address: ['',[Validators.required, Validators.maxLength(50)]],
           locationName: ['',[Validators.required, Validators.maxLength(20)]]
           }),
         // }),

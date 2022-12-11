@@ -13,13 +13,13 @@
   text-align: center !important;
 }
 
-.personal, .contact, .work, .access {
+/* .personal, .contact, .work, .access {
   background-color: #e9ecef;
   border: 1px;
   border-radius: 10px;
   padding-top: 10px;
 
-}
+} */
 
 .modal-body {
   margin: 0 15px !important;
@@ -171,13 +171,13 @@
   text-align: center !important;
 }
 
-.personal, .contact, .work, .access {
+/* .personal, .contact, .work, .access {
   background-color: #e9ecef;
   border: 1px;
   border-radius: 10px;
   padding-top: 10px;
 
-}
+} */
 
 .modal-body {
   margin: 0 15px !important;
@@ -333,9 +333,9 @@
   text-align: center;
 }
 
-.active {
+/* .active {
   background: #F7F7F7 !Important;
-}
+} */
 
 .nav-link {
   color: #000 !Important;
@@ -366,7 +366,7 @@ strong {
   padding: 3;
 }
 
-.title {
+/* .title {
   text-transform: uppercase;
   color: #000;
   font-size: 16px;
@@ -375,7 +375,7 @@ strong {
   background-color: #F7F7F7;
   font-weight: 300;
 
-}
+} */
 
 
 

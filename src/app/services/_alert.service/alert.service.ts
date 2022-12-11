@@ -47,10 +47,8 @@ export class AlertService {
 
         this.error(error.message, { autoClose: true });
     }
-    else if (error.type == 'M'){
-    this.error(error[1].messages[0], { autoClose: true });
-    }else{
-      this.error('Ha ingresado el usuario o la contraseña incorrectamente');
+    else {
+      this.error(error[1].messages[0], { autoClose: true });
     }
 }
 

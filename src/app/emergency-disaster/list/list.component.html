@@ -24,17 +24,16 @@
         <p>{{emergency.typesEmergenciesDisasters.typeEmergencyDisasterName}}</p>
     </div>
 
-    <div class="content-center d-flex flex-column justify-content-center align-items-center"
-        [routerLink]="['despliegue', emergency.emergencyDisasterID]">
-        <div class="child text-center">
-            <p class="font-weight-bold">#{{emergency.emergencyDisasterID}}
-                <span>{{emergency.locationsEmergenciesDisasters.locationCityName}}</span>
-            </p>
-            <span class="text-muted mt-2">{{emergency.alerts.alertMessage}}</span>
-
-        </div>
-
+      <div class="content-center d-flex flex-column justify-content-center align-items-center"
+      [routerLink]="['despliegue', emergency.emergencyDisasterID]">
+      <div class="child text-center">
+        <p class="font-weight-bold">#{{emergency.emergencyDisasterID}}
+          <span>{{emergency.locationsEmergenciesDisasters.locationCityName}}</span>
+        </p>
+        <span class="text-muted mt-2">{{emergency.alerts.alertMessage}}</span>
     </div>
+</div>
+
 
     <div class="content-right" *ngIf="!emergency.emergencyDisasterEndDate">
         <div class="child-2">
@@ -59,10 +58,14 @@
                 </button>
             </mat-menu>
 
-            <div class="child-2p">
-                <p *ngIf="!emergency.emergencyDisasterEndDate">Activo</p>
-                <p *ngIf="emergency.emergencyDisasterEndDate">Inactivo</p>
+            <div class="date">
+            <p>{{emergency.emergencyDisasterStartDate | date: 'dd/MM/yyyy'}}</p>
             </div>
+
+            <div class="child-2p">
+                  <p *ngIf="!emergency.emergencyDisasterEndDate">Activo</p>
+                  <p *ngIf="emergency.emergencyDisasterEndDate">Inactivo</p>
+                </div>
         </div>
     </div>
 </div>

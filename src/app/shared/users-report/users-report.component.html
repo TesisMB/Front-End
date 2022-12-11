@@ -45,7 +45,7 @@
             <img matListAvatar src="../../../assets/icons - Resources - EmergDesas/{{active.icon | lowercase}}.svg"
               alt="">
             <div mat-line>{{active.startDate | date :'dd/MM/yyyy'}}</div>
-            <div mat-line>{{active.id }} {{active.city}}</div>
+            <div mat-line>#{{active.id }} {{active.city}}</div>
             <div mat-line> {{active.type }} - {{active.degree}}</div>
 
           </mat-list-item>
@@ -63,7 +63,7 @@
             <img matListAvatar src="../../../assets/icons - Resources - EmergDesas/{{inactive.icon | lowercase}}.svg"
               alt="" class="img">
             <div mat-line>{{inactive.startDate | date :'dd/MM/yyyy'}} - {{inactive.endDate | date :'dd/MM/yyyy'}}</div>
-            <div mat-line>{{inactive.id}} {{inactive.city}} </div>
+            <div mat-line>#{{inactive.id}} {{inactive.city}} </div>
             <div mat-line> {{inactive.type }} - {{inactive.degree}}</div>
           </mat-list-item>
         </mat-list>

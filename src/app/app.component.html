@@ -12,7 +12,7 @@
     </div>
     <div id="perfil">
       <div class="col-2">
-        <ng-container *ngIf="!isCEyD">
+        <ng-container *ngIf="!isLogistica">
           <div *ngIf="isRequest; else isNotRequest" class="d-flex justify-content-end">
             <button [ngbPopover]="popCart" [autoClose]="'outside'" popoverClass="popCart" container="body"
               mat-icon-button color="warn">
