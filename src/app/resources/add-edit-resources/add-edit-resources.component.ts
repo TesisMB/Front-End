@@ -209,7 +209,7 @@ imageInfos?: Observable<any>;
           vehicleYear: ['',[Validators.required, Validators.pattern('^[0-9]{4}$'), Validators.min(1970), Validators.max(2022)]],
           vehicleUtility: ['',[Validators.maxLength(254)]],
           fK_EmployeeID: ['',[Validators.required]],
-          Fk_TypeVehicleID: ['',[Validators.required]],
+          fk_TypeVehicleID: ['',[Validators.required]],
           brandName: ['',[Validators.required, Validators.maxLength(15)]],
           modelName: ['',[Validators.required, Validators.maxLength(15)]]
         }),);

@@ -316,7 +316,7 @@
         <mat-grid-tile *ngIf="vehicleForm" [formGroup]="vehicleForm">
           <mat-form-field appearance="outline">
             <mat-label>Tipo de Rodado</mat-label>
-            <mat-select formControlName="Fk_TypeVehicleID" name="Fk_TypeVehicleID" required [disabled]="isEdit">
+            <mat-select formControlName="fk_TypeVehicleID" name="fk_TypeVehicleID" required [disabled]="isEdit">
               <mat-option *ngFor="let u of vehiclesTypes" [value]="u.value">
                 {{u.viewValue | uppercase}}
               </mat-option>
