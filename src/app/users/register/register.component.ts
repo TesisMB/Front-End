@@ -1,15 +1,17 @@
-import { Role, User} from 'src/app/models';
+import { Role, RoleName, User} from 'src/app/models';
 import { TableService } from 'src/app/services/_table.service/table.service';
 import { UserService } from './../index';
 import { AlertService} from '../../services';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { MatStepper } from '@angular/material/stepper';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { Location } from '@angular/common';
 import { ResourcesService } from 'src/app/resources/resources.service';
+import * as _ from 'lodash';
 const PATCH_LOCATIONS = 'estates';
 @Component({
 selector: 'register',
@@ -19,7 +21,7 @@ styleUrls: ['./register.component.css']
 export class RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('stepper',{read:MatStepper}) stepper:MatStepper;
 
-    currentUser: User = null;
+    currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
     registerForm: FormGroup;
     loading = false;
     submitted = false;
@@ -42,12 +44,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
 
     constructor(
+        public location: Location,
         private formBuilder: FormBuilder,
         private router: Router,
         private route: ActivatedRoute,
         private userService: UserService,
         private alertService: AlertService,
         private service: ResourcesService,
+
 
     ) {
     //   if(this.user.users.roleName=='Admin'){
@@ -58,14 +62,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
     //   this.roles = this.userService.listarRoles.filter(roles => roles.RoleName !=='Voluntario' && 'Admin');
     //   this.canReset = false
     // }
-
+    
     }
 
     ngOnInit() {
       this.getDateValidations();
       this.getLocations(this.patch);
       this.roles = this.userService.listarRoles;
-      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
 
       this.registerForm = this.formBuilder.group({
@@ -76,8 +79,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
           FK_LocationID: ['', [Validators.required]],
           avatar: [],
         persons: this.formBuilder.group({
-          lastName: ['',[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
-          firstName:['',[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
+          lastName: ['',[Validators.required, Validators.pattern("[a-zA-Z\u00C0-\u024F]{2,15}")]],
+          firstName:['',[Validators.required, Validators.pattern("[a-zA-Z\u00C0-\u024F]{2,15}")]],
           gender: ['',[Validators.required]],
           birthdate: ['',[Validators.required]],
           phone:    ['',[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
@@ -90,9 +93,25 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
 
        this.formUser.get('FK_LocationID').valueChanges.subscribe(value =>{
-         this.estates = this.locations.filter(x => x.locationID === value);
+         this.estates = this.estates.filter(x => x.locationID === value);
          return console.log('Sucursales => ', this.estates);
        } );
+
+       this.formUser.get('FK_RoleID').valueChanges.subscribe(value =>{
+        let locations = _.cloneDeep(this.locations);
+        if(value != 4){
+
+        this.estates = locations
+        .map(x => {
+          x.estates = x.estates.filter(estates => 
+            estates.estateTypes === 'Filial');
+            return x;
+          });
+        }else {
+          this.estates = locations;
+        }
+        return console.log('Sucursales x Role => ', this.locations);
+      } );
     }
 
     // Es un getter conveniente para facilitar el acceso a los campos del formulario
@@ -200,10 +219,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .pipe(first())
       .subscribe(
           data => {
-              this.alertService.success('Registro exitoso :)', { autoClose: true });
+              this.alertService.success('Registro exitoso', { autoClose: true });
               // this.router.navigate(['/'], { relativeTo: this.route });
               //this.tableService._setEmployee();
+                this.registerForm.reset();
                 this.loading = false;
+                
                 this.stepper.reset();
 
 
@@ -216,11 +237,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
           });
     }
     private getLocations(patch){
-      this.userService.getLocations(patch).subscribe(
+      this.userService.getLocations(patch)
+      .subscribe(
         data => {
           this.locations = data;
           console.log(data);
-          console.log(this.estates);
+          console.log(this.locations);
 
         },
         error => {

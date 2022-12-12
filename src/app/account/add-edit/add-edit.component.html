@@ -1,5 +1,5 @@
 <section class="container">
-  <ng-container *ngIf="originalUser">
+  <ng-container *ngIf="originalUser else loading">
     <div class="tab-options col-3">
       <h2 class="Name-Lastname">{{originalUser.persons.firstName }} {{originalUser.persons.lastName}}</h2>
       <p class="Email">{{originalUser.persons.email}}</p>
@@ -219,4 +219,10 @@
 
     </div>
   </ng-container>
+  <ng-template #loading>
+      <div class="d-flex align-items-center justify-content-center m-5">
+    <mat-spinner color="warn"></mat-spinner>
+  </div>
+  </ng-template>
+
 </section>

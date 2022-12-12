@@ -48,7 +48,7 @@
   </mat-select>
 </mat-form-field>
 
-    <!-- <mat-form-field *ngIf="service.currentRoute === 'solicitudes'" appearance="legacy" >
+    <mat-form-field *ngIf="withLocation" appearance="legacy" >
     <mat-label>Localidad</mat-label>
     <mat-select [value]="service.searchLocation" (selectionChange)="changeLocationCity($event.value)">
       <mat-option value=''>Todos</mat-option>
@@ -56,7 +56,7 @@
         {{locations.locationCityName | titlecase}}
       </mat-option> 
 </mat-select>
-</mat-form-field>-->
+</mat-form-field>
 
 <ng-container *ngIf="datepicker">
   <mat-form-field appearance="legacy">

@@ -44,8 +44,8 @@ return this._employeeForm.group({
     // employeeCreatedate: [],
     // users: this._employeeForm.group({
       persons: this._employeeForm.group({
-        lastName: [{},[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
-        firstName:[{},[Validators.required, Validators.pattern("[a-zA-Z ]{2,15}")]],
+        lastName: [{},[Validators.required, Validators.pattern("[a-zA-Z\u00C0-\u024F ]{2,15}")]],
+        firstName:[{},[Validators.required, Validators.pattern("[a-zA-Z\u00C0-\u024F ]{2,15}")]],
         gender: [{},[Validators.required]],
         birthdate: [{},[Validators.required]],
         phone:    [{},[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],

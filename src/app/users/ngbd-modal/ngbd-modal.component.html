@@ -184,9 +184,9 @@
         <mat-tab label="Informacion de contacto">
           <div class="contact col-sm" formGroupName="persons">
             <div class="form-row">
-              <div class="form-group col">
+              <div class="form-group col-6">
                 <label for="email" class="first"><strong class="info" for="email">Correo Electronico</strong></label>
-                <input formControlName="email" required class="form-control correoInput info" name="email" type="email"
+                <input formControlName="email" required class="form-control info" name="email" type="email"
                   placeholder="Correo electronico"
                   [ngClass]="{ 'is-invalid': submitted && f.get('persons.email').errors }" />
                 <div *ngIf="submitted && f.get('persons.email').errors" class="invalid-feedback">
@@ -195,11 +195,9 @@
 
                 </div>
               </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col">
+              <div class="form-group col-6">
                 <label for="phone" class="first"><strong class="info" for="phone">Telefono de contacto</strong></label>
-                <input formControlName="phone" required class="form-control telefonoInput info" name="phone" type="tel"
+                <input formControlName="phone" required class="form-control info" name="phone" type="tel"
                   placeholder="Telefono" [ngClass]="{ 'is-invalid': submitted && f.get('persons.phone').errors }" />
 
                 <div *ngIf="submitted && f.get('persons.phone').errors" class="invalid-feedback">
@@ -208,13 +206,11 @@
 
                 </div>
               </div>
-            </div>
 
-            <div class="form-row">
-              <div class="form-group col">
+              <div class="form-group col-6">
                 <label for="address" class="first"><strong class="info" for="address">Ciudad de
                     residencia</strong></label>
-                <input formControlName="locationName" required class="form-control direccionInput info"
+                <input formControlName="locationName" required class="form-control info"
                   name="locationName" type="text" placeholder="Ciudad de residencia"
                   [ngClass]="{ 'is-invalid': submitted && f.get('persons.locationName').errors }" />
                 <div *ngIf="submitted && f.get('persons.locationName').errors" class="invalid-feedback">
@@ -223,12 +219,10 @@
                       caracteres permitidos</small> </div>
                 </div>
               </div>
-            </div>
 
-            <div class="form-row">
-              <div class="form-group col">
+              <div class="form-group col-6">
                 <label for="address" class="first"><strong class="info" for="address">Domicilio</strong></label>
-                <input formControlName="address" required class="form-control direccionInput info" name="address"
+                <input formControlName="address" required class="form-control info" name="address"
                   type="text" placeholder="Domicilio"
                   [ngClass]="{ 'is-invalid': submitted && f.get('persons.address').errors }" />
                 <div *ngIf="submitted && f.get('persons.address').errors" class="invalid-feedback">
@@ -245,7 +239,7 @@
           <div class="work col-sm">
 
             <div class="form-row">
-              <div class="form-group col">
+              <div class="form-group col-6">
                 <label for="role" class="first"><strong class="info">Cargo</strong></label>
                 <select required formControlName="roleName" (change)="setRole()" class="form-control info"
                   [ngClass]="{ 'is-invalid': submitted && f.get('roleName').errors }">
@@ -255,51 +249,18 @@
                   <div *ngIf="f.get('roleName').errors.required"><small>*Campo requerido</small></div>
                 </div>
               </div>
-            </div>
 
 
-            <mat-form-field appearance="legacy">
-              <mat-label>Sucursal</mat-label>
-              <mat-select formControlName="FK_EstateID" name="FK_EstateID">
-                <!-- [required]="!isEdit" -->
-                <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName">
-                  <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
-                    {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
-                  </mat-option>
-                </mat-optgroup>
-              </mat-select>
-              <mat-error *ngIf="f.get('FK_EstateID').hasError('required')">
-                La filial es <strong>requerida</strong>
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="legacy" formGroupName="estates">
-              <mat-label>Ubicación</mat-label>
-              <mat-select formControlName="locationCityName" name="FK_EstateID">
-                <!-- [required]="!isEdit" -->
-
-                <mat-option *ngFor="let locations of locations" [value]="locations.locationCityName">
-                  {{locations.locationCityName | titlecase}}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="f.get('FK_EstateID').hasError('required')">
-                La filial es <strong>requerida</strong>
-              </mat-error>
-            </mat-form-field>
-            <div class="form-row">
-              <div class="form-group col" formGroupName="estates">
+              <div class="form-group col-6" formGroupName="estates">
                 <label for="workPhone" class="first"><strong>Telefono de la Filial</strong></label>
                 <p readonly class="form-control">{{user.estates.estatePhone}}</p>
               </div>
-            </div>
 
-    <div class="form-row">
-      <div class="form-group col-6">
+      <div class="form-group col-6" formGroupName="estates">
 
-        <mat-form-field appearance="legacy" formGroupName="estates">
+        <!-- <mat-form-field appearance="legacy" formGroupName="estates">
           <mat-label>Ubicación</mat-label>
           <mat-select formControlName="locationCityName" name="FK_EstateID">
-            <!-- [required]="!isEdit" -->
 
             <mat-option *ngFor="let locations of locations" [value]="locations.locationCityName">
               {{locations.locationCityName | titlecase}}
@@ -308,19 +269,22 @@
           <mat-error *ngIf="f.get('FK_EstateID').hasError('required')">
             La filial es <strong>requerida</strong>
           </mat-error>
-        </mat-form-field>
-        <div class="form-row">
-          <div class="form-group col" formGroupName="estates">
-            <label for="workPhone" class="first"><strong>Telefono de la Filial</strong></label>
-            <p readonly class="form-control">{{user.estates.estatePhone}}</p>
+        </mat-form-field> -->
+
+
+            <label for="locationCityName" class="first"><strong class="info">Ubicación</strong></label>
+            <select required formControlName="locationCityName" name="locationCityName"  class="form-control info"
+              [ngClass]="{ 'is-invalid': submitted && f.get('estates.locationCityName').errors }">
+              <option *ngFor="let locations of locations" [ngValue]="locations.locationCityName">{{locations.locationCityName | titlecase}}</option>
+            </select>
+            <div *ngIf="submitted && f.get('estates.locationCityName').errors" class="invalid-feedback">
+              <div *ngIf="f.get('estates.locationCityName').errors.required"><small>*Campo requerido</small></div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group col-6">
-    <mat-form-field appearance="legacy">
+        
+    <!-- <mat-form-field appearance="legacy">
       <mat-label>Sucursal</mat-label>
       <mat-select formControlName="FK_EstateID" name="FK_EstateID">
-        <!-- [required]="!isEdit" -->
         <mat-optgroup *ngFor="let locations of locations" [label]="locations.locationCityName">
           <mat-option *ngFor="let estate of locations['estates']" [value]="estate.estateID">
             {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
@@ -331,13 +295,29 @@
         La filial es <strong>requerida</strong>
       </mat-error>
     </mat-form-field>
-      </div>
+      </div> -->
 
+
+        <div class="form-group col-6">
+
+      <label for="FK_EstateID" class="first"><strong class="info">Sucursal</strong></label>
+      <select required formControlName="FK_EstateID" name="FK_EstateID"  class="form-control info"
+        [ngClass]="{ 'is-invalid': submitted && f.get('FK_EstateID').errors }">
+        <optgroup *ngFor="let locations of locations" [label]="locations.locationCityName">
+
+          <option *ngFor="let estate of locations['estates']" [ngValue]="estate.estateID"> 
+            {{estate.address | titlecase}} &nbsp; &nbsp; <strong> {{ estate.estateTypes | uppercase }}</strong>
+          </option>
+
+        </optgroup>
+      </select>
+      <div *ngIf="submitted && f.get('FK_EstateID').errors" class="invalid-feedback">
+        <div *ngIf="f.get('FK_EstateID').errors.required"><small>*Campo requerido</small></div>
+      </div>
 </div>
 
 
-    <div class="form-row">
-      <div class="form-group col">
+      <div class="form-group col-12">
         <label for="times" class="first"><strong class="info">Horarios</strong></label>
         <ul *ngFor="let times of model['estates']['estatesTimes']; let i = index;">
           <li style="list-style: none;">
@@ -378,8 +358,8 @@
         <mat-tab label="Informacion de acceso">
           <!-- Informacion de Acceso -->
           <div class="access col-sm">
-            <div class="form-row" formGroupName="persons">
-              <div class="form-group col">
+            <div class="form-row">
+              <div class="form-group col-6" formGroupName="persons">
                 <label for="first"><strong>Disponibilidad ante emergencias</strong></label>
                 <select class="form-control info" required formControlName="status" name="" id=""
                   [ngClass]="{ 'is-invalid': submitted && f.get('persons.status').errors }">
@@ -393,28 +373,22 @@
                 </div>
 
               </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col">
+              <div class="form-group col-6">
                 <label class="first"><strong>Acceso al sistema</strong></label>
                 <p class="form-control availability" *ngIf="user.userAvailability"><i
                     [class.text-success]="user.userAvailability" class="fas fa-circle mr-2"></i>Disponible</p>
                 <p class="form-control availability" *ngIf="!user.userAvailability"><i
                     [class.text-danger]="!user.userAvailability" class="fas fa-circle mr-2"></i>No disponible</p>
               </div>
-            </div>
 
-            <div class="form-row">
-              <div class="form-group col">
+              <div class="form-group col-6">
                 <label for="" class="first"><strong class="info">Fecha de alta</strong></label>
                 <p readonly class="form-control">{{user.createdate}}</p>
               </div>
-            </div>
-            <div *ngIf="isAdmin || isCGeneral" class="form-row" style="margin-top: 15px;">
-              <div class="form-group col">
+              <div *ngIf="isAdmin || isCGeneral" class="form-group col-6" style="margin-top: 15px;">
                 <div class="bd-highlight">
                   <button mat-flat-button popoverClass="resetPassword" [disabled]="canReset" (click)="resetPassword()"
-                    type="button" name="canReset" ngbPopover="Se le enviara un email con la nueva contraseña"
+                    type="button" name="canReset" matTooltip="Se le enviara un email con la nueva contraseña" matTooltipPosition="below"
                     triggers="mouseenter:mouseleave" placement="bottom-right" color="warn"
                     aria-label="Resetear contraseña">
                     <mat-icon>lock_clock</mat-icon> Resetear Contraseña

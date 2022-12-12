@@ -6,7 +6,7 @@ import { Component, Input, OnInit, ViewEncapsulation, OnDestroy, AfterViewInit, 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormArray, FormGroup } from '@angular/forms';
 import { UserService } from '../user.service';
-import { Role, User} from 'src/app/models';
+import { Role, User, RoleName} from 'src/app/models';
 import {compare } from 'fast-json-patch';
 import * as _ from 'lodash';
 import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
@@ -129,6 +129,23 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //Subscriber a localidades y sucursales.
      this.getLocations();
+
+
+     this.form.get('roleName').valueChanges.subscribe(value =>{
+      let locations = _.cloneDeep(this.estates);
+      if(value != RoleName.Logistica){
+
+      this.locations = locations
+      .map(x => {
+        x.estates = x.estates.filter(estates => 
+          estates.estateTypes === 'Filial');
+          return x;
+        });
+      }else {
+        this.locations = locations;
+      }
+      return console.log('Sucursales x Role => ', this.locations);
+    } );
   }
 
   // getter para acortar el acceso a la variable
@@ -141,18 +158,22 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   get roleName(){ return this.form.get('roleName') }
 
   get isAdmin(){
-    return this.authenticationService.currentUserValue.roleName ===  'Admin';
+    return this.authenticationService.currentUserValue.roleName ===  RoleName.Admin;
   }
   get isCGeneral(){
-    return  this.authenticationService.currentUserValue.roleName ===  'Coord. General';
+    return  this.authenticationService.currentUserValue.roleName ===  RoleName.CoordinadorGeneral;
+  }
+
+  get isLogistica(){
+    return  this.authenticationService.currentUserValue.roleName === RoleName.Logistica;
   }
 
   get isNotVolunteer(){
-    return this.authenticationService.currentUserValue.roleName !==  'Voluntario';
+    return this.authenticationService.currentUserValue.roleName !==  RoleName.Voluntario;
   }
 
   get isVolunteer(){
-    return this.authenticationService.currentUserValue.roleName ===  'Voluntario';
+    return this.authenticationService.currentUserValue.roleName ===  RoleName.Voluntario;
   }
 
   get isMe(){
@@ -182,7 +203,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // checkea si el formulario es valido.
       if (this.f.invalid) {
-        console.log('form invalido');
+        console.log('form invalido', this.f.controls);
           return;}
 
     (this.user.persons.status) ?  this.user.userAvailability = true : this.user.userAvailability = false;
@@ -275,7 +296,11 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   onClick(){
     //metodo que habilita y deshabilita el formulario, se ejecuta al clickear en el boton Actualizar Datos
-    (this.form.disabled)?this.form.enable():this.form.disable();
+    if(this.form.disabled){
+      this.form.enable();
+    } else{
+      this.form.disable();
+    }
     // if(this.user.roleName ==='Voluntario'){
     //   this.f.controls['roleName'].disable();
       // }
@@ -434,9 +459,7 @@ export class NgbdModalComponent implements OnInit, AfterViewInit, OnDestroy {
      .subscribe(
        data => {
          this.locations = data;
-         data.forEach(e => {
-           this.estates.push(e.estates);
-         });
+         this.estates = data;
          console.log(data);
          console.log(this.estates);
 

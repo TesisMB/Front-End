@@ -239,7 +239,7 @@
 
           </mat-grid-list>
           <div class="btn">
-            <button mat-button routerLink="/" type="button">Cancelar</button>
+            <button mat-button (click)="location.back()" type="button">Cancelar</button>
             <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
             <!-- <button mat-button matStepperNext type="button">Siguiente</button> -->
           </div>
@@ -332,7 +332,7 @@
                       [value]="estate.estateID"
                       required
                     >
-                      {{ estate.estateTypes}}
+                      {{ estate.address}} - {{ estate.estateTypes}}
                     </mat-option>
                   </mat-optgroup>
                 </mat-select>
