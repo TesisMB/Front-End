@@ -217,8 +217,8 @@
             [legendPosition]="legendPosition"
             [showXAxisLabel]="showYAxisLabelCity"
             [showYAxisLabel]="showYAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yAxisLabel]="yAxisLabelCity"
+            [xAxisLabel]="yAxisLabelCity"
+            [yAxisLabel]="xAxisLabel"
             (select)="onSelect($event.name,'locationCityName')"
           >
           </ngx-charts-bar-vertical>
@@ -332,7 +332,7 @@
           [showXAxisLabel]="true"
           [showYAxisLabel]="true"
           [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabelCity"
+          yAxisLabel="Utilidad"
           (select)="onSelect($event.name, 'vehicles.vehicleUtility')"
         >
         </ngx-charts-bar-horizontal>
@@ -362,8 +362,8 @@
             [legendPosition]="legendPosition"
             [showXAxisLabel]="showYAxisLabelCity"
             [showYAxisLabel]="showYAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yAxisLabel]="yAxisLabelCity"
+            xAxisLabel="Tipo"
+            [yAxisLabel]="xAxisLabel"
             (select)="onSelect($event.name,'vehicles.type')"
           >
           </ngx-charts-bar-vertical>
@@ -395,8 +395,8 @@
                 [legendPosition]="legendPosition"
                 [showXAxisLabel]="showYAxisLabelCity"
                 [showYAxisLabel]="showYAxisLabel"
-                [xAxisLabel]="xAxisLabel"
-                [yAxisLabel]="yAxisLabelCity"
+                xAxisLabel="Nombre"
+                [yAxisLabel]="xAxisLabel"
                 (select)="onSelect($event.name,'medicines.medicineDrug')"
               >
               </ngx-charts-bar-vertical>

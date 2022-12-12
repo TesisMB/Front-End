@@ -11,6 +11,7 @@
         <th scope="col">Ubicación</th>
         <th scope="col">Dirección</th>
         <th scope="col">Ubicación</th>
+        <th scope="col">¿Es donación?</th>
          <th scope="col"></th>
       </tr>
     </thead>
@@ -18,7 +19,8 @@
       <ng-container *ngIf="(resources$ | async) && !(loading$ | async)">
         <tr *ngFor="let resources of resources$ | async; index as i">
         <td>
-          <img src="{{resources.picture}}" alt="" height="90px" width="100px" >
+          <a [routerLink]="['/recursos', 'lista', type, resources.id]">
+          <img src="{{resources.picture}}" alt="" height="90px" width="100px" ></a>
         </td>
           <td>
             <ngb-highlight [result]="resources.id" [term]="service.searchTerm"></ngb-highlight>
@@ -44,7 +46,11 @@
           <td>
             <ngb-highlight [result]="resources.estates.estateTypes | titlecase" [term]="service.searchTerm"></ngb-highlight>
           </td>
-
+          <td>
+            <!-- <ngb-highlight [result]="resources.donation" [term]="service.searchTerm"> -->
+              <span>{{resources.donation ? 'Si' : 'No'}}</span>
+            <!-- </ngb-highlight> -->
+          </td>     
           <!-- <td><a matTooltip="Información del encargado" matTooltipPosition="above" color="warn"
               (click)="openModal('employee',resources.users.userID)" aria-label="Información del encargado">
 
@@ -76,10 +82,10 @@
                 <p class="option-text">Habilitar</p>
               </button>
             </ng-template>
-              <button type="button " class="btn btn-option-warning  btn-sm" (click)="changeStatus('Eliminar',$event, resources.id)">
+              <!-- <button type="button " class="btn btn-option-warning  btn-sm" hidden (click)="changeStatus('Eliminar',$event, resources.id)">
                 <mat-icon class="icon">delete</mat-icon>
                 <p class="option-text">Eliminar</p>
-              </button>
+              </button> -->
               <!-- <button type="button" class="btn btn-option  btn-sm" ><mat-icon class="icon">picture_as_pdf</mat-icon><p class="option-text">Descargar</p></button> -->
 
             </ng-template>

@@ -14,15 +14,8 @@
                      </div>
                 </form>
             </mat-panel-title>
-            <button *ngIf="service.searchType === 'table'" mat-raised-button color="warn" matTooltip="Reportes" class="m-2"
-            (click)="changeToReport('reportes')">
-            <mat-icon>bar_chart</mat-icon>
-        </button>
-            <button *ngIf="service.searchType === 'reportes' && service.currentRoute === 'solicitudes'" mat-raised-button color="warn" matTooltip="Historial de solicitudes" class="m-2"
-            (click)="changeToReport('table')">
-                <mat-icon>history</mat-icon>
-            </button>
             <button
+            *ngIf="service.currentRoute === 'emergencias'"
             mat-raised-button
             color="warn"
             matTooltip="Agregar nueva alerta"
@@ -31,6 +24,14 @@
           >
             <mat-icon>add</mat-icon>
           </button>
+            <button *ngIf="service.searchType === 'table'" mat-raised-button color="warn" matTooltip="Reportes" class="m-2"
+            (click)="changeToReport('reportes')">
+            <mat-icon>bar_chart</mat-icon>
+        </button>
+            <button *ngIf="service.searchType === 'reportes' && service.currentRoute === 'solicitudes'" mat-raised-button color="warn" matTooltip="Historial de solicitudes" class="m-2"
+            (click)="changeToReport('table')">
+                <mat-icon>history</mat-icon>
+            </button>
             <button *ngIf="service.searchType === 'reportes' && service.currentRoute === 'emergencias'" mat-raised-button color="warn" matTooltip="Listado de alertas" class="m-2"
             (click)="changeToReport('table')">
                 <mat-icon>medical_services</mat-icon>

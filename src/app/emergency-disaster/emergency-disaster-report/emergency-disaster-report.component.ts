@@ -58,6 +58,14 @@ class Reports{
     endDate?:string| Date;
   }
 
+  interface ComplexData{
+    name: string;
+    series:[{
+      name: string,
+      value: string | number
+    }];
+  }
+
 @Component({
   selector: 'emergency-disaster-report',
   templateUrl: './emergency-disaster-report.component.html',
@@ -73,6 +81,8 @@ handleDate : convertDate[] = [];
 view: [number, number] = [500, 400];
 view2: [number, number] = [1000, 400];
 typeAndYear : any = null;
+yearData : any = null;
+monthData : any = null;
   single = [
   {
     "name": "Germany",
@@ -206,6 +216,8 @@ numberCard = [
       }))
       .subscribe(data => {
         this.originalData = data;
+        this.yearData = this.reduceDataYear();
+        this.monthData = this.reduceDataMonth();
         // this.typeAndYear = this.getComplexData(data);
       console.log('Data original de stock report => ',data);
       // console.log('Date data => ',this.typeAndYear);
@@ -305,25 +317,63 @@ numberCard = [
     ];
     }
     
-    
-    getComplexData(data){
-      return [... data.reduce((pv, cv) => {
-        const currentYear =this.convertYear(cv.requestDate);
-        if(!pv.has(cv.typeEmergencyDisasterName))
+    complexData(data){
+      // var newData = data.
+    }
+    reduceDataYear(){
+      return [... this.originalData.reduce((pv, cv) => {
+        const currentDate =this.convertYear(cv.emergencyDisasterStartDate);
+
+        if(!pv.has(currentDate.getFullYear()))
         {
-          pv.set(cv.typeEmergencyDisasterName,
-            {name: cv.typeEmergencyDisasterName,
-            series: [{name: currentYear, value: 0}]});
+          pv.set(currentDate.getFullYear(),
+            {name: currentDate.getFullYear(),
+            value:0});
         }
-          pv.get(cv.typeEmergencyDisasterName).series
-          .map(d => {
-            d.name === currentYear ? d.value++ : pv.get(cv.typeEmergencyDisasterName).series.push({name: currentYear, value: 1});
-            //   pv.get(cv.typeEmergencyDisasterName).series.map(x => if(x.name.equals(currentYear)))
-          });
-        
+          pv.get(currentDate.getFullYear()).value++;      
         return pv;
       }, new Map()).values()];
     }
+
+    reduceDataMonth(){
+      return [... this.originalData.reduce((pv, cv) => {
+        const currentDate =this.convertYear(cv.emergencyDisasterStartDate);
+        var event = new Date(Date.UTC(currentDate.getFullYear(), currentDate.getMonth()));
+        var month = event.toLocaleDateString('es-ES', {month:'short'});
+    
+        console.log(event.toLocaleDateString('es-ES', {month:'short'}));
+        if(!pv.has(month))
+        {
+          pv.set(month,
+            {name:month,
+            value:0});
+        }
+          pv.get(month).value++;      
+        return pv;
+      }, new Map()).values()];
+    }
+
+    removeDuplicates(arr) {
+      return [...new Set(arr)];
+  }
+    // getComplexData(data){
+    //   return [... data.reduce((pv, cv) => {
+    //     const currentDate =this.convertYear(cv.emergencyDisasterStartDate);
+    //     if(!pv.has(cv.city))
+    //     {
+    //       pv.set(cv.city,
+    //         {name: cv.city,
+    //         series: [{name: currentYear, value: 0}]});
+    //     }
+    //       pv.get(cv.typeEmergencyDisasterName).series
+    //       .map(d => {
+    //         d.name === currentYear ? d.value++ : pv.get(cv.typeEmergencyDisasterName).series.push({name: currentYear, value: 1});
+    //         //   pv.get(cv.typeEmergencyDisasterName).series.map(x => if(x.name.equals(currentYear)))
+    //       });
+        
+    //     return pv;
+    //   }, new Map()).values()];
+    // }
     
       onSelect(data: string | any, path: string): void {
         console.log({data,path});
@@ -341,7 +391,7 @@ numberCard = [
           return d[path] == data;
         }
         });
-        this.service.data = newData;
+        this.service.BackUpData$ = newData;
         // this.requestService. = newData;
         console.log(newData);
       }
@@ -356,9 +406,8 @@ numberCard = [
       }
     
       convertYear(date){
-        const [day, month, year] = date.split('/');
-    
-        return year;
+        date = new Date(date);    
+        return date;
       }
     
       onSelectComplex(event){

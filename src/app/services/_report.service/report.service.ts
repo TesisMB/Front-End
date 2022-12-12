@@ -75,6 +75,7 @@ export class ReportService {
   private datePath: string = '';
   private currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
   private _data$ = new BehaviorSubject<any>([]);
+  private backUpData : any[] = [];
   private _originalData$ = new BehaviorSubject<any>([]);
   private _backUpData$ = new BehaviorSubject<any>([]);
   private _type$ = new BehaviorSubject<string>('table');
@@ -150,6 +151,9 @@ export class ReportService {
   }
   get backUpData$() {
     return this._backUpData$.asObservable();
+  }  
+  get getBackUpData() {
+    return this.backUpData;
   }
   get originalData$() {
     return this._originalData$.asObservable();
@@ -251,7 +255,12 @@ export class ReportService {
   set hasDonation(value: boolean) {
     this._setDonation(value);
   }
-  
+  set BackUpData$(data:any) {
+    this._backUpData$.next(data);
+    this._search$.next();
+    console.log('Se seteo nueva data de backup');
+
+  }
 
   private _set(patch: Partial<SearchReport>) {
     Object.assign(this._state, patch);
@@ -262,6 +271,7 @@ export class ReportService {
   }
   private _setData(data: any) {
     this._backUpData$.next(data);
+    this.backUpData = data;
     console.log('Se seteo nueva data de backup');
     this._search$.next();
   }
@@ -301,6 +311,10 @@ export class ReportService {
     if(destroy){
       this._state.searchType = 'table';
       this._backUpData$.next([]);
+      this.backUpData = [];
+    }
+    else{
+      this._backUpData$.next(this.backUpData);
     }
     this._state.searchPath = this.path;
     this._setLocation(this.currentUser.estates.locationID);

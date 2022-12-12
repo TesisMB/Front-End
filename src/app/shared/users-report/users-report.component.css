@@ -1,12 +1,13 @@
 .example-viewport1 {
-  height: 60vh;
+  height: 400px;
   width: 100%;
   overflow-x: hidden;
   /* border: 1px solid black; */
 }
-.tile{
+.tiless {
     background: #e9ecef;
     /* padding: 10vh; */
+
   }
 
 .button-group button {
@@ -30,6 +31,6 @@ mat-grid-tile .row {
 
 .mat-grid-tile .mat-figure {
 
-  align-items: flex-start !important;
+  align-items: flex-start !important; 
 
 }

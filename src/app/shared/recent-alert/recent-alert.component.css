@@ -33,10 +33,11 @@
         justify-content: flex-start !important;
 
     }
-    /* .mat-grid-tile .mat-figure {
-        justify-content: flex-start !important ;
-        align-items: flex-start !important;
-     } */
+    .mat-grid-tile .mat-figure {
+
+      align-items: center !important;  
+ 
+ }
 
     .download{
         display: flex;

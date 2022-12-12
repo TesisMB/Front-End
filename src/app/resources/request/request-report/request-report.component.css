@@ -24,7 +24,7 @@
 
   .mat-grid-tile .mat-figure {
 
-    /* align-items: flex-start !important;  */
+    align-items: center !important;  
 
 }
 .mat-card-header-text{
@@ -54,7 +54,7 @@
   margin-top: 0 !important;
 }
 
-.center2 {
+.center3 {
   position: absolute;
   top: 50%;
   left: 85% !important;

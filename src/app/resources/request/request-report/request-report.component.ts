@@ -141,7 +141,8 @@ getComplexData(data){
       return d[path] == data;
     }
     });
-    this.service.data = newData;
+    this.service.BackUpData$ = newData;
+
     // this.requestService. = newData;
     console.log(newData);
   }

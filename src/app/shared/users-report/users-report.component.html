@@ -32,7 +32,7 @@
     </mat-form-field>
   </div>
 
-   <mat-grid-tile class="tile" *ngIf="isSelected">
+   <mat-grid-tile class="tiless" *ngIf="isSelected">
     <div class="row">
       <div *ngIf="selected !== states.INACTIVAS"
         [ngClass]="{'col-6': selected === states.TODOS, 'col-12': selected === states.ACTIVAS }">
@@ -90,7 +90,7 @@
     </mat-list>
   </div>
   </mat-grid-tile> -->
-  <mat-grid-tile class="tile" *ngIf="reports && reports.type.selected">
+  <mat-grid-tile class="tiless" *ngIf="reports && reports.type.selected">
     <div class="center2">
       <ngx-charts-bar-horizontal [view]="view" [scheme]="colorScheme" [results]="reports.type.data"
         [gradient]="gradient" [animations]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
@@ -100,7 +100,7 @@
     </div>
   </mat-grid-tile>
 
-  <mat-grid-tile class="tile" *ngIf="reports && reports.city.selected">
+  <mat-grid-tile class="tiless" *ngIf="reports && reports.city.selected">
     <div class="center2">
       <ngx-charts-bar-horizontal [view]="view" [scheme]="colorScheme" [results]="reports.city.data"
         [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
@@ -110,7 +110,7 @@
     </div>
 
   </mat-grid-tile>
-  <mat-grid-tile class="tile" *ngIf="reports && reports.degree.selected">
+  <mat-grid-tile class="tiless" *ngIf="reports && reports.degree.selected">
     <div class="d-flex flex-column text-center center2">
       <p>Grado de emergencias</p>
       <ngx-charts-pie-chart [view]="view" [customColors]="barChartcustomColors" [results]="reports.degree.data"
@@ -119,7 +119,7 @@
       </ngx-charts-pie-chart>
     </div>
   </mat-grid-tile>
-  <mat-grid-tile class="tile" *ngIf="reports && reports.state.selected">
+  <mat-grid-tile class="tiless" *ngIf="reports && reports.state.selected">
     <div class="d-flex flex-column text-center center2">
       <p>Estado de alertas</p>
       <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="reports.state.data" [gradient]="gradient"

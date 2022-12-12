@@ -196,6 +196,74 @@
         </mat-card>
       </mat-grid-tile>
         </ng-container> 
+
+        <ng-container *ngIf="monthData">
+          <mat-grid-tile class="tile" [colspan]="3" rowspan="1">
+            <mat-card class="example-card">
+              <mat-card-header>
+                <mat-card-title class="d-flex flex-wrap justify-content-between">
+                  <p>Cantidad de alertas por mes</p>
+                </mat-card-title>
+                <!-- <mat-card-subtitle>
+                  {{service.type$ | async}}
+                </mat-card-subtitle> -->
+              </mat-card-header>
+              <mat-card-content>
+                <ngx-charts-bar-vertical
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="monthData"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [legendPosition]="legendPosition"
+                [showXAxisLabel]="showYAxisLabelCity"
+                [showYAxisLabel]="showYAxisLabel"
+                xAxisLabel="Mes"
+                  [yAxisTickFormatting] =  'formatingAxisX'
+                  yAxisLabel="Cantidad"
+              >
+              </ngx-charts-bar-vertical>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+    
+          </ng-container>
+
+          <ng-container *ngIf="yearData">
+            <mat-grid-tile class="tile" [colspan]="3" rowspan="1">
+              <mat-card class="example-card">
+                <mat-card-header>
+                  <mat-card-title class="d-flex flex-wrap justify-content-between">
+                    <p>Cantidad de alertas por año</p>
+                  </mat-card-title>
+                  <!-- <mat-card-subtitle>
+                    {{service.type$ | async}}
+                  </mat-card-subtitle> -->
+                </mat-card-header>
+                <mat-card-content>
+                  <ngx-charts-bar-vertical
+                  [view]="view"
+                  [scheme]="colorScheme"
+                  [results]="yearData"
+                  [gradient]="gradient"
+                  [xAxis]="showXAxis"
+                  [yAxis]="showYAxis"
+                  [legend]="showLegend"
+                  [legendPosition]="legendPosition"
+                  [showXAxisLabel]="showYAxisLabelCity"
+                  [showYAxisLabel]="showYAxisLabel"
+                  xAxisLabel="Año"
+                  yAxisLabel="Cantidad"
+                  [yAxisTickFormatting] =  'formatingAxisX'
+                >
+                </ngx-charts-bar-vertical>
+                </mat-card-content>
+              </mat-card>
+            </mat-grid-tile>
+      
+            </ng-container>
     </ng-template>
 
 

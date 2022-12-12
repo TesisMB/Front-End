@@ -47,19 +47,16 @@ mat-grid-tile .row {
     padding-top: calc((49% - 0px) * 1 + 0px) !important;
 
 }
-.mat-grid-tile .mat-figure {
 
 
-}
-
-.center {
+.center5 {
     position: absolute;
     top: 50%;
     left: 65% !important;
     transform: translate(-50%, -50%);
 }
 
-.center2 {
+.center6 {
     position: absolute;
     top: 50%;
     left: 50%;

@@ -104,7 +104,7 @@ export class ResourcesRequestReportComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('Reporte DATA => ',this.data);
-    this.handle = this.requestService.getAll('Todos').subscribe((data) => {this.request = data});
+    this.handle = this.requestService.getAll('Todas').subscribe((data) => {this.request = data});
     this.dataClone = Object.assign(this.data);
     console.log('Reporte SOLICITUDES => ',this.reports);
     this.setAll();
