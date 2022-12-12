@@ -63,7 +63,7 @@
             <ngb-highlight [result]="resources.requestDate" [term]="service.searchTerm"></ngb-highlight>
           </td> -->
           <td  *ngIf="resources && currentUser">
-            <button *ngIf="resources.estates.estateID == currentUser.estates.estateID" mat-icon-button matTooltip="Ver más" matTooltipPosition="left" placement="bottom"
+            <button *ngIf="resources.estates.locationID == currentUser.estates.locationID" mat-icon-button matTooltip="Ver más" matTooltipPosition="left" placement="bottom"
                aria-label="Ver más" [ngbPopover]="popMenu" popoverClass="option" container="body">
               <mat-icon>more_vert</mat-icon>
             </button>
