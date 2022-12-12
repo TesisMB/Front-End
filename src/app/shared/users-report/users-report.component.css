@@ -1,3 +1,9 @@
+.example-viewport1 {
+  height: 60vh;
+  width: 100%;
+  overflow-x: hidden;
+  /* border: 1px solid black; */
+}
 .tile{
     background: #e9ecef;
     /* padding: 10vh; */
@@ -16,6 +22,7 @@ mat-grid-tile .row {
 }
 
 .alertCard {
+  padding: 0 10px !important; 
   border-radius: 10px;
   border: 1px solid #000;
   width: 100%;

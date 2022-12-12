@@ -1,9 +1,11 @@
+import { Subscription } from 'rxjs';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment';
 import { RequestTableService } from 'src/app/resources/request-table/request-table.service';
+import { RequestService } from 'src/app/resources/request/request.service';
 import { ResourceModalComponent } from 'src/app/shared/resource-modal/resource-modal.component';
 import { ResourcesRequestViewComponent } from '../resources-request-view/resources-request-view.component';
 interface ResourcesRequestReports {
@@ -46,6 +48,8 @@ class Reports{
 export class ResourcesRequestReportComponent implements OnInit {
   @Input() data: ResourcesRequestReports[] = null ;
   dataClone: ResourcesRequestReports[] = null;
+  request: any;
+  handle: Subscription;
   selectedType: string = "list";
   condition = Condition;
   selected = this.condition.TODOS;
@@ -88,7 +92,7 @@ export class ResourcesRequestReportComponent implements OnInit {
   constructor(   
      private modalService: NgbModal,
     public dialog: MatDialog,
-    private requestService: RequestTableService,
+    private requestService: RequestService,
     ) {    
 
     }
@@ -100,7 +104,7 @@ export class ResourcesRequestReportComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('Reporte DATA => ',this.data);
-
+    this.handle = this.requestService.getAll('Todos').subscribe((data) => {this.request = data});
     this.dataClone = Object.assign(this.data);
     console.log('Reporte SOLICITUDES => ',this.reports);
     this.setAll();
@@ -121,9 +125,11 @@ export class ResourcesRequestReportComponent implements OnInit {
   }
 
   openModal(id: number){
+
     const modalRef = this.modalService.open(ResourceModalComponent, { size: 'lg', centered: true, scrollable: true });
-    const obtenerIndex = this.requestService.ObtenerSolicitud(id);
-    modalRef.componentInstance.resources = this.requestService.requestValue[obtenerIndex];
+    // const obtenerIndex = this.requestService.ObtenerSolicitud(id);
+    const request = this.request.find(request => request.id === id);
+    modalRef.componentInstance.resources = request;
 }
 
   filterByState(event: any){
@@ -267,6 +273,10 @@ formatingAxisX(event: number){
     return event % 1 === 0 ? event :  ''; 
   }
  return event;
+}
+
+ngOnDestroy(){
+  this.handle.unsubscribe();
 }
 
 }

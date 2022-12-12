@@ -142,7 +142,7 @@ private _setLocation(value : any){
 }
 public _setType(type:string){
   this._type$.next(type);
-  this.getAll(this._location$.value);
+  // this.getAll(this._location$.value);
 }
 private _setAvailability(availability:boolean){
   console.log('EJecutando setAvailability => ', availability);
@@ -193,11 +193,11 @@ public uploadTable(resources: Resource[]) {
 
 
   getAll(locationID?: any) {
-    // if(locationID){
+    if(locationID){
 
       let paramaters = new HttpParams().append('locationId', JSON.stringify(locationID ? locationID : null));
       this.options.params = paramaters;
-    // }
+    }
 
     return this.http
       .get<Resource[]>(environment.URL + this._type$.value, this.options)

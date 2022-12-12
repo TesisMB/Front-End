@@ -38,7 +38,10 @@
         [ngClass]="{'col-6': selected === states.TODOS, 'col-12': selected === states.ACTIVAS }">
         <mat-list dense>
           <div mat-subheader>Activas</div>
-          <mat-list-item class="alertCard mt-3" *ngFor="let active of getActiveList"
+          <cdk-virtual-scroll-viewport 
+    [itemSize]="10" 
+    class="example-viewport1">
+    <mat-list-item class="alertCard mt-3" *cdkVirtualFor="let active of getActiveList"
             [ngStyle]="{backgroundColor: getCardColor(active.degree)}">
 
 
@@ -49,6 +52,9 @@
             <div mat-line> {{active.type }} - {{active.degree}}</div>
 
           </mat-list-item>
+  </cdk-virtual-scroll-viewport>
+
+         
         </mat-list>
       </div>
 

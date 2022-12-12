@@ -51,7 +51,7 @@
                 [ngClass]="{'col-4': selected === condition.TODOS, 'col-12': selected === condition.ACEPTADAS }">
                 <mat-list dense>
                     <div mat-subheader>Aceptadas</div>
-                    <mat-list-item class="alertCard mt-3" *ngFor="let active of getActiveList; index as i">
+                    <mat-list-item class="requestCard mt-3" *ngFor="let active of getActiveList; index as i">
                         <div mat-line> Solicitud #{{active.id}}</div>
                         <div mat-line> {{active.requestDate | date:'dd/MM/yyyy'}}</div>
 
@@ -101,7 +101,7 @@
         </div>
     </mat-grid-tile>
 
-    <mat-grid-tile  *ngIf="reports && reports.condition.selected" class="tile">
+    <mat-grid-tile  *ngIf="reports && reports.condition.selected" class="tileee">
         <div class="center">
             <ngx-charts-advanced-pie-chart [view]="view" [scheme]="colorScheme" [results]="reports.condition.data"
                 [gradient]="gradient" (select)="onSelectCity($event)"> (activate)="onActivate($event)"
@@ -115,7 +115,7 @@
 
 
 
-    <mat-grid-tile *ngIf="reports && reports.type.selected" class="tile">
+    <mat-grid-tile *ngIf="reports && reports.type.selected" class="tileee">
         <div class="center2 m-1">
 
             <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="reports.type.data"
@@ -127,7 +127,7 @@
     </mat-grid-tile>
 
 
-    <mat-grid-tile *ngIf="reports && reports.city.selected" class="tile">
+    <mat-grid-tile *ngIf="reports && reports.city.selected" class="tileee">
         <div class="center2">
 
             <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="reports.city.data"

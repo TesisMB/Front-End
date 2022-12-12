@@ -42,7 +42,7 @@
     </div>
 
 
-    <div *ngIf="(data | async)?.length" class="campus-col">
+    <div *ngIf="(data | async)?.length && !(service.loading$ | async)" class="campus-col">
       <ul *ngFor="let item of data | async; let i = index;">
         <li>
           <div class="col mb-3">
@@ -204,7 +204,7 @@
       </ul>
     </div>
 
-    <div *ngIf="!(data | async)?.length || (service.loading$ | async)">
+    <div *ngIf="(service.loading$ | async)">
       <!-- ******************* Spinner - se debe refactorizar  **************************-->
       <div *ngIf="(service.loading$ | async)" colspan="7" class="text-center">
         <span class="spinner-border spinner-border-lg align-center"></span>

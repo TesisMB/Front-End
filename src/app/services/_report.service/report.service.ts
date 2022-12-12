@@ -313,27 +313,27 @@ export class ReportService {
     var dataSearch = {};
     if (this.currentRoute === 'stock'){
       dataSearch =
-        data.name.toLowerCase().includes(term.toLowerCase()) ||
-        data.id.toLowerCase().includes(term.toLowerCase()) ||
-        pipe.transform(data.quantity).includes(term) ||
-        data.locationCityName.toLowerCase().includes(term.toLowerCase()) ||
-        data.estates.address.toLowerCase().includes(term.toLowerCase()) ||
-        data.estates.estateTypes.toLowerCase().includes(term.toLowerCase());
+        data.name?.toLowerCase().includes(term.toLowerCase()) ||
+        data.id?.toLowerCase().includes(term.toLowerCase()) ||
+        pipe.transform(data.quantity)?.includes(term) ||
+        data.locationCityName?.toLowerCase().includes(term.toLowerCase()) ||
+        data.estates.address?.toLowerCase().includes(term.toLowerCase()) ||
+        data.estates.estateTypes?.toLowerCase().includes(term.toLowerCase());
     }
     if(this.currentRoute === 'solicitudes'){
-      dataSearch = data.createdByEmployee.toLowerCase().includes(term)
-      || data.condition.toLowerCase().includes(term)
-      || data.typeEmergencyDisasterName.toLowerCase().includes(term)
+      dataSearch = data.createdByEmployee?.toLowerCase().includes(term)
+      || data.condition?.toLowerCase().includes(term)
+      || data.typeEmergencyDisasterName?.toLowerCase().includes(term)
       || data.locationMunicipalityName?.toLowerCase().includes(term)
       || data.locationDepartmentName?.toLowerCase().includes(term)
-      || pipe.transform(data.id).includes(term);
+      || pipe.transform(data.id)?.includes(term);
     }
     if(this.currentRoute === 'emergencias'){
-      dataSearch = data.alertName.toLowerCase().includes(term)
-                  || data.city.toLowerCase().includes(term)
-                  || data.state.toLowerCase().includes(term)
-                  || data.type.toLowerCase().includes(term)
-                  || pipe.transform(data.emergencyDisasterID).includes(term)
+      dataSearch = data.alertName?.toLowerCase().includes(term)
+                  || data.city?.toLowerCase().includes(term)
+                  || data.state?.toLowerCase().includes(term)
+                  || data.type?.toLowerCase().includes(term)
+                  || pipe.transform(data.emergencyDisasterID)?.includes(term)
                   || data.employeeName?.toLowerCase().includes(term);
     }   
     return dataSearch

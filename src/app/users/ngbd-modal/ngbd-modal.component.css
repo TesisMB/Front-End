@@ -271,6 +271,10 @@
     margin: 9.75rem auto !important;
   }
 } */
+.mat-tab-body-content {
+  /* height: auto !important; */
+  overflow: hidden !important;
+}
 
 
 .container {

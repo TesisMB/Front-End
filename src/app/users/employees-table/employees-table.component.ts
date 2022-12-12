@@ -50,7 +50,7 @@ ngOnInit() {
     this.employees$ = this.service.employees$;
     this.total$ = this.service.total$;
 
-    this.getRequest("TODOS");
+    // this.getRequest("TODOS");
 }
   onShow(event){
     this.service.showAvailability = event.checked; 

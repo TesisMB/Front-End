@@ -14,7 +14,7 @@
             <mat-card-title class="d-flex flex-wrap justify-content-between">
               <p>Alertas por tipo</p>
             </mat-card-title>
-            <mat-card-subtitle>{{service.type$ | async}}</mat-card-subtitle>
+            <!-- <mat-card-subtitle>{{service.type$ | async}}</mat-card-subtitle> -->
           </mat-card-header>
           <mat-card-content>
             <ngx-charts-advanced-pie-chart
@@ -37,7 +37,7 @@
             <mat-card-title class="d-flex flex-wrap justify-content-between">
                 <p>Alerta por tipo</p>
             </mat-card-title>
-            <mat-card-subtitle>{{service.type$ | async}}</mat-card-subtitle>
+            <!-- <mat-card-subtitle>{{service.type$ | async}}</mat-card-subtitle> -->
           </mat-card-header>
           <mat-card-content>
             <ngx-charts-pie-grid
@@ -58,7 +58,7 @@
             <mat-card-title class="d-flex flex-wrap justify-content-between">
               <p>{{service.type$ | async | titlecase}} por solicitante</p>
             </mat-card-title>
-            <mat-card-subtitle>{{service.type$ | async}}</mat-card-subtitle>
+            <!-- <mat-card-subtitle>{{service.type$ | async}}</mat-card-subtitle> -->
           </mat-card-header>
           <mat-card-content>
             <ngx-charts-advanced-pie-chart
@@ -83,9 +83,9 @@
           <mat-card-title class="d-flex flex-wrap justify-content-between">
             <p>{{service.type$ | async | titlecase}} por solicitante</p>
           </mat-card-title>
-          <mat-card-subtitle>
+          <!-- <mat-card-subtitle>
             {{service.type$ | async}}
-          </mat-card-subtitle>
+          </mat-card-subtitle> -->
         </mat-card-header>
         <mat-card-content>
           <ngx-charts-tree-map
@@ -109,9 +109,9 @@
         <mat-card-title class="d-flex flex-wrap justify-content-between">
           <p>Tipo alerta / Cantidad Solicitudes x año</p>
         </mat-card-title>
-        <mat-card-subtitle>
+        <!-- <mat-card-subtitle>
           {{service.type$ | async}}
-        </mat-card-subtitle>
+        </mat-card-subtitle> -->
       </mat-card-header>
       <mat-card-content>
         <ngx-charts-bar-horizontal-normalized
@@ -142,9 +142,9 @@
             <mat-card-title class="d-flex flex-wrap justify-content-between">
               <p>Alertas por estado</p>
             </mat-card-title>
-            <mat-card-subtitle>
+            <!-- <mat-card-subtitle>
               {{service.type$ | async}}
-            </mat-card-subtitle>
+            </mat-card-subtitle> -->
           </mat-card-header>
           <mat-card-content>
             <ngx-charts-pie-chart
@@ -173,9 +173,9 @@
             <mat-card-title class="d-flex flex-wrap justify-content-between">
               <p>Alertas por nivel</p>
             </mat-card-title>
-            <mat-card-subtitle>
+            <!-- <mat-card-subtitle>
               {{service.type$ | async}}
-            </mat-card-subtitle>
+            </mat-card-subtitle> -->
           </mat-card-header>
           <mat-card-content>
             <ngx-charts-pie-chart

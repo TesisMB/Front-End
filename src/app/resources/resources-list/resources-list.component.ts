@@ -142,7 +142,7 @@ export class ResourcesListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.handlerGetAll.unsubscribe();
-    this.service.destroyResources();
+    // this.service.destroyResources();
     console.log('Destroy executing...');
   }
 }

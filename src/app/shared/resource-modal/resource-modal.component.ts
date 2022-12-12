@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 })
 export class ResourceModalComponent implements OnInit, OnDestroy {
 @Input() show: boolean;
-@Input() resources: RequestGet;
+@Input() resources: any;
 status: boolean = false;
 form: FormGroup;
 handle: Subscription;
